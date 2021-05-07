@@ -6,7 +6,7 @@
 
 目前在性能方面，通过对比已完全超过Adobe Illustrator, Sketch、Figma等国外知名图形设计软件，达到10万个图形时他们已无法进行正常操作，而Leafer却仍然可以以60fps的流畅速度进行操作（chrome浏览器下运行）。
 
-性能对比视频：待上传
+性能对比视频：https://www.bilibili.com/video/BV1PU4y1t7L8
 
 ## 体验性能
 
