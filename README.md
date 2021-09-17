@@ -8,9 +8,6 @@
 
 性能对比视频：https://www.bilibili.com/video/BV1PU4y1t7L8
 
-## 体验性能
-
-PC端演示地址：https://leaferjs.github.io/demo
 
 ## 功能亮点
 
