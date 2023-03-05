@@ -1,0 +1,69 @@
+import { ILeafList } from '../data/IList'
+import { IEvent } from './IEvent'
+
+export interface IUIEvent extends IEvent {
+    x: number
+    y: number
+
+    altKey: boolean
+    ctrlKey: boolean
+    shiftKey: boolean
+    metaKey: boolean
+    readonly spaceKey: boolean
+
+    readonly left: boolean
+    readonly right: boolean
+    readonly middle: boolean
+    buttons: number
+
+    path: ILeafList
+    throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
+
+    stopDefault(): void
+    stopNow(): void
+    stop(): void
+}
+
+
+export interface IPointerEvent extends IUIEvent {
+    width: number
+    height: number
+    pointerType: PointerType
+    pressure: number
+    tangentialPressure?: number
+    tiltX?: number
+    tiltY?: number
+    twist?: number
+}
+export type PointerType = 'mouse' | 'pen' | 'touch'
+
+export interface IDragEvent extends IPointerEvent {
+    moveX: number
+    moveY: number
+    totalX: number
+    totalY: number
+}
+
+export interface IDropEvent extends IPointerEvent {
+    list: ILeafList
+}
+
+export interface IRotateEvent extends IUIEvent {
+    rotation: number
+}
+
+export interface IZoomEvent extends IUIEvent {
+    scale: number
+}
+
+export interface IMoveEvent extends IDragEvent {
+
+}
+
+export interface ISwipeEvent extends IDragEvent {
+
+}
+
+export interface IKeyEvent extends IUIEvent {
+
+}

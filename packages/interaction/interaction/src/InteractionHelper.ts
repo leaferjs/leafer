@@ -1,0 +1,108 @@
+import { IEvent, IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IDragEvent, ISwipeEvent, IUIEvent, IPointData, ILeafList, IDropEvent, IObject } from '@leafer/interface'
+import { SwipeEvent } from '@leafer/event-ui'
+import { PointHelper } from '@leafer/math'
+import { LeafList } from '@leafer/list'
+
+
+export const InteractionHelper = {
+
+    getMoveEventData(center: IPointData, move: IPointData, event: IEvent): IMoveEvent {
+        return {
+            ...event,
+            x: center.x,
+            y: center.y,
+            moveX: move.x,
+            moveY: move.y
+        } as IMoveEvent
+    },
+
+    getRotateEventData(center: IPointData, angle: number, event: IEvent): IRotateEvent {
+        return {
+            ...event,
+            x: center.x,
+            y: center.y,
+            rotation: angle
+        } as IRotateEvent
+    },
+
+    getZoomEventData(center: IPointData, scale: number, event: IEvent): IZoomEvent {
+        return {
+            ...event,
+            x: center.x,
+            y: center.y,
+            scale,
+        } as IZoomEvent
+    },
+
+    getDragEventData(startPoint: IPointData, lastPoint: IPointData, event: IPointerEvent): IDragEvent {
+        return {
+            ...event,
+            x: event.x,
+            y: event.y,
+            moveX: event.x - lastPoint.x,
+            moveY: event.y - lastPoint.y,
+            totalX: event.x - startPoint.x,
+            totalY: event.y - startPoint.y,
+        } as IDragEvent
+    },
+
+    getDropEventData(dragData: ILeafList, event: IPointerEvent): IDropEvent {
+        return {
+            ...event,
+            list: dragData
+        }
+    },
+
+    getSwipeDirection(angle: number): string {
+        if (angle < -45 && angle > -135) {
+            return SwipeEvent.UP
+        } else if (angle > 45 && angle < 135) {
+            return SwipeEvent.DOWN
+        } else if (angle <= 45 && angle >= -45) {
+            return SwipeEvent.RIGHT
+        } else {
+            return SwipeEvent.LEFT
+        }
+    },
+
+    getSwipeEventData(startPoint: IPointData, lastDragData: IDragEvent, event: IPointerEvent): ISwipeEvent {
+        return {
+            ...event,
+            moveX: lastDragData.moveX,
+            moveY: lastDragData.moveY,
+            totalX: event.x - startPoint.x,
+            totalY: event.y - startPoint.y,
+            type: I.getSwipeDirection(PointHelper.getAngle(startPoint, event)),
+        }
+    },
+
+
+    getBase(e: IObject): IUIEvent {
+        return {
+            altKey: e.altKey,
+            ctrlKey: e.ctrlKey,
+            shiftKey: e.shiftKey,
+            metaKey: e.metaKey,
+            buttons: e.buttons === undefined ? 1 : e.buttons // touchEvent no button and buttons, set default
+        } as IUIEvent
+    },
+
+    pathHasEventType(path: ILeafList, type: string): boolean {
+        const { list } = path
+        for (let i = 0, len = list.length; i < len; i++) {
+            if (list[i].hasEvent(type)) return true
+        }
+        return false
+    },
+
+    filterPathByEventType(path: ILeafList, type: string): ILeafList {
+        const find = new LeafList()
+        const { list } = path
+        for (let i = 0, len = list.length; i < len; i++) {
+            if (list[i].hasEvent(type)) find.push(list[i])
+        }
+        return find
+    }
+}
+
+const I = InteractionHelper

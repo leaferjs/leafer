@@ -1,0 +1,24 @@
+{
+  "name": "leafer",
+  "version": "1.0.0-alpha.1",
+  "main": "dist/index.js",
+  "author": "Leafer",
+  "license": "MIT",
+  "keywords": [
+    "leafer",
+    "leaferjs",
+    "html5",
+    "canvas",
+    "2d",
+    "graphic",
+    "engine"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer"
+  },
+  "bugs": {
+    "url": "https://github.com/leaferjs/leafer/issues"
+  },
+  "homepage": "https://github.com/leaferjs/leafer#readme"
+}
