@@ -4,11 +4,9 @@ import { Debug } from '@leafer/debug'
 
 const debug = Debug.get('plugin')
 
-
 export const Plugin = {
     list: [] as IPlugin[]
 }
-
 
 export function usePlugin(plugin: IPlugin, params?: IObject) {
 

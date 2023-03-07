@@ -1,7 +1,7 @@
-import { UIEvent } from './UIEvent'
 import { IZoomEvent } from '@leafer/interface'
 import { registerEvent } from '@leafer/decorator'
 
+import { UIEvent } from './UIEvent'
 
 @registerEvent()
 export class ZoomEvent extends UIEvent implements IZoomEvent {

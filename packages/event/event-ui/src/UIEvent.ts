@@ -1,5 +1,6 @@
-import { Event } from '@leafer/event'
 import { ILeaf, ILeafList, IUIEvent } from '@leafer/interface'
+import { Event } from '@leafer/event'
+
 import { Keyboard } from './Keyboard'
 import { PointerButton as B } from './PointerButton'
 

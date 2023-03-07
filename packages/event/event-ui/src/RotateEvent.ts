@@ -1,6 +1,7 @@
 import { IRotateEvent } from '@leafer/interface'
-import { UIEvent } from './UIEvent'
 import { registerEvent } from '@leafer/decorator'
+
+import { UIEvent } from './UIEvent'
 
 
 @registerEvent()

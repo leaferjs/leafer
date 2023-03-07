@@ -1,6 +1,7 @@
 import { ILayoutEvent, ILayoutBlockData } from '@leafer/interface'
-import { Event } from './Event'
 import { registerEvent } from '@leafer/decorator'
+
+import { Event } from './Event'
 
 
 @registerEvent()

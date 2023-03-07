@@ -1,6 +1,7 @@
-import { UIEvent } from './UIEvent'
 import { IKeyEvent } from '@leafer/interface'
 import { registerEvent } from '@leafer/decorator'
+
+import { UIEvent } from './UIEvent'
 
 
 @registerEvent()

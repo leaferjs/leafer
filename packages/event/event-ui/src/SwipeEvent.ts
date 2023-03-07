@@ -1,6 +1,7 @@
 import { ISwipeEvent } from '@leafer/interface'
-import { DragEvent } from './DragEvent'
 import { registerEvent } from '@leafer/decorator'
+
+import { DragEvent } from './DragEvent'
 
 
 @registerEvent()

@@ -1,9 +1,17 @@
 {
   "name": "leafer",
   "version": "1.0.0-alpha.1",
-  "main": "dist/index.js",
-  "author": "Leafer",
+  "description": "leafer",
+  "author": "Chao (Leafer) Wan",
   "license": "MIT",
+  "main": "src/index.ts",
+  "files": ["src","dist"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer"
+  },
+  "homepage": "https://github.com/leaferjs/leafer",
+  "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",
     "leaferjs",
@@ -11,14 +19,10 @@
     "canvas",
     "2d",
     "graphic",
+    "renderer",
     "engine"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/leaferjs/leafer"
-  },
-  "bugs": {
-    "url": "https://github.com/leaferjs/leafer/issues"
-  },
-  "homepage": "https://github.com/leaferjs/leafer#readme"
+  "dependencies": {
+    "@leafer/web": "1.0.0-alpha.1"
+  }
 }

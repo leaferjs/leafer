@@ -1,0 +1,30 @@
+{
+  "name": "@leafer/layouter",
+  "version": "1.0.0-alpha.1",
+  "description": "@leafer/canvas",
+  "author": "Chao (Leafer) Wan",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": ["src"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer.git"
+  },
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/canvas/canvas",
+  "bugs": "https://github.com/leaferjs/leafer/issues",
+  "keywords": [
+    "leafer",
+    "leaferjs"
+  ],
+  "dependencies": {
+    "@leafer/event": "1.0.0-alpha.1",
+    "@leafer/math": "1.0.0-alpha.1",
+    "@leafer/list": "1.0.0-alpha.1",
+    "@leafer/data": "1.0.0-alpha.1",
+    "@leafer/helper": "1.0.0-alpha.1",
+    "@leafer/debug": "1.0.0-alpha.1"
+  },
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-alpha.1"
+  }
+}

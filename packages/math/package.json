@@ -1,6 +1,22 @@
 {
   "name": "@leafer/math",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha.1",
+  "description": "@leafer/math",
+  "author": "Chao (Leafer) Wan",
+  "license": "MIT",
   "main": "src/index.ts",
-  "license": "MIT"
+  "files": ["src"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer.git"
+  },
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/math",
+  "bugs": "https://github.com/leaferjs/leafer/issues",
+  "keywords": [
+    "leafer",
+    "leaferjs"
+  ],
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-alpha.1"
+  }
 }

@@ -1,14 +1,17 @@
 export * from '@leafer/core'
+export * from '@leafer/partner'
 
 export * from '@leafer/canvas-web'
+export * from '@leafer/image-web'
 export * from '@leafer/interaction-web'
 
 import { ICreator, IFunction } from '@leafer/interface'
-import { Watcher, Layouter, Renderer, Selector, Platform, Creator } from '@leafer/core'
+import { Platform, Creator } from '@leafer/core'
+import { Watcher, Layouter, Renderer, Selector } from '@leafer/partner'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
+import { LeaferImage } from '@leafer/image-web'
 import { Interaction } from '@leafer/interaction-web'
-import { LeaferImage } from '@leafer/image/image-web'
 
 
 Object.assign(Creator, {

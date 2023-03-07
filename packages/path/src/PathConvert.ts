@@ -1,6 +1,6 @@
 import { IPathCommandData } from '@leafer/interface'
-import { PathCommandMap as Command, PathCommandNeedConvertMap as NeedConvertCommand, PathCommandLengthMap as CommandLength, NumberPathCommandMap as CommandName, NumberPathCommandLengthMap as NumberCommandLength } from './PathCommandMap'
 import { StringNumberMap } from '@leafer/math'
+import { PathCommandMap as Command, PathCommandNeedConvertMap as NeedConvertCommand, PathCommandLengthMap as CommandLength, NumberPathCommandMap as CommandName, NumberPathCommandLengthMap as NumberCommandLength } from './PathCommandMap'
 
 import { BezierHelper } from './BezierHelper'
 

@@ -1,5 +1,4 @@
 import { ICanvasAttr, CanvasFillRule, Path2D, TextMetrics, CanvasRenderingContext2D, IObject, InnerId, IMatrixData, IFunction } from '@leafer/interface'
-import { defineKey } from '@leafer/decorator'
 
 
 function contextAttr(realName?: string) {
@@ -9,7 +8,7 @@ function contextAttr(realName?: string) {
             get() { return (this.context as IObject)[realName] },
             set(value: unknown) { (this.context as IObject)[realName] = value }
         }
-        defineKey(target, key, property)
+        Object.defineProperty(target, key, property)
     }
 }
 

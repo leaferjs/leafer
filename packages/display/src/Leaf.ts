@@ -2,7 +2,7 @@ import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOption
 import { IncrementId } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
-import { LeafDataProxy, LeafMatrix, LeafBounds, LeafHit, LeafEventer, LeafRender } from '@leafer/module'
+import { LeafDataProxy, LeafMatrix, LeafBounds, LeafHit, LeafEventer, LeafRender } from '@leafer/display-module'
 import { useModule } from '@leafer/decorator'
 
 

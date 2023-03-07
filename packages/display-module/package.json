@@ -1,0 +1,26 @@
+{
+  "name": "@leafer/display-module",
+  "version": "1.0.0-alpha.1",
+  "description": "@leafer/display-module",
+  "author": "Chao (Leafer) Wan",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": ["src"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer.git"
+  },
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/display-module",
+  "bugs": "https://github.com/leaferjs/leafer/issues",
+  "keywords": [
+    "leafer",
+    "leaferjs"
+  ],
+  "dependencies": {
+    "@leafer/event": "1.0.0-alpha.1",
+    "@leafer/math": "1.0.0-alpha.1"
+  },
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-alpha.1"
+  }
+}

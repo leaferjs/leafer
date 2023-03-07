@@ -1,5 +1,5 @@
-import { Matrix, MatrixHelper, PointHelper } from '@leafer/math'
 import { ILeaf, IPointData } from '@leafer/interface'
+import { Matrix, MatrixHelper, PointHelper } from '@leafer/math'
 
 
 export const LeafHelper = {

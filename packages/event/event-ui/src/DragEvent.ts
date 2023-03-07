@@ -1,6 +1,7 @@
 import { IDragEvent } from '@leafer/interface'
-import { PointerEvent } from './PointerEvent'
 import { registerEvent } from '@leafer/decorator'
+
+import { PointerEvent } from './PointerEvent'
 
 
 @registerEvent()

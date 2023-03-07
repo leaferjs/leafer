@@ -1,7 +1,8 @@
 import { IDropEvent, ILeaf, ILeafList } from '@leafer/interface'
 import { LeafList } from '@leafer/list'
-import { PointerEvent } from './PointerEvent'
 import { registerEvent } from '@leafer/decorator'
+
+import { PointerEvent } from './PointerEvent'
 
 
 @registerEvent()
