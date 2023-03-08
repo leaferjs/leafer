@@ -2,7 +2,7 @@ import { IObject } from "@leafer/interface"
 
 export class LeaferImage {
 
-    constructor(options: IObject) {
+    constructor(_options: IObject) {
 
     }
 

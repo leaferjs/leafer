@@ -6,7 +6,7 @@ export class ImageManager implements IImageManager {
 
     public list: ILeaferCanvas[] = []
 
-    constructor(leafer: ILeafer, config: ILeaferCanvasConfig) {
+    constructor(leafer: ILeafer, _config: ILeaferCanvasConfig) {
         this.leafer = leafer
     }
 

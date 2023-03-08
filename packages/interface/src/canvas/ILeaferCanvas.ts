@@ -1,12 +1,12 @@
 import { IObject } from '../data/IData'
 import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData } from '../math/IMath'
-import { CanvasRenderingContext2D, CanvasFillRule, Path2D, TextMetrics, CanvasGradient, CanvasPattern } from './ICanvas'
+import { ICanvasRenderingContext2D, ICanvasFillRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern } from './ICanvas'
 import { IResizeEventListener } from '../event/IEvent'
 import { ICanvasDrawPath } from './ICanvasPathDrawer'
 import { InnerId } from '../event/IEventer'
 import { ICanvasManager } from './ICanvasManager'
 
-export interface ILeaferCanvasContext extends CanvasRenderingContext2D {
+export interface ILeaferCanvasContext extends ICanvasRenderingContext2D {
 
 }
 
@@ -67,9 +67,9 @@ interface ICanvasMethod {
     save(): void
     restore(): void
 
-    fill(path?: Path2D | CanvasFillRule, rule?: CanvasFillRule): void
-    stroke(path?: Path2D): void
-    clip(path?: Path2D | CanvasFillRule, rule?: CanvasFillRule): void
+    fill(path?: IPath2D | ICanvasFillRule, rule?: ICanvasFillRule): void
+    stroke(path?: IPath2D): void
+    clip(path?: IPath2D | ICanvasFillRule, rule?: ICanvasFillRule): void
 
     fillRect(x: number, y: number, width: number, height: number): void
     strokeRect(x: number, y: number, width: number, height: number): void
@@ -95,7 +95,7 @@ interface ICanvasMethod {
     // text
 
     fillText(text: string, x: number, y: number, maxWidth?: number): void
-    measureText(text: string): TextMetrics
+    measureText(text: string): ITextMetrics
     strokeText(text: string, x: number, y: number, maxWidth?: number): void
 
     // custom

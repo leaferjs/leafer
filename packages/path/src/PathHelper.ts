@@ -13,7 +13,7 @@ const tempPointBounds = {} as ITwoPointBoundsData
 
 export const PathHelper = {
 
-    applyCorner(data: IPathCommandData, cornerRadius: number, cornerSmoothing?: number): IPathCommandData {
+    applyCorner(data: IPathCommandData, _cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {
         return data
     },
 

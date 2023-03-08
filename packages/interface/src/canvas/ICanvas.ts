@@ -1,24 +1,24 @@
 type GlobalCompositeOperation = 'color' | 'color-burn' | 'color-dodge' | 'copy' | 'darken' | 'destination-atop' | 'destination-in' | 'destination-out' | 'destination-over' | 'difference' | 'exclusion' | 'hard-light' | 'hue' | 'lighten' | 'lighter' | 'luminosity' | 'multiply' | 'overlay' | 'saturation' | 'screen' | 'soft-light' | 'source-atop' | 'source-in' | 'source-out' | 'source-over' | 'xor'
 type CanvasDirection = 'inherit' | 'ltr' | 'rtl'
-export type CanvasFillRule = 'evenodd' | 'nonzero'
-type CanvasFontKerning = 'auto' | 'none' | 'normal'
-type CanvasFontStretch = 'condensed' | 'expanded' | 'extra-condensed' | 'extra-expanded' | 'normal' | 'semi-condensed' | 'semi-expanded' | 'ultra-condensed' | 'ultra-expanded'
-type CanvasFontVariantCaps = 'all-petite-caps' | 'all-small-caps' | 'normal' | 'petite-caps' | 'small-caps' | 'titling-caps' | 'unicase'
+export type ICanvasFillRule = 'evenodd' | 'nonzero'
+// type CanvasFontKerning = 'auto' | 'none' | 'normal'
+// type CanvasFontStretch = 'condensed' | 'expanded' | 'extra-condensed' | 'extra-expanded' | 'normal' | 'semi-condensed' | 'semi-expanded' | 'ultra-condensed' | 'ultra-expanded'
+// type CanvasFontVariantCaps = 'all-petite-caps' | 'all-small-caps' | 'normal' | 'petite-caps' | 'small-caps' | 'titling-caps' | 'unicase'
 type CanvasLineCap = 'butt' | 'round' | 'square'
 type CanvasLineJoin = 'bevel' | 'miter' | 'round'
 type CanvasTextAlign = 'center' | 'end' | 'left' | 'right' | 'start'
 type CanvasTextBaseline = 'alphabetic' | 'bottom' | 'hanging' | 'ideographic' | 'middle' | 'top'
-type CanvasTextRendering = 'auto' | 'geometricPrecision' | 'optimizeLegibility' | 'optimizeSpeed'
+//type CanvasTextRendering = 'auto' | 'geometricPrecision' | 'optimizeLegibility' | 'optimizeSpeed'
 
 /** This Canvas 2D API interface is used to declare a path that can then be used on a CanvasRenderingContext2D object. The path methods of the CanvasRenderingContext2D interface are also present on this interface, which gives you the convenience of being able to retain and replay your path whenever desired. */
-interface Path2D extends CanvasPath {
+export interface IPath2D extends CanvasPath {
     /** Adds to the path the path given by the argument. */
-    addPath(path: Path2D, transform?: DOMMatrix2DInit): void
+    addPath(path: IPath2D, transform?: DOMMatrix2DInit): void
 }
 
-export declare var Path2D: {
-    prototype: Path2D
-    new(path?: Path2D | string): Path2D
+declare var IPath2D: {
+    prototype: IPath2D
+    new(path?: IPath2D | string): IPath2D
 }
 
 interface CanvasCompositing {
@@ -35,16 +35,16 @@ interface CanvasDrawImage {
 
 interface CanvasDrawPath {
     beginPath(): void
-    clip(fillRule?: CanvasFillRule): void
-    clip(path: Path2D, fillRule?: CanvasFillRule): void
-    fill(fillRule?: CanvasFillRule): void
-    fill(path: Path2D, fillRule?: CanvasFillRule): void
-    isPointInPath(x: number, y: number, fillRule?: CanvasFillRule): boolean
-    isPointInPath(path: Path2D, x: number, y: number, fillRule?: CanvasFillRule): boolean
+    clip(fillRule?: ICanvasFillRule): void
+    clip(path: IPath2D, fillRule?: ICanvasFillRule): void
+    fill(fillRule?: ICanvasFillRule): void
+    fill(path: IPath2D, fillRule?: ICanvasFillRule): void
+    isPointInPath(x: number, y: number, fillRule?: ICanvasFillRule): boolean
+    isPointInPath(path: IPath2D, x: number, y: number, fillRule?: ICanvasFillRule): boolean
     isPointInStroke(x: number, y: number): boolean
-    isPointInStroke(path: Path2D, x: number, y: number): boolean
+    isPointInStroke(path: IPath2D, x: number, y: number): boolean
     stroke(): void
-    stroke(path: Path2D): void
+    stroke(path: IPath2D): void
 }
 
 interface CanvasFillStrokeStyles {
@@ -137,14 +137,14 @@ interface CanvasRenderingContext2DSettings {
 }
 
 /** The CanvasRenderingContext2D interface, part of the Canvas API, provides the 2D rendering context for the drawing surface of a <canvas> element. It is used for drawing shapes, text, images, and other objects. */
-export interface CanvasRenderingContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
+export interface ICanvasRenderingContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
     readonly canvas: HTMLCanvasElement
     getContextAttributes(): CanvasRenderingContext2DSettings
 }
 
-declare var CanvasRenderingContext2D: {
-    prototype: CanvasRenderingContext2D
-    new(): CanvasRenderingContext2D
+declare var ICanvasRenderingContext2D: {
+    prototype: ICanvasRenderingContext2D
+    new(): ICanvasRenderingContext2D
 }
 
 interface CanvasShadowStyles {
@@ -161,12 +161,12 @@ interface CanvasState {
 
 interface CanvasUserInterface {
     drawFocusIfNeeded(element: any): void
-    drawFocusIfNeeded(path: Path2D, element: any): void
+    drawFocusIfNeeded(path: IPath2D, element: any): void
 }
 
 
 /** The dimensions of a piece of text in the canvas, as created by the CanvasRenderingContext2D.measureText() method. */
-export interface TextMetrics {
+export interface ITextMetrics {
     /** Returns the measurement described below. */
     readonly actualBoundingBoxAscent: number
     /** Returns the measurement described below. */
@@ -184,13 +184,13 @@ export interface TextMetrics {
 }
 
 declare var TextMetrics: {
-    prototype: TextMetrics
-    new(): TextMetrics
+    prototype: ITextMetrics
+    new(): ITextMetrics
 }
 
 interface CanvasText {
     fillText(text: string, x: number, y: number, maxWidth?: number): void
-    measureText(text: string): TextMetrics
+    measureText(text: string): ITextMetrics
     strokeText(text: string, x: number, y: number, maxWidth?: number): void
 }
 

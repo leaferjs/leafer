@@ -12,5 +12,5 @@ export interface ICanvasDrawPath {
     ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void
 
     rect(x: number, y: number, width: number, height: number): void
-    roundRect?(x: number, y: number, width: number, height: number, radius?: number | number[]): void
+    roundRect(x: number, y: number, width: number, height: number, radius?: number | number[]): void
 }

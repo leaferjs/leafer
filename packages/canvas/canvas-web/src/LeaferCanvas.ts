@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, CanvasFillRule, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ILeafer, ICanvasManager } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ICanvasFillRule, ICanvasRenderingContext2D, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager } from '@leafer/interface'
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { ResizeEvent } from '@leafer/event'
 import { Debug } from '@leafer/debug'
@@ -72,7 +72,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         this.pixelRatio = config.pixelRatio
 
         if (!config.webgl) {
-            this.context = this.view.getContext('2d')
+            this.context = this.view.getContext('2d') as ICanvasRenderingContext2D
             this.smooth = true
             if (config.fill) this.view.style.backgroundColor = config.fill
             if (config.width && config.height) this.resize(config as IScreenSizeData)
@@ -215,7 +215,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
     }
 
 
-    public hitPath(point: IPointData, fillRule?: CanvasFillRule): boolean {
+    public hitPath(point: IPointData, fillRule?: ICanvasFillRule): boolean {
         return this.context.isPointInPath(point.x, point.y, fillRule)
     }
 

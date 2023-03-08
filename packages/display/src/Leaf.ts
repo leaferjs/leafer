@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IBoundsData, IMatrixData, __String } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String } from '@leafer/interface'
 import { IncrementId } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -114,11 +114,11 @@ export class Leaf implements ILeaf {
 
     // LeafDataProxy rewrite
 
-    public __set(attrName: string, newValue: unknown): void { }
+    public __set(_attrName: string, _newValue: unknown): void { }
 
-    public __get(attrName: string): unknown { return undefined }
+    public __get(_attrName: string): unknown { return undefined }
 
-    public __updateAttr(attrName: string): void { }
+    public __updateAttr(_attrName: string): void { }
 
     // ---
 
@@ -172,9 +172,9 @@ export class Leaf implements ILeaf {
 
     // LeafHit rewrite
 
-    public __hitWorld(point: IRadiusPointData): boolean { return true }
+    public __hitWorld(_point: IRadiusPointData): boolean { return true }
 
-    public __hit(local: IRadiusPointData): boolean { return true }
+    public __hit(_local: IRadiusPointData): boolean { return true }
 
     public __updateHitCanvas(): void { }
 
@@ -183,11 +183,11 @@ export class Leaf implements ILeaf {
 
     // LeafRender rewrite
 
-    public __render(canvas: ILeaferCanvas, options: IRenderOptions): void { }
+    public __render(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void { }
+    public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __draw(canvas: ILeaferCanvas, options: IRenderOptions): void { }
+    public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __updateChange(): void { }
 
@@ -196,9 +196,9 @@ export class Leaf implements ILeaf {
 
     // path
 
-    public __drawPath(canvas: ILeaferCanvas): void { }
+    public __drawPath(_canvas: ILeaferCanvas): void { }
 
-    public __drawRenderPath(canvas: ILeaferCanvas): void { }
+    public __drawRenderPath(_canvas: ILeaferCanvas): void { }
 
     public __updatePath(): void { }
 
@@ -209,30 +209,30 @@ export class Leaf implements ILeaf {
 
     public __updateSortChildren(): void { }
 
-    public add(child: ILeaf, index?: number): void { }
+    public add(_child: ILeaf, _index?: number): void { }
 
-    public remove(child?: ILeaf): void { }
+    public remove(_child?: ILeaf): void { }
 
     // ---
 
 
     // LeafEventer rewrite
 
-    public on(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void { }
+    public on(_type: string | string[], _listener: IEventListener, _options?: IEventListenerOptions | boolean): void { }
 
-    public off(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void { }
+    public off(_type: string | string[], _listener: IEventListener, _options?: IEventListenerOptions | boolean): void { }
 
-    public on__(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId { return undefined }
+    public on__(_type: string | string[], _listener: IEventListener, _bind?: IObject, _options?: IEventListenerOptions | boolean): IEventListenerId { return undefined }
 
-    public off__(id: IEventListenerId | IEventListenerId[]): void { }
+    public off__(_id: IEventListenerId | IEventListenerId[]): void { }
 
-    public once(type: string | string[], listener: IEventListener, capture?: boolean): void { }
+    public once(_type: string | string[], _listener: IEventListener, _capture?: boolean): void { }
 
-    public emit(type: string, event?: IEvent | IObject, capture?: boolean): void { }
+    public emit(_type: string, _event?: IEvent | IObject, _capture?: boolean): void { }
 
-    public emitEvent(event?: IEvent, capture?: boolean): void { }
+    public emitEvent(_event?: IEvent, _capture?: boolean): void { }
 
-    public hasEvent(type: string, capture?: boolean): boolean { return false }
+    public hasEvent(_type: string, _capture?: boolean): boolean { return false }
 
     // ---
 

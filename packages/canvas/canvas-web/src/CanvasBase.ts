@@ -1,4 +1,4 @@
-import { ICanvasAttr, CanvasFillRule, Path2D, TextMetrics, CanvasRenderingContext2D, IObject, InnerId, IMatrixData, IFunction } from '@leafer/interface'
+import { ICanvasAttr, ICanvasFillRule, ITextMetrics, ICanvasRenderingContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction } from '@leafer/interface'
 
 
 function contextAttr(realName?: string) {
@@ -14,7 +14,7 @@ function contextAttr(realName?: string) {
 
 const contextMethodNameList: string[] = []
 function contextMethod() {
-    return (target: CanvasBase, key: string) => {
+    return (_target: CanvasBase, key: string) => {
         contextMethodNameList.push(key)
     }
 }
@@ -29,7 +29,7 @@ export class CanvasBase {
 
     public __: ICanvasAttr
 
-    public context: CanvasRenderingContext2D
+    public context: ICanvasRenderingContext2D
 
     // canvas attr
 
@@ -133,7 +133,7 @@ export class CanvasBase {
     // canvas method
 
     @contextMethod()
-    public setTransform(a: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): void { }
+    public setTransform(_a: number | IMatrixData, _b?: number, _c?: number, _d?: number, _e?: number, _f?: number): void { }
 
     @contextMethod()
     public resetTransform(): void { }
@@ -148,31 +148,31 @@ export class CanvasBase {
     public restore(): void { }
 
     @contextMethod()
-    public translate(x: number, y: number): void { }
+    public translate(_x: number, _y: number): void { }
 
     @contextMethod()
-    public scale(x: number, y: number): void { }
+    public scale(_x: number, _y: number): void { }
 
     @contextMethod()
-    public rotate(angle: number): void { }
+    public rotate(_angle: number): void { }
 
     @contextMethod()
-    public fill(path2d?: Path2D | CanvasFillRule, rule?: CanvasFillRule): void { }
+    public fill(_path2d?: IPath2D | ICanvasFillRule, _rule?: ICanvasFillRule): void { }
 
     @contextMethod()
-    public stroke(path2d?: Path2D): void { }
+    public stroke(_path2d?: IPath2D): void { }
 
     @contextMethod()
-    public clip(path2d?: Path2D | CanvasFillRule, rule?: CanvasFillRule): void { }
+    public clip(_path2d?: IPath2D | ICanvasFillRule, _rule?: ICanvasFillRule): void { }
 
     @contextMethod()
-    public fillRect(x: number, y: number, width: number, height: number): void { }
+    public fillRect(_x: number, _y: number, _width: number, _height: number): void { }
 
     @contextMethod()
-    public strokeRect(x: number, y: number, width: number, height: number): void { }
+    public strokeRect(_x: number, _y: number, _width: number, _height: number): void { }
 
     @contextMethod()
-    public clearRect(x: number, y: number, width: number, height: number): void { }
+    public clearRect(_x: number, _y: number, _width: number, _height: number): void { }
 
     public drawImage(image: CanvasImageSource, sx: number, sy: number, sw?: number, sh?: number, dx?: number, dy?: number, dw?: number, dh?: number): void {
         switch (arguments.length) {
@@ -211,60 +211,60 @@ export class CanvasBase {
     public beginPath(): void { }
 
     @contextMethod()
-    public moveTo(x: number, y: number): void { }
+    public moveTo(_x: number, _y: number): void { }
 
     @contextMethod()
-    public lineTo(x: number, y: number): void { }
+    public lineTo(_x: number, _y: number): void { }
 
     @contextMethod()
-    public bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void { }
+    public bezierCurveTo(_cp1x: number, _cp1y: number, _cp2x: number, _cp2y: number, _x: number, _y: number): void { }
 
     @contextMethod()
-    public quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void { }
+    public quadraticCurveTo(_cpx: number, _cpy: number, _x: number, _y: number): void { }
 
     @contextMethod()
     public closePath(): void { }
 
     @contextMethod()
-    public arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void { }
+    public arc(_x: number, _y: number, _radius: number, _startAngle: number, _endAngle: number, _counterclockwise?: boolean): void { }
 
     @contextMethod()
-    public arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void { }
+    public arcTo(_x1: number, _y1: number, _x2: number, _y2: number, _radius: number): void { }
 
     @contextMethod()
-    public ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void { }
+    public ellipse(_x: number, _y: number, _radiusX: number, _radiusY: number, _rotation: number, _startAngle: number, _endAngle: number, _counterclockwise?: boolean): void { }
 
     @contextMethod()
-    public rect(x: number, y: number, width: number, height: number): void { }
+    public rect(_x: number, _y: number, _width: number, _height: number): void { }
 
     @contextMethod()
-    public roundRect(x: number, y: number, width: number, height: number, radius?: number | number[]): void { }
+    public roundRect(_x: number, _y: number, _width: number, _height: number, _radius?: number | number[]): void { }
 
     // end canvas draw
 
     // paint
 
     @contextMethod()
-    public createConicGradient(startAngle: number, x: number, y: number): CanvasGradient { return void 0 }
+    public createConicGradient(_startAngle: number, _x: number, _y: number): CanvasGradient { return void 0 }
 
     @contextMethod()
-    public createLinearGradient(x0: number, y0: number, x1: number, y1: number): CanvasGradient { return void 0 }
+    public createLinearGradient(_x0: number, _y0: number, _x1: number, _y1: number): CanvasGradient { return void 0 }
 
     @contextMethod()
-    public createPattern(image: CanvasImageSource, repetition: string | null): CanvasPattern | null { return void 0 }
+    public createPattern(_image: CanvasImageSource, _repetition: string | null): CanvasPattern | null { return void 0 }
 
     @contextMethod()
-    public createRadialGradient(x0: number, y0: number, r0: number, x1: number, y1: number, r1: number): CanvasGradient { return void 0 }
+    public createRadialGradient(_x0: number, _y0: number, _r0: number, _x1: number, _y1: number, _r1: number): CanvasGradient { return void 0 }
 
     // text
     @contextMethod()
-    public fillText(text: string, x: number, y: number, maxWidth?: number): void { }
+    public fillText(_text: string, _x: number, _y: number, _maxWidth?: number): void { }
 
     @contextMethod()
-    public measureText(text: string): TextMetrics { return void 0 }
+    public measureText(_text: string): ITextMetrics { return void 0 }
 
     @contextMethod()
-    public strokeText(text: string, x: number, y: number, maxWidth?: number): void { }
+    public strokeText(_text: string, _x: number, _y: number, _maxWidth?: number): void { }
 
     public destroy(): void {
         this.context = undefined

@@ -1,5 +1,5 @@
 import { IEvent, IFunction, IObject } from '@leafer/interface'
-import { LeafEventer } from '../display/module/ILeafEventer'
+import { ILeafEventer } from '../display/module/ILeafEventer'
 
 export type IEventListener = IFunction
 
@@ -24,7 +24,7 @@ export interface IEventListenerId {
 
 export type InnerId = number
 
-export interface IEventer extends LeafEventer {
+export interface IEventer extends ILeafEventer {
 
     readonly innerId: InnerId
     __captureMap?: IEventListenerMap

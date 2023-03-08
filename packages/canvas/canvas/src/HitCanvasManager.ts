@@ -9,7 +9,7 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
     protected pathTypeList: ILeafList = new LeafList()
     protected imageTypeList: ILeafList = new LeafList()
 
-    public get(size: IScreenSizeData): ILeaferCanvas { return undefined }
+    public get(_size: IScreenSizeData): ILeaferCanvas { return undefined }
 
     public getImageType(leaf: ILeaf, size: IScreenSizeData): IHitCanvas {
         this.imageTypeList.push(leaf)

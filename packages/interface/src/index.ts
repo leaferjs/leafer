@@ -31,7 +31,7 @@ export { IPlugin } from './plugin/IPlugin'
 
 export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasContext, ILeaferCanvasConfig, IHitCanvasConfig } from './canvas/ILeaferCanvas'
 export { ICanvasDrawPath } from './canvas/ICanvasPathDrawer'
-export { CanvasFillRule, CanvasRenderingContext2D, TextMetrics, Path2D } from './canvas/ICanvas'
+export { ICanvasFillRule as ICanvasFillRule, ICanvasRenderingContext2D, ITextMetrics, IPath2D } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig } from './image/ILeaferImage'

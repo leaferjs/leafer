@@ -1,11 +1,11 @@
-import { ICanvasDrawPath } from '@leafer/interface'
+import { IObject } from '@leafer/interface'
 
 
 export function roundRect(): void {
 
-    if (!(CanvasRenderingContext2D.prototype as ICanvasDrawPath).roundRect) {
+    if (!(CanvasRenderingContext2D.prototype as IObject).roundRect) {
 
-        (CanvasRenderingContext2D.prototype as ICanvasDrawPath).roundRect = (Path2D.prototype as ICanvasDrawPath).roundRect = function (x: number, y: number, w: number, h: number, r: number | number[]): void {
+        (CanvasRenderingContext2D.prototype as IObject).roundRect = (Path2D.prototype as IObject).roundRect = function (x: number, y: number, w: number, h: number, r: number | number[]): void {
 
             let topLeft: number, topRight: number, bottomRight: number, bottomLeft: number
 

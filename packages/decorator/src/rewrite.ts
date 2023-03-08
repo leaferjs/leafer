@@ -22,7 +22,7 @@ export function rewrite(method: IFunction) {
 }
 
 export function rewriteAble() {
-    return (target: IObject) => {
+    return (_target: IObject) => {
         doRewrite()
     }
 }
@@ -42,18 +42,17 @@ setTimeout(() => doRewrite(true))
 
 // class
 
-export function useModule(child: IObject) {
-    return (target: IObject) => {
-        const names = child.prototype ? getNames(child.prototype) : Object.keys(child)
-        names.forEach(name => {
-            if (!excludeNames.includes(name)) {
-                if (child.prototype) {
-                    const d = getDescriptor(child.prototype, name)
-                    if (d.writable) target.prototype[name] = child.prototype[name]
-                } else {
-                    target.prototype[name] = child[name]
-                }
+export function useModule(module: IObject) { return (target: IObject) => useModule__(target, module) }
+export function useModule__(target: IObject, module: IObject) {
+    const names = module.prototype ? getNames(module.prototype) : Object.keys(module)
+    names.forEach(name => {
+        if (!excludeNames.includes(name)) {
+            if (module.prototype) {
+                const d = getDescriptor(module.prototype, name)
+                if (d.writable) target.prototype[name] = module.prototype[name]
+            } else {
+                target.prototype[name] = module[name]
             }
-        })
-    }
+        }
+    })
 }

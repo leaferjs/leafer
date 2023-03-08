@@ -85,7 +85,7 @@ export class Interaction extends InteractionBase {
             window.addEventListener(name, this.windowEvents[name])
         }
 
-        window.oncontextmenu = function (e) { return false }
+        window.oncontextmenu = function () { return false }
     }
 
     protected removeListenEvents(): void {
