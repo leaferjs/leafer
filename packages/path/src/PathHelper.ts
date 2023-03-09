@@ -1,4 +1,4 @@
-import { ICanvasDrawPath, ITwoPointBoundsData, IPathCommandData } from '@leafer/interface'
+import { IPathDrawer, ITwoPointBoundsData, IPathCommandData } from '@leafer/interface'
 import { TwoPointBoundsHelper } from '@leafer/math'
 
 import { BezierHelper } from './BezierHelper'
@@ -13,7 +13,7 @@ const tempPointBounds = {} as ITwoPointBoundsData
 
 export const PathHelper = {
 
-    applyCorner(data: IPathCommandData, _cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {
+    smoothCorner(data: IPathCommandData, _cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {
         return data
     },
 
@@ -73,7 +73,7 @@ export const PathHelper = {
 
     },
 
-    drawData(drawer: ICanvasDrawPath, data: IPathCommandData): void {
+    drawData(drawer: IPathDrawer, data: IPathCommandData): void {
         let command: number
         let i = 0, len = data.length
 

@@ -1,4 +1,4 @@
-export interface ICanvasDrawPath {
+export interface IPathDrawer {
     beginPath?(): void
 
     moveTo(x: number, y: number): void

@@ -1,6 +1,6 @@
 type GlobalCompositeOperation = 'color' | 'color-burn' | 'color-dodge' | 'copy' | 'darken' | 'destination-atop' | 'destination-in' | 'destination-out' | 'destination-over' | 'difference' | 'exclusion' | 'hard-light' | 'hue' | 'lighten' | 'lighter' | 'luminosity' | 'multiply' | 'overlay' | 'saturation' | 'screen' | 'soft-light' | 'source-atop' | 'source-in' | 'source-out' | 'source-over' | 'xor'
 type CanvasDirection = 'inherit' | 'ltr' | 'rtl'
-export type ICanvasFillRule = 'evenodd' | 'nonzero'
+export type IWindingRule = 'evenodd' | 'nonzero'
 // type CanvasFontKerning = 'auto' | 'none' | 'normal'
 // type CanvasFontStretch = 'condensed' | 'expanded' | 'extra-condensed' | 'extra-expanded' | 'normal' | 'semi-condensed' | 'semi-expanded' | 'ultra-condensed' | 'ultra-expanded'
 // type CanvasFontVariantCaps = 'all-petite-caps' | 'all-small-caps' | 'normal' | 'petite-caps' | 'small-caps' | 'titling-caps' | 'unicase'
@@ -35,12 +35,12 @@ interface CanvasDrawImage {
 
 interface CanvasDrawPath {
     beginPath(): void
-    clip(fillRule?: ICanvasFillRule): void
-    clip(path: IPath2D, fillRule?: ICanvasFillRule): void
-    fill(fillRule?: ICanvasFillRule): void
-    fill(path: IPath2D, fillRule?: ICanvasFillRule): void
-    isPointInPath(x: number, y: number, fillRule?: ICanvasFillRule): boolean
-    isPointInPath(path: IPath2D, x: number, y: number, fillRule?: ICanvasFillRule): boolean
+    clip(fillRule?: IWindingRule): void
+    clip(path: IPath2D, fillRule?: IWindingRule): void
+    fill(fillRule?: IWindingRule): void
+    fill(path: IPath2D, fillRule?: IWindingRule): void
+    isPointInPath(x: number, y: number, fillRule?: IWindingRule): boolean
+    isPointInPath(path: IPath2D, x: number, y: number, fillRule?: IWindingRule): boolean
     isPointInStroke(x: number, y: number): boolean
     isPointInStroke(path: IPath2D, x: number, y: number): boolean
     stroke(): void
@@ -137,14 +137,14 @@ interface CanvasRenderingContext2DSettings {
 }
 
 /** The CanvasRenderingContext2D interface, part of the Canvas API, provides the 2D rendering context for the drawing surface of a <canvas> element. It is used for drawing shapes, text, images, and other objects. */
-export interface ICanvasRenderingContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
+export interface ICanvasContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
     readonly canvas: HTMLCanvasElement
     getContextAttributes(): CanvasRenderingContext2DSettings
 }
 
-declare var ICanvasRenderingContext2D: {
-    prototype: ICanvasRenderingContext2D
-    new(): ICanvasRenderingContext2D
+declare var ICanvasContext2D: {
+    prototype: ICanvasContext2D
+    new(): ICanvasContext2D
 }
 
 interface CanvasShadowStyles {

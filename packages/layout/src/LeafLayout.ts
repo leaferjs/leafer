@@ -169,24 +169,24 @@ export class LeafLayout implements ILeafLayout {
     public boxBoundsChange(): void {
         this.boxBoundsChanged = true
         this.localBoxBoundsChanged || this.localBoxBoundsChange()
-        this.hitCanvasChanged || (this.hitCanvasChanged = true)
+        this.hitCanvasChanged = true
     }
 
     public localBoxBoundsChange(): void {
         this.localBoxBoundsChanged = true
-        this.boundsChanged || (this.boundsChanged = true)
+        this.boundsChanged = true
     }
 
     public eventBoundsChange(): void {
         this.eventBoundsChanged = true
         this.eventBoundsSpreadWidth || (this.eventBoundsSpreadWidth = 1)
-        this.boundsChanged || (this.boundsChanged = true)
+        this.boundsChanged = true
     }
 
     public renderBoundsChange(): void {
         this.renderBoundsChanged = true
         this.renderBoundsSpreadWidth || (this.renderBoundsSpreadWidth = 1)
-        this.boundsChanged || (this.boundsChanged = true)
+        this.boundsChanged = true
     }
 
 
@@ -194,7 +194,7 @@ export class LeafLayout implements ILeafLayout {
 
     public positionChange(): void {
         this.positionChanged = true
-        this.matrixChanged || (this.matrixChanged = true)
+        this.matrixChanged = true
         this.localBoxBoundsChanged || this.localBoxBoundsChange()
     }
 
@@ -205,13 +205,13 @@ export class LeafLayout implements ILeafLayout {
 
     public rotationChange(): void {
         this.rotationChanged = true
-        this.affectRotation || (this.affectRotation = true)
+        this.affectRotation = true
         this._scaleOrRotationChange()
     }
 
     protected _scaleOrRotationChange() {
-        this.affectScaleOrRotation || (this.affectScaleOrRotation = true)
-        this.matrixChanged || (this.matrixChanged = true)
+        this.affectScaleOrRotation = true
+        this.matrixChanged = true
         this.localBoxBoundsChanged || this.localBoxBoundsChange()
     }
 

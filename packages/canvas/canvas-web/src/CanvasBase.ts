@@ -1,4 +1,4 @@
-import { ICanvasAttr, ICanvasFillRule, ITextMetrics, ICanvasRenderingContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction } from '@leafer/interface'
+import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction, IWindingRule } from '@leafer/interface'
 
 
 function contextAttr(realName?: string) {
@@ -29,7 +29,7 @@ export class CanvasBase {
 
     public __: ICanvasAttr
 
-    public context: ICanvasRenderingContext2D
+    public context: ICanvasContext2D
 
     // canvas attr
 
@@ -157,13 +157,13 @@ export class CanvasBase {
     public rotate(_angle: number): void { }
 
     @contextMethod()
-    public fill(_path2d?: IPath2D | ICanvasFillRule, _rule?: ICanvasFillRule): void { }
+    public fill(_path2d?: IPath2D | IWindingRule, _rule?: IWindingRule): void { }
 
     @contextMethod()
     public stroke(_path2d?: IPath2D): void { }
 
     @contextMethod()
-    public clip(_path2d?: IPath2D | ICanvasFillRule, _rule?: ICanvasFillRule): void { }
+    public clip(_path2d?: IPath2D | IWindingRule, _rule?: IWindingRule): void { }
 
     @contextMethod()
     public fillRect(_x: number, _y: number, _width: number, _height: number): void { }

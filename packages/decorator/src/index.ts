@@ -1,4 +1,4 @@
-export { registerUI, registerUI__, registerEvent, registerEvent__ } from './class'
-export { aliasType, aliasType__, dataType, dataType__, positionType, positionType__, boundsType, boundsType__, affectEventBoundsType, affectEventBoundsType__, affectRenderBoundsType, affectRenderBoundsType__, scaleType, scaleType__, rotationType, rotationType__, surfaceType, surfaceType__, opacityType, opacityType__, sortType, sortType__, pathType, pathType__, dataProcessor, dataProcessor__, layoutProcessor, layoutProcessor__, defineDataProcessor } from './data'
-export { useModule, useModule__, rewrite, rewriteAble } from './rewrite'
+export { aliasType, dataType, positionType, boundsType, affectEventBoundsType, affectRenderBoundsType, scaleType, rotationType, surfaceType, opacityType, sortType, pathType, dataProcessor, layoutProcessor, defineDataProcessor } from './data'
+export { useModule, rewrite, rewriteAble } from './rewrite'
 export { defineKey, getDescriptor } from './object'
+export { registerUI, registerEvent } from './class'

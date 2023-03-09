@@ -1,6 +1,6 @@
 {
   "name": "@leafer/web",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.9",
   "description": "@leafer/web",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,12 +17,12 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "1.0.0-alpha.7",
-    "@leafer/canvas-web": "1.0.0-alpha.7",
-    "@leafer/interaction-web": "1.0.0-alpha.7",
-    "@leafer/image-web": "1.0.0-alpha.7"
+    "@leafer/core": "1.0.0-alpha.9",
+    "@leafer/canvas-web": "1.0.0-alpha.9",
+    "@leafer/interaction-web": "1.0.0-alpha.9",
+    "@leafer/image-web": "1.0.0-alpha.9"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-alpha.7"
+     "@leafer/interface": "1.0.0-alpha.9"
   }
 }

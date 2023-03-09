@@ -1,6 +1,6 @@
 {
   "name": "@leafer/interaction",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.9",
   "description": "@leafer/interaction",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,15 +17,15 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/event": "1.0.0-alpha.7",
-    "@leafer/event-ui": "1.0.0-alpha.7",
-    "@leafer/math": "1.0.0-alpha.7",
-    "@leafer/helper": "1.0.0-alpha.7",
-    "@leafer/list": "1.0.0-alpha.7",
-    "@leafer/data": "1.0.0-alpha.7",
-    "@leafer/platform": "1.0.0-alpha.7"
+    "@leafer/event": "1.0.0-alpha.9",
+    "@leafer/event-ui": "1.0.0-alpha.9",
+    "@leafer/math": "1.0.0-alpha.9",
+    "@leafer/helper": "1.0.0-alpha.9",
+    "@leafer/list": "1.0.0-alpha.9",
+    "@leafer/data": "1.0.0-alpha.9",
+    "@leafer/platform": "1.0.0-alpha.9"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-alpha.7"
+     "@leafer/interface": "1.0.0-alpha.9"
   }
 }

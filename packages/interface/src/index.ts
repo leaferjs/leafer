@@ -29,9 +29,9 @@ export { IPlatform } from './platform/IPlatform'
 export { IPlugin } from './plugin/IPlugin'
 
 
-export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasContext, ILeaferCanvasConfig, IHitCanvasConfig } from './canvas/ILeaferCanvas'
-export { ICanvasDrawPath } from './canvas/ICanvasPathDrawer'
-export { ICanvasFillRule as ICanvasFillRule, ICanvasRenderingContext2D, ITextMetrics, IPath2D } from './canvas/ICanvas'
+export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasConfig, IHitCanvasConfig } from './canvas/ILeaferCanvas'
+export { IPathDrawer } from './path/IPathDrawer'
+export { IWindingRule, ICanvasContext2D, ITextMetrics, IPath2D } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig } from './image/ILeaferImage'

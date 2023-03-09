@@ -42,17 +42,18 @@ setTimeout(() => doRewrite(true))
 
 // class
 
-export function useModule(module: IObject) { return (target: IObject) => useModule__(target, module) }
-export function useModule__(target: IObject, module: IObject) {
-    const names = module.prototype ? getNames(module.prototype) : Object.keys(module)
-    names.forEach(name => {
-        if (!excludeNames.includes(name)) {
-            if (module.prototype) {
-                const d = getDescriptor(module.prototype, name)
-                if (d.writable) target.prototype[name] = module.prototype[name]
-            } else {
-                target.prototype[name] = module[name]
+export function useModule(module: IObject) {
+    return (target: IObject) => {
+        const names = module.prototype ? getNames(module.prototype) : Object.keys(module)
+        names.forEach(name => {
+            if (!excludeNames.includes(name)) {
+                if (module.prototype) {
+                    const d = getDescriptor(module.prototype, name)
+                    if (d.writable) target.prototype[name] = module.prototype[name]
+                } else {
+                    target.prototype[name] = module[name]
+                }
             }
-        }
-    })
+        })
+    }
 }

@@ -3,7 +3,7 @@ import { PointHelper } from '@leafer/math'
 
 
 const { toLocalRadiusPoint } = PointHelper
-const innerPoint = {} as IRadiusPointData
+const local = {} as IRadiusPointData
 
 export const LeafHit: ILeafHitModule = {
 
@@ -17,8 +17,8 @@ export const LeafHit: ILeafHitModule = {
             this.__updateHitCanvas()
             this.__layout.hitCanvasChanged = false
         }
-        toLocalRadiusPoint(point, this.__world, innerPoint)
-        return this.__hit(innerPoint)
+        toLocalRadiusPoint(point, this.__world, local)
+        return this.__hit(local)
     }
 
 }
