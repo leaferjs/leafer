@@ -93,7 +93,8 @@ export class Layouter implements ILayouter {
         updateBounds(this.__levelList)
         updateChange(updateList)
 
-        blocks.forEach(item => { item.setAfter() })
+        blocks.forEach(item => item.setAfter())
+
         target.emitEvent(new LayoutEvent(ONCE, blocks))
         target.emitEvent(new LayoutEvent(AFTER_ONCE, blocks))
 

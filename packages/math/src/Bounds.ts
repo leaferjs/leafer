@@ -27,14 +27,13 @@ export class Bounds implements IBounds {
     }
 
 
-
-    public timesMatrix(matrix: IMatrixData): IBounds {
-        B.timesMatrix(this, matrix)
+    public scale(scale: number): IBounds {
+        B.scale(this, scale)
         return this
     }
 
-    public divideMatrix(matrix: IMatrixData): IBounds {
-        B.divideMatrix(this, matrix)
+    public timesMatrix(matrix: IMatrixData): IBounds {
+        B.timesMatrix(this, matrix)
         return this
     }
 

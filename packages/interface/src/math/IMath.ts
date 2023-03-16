@@ -54,8 +54,8 @@ export interface IBounds extends IBoundsData {
     copy(bounds: IBoundsData): IBounds
     clone(): IBounds
 
+    scale(scale: number): IBounds
     timesMatrix(matrix: IMatrixData): IBounds
-    divideMatrix(matrix: IMatrixData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
     spread(size: number): void
     ceil(): void

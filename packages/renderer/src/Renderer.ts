@@ -125,10 +125,13 @@ export class Renderer implements IRenderer {
         const t = Run.start('PartRender')
         const { canvas, target } = this
 
+        bounds.spread(1 + 1 / this.canvas.pixelRatio)
+        bounds.ceil()
+
         canvas.save()
-        canvas.clearBounds(bounds)
+        canvas.clearBounds(bounds, true)
         if (Debug.showRepaint) canvas.strokeBounds(bounds, 'red')
-        canvas.clipBounds(bounds)
+        canvas.clipBounds(bounds, true)
         target.__render(canvas, fullMode ? {} : { bounds })
         canvas.restore()
 

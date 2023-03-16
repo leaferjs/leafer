@@ -26,7 +26,7 @@ export class LayoutBlockData implements ILayoutBlockData {
 
     public setAfter(): void {
         setByListWithHandle(this.afterBounds, this.updatedList.list, worldBounds)
-        this.__computeChange()
+        this.updatedBounds.setByList([this.beforeBounds, this.afterBounds])
     }
 
     public merge(data: ILayoutBlockData): void {
@@ -34,15 +34,6 @@ export class LayoutBlockData implements ILayoutBlockData {
         this.beforeBounds.add(data.beforeBounds)
         this.afterBounds.add(data.afterBounds)
         this.updatedBounds.add(data.updatedBounds)
-    }
-
-    protected __computeChange(): void {
-        const { updatedBounds: changedBounds } = this
-        changedBounds.setByList([this.beforeBounds, this.afterBounds])
-        if (!changedBounds.isEmpty()) {
-            changedBounds.spread(2)
-            changedBounds.ceil()
-        }
     }
 
     public destroy(): void {

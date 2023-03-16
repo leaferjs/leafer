@@ -8,3 +8,5 @@ export interface ILeaferImageConfig {
 export interface ILeaferImage {
     //load(url: string):Promise<>
 }
+
+export type IImageStatus = 'wait' | 'thumb-loading' | 'thumb-success' | 'thumb-error' | 'loading' | 'success' | 'error' 

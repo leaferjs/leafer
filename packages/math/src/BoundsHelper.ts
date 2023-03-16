@@ -77,12 +77,19 @@ export const BoundsHelper = {
         return t
     },
 
-    divideMatrix(t: IBoundsData, matrix: IMatrixData): void {
+    scale(t: IBoundsData, scale: number): void {
+        t.x *= scale
+        t.y *= scale
+        t.width *= scale
+        t.height *= scale
+    },
+
+    /**divideMatrix(t: IBoundsData, matrix: IMatrixData): void {
         t.x = (t.x - matrix.e) / matrix.a
         t.y = (t.y - matrix.f) / matrix.d
         t.width /= matrix.a
         t.height /= matrix.d
-    },
+    },*/
 
     getFitMatrix(t: IBoundsData, put: IBoundsData): IMatrix {
         const scale = Math.min(1, Math.min(t.width / put.width, t.height / put.height))

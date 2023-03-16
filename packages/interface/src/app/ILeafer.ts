@@ -46,6 +46,8 @@ export interface ILeafer extends IZoomView {
     hitCanvasManager?: IHitCanvasManager
     imageManager: IImageManager
 
+    config: ILeaferConfig
+
     start(): void
     stop(): void
 

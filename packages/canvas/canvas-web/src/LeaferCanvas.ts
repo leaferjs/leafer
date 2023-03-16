@@ -7,11 +7,14 @@ import { CanvasBase } from './CanvasBase'
 
 
 const debug = Debug.get('LeaferCanvas')
+
+const temp = new Bounds()
 const minSize: IScreenSizeData = {
     width: 1,
     height: 1,
     pixelRatio: 1
 }
+
 
 export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
 
@@ -273,15 +276,19 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'normal'
     }
 
-    public clearBounds(bounds: IBoundsData): void {
+    public clearBounds(bounds: IBoundsData, ceil?: boolean): void {
         const { pixelRatio } = this
-        this.clearRect(bounds.x * pixelRatio, bounds.y * pixelRatio, bounds.width * pixelRatio, bounds.height * pixelRatio)
+        temp.copy(bounds).scale(pixelRatio)
+        if (ceil) temp.ceil()
+        this.clearRect(temp.x, temp.y, temp.width, temp.height)
     }
 
-    public clipBounds(bounds: IBoundsData): void {
+    public clipBounds(bounds: IBoundsData, ceil?: boolean): void {
         const { pixelRatio } = this
         this.beginPath()
-        this.rect(bounds.x * pixelRatio, bounds.y * pixelRatio, bounds.width * pixelRatio, bounds.height * pixelRatio)
+        temp.copy(bounds).scale(pixelRatio)
+        if (ceil) temp.ceil()
+        this.rect(temp.x, temp.y, temp.width, temp.height)
         this.clip()
 
     }

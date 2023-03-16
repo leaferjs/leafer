@@ -112,8 +112,8 @@ interface ICanvasMethod {
     copyWorldToLocal(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toLocalBounds: IBoundsData, blendMode?: string): void
     fillBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void
     strokeBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void
-    clipBounds(bounds: IBoundsData): void
-    clearBounds(bounds: IBoundsData): void
+    clipBounds(bounds: IBoundsData, ceil?: boolean): void
+    clearBounds(bounds: IBoundsData, ceil?: boolean): void
     clear(): void
 }
 
