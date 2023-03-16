@@ -13,38 +13,22 @@ interface IFind {
 export class Selector implements ISelector {
 
     public target: ILeaf
-    protected pathFinder: PathFinder
-
     public defaultPath: ILeafList
 
-    protected eventIds: IEventListenerId[]
+    protected pathFinder: PathFinder
 
     protected innerIdList: ILeafMap = {}
     protected idList: ILeafMap = {}
     protected classNameList: ILeafArrayMap = {}
     protected tagNameList: ILeafArrayMap = {}
 
+    protected __eventIds: IEventListenerId[]
+
     constructor(target: ILeaf) {
         this.target = target
         this.defaultPath = new LeafList(target)
         this.pathFinder = new PathFinder(target, this)
-        this.listenEvents()
-    }
-
-    protected listenEvents(): void {
-        this.eventIds = [
-            this.target.on__(ChildEvent.REMOVE, this.onRemoveChild, this)
-        ]
-    }
-
-    protected removeListenEvents(): void {
-        this.target.off__(this.eventIds)
-    }
-
-    protected onRemoveChild(event: ChildEvent): void {
-        const target = event.target as ILeaf
-        if (this.idList[target.id]) this.idList[target.id] = undefined
-        if (this.innerIdList[target.id]) this.innerIdList[target.innerId] = undefined
+        this.__listenEvents()
     }
 
     public getHitPointPath(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
@@ -128,17 +112,34 @@ export class Selector implements ISelector {
         }
     }
 
+    protected __onRemoveChild(event: ChildEvent): void {
+        const target = event.target as ILeaf
+        if (this.idList[target.id]) this.idList[target.id] = null
+        if (this.innerIdList[target.id]) this.innerIdList[target.innerId] = null
+    }
+
+
+    protected __listenEvents(): void {
+        this.__eventIds = [
+            this.target.on__(ChildEvent.REMOVE, this.__onRemoveChild, this)
+        ]
+    }
+
+    protected __removeListenEvents(): void {
+        this.target.off__(this.__eventIds)
+    }
+
     public destroy(): void {
         if (this.target) {
-            this.removeListenEvents()
+            this.__removeListenEvents()
             this.pathFinder.destroy()
 
-            this.target = undefined
-            this.pathFinder = undefined
-            this.innerIdList = undefined
-            this.idList = undefined
-            this.classNameList = undefined
-            this.tagNameList = undefined
+            this.target = null
+            this.pathFinder = null
+            this.innerIdList = null
+            this.idList = null
+            this.classNameList = null
+            this.tagNameList = null
         }
     }
 

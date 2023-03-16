@@ -74,38 +74,40 @@ export const PathHelper = {
     },
 
     drawData(drawer: IPathDrawer, data: IPathCommandData): void {
-        let command: number
-        let i = 0, len = data.length
+        if (data) {
+            let command: number
+            let i = 0, len = data.length
 
-        while (i < len) {
-            command = data[i]
-            switch (command) {
-                case M:  //moveto x,y
-                    drawer.moveTo(data[i + 1], data[i + 2])
-                    i += 3
-                    break
-                case L:  //lineto x,y
-                    drawer.lineTo(data[i + 1], data[i + 2])
-                    i += 3
-                    break
-                case C:  //bezierCurveTo x1,y1,x2,y2,x,y
-                    drawer.bezierCurveTo(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6])
-                    i += 7
-                    break
-                case Q:  //quadraticCurveTo x1,y1,x,y
-                    drawer.quadraticCurveTo(data[i + 1], data[i + 2], data[i + 3], data[i + 4])
-                    i += 5
-                    break
-                case Z:  //closepath
-                    drawer.closePath()
-                    i += 1
-                    break
+            while (i < len) {
+                command = data[i]
+                switch (command) {
+                    case M:  //moveto x,y
+                        drawer.moveTo(data[i + 1], data[i + 2])
+                        i += 3
+                        break
+                    case L:  //lineto x,y
+                        drawer.lineTo(data[i + 1], data[i + 2])
+                        i += 3
+                        break
+                    case C:  //bezierCurveTo x1,y1,x2,y2,x,y
+                        drawer.bezierCurveTo(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6])
+                        i += 7
+                        break
+                    case Q:  //quadraticCurveTo x1,y1,x,y
+                        drawer.quadraticCurveTo(data[i + 1], data[i + 2], data[i + 3], data[i + 4])
+                        i += 5
+                        break
+                    case Z:  //closepath
+                        drawer.closePath()
+                        i += 1
+                        break
 
-                // 非svg标准的canvas绘图命令
-                case E:
-                    drawer.ellipse(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6], data[i + 7], data[i + 8] as unknown as boolean)
-                    i += 9
-                    break
+                    // 非svg标准的canvas绘图命令
+                    case E:
+                        drawer.ellipse(data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6], data[i + 7], data[i + 8] as unknown as boolean)
+                        i += 9
+                        break
+                }
             }
         }
     }

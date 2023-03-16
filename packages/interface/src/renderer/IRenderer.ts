@@ -2,7 +2,6 @@ import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
 import { IBounds, IMatrix } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
-import { ILayoutBlockData } from '../layouter/ILayouter'
 
 export interface IRenderOptions {
     bounds?: IBounds,
@@ -12,26 +11,38 @@ export interface IRenderOptions {
 }
 
 export interface IRendererConfig {
+    usePartRender?: boolean
     maxFPS?: number
 }
 
 export interface IRenderer {
-    canvas: ILeaferCanvas
     target: ILeaf
-    layoutedBlocks: ILayoutBlockData[]
-    running: boolean
-    totalTimes: number
-    times: number
-    config: IRendererConfig
+    canvas: ILeaferCanvas
+    updateBlocks: IBounds[]
 
     FPS: number
+    totalTimes: number
+    times: number
+
+    running: boolean
+    changed: boolean
+
+    config: IRendererConfig
 
     start(): void
     stop(): void
+    update(): void
 
     requestLayout(): void
+
     render(callback?: IFunction): void
-    clipRender(bounds: IBounds): void
+    renderOnce(callback?: IFunction): void
+    partRender(): void
+    clipRender(bounds: IBounds, fullMode?: boolean): void
     fullRender(bounds?: IBounds): void
+
+    addBlock(block: IBounds): void
+    mergeBlocks(): void
+
     destroy(): void
 }

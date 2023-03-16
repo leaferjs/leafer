@@ -12,10 +12,13 @@ export interface IWatcherConfig {
 export interface IWatcher {
     target: ILeaf
     updatedList: ILeafList
+
     totalTimes: number
-    config: IWatcherConfig
+
     running: boolean
     changed: boolean
+
+    config: IWatcherConfig
 
     start(): void
     stop(): void

@@ -33,20 +33,27 @@ export interface ILayouterConfig {
 export interface ILayouter {
     target: ILeaf
     layoutedBlocks: ILayoutBlockData[]
+
     totalTimes: number
     times: number
-    config: ILayouterConfig
+
     running: boolean
+    changed: boolean
+
+    config: ILayouterConfig
 
     start(): void
     stop(): void
+    update(): void
+
+    layout(): void
+    layoutOnce(): void
+    partLayout(): void
+    fullLayout(): void
 
     createBlock(data: ILeafList | ILeaf[]): ILayoutBlockData
     getBlocks(list: ILeafList): ILayoutBlockData[]
     setBlocks(current: ILayoutBlockData[]): void
 
-    layout(): void
-    partLayout(): void
-    fullLayout(): void
     destroy(): void
 }

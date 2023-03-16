@@ -15,7 +15,7 @@ export class ImageManager implements IImageManager {
     }
 
     public destory(): void {
-        this.leafer = undefined
+        this.leafer = null
     }
 
 }

@@ -118,7 +118,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __worldOpacity: number
     __renderTime: number // μs 1000微秒 = 1毫秒
-    __complex: boolean // 外观是否复杂， 将调用__drawComplex()
+    __complex: boolean // 外观是否复杂
 
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态

@@ -77,33 +77,33 @@ export class Transformer {
         this.moveEnd()
         this.zoomEnd()
         this.rotateEnd()
-        this.transformMode = undefined
+        this.transformMode = null
     }
 
     protected moveEnd(): void {
         if (this.moveData) {
             this.interaction.emit(MoveEvent.END, this.moveData)
-            this.moveData = undefined
+            this.moveData = null
         }
     }
 
     protected zoomEnd(): void {
         if (this.zoomData) {
             this.interaction.emit(ZoomEvent.END, this.zoomData)
-            this.zoomData = undefined
+            this.zoomData = null
         }
     }
 
     protected rotateEnd(): void {
         if (this.rotateData) {
             this.interaction.emit(RotateEvent.END, this.rotateData)
-            this.rotateData = undefined
+            this.rotateData = null
         }
     }
 
     public destroy(): void {
         clearTimeout(this.transformTimer)
         this.transformEnd()
-        this.interaction = undefined
+        this.interaction = null
     }
 }

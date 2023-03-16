@@ -12,7 +12,7 @@ export const PathCreator = {
     },
 
     end(): void {
-        data = undefined
+        data = null
     },
 
     // draw
@@ -35,7 +35,7 @@ export const PathCreator = {
 
     close(end?: boolean): void {
         data.push(Z)
-        if (end) data = undefined
+        if (end) data = null
     },
 
 

@@ -84,7 +84,7 @@ export class Leaf implements ILeaf {
         for (let i = 0; i < len; i++) {
             this.__parentWait[i]()
         }
-        this.__parentWait = undefined
+        this.__parentWait = null
     }
 
     public __setAsLeafer(): void {
@@ -241,25 +241,25 @@ export class Leaf implements ILeaf {
 
             if (this.__isBranch) {
                 this.children.forEach(child => { child.destroy() })
-                this.children = undefined
+                this.children = null
             }
 
             if (this.__hitCanvas) {
                 this.__hitCanvas.destroy()
-                this.__hitCanvas = undefined
+                this.__hitCanvas = null
             }
 
-            this.leafer = undefined
-            this.root = undefined
-            this.parent = undefined
+            this.leafer = null
+            this.root = null
+            this.parent = null
 
             this.__.destroy()
             this.__layout.destroy()
-            this.__ = undefined
-            this.__layout = undefined
+            this.__ = null
+            this.__layout = null
 
-            this.__captureMap = undefined
-            this.__bubbleMap = undefined
+            this.__captureMap = null
+            this.__bubbleMap = null
         }
     }
 

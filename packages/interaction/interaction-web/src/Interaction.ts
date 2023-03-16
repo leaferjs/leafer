@@ -40,12 +40,12 @@ export class Interaction extends InteractionBase {
     protected lastGestureScale: number
     protected lastGestureRotation: number
 
-    protected listenEvents(): void {
-        super.listenEvents()
+    protected __listenEvents(): void {
+        super.__listenEvents()
 
         const view = this.view = this.canvas.view as HTMLCanvasElement
 
-        this.onResize()
+        this.__onResize()
 
         // 优先使用PointerEvent > 再降级使用TouchEvent > MouseEvent
         this.viewEvents = {
@@ -88,8 +88,8 @@ export class Interaction extends InteractionBase {
         window.oncontextmenu = function () { return false }
     }
 
-    protected removeListenEvents(): void {
-        super.removeListenEvents()
+    protected __removeListenEvents(): void {
+        super.__removeListenEvents()
 
         for (let name in this.viewEvents) {
             this.view.removeEventListener(name, this.viewEvents[name])
@@ -102,8 +102,8 @@ export class Interaction extends InteractionBase {
         }
     }
 
-    protected onResize(): void {
-        super.onResize()
+    protected __onResize(): void {
+        super.__onResize()
         this.clientBounds = new Bounds(this.view.getBoundingClientRect())
     }
 
@@ -246,7 +246,7 @@ export class Interaction extends InteractionBase {
     }
 
     protected mutiTouchEnd(): void {
-        this.touches = undefined
+        this.touches = null
         this.useMutiTouch = false
         this.transformEnd()
     }
@@ -299,8 +299,8 @@ export class Interaction extends InteractionBase {
     public destroy(): void {
         if (this.view) {
             super.destroy()
-            this.view = undefined
-            this.touches = undefined
+            this.view = null
+            this.touches = null
         }
     }
 

@@ -88,6 +88,6 @@ export class LeafList implements ILeafList {
     }
 
     public destroy(): void {
-        this.list = undefined
+        this.list = null
     }
 }

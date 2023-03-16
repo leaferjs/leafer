@@ -1,4 +1,4 @@
-import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, ILayoutBlockData } from '@leafer/interface'
+import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction } from '@leafer/interface'
 import { LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
 import { Bounds } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
@@ -6,80 +6,45 @@ import { Platform } from '@leafer/platform'
 import { Debug, Run } from '@leafer/debug'
 
 
+const debug = Debug.get('Renderer')
+
 export class Renderer implements IRenderer {
 
     public target: ILeaf
     public canvas: ILeaferCanvas
-    public layoutedBlocks: ILayoutBlockData[]
+    public updateBlocks: IBounds[]
 
+    public FPS = 60
     public totalTimes = 0
     public times: number = 0
 
-    public FPS = 60
+    public running: boolean
+    public changed: boolean
 
     public config: IRendererConfig = {
+        usePartRender: true,
         maxFPS: 60
     }
 
-    public running: boolean
-
-    private _changed = false
-    set changed(value: boolean) {
-        if (value) {
-            if (!this._changed) {
-                this._changed = true
-                this.requestRender()
-            }
-        } else {
-            this._changed = false
-        }
-    }
-    get changed(): boolean { return this._changed }
-
-    protected eventIds: IEventListenerId[]
+    protected __eventIds: IEventListenerId[]
 
     constructor(target: ILeaf, canvas: ILeaferCanvas, userConfig: IRendererConfig) {
         this.target = target
         this.canvas = canvas
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
-        this.listenEvents()
+        this.__listenEvents()
     }
 
     public start(): void {
         this.running = true
-        this.changed = true
     }
 
     public stop(): void {
         this.running = false
     }
 
-    private listenEvents(): void {
-        const { target } = this
-        this.eventIds = [
-            target.on__(RenderEvent.REQUEST, this.onRequest, this),
-            target.on__(LayoutEvent.END, this.onLayoutEnd, this),
-            target.on__(RenderEvent.AGAIN, this.renderOnce, this),
-            target.on__(ResizeEvent.RESIZE, this.onResize, this)
-        ]
-    }
-
-    private removeListenEvents(): void {
-        this.target.off__(this.eventIds)
-    }
-
-    protected onResize(e: ResizeEvent): void {
-        if (e.bigger || !e.samePixelRatio) {
-            const { width, height } = e.old
-            const bounds = new Bounds(0, 0, width, height)
-            if (!bounds.includes(this.target.__world)) {
-                this.target.__updateAttr('fill')
-                this.changed = true
-            }
-        }
-    }
-
-    protected onRequest(): void {
+    public update(): void {
+        if (!this.changed) this.__requestRender()
         this.changed = true
     }
 
@@ -87,23 +52,22 @@ export class Renderer implements IRenderer {
         this.target.emit(LayoutEvent.REQUEST)
     }
 
-    public onLayoutEnd(event: LayoutEvent): void {
-        this.layoutedBlocks = event.data
-    }
-
     public render(callback?: IFunction): void {
         const { target } = this
-        const { START, RENDER, END } = RenderEvent
         this.times = 0
-        target.emit(START)
+
+        debug.log(target.innerId, '--->')
+
+        target.emit(RenderEvent.START)
         this.renderOnce(callback)
-        target.emit(RENDER)
-        target.emit(END)
+        target.emit(RenderEvent.RENDER)
+        target.emit(RenderEvent.END)
+
+        debug.log(target.innerId, '---|')
     }
 
     public renderOnce(callback?: IFunction): void {
         const { target } = this
-        const { BEFORE_ONCE, ONCE, AFTER_ONCE } = RenderEvent
 
         this.times++
         this.totalTimes++
@@ -111,7 +75,7 @@ export class Renderer implements IRenderer {
 
         if (callback) {
 
-            target.emit(BEFORE_ONCE)
+            target.emit(RenderEvent.BEFORE_ONCE)
 
             callback()
 
@@ -119,56 +83,53 @@ export class Renderer implements IRenderer {
 
             this.requestLayout()
 
-            target.emit(BEFORE_ONCE)
+            target.emit(RenderEvent.BEFORE_ONCE)
 
-            if (this.totalTimes > 1) {
-                if (this.layoutedBlocks) this.partRender()
+            if (this.config.usePartRender && this.totalTimes > 1) {
+                this.partRender()
             } else {
                 this.fullRender()
             }
 
         }
 
-        target.emit(ONCE)
-        target.emit(AFTER_ONCE)
+        target.emit(RenderEvent.ONCE)
+        target.emit(RenderEvent.AFTER_ONCE)
 
 
-        if (this.layoutedBlocks) {
-            this.layoutedBlocks.forEach(item => { item.destroy() })
-            this.layoutedBlocks = undefined
-        }
+        this.updateBlocks = null
 
         this.__checkAgain()
     }
 
-    protected __checkAgain(): void {
-        if (this.changed && this.times < 3) this.target.emit(RenderEvent.AGAIN)
-    }
+    public partRender(): void {
+        const { canvas, updateBlocks: list } = this
 
-
-    protected partRender(): void {
-        const { canvas, layoutedBlocks } = this
-
-        if (layoutedBlocks.some(block => block.updatedBounds.includes(this.target.__world))) {
+        if (!list) {
+            debug.warn('PartRender: layoutedBlocks is empty')
             this.fullRender(canvas.bounds)
+            return
+        }
+
+        if (list.some(block => block.includes(this.target.__world))) {
+            this.mergeBlocks()
+            this.clipRender(this.updateBlocks[0], true)
         } else {
-            let bounds: IBounds
-            layoutedBlocks.forEach(block => {
-                bounds = block.updatedBounds
-                if (canvas.bounds.hit(bounds) && !bounds.isEmpty()) this.clipRender(bounds.getIntersect(canvas.bounds))
+            list.forEach(block => {
+                if (canvas.bounds.hit(block) && !block.isEmpty()) this.clipRender(block.getIntersect(canvas.bounds))
             })
         }
     }
 
-    public clipRender(bounds: IBounds): void {
-        const t = Run.start('part render')
+    public clipRender(bounds: IBounds, fullMode?: boolean): void {
+        const t = Run.start('PartRender')
         const { canvas, target } = this
 
         canvas.save()
         canvas.clearBounds(bounds)
         if (Debug.showRepaint) canvas.strokeBounds(bounds, 'red')
         canvas.clipBounds(bounds)
-        target.__render(canvas, { bounds })
+        target.__render(canvas, fullMode ? {} : { bounds })
         canvas.restore()
 
         Run.end(t)
@@ -177,11 +138,10 @@ export class Renderer implements IRenderer {
     public fullRender(bounds?: IBounds): void {
         const { canvas, target } = this
         Renderer.fullRender(target, canvas, bounds)
-        if (Debug.showRepaint) canvas.strokeBounds(bounds || canvas.bounds, 'red')
     }
 
     static fullRender(target: ILeaf, canvas: ILeaferCanvas, bounds?: IBounds): void {
-        const t = Run.start('full render')
+        const t = Run.start('FullRender')
         if (!bounds) bounds = canvas.bounds
 
         canvas.save()
@@ -192,7 +152,25 @@ export class Renderer implements IRenderer {
         Run.end(t)
     }
 
-    private requestRender(): void {
+    public addBlock(block: IBounds): void {
+        if (!this.updateBlocks) this.updateBlocks = []
+        this.updateBlocks.push(block)
+    }
+
+    public mergeBlocks(): void {
+        const { updateBlocks } = this
+        if (updateBlocks) {
+            const bounds = new Bounds()
+            bounds.setByList(updateBlocks)
+            this.updateBlocks = [bounds]
+        }
+    }
+
+    protected __checkAgain(): void {
+        if (this.changed && this.times < 3) this.target.emit(RenderEvent.AGAIN)
+    }
+
+    protected __requestRender(): void {
         const startTime = Date.now()
         Platform.requestRender(() => {
             if (this.changed) {
@@ -202,12 +180,41 @@ export class Renderer implements IRenderer {
         })
     }
 
+    protected __onResize(e: ResizeEvent): void {
+        if (e.bigger || !e.samePixelRatio) {
+            const { width, height } = e.old
+            const bounds = new Bounds(0, 0, width, height)
+            if (!bounds.includes(this.target.__world)) {
+                this.target.__updateAttr('fill')
+                this.update()
+            }
+        }
+    }
+
+    protected __onLayoutEnd(event: LayoutEvent): void {
+        event.data.map(item => this.addBlock(item.updatedBounds))
+    }
+
+    protected __listenEvents(): void {
+        const { target } = this
+        this.__eventIds = [
+            target.on__(RenderEvent.REQUEST, this.update, this),
+            target.on__(LayoutEvent.END, this.__onLayoutEnd, this),
+            target.on__(RenderEvent.AGAIN, this.renderOnce, this),
+            target.on__(ResizeEvent.RESIZE, this.__onResize, this)
+        ]
+    }
+
+    protected __removeListenEvents(): void {
+        this.target.off__(this.__eventIds)
+    }
+
     public destroy(): void {
         if (this.target) {
-            this.removeListenEvents()
-            this.target = undefined
-            this.canvas = undefined
-            this.config = undefined
+            this.__removeListenEvents()
+            this.target = null
+            this.canvas = null
+            this.config = null
         }
     }
 }

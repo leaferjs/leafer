@@ -3,6 +3,8 @@ export interface ILeaferImageConfig {
     thumb?: string
 }
 
-export interface ILeaferImage {
 
+
+export interface ILeaferImage {
+    //load(url: string):Promise<>
 }

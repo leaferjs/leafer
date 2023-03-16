@@ -1,5 +1,5 @@
 import { ILeafer } from './ILeafer'
 
-export interface ISupperLeafer extends ILeafer {
+export interface IApp extends ILeafer {
     children: ILeafer[]
 }

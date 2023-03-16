@@ -24,7 +24,7 @@ export class PathFinder {
 
     public getHitPointPath(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
         const through = options ? options.through : false
-        this.exclude = options ? options.exclude : undefined
+        this.exclude = options ? options.exclude : null
 
         this.isStop = false
         this.point = { x: hitPoint.x, y: hitPoint.y, radiusX: hitRadius, radiusY: hitRadius }
@@ -117,15 +117,15 @@ export class PathFinder {
     }
 
     protected clear(): void {
-        this.point = undefined
-        this.leaf = undefined
-        this.throughPath = undefined
-        this.exclude = undefined
+        this.point = null
+        this.leaf = null
+        this.throughPath = null
+        this.exclude = null
     }
 
     public destroy(): void {
-        this.target = undefined
-        this.selector = undefined
+        this.target = null
+        this.selector = null
     }
 
 }

@@ -267,6 +267,6 @@ export class CanvasBase {
     public strokeText(_text: string, _x: number, _y: number, _maxWidth?: number): void { }
 
     public destroy(): void {
-        this.context = undefined
+        this.context = null
     }
 }

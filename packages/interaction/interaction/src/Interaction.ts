@@ -16,6 +16,11 @@ const { pathHasEventType } = InteractionHelper
 export class InteractionBase implements IInteraction {
 
     public target: ILeaf
+    public canvas: ILeaferCanvas
+    public selector: ISelector
+
+    public running: boolean
+    public get dragging(): boolean { return this.dragger.dragging }
 
     public config: IInteractionConfig = {
         wheel: {
@@ -23,7 +28,7 @@ export class InteractionBase implements IInteraction {
             zoomSpeed: 0.5,
             moveSpeed: 0.5,
             rotateSpeed: 0.5,
-            delta: { x: 80 / 4, y: 8.0 } // 以chrome为基准, 鼠标滚动一格的距离
+            delta: { x: 80 / 4, y: 8.0 }
         },
         pointer: {
             hitRadius: 5,
@@ -33,23 +38,14 @@ export class InteractionBase implements IInteraction {
             transformTime: 500,
             dragDistance: 2,
             swipeDistance: 20,
-            autoMoveDistance: 2
+            autoMoveDistance: 2,
+            ignoreMove: false
         }
     }
 
-    public pointerMoveIgnore: boolean // 性能优化字段, 控制move事件触发次数
-
-    public running: boolean
-
-    public canvas: ILeaferCanvas
-    public selector: ISelector
-
-    protected dragger: Dragger
-    protected transformer: Transformer
+    public get hitRadius(): number { return this.config.pointer.hitRadius }
 
     public shrinkCanvasBounds: IBounds
-
-    public get hitRadius(): number { return this.config.pointer.hitRadius }
 
     public downData: IPointerEvent
 
@@ -62,7 +58,10 @@ export class InteractionBase implements IInteraction {
     protected clickCount = 0
     protected clickTimer: number
 
-    protected eventIds: IEventListenerId[]
+    protected dragger: Dragger
+    protected transformer: Transformer
+
+    protected __eventIds: IEventListenerId[]
 
     constructor(target: ILeaf, canvas: ILeaferCanvas, selector: ISelector, userConfig?: IInteractionConfig) {
         this.target = target
@@ -73,8 +72,9 @@ export class InteractionBase implements IInteraction {
         this.dragger = new Dragger(this)
 
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
-        this.listenEvents()
+        this.__listenEvents()
     }
+
 
     public start(): void {
         this.running = true
@@ -84,19 +84,6 @@ export class InteractionBase implements IInteraction {
         this.running = false
     }
 
-    protected listenEvents(): void {
-        const { target } = this
-        this.eventIds = [target.on__(ResizeEvent.RESIZE, this.onResize, this)]
-    }
-
-    protected removeListenEvents(): void {
-        this.target.off__(this.eventIds)
-    }
-
-    protected onResize(): void {
-        this.shrinkCanvasBounds = new Bounds(this.canvas.bounds)
-        this.shrinkCanvasBounds.spread(-2)
-    }
 
     public pointerDown(data: IPointerEvent): void {
         this.emit(PointerEvent.BEFORE_DOWN, data, this.selector.defaultPath)
@@ -134,7 +121,7 @@ export class InteractionBase implements IInteraction {
             this.dragger.checkDrag(data, canDrag)
         }
 
-        if (this.dragger.moving || this.pointerMoveIgnore) return
+        if (this.dragger.moving || this.config.pointer.ignoreMove) return
 
         const find = this.selector.getHitPointPath(data, this.hitRadius, { exclude: this.dragger.getDragList() })
         data.path = find.path
@@ -164,11 +151,29 @@ export class InteractionBase implements IInteraction {
 
         this.dragger.dragEnd(data)
 
-        this.downData = undefined
+        this.downData = null
     }
 
     public pointerCancel(): void {
         this.pointerUp(this.dragger.dragData)
+    }
+
+
+    // window transform
+    public move(data: IMoveEvent): void {
+        this.transformer.move(data)
+    }
+
+    public zoom(data: IZoomEvent): void {
+        this.transformer.zoom(data)
+    }
+
+    public rotate(data: IRotateEvent): void {
+        this.transformer.rotate(data)
+    }
+
+    public transformEnd(): void {
+        this.transformer.transformEnd()
     }
 
 
@@ -247,25 +252,21 @@ export class InteractionBase implements IInteraction {
 
     protected longPressWaitCancel(): void {
         clearTimeout(this.longPressTimer)
-        this.longPressed = undefined
+        this.longPressed = false
     }
 
-
-    // window transform
-    public move(data: IMoveEvent): void {
-        this.transformer.move(data)
+    protected __onResize(): void {
+        this.shrinkCanvasBounds = new Bounds(this.canvas.bounds)
+        this.shrinkCanvasBounds.spread(-2)
     }
 
-    public zoom(data: IZoomEvent): void {
-        this.transformer.zoom(data)
+    protected __listenEvents(): void {
+        const { target } = this
+        this.__eventIds = [target.on__(ResizeEvent.RESIZE, this.__onResize, this)]
     }
 
-    public rotate(data: IRotateEvent): void {
-        this.transformer.rotate(data)
-    }
-
-    public transformEnd(): void {
-        this.transformer.transformEnd()
+    protected __removeListenEvents(): void {
+        this.target.off__(this.__eventIds)
     }
 
 
@@ -273,21 +274,22 @@ export class InteractionBase implements IInteraction {
         if (this.running) emit(type, data, path, excludePath)
     }
 
+
     public destroy(): void {
         if (this.target) {
             this.running = false
 
-            this.removeListenEvents()
+            this.__removeListenEvents()
             this.dragger.destroy()
             this.transformer.destroy()
 
-            this.config = undefined
-            this.target = undefined
-            this.selector = undefined
-            this.canvas = undefined
+            this.config = null
+            this.target = null
+            this.selector = null
+            this.canvas = null
 
-            this.dragger = undefined
-            this.transformer = undefined
+            this.dragger = null
+            this.transformer = null
         }
     }
 

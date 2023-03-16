@@ -16,9 +16,12 @@ export class Layouter implements ILayouter {
 
     public target: ILeaf
     public layoutedBlocks: ILayoutBlockData[]
+
     public totalTimes: number = 0
     public times: number
+
     public changed: boolean = true
+    public running: boolean
 
     public config: ILayouterConfig = {
         partLayout: {
@@ -26,16 +29,14 @@ export class Layouter implements ILayouter {
         }
     }
 
-    public running: boolean
-
-    protected updateList: ILeafList
-    protected levelList: LeafLevelList = new LeafLevelList()
-    protected eventIds: IEventListenerId[]
+    protected __updateList: ILeafList
+    protected __levelList: LeafLevelList = new LeafLevelList()
+    protected __eventIds: IEventListenerId[]
 
     constructor(target: ILeaf, userConfig?: ILayouterConfig) {
         this.target = target
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
-        this.listenEvents()
+        this.__listenEvents()
     }
 
     public start(): void {
@@ -46,39 +47,21 @@ export class Layouter implements ILayouter {
         this.running = false
     }
 
-    protected listenEvents(): void {
-        const { target } = this
-        this.eventIds = [
-            target.on__(LayoutEvent.REQUEST, this.layout, this),
-            target.on__(LayoutEvent.AGAIN, this.layoutOnce, this),
-            target.on__(WatchEvent.DATA, this.onReceiveWatchData, this),
-            target.on__(RenderEvent.REQUEST, this.onChange, this),
-        ]
-    }
-
-    protected removeListenEvents(): void {
-        this.target.off__(this.eventIds)
-    }
-
-    protected onReceiveWatchData(event: WatchEvent): void {
-        this.updateList = event.data.updatedList
-    }
-
-    protected onChange(): void {
+    public update(): void {
         this.changed = true
     }
 
     public layout(): void {
         if (!this.running) return
         const { target } = this
-        const { START, LAYOUT, END } = LayoutEvent
+        const { LAYOUT, END } = LayoutEvent
         this.times = 0
         this.changed = false
-        target.emit(START)
+        target.emit(LayoutEvent.START)
         this.layoutOnce()
         target.emitEvent(new LayoutEvent(LAYOUT, this.layoutedBlocks))
         target.emitEvent(new LayoutEvent(END, this.layoutedBlocks))
-        this.layoutedBlocks = undefined
+        this.layoutedBlocks = null
     }
 
     public layoutOnce(): void {
@@ -95,10 +78,10 @@ export class Layouter implements ILayouter {
     }
 
     public partLayout(): void {
-        if (!this.updateList?.length) return
+        if (!this.__updateList?.length) return
 
-        const t = Run.start('part layout')
-        const { target, updateList } = this
+        const t = Run.start('PartLayout')
+        const { target, __updateList: updateList } = this
         const { BEFORE_ONCE, ONCE, AFTER_ONCE } = LayoutEvent
 
         const blocks = this.getBlocks(updateList)
@@ -106,8 +89,8 @@ export class Layouter implements ILayouter {
         target.emitEvent(new LayoutEvent(BEFORE_ONCE, blocks))
 
         updateList.sort()
-        updateMatrix(updateList, this.levelList)
-        updateBounds(this.levelList)
+        updateMatrix(updateList, this.__levelList)
+        updateBounds(this.__levelList)
         updateChange(updateList)
 
         blocks.forEach(item => { item.setAfter() })
@@ -116,15 +99,15 @@ export class Layouter implements ILayouter {
 
         this.setBlocks(blocks)
 
-        this.levelList.reset()
-        this.updateList = undefined
+        this.__levelList.reset()
+        this.__updateList = null
         Run.end(t)
 
         this.__checkAgain()
     }
 
     public fullLayout(): void {
-        const t = Run.start('full layout')
+        const t = Run.start('FullLayout')
 
         const { target } = this
         const { BEFORE_ONCE, ONCE, AFTER_ONCE } = LayoutEvent
@@ -145,8 +128,18 @@ export class Layouter implements ILayouter {
         this.__checkAgain()
     }
 
-    protected __checkAgain(): void {
-        if (this.changed && this.times <= this.config.partLayout.maxTimes) this.target.emit(LayoutEvent.AGAIN) // 防止更新布局过程中产生了属性修改
+    static fullLayout(target: ILeaf): void {
+        updateAllWorldMatrix(target)
+
+        if (target.__isBranch) {
+            const branchStack: ILeaf[] = [target]
+            pushAllBranchStack(target, branchStack)
+            updateWorldBoundsByBranchStack(branchStack)
+        } else {
+            target.__updateWorldBounds()
+        }
+
+        updateAllChange(target)
     }
 
 
@@ -162,25 +155,32 @@ export class Layouter implements ILayouter {
         this.layoutedBlocks ? this.layoutedBlocks.push(...current) : this.layoutedBlocks = current
     }
 
-
-    static fullLayout(target: ILeaf): void {
-        updateAllWorldMatrix(target)
-
-        if (target.__isBranch) {
-            const branchStack: ILeaf[] = [target]
-            pushAllBranchStack(target, branchStack)
-            updateWorldBoundsByBranchStack(branchStack)
-        } else {
-            target.__updateWorldBounds()
-        }
-
-        updateAllChange(target)
+    protected __checkAgain(): void {
+        if (this.changed && this.times <= this.config.partLayout.maxTimes) this.target.emit(LayoutEvent.AGAIN) // 防止更新布局过程中产生了属性修改
     }
 
-    destroy(): void {
+    protected __onReceiveWatchData(event: WatchEvent): void {
+        this.__updateList = event.data.updatedList
+    }
+
+    protected __listenEvents(): void {
+        const { target } = this
+        this.__eventIds = [
+            target.on__(LayoutEvent.REQUEST, this.layout, this),
+            target.on__(LayoutEvent.AGAIN, this.layoutOnce, this),
+            target.on__(WatchEvent.DATA, this.__onReceiveWatchData, this),
+            target.on__(RenderEvent.REQUEST, this.update, this),
+        ]
+    }
+
+    protected __removeListenEvents(): void {
+        this.target.off__(this.__eventIds)
+    }
+
+    public destroy(): void {
         if (this.target) {
-            this.removeListenEvents()
-            this.target = undefined
+            this.__removeListenEvents()
+            this.target = null
         }
     }
 

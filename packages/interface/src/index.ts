@@ -1,4 +1,4 @@
-export { ISupperLeafer } from './app/ISupperLeafer'
+export { IApp } from './app/IApp'
 export { ILeafer, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
 export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf } from './display/ILeaf'
 export { IBranch } from './display/IBranch'

@@ -1,6 +1,7 @@
 import { IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, ILeafEventerModule } from '@leafer/interface'
+import { Debug } from '@leafer/debug'
 
-
+const debug = Debug.get('Life')
 const empty = {}
 
 export const LeafEventer: ILeafEventerModule = {
@@ -70,6 +71,8 @@ export const LeafEventer: ILeafEventerModule = {
     },
 
     emit(type: string, event?: IEvent | IObject, capture?: boolean): void {
+        if (Debug.enable) debug.log(type)
+
         const map = __getListenerMap(this, capture)
         const list = map[type]
         if (list) {
@@ -77,7 +80,10 @@ export const LeafEventer: ILeafEventerModule = {
             for (let i = 0, len = list.length; i < len; i++) {
                 item = list[i]
                 item.listener(event)
-                if (item.once) this.off(type, item.listener, capture)
+                if (item.once) {
+                    this.off(type, item.listener, capture)
+                    i--, len--
+                }
                 if (event && (event as IEvent).isStopNow) break
             }
         }

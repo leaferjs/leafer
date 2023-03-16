@@ -67,7 +67,7 @@ export class LeafLevelList implements ILeafLevelList {
     }
 
     public destroy(): void {
-        this.levelMap = undefined
+        this.levelMap = null
     }
 
 }

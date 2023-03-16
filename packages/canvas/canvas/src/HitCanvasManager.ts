@@ -33,7 +33,7 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
         leafList.forEach(leaf => {
             if (leaf.__hitCanvas) {
                 leaf.__hitCanvas.destroy()
-                leaf.__hitCanvas = undefined
+                leaf.__hitCanvas = null
             }
         })
         leafList.reset()

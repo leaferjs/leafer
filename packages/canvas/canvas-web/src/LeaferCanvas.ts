@@ -117,7 +117,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
     public stopAutoLayout(): void {
         if (this.resizeObserver) {
             this.resizeObserver.disconnect()
-            this.resizeObserver = undefined
+            this.resizeObserver = null
         }
     }
 
@@ -328,10 +328,10 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (this.view) {
             super.destroy()
             this.stopAutoLayout()
-            this.manager = undefined
+            this.manager = null
             if (this.view && this.view.parentElement) this.view.remove()
-            this.view = undefined
-            this.bounds = undefined
+            this.view = null
+            this.bounds = null
         }
     }
 

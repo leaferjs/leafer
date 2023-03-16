@@ -35,6 +35,6 @@ export class LeafData implements ILeafData {
     }
 
     public destroy(): void {
-        this.__leaf = undefined
+        this.__leaf = null
     }
 }

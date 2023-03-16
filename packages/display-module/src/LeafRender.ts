@@ -7,7 +7,7 @@ export const LeafRender: ILeafRenderModule = {
         if (this.__worldOpacity) {
             canvas.setWorld(this.__world, options.matrix)
             canvas.opacity = this.__worldOpacity
-            this.__complex ? this.__draw(canvas, options) : this.__drawFast(canvas, options)
+            this.__draw(canvas, options)
         }
     },
 

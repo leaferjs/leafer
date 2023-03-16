@@ -30,8 +30,8 @@ export class TaskItem {
 
     public complete(): void {
         this.isComplete = true
-        this.parent = undefined
-        this.task = undefined
+        this.parent = null
+        this.task = null
     }
 
 }

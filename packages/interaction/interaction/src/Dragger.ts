@@ -33,7 +33,7 @@ export class Dragger {
     }
 
     public getDragList(): ILeafList {
-        return this.dragging ? DropEvent.dragList || this.dragList : undefined
+        return this.dragging ? DropEvent.dragList || this.dragList : null
     }
 
     public checkDrag(data: IPointerEvent, canDrag: boolean): void {
@@ -151,13 +151,13 @@ export class Dragger {
     }
 
     protected dragReset(): void {
-        DropEvent.dragList = undefined
-        this.dragList = undefined
-        this.dragableList = undefined
-        this.dragData = undefined
-        this.dropEnterPath = undefined
-        this.dragging = undefined
-        this.moving = undefined
+        DropEvent.dragList = null
+        this.dragList = null
+        this.dragableList = null
+        this.dragData = null
+        this.dropEnterPath = null
+        this.dragging = null
+        this.moving = null
     }
 
 
@@ -203,7 +203,7 @@ export class Dragger {
     }
 
     public destroy(): void {
-        this.interaction = undefined
-        this.dragableList = undefined
+        this.interaction = null
+        this.dragableList = null
     }
 }

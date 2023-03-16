@@ -56,7 +56,7 @@ export class CanvasManager implements ICanvasManager {
 
     public destory(): void {
         this.clear()
-        this.leafer = undefined
+        this.leafer = null
     }
 
 }

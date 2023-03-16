@@ -15,8 +15,8 @@ export interface ISelectPathOptions {
 
 export interface ISelector {
     target: ILeaf
-
     defaultPath: ILeafList
+
     getHitPointPath(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult
 
     find(name: number | string, branch?: ILeaf): ILeaf | ILeaf[]

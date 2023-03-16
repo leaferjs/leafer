@@ -68,6 +68,7 @@ export class LeafLayout implements ILeafLayout {
         this.leaf = leaf
         this.renderBounds = this.eventBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
         this.relativeRenderBounds = this.relativeEventBounds = leaf.__relative
+        this.boxBoundsChange()
     }
 
 
@@ -228,7 +229,7 @@ export class LeafLayout implements ILeafLayout {
     }
 
     public destroy(): void {
-        this.leaf = undefined
+        this.leaf = null
     }
 
 }

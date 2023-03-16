@@ -46,7 +46,7 @@ export class Run {
 
     static endOfName(name: string, microsecond?: boolean): void {
         const id = R.nameToIdMap[name]
-        if (id) R.end(id, microsecond)
+        if (id !== undefined) R.end(id, microsecond)
     }
 }
 

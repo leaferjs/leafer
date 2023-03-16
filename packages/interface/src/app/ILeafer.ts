@@ -11,7 +11,7 @@ import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IImageManager } from '../image/IImageManager'
 import { IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
-import { ISupperLeafer } from './ISupperLeafer'
+import { IApp } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
 import { IEvent } from '../event/IEvent'
 
@@ -26,8 +26,8 @@ export interface ILeafer extends IZoomView {
 
     creator: ICreator
 
-    readonly isSupperLeafer: boolean
-    parent?: ISupperLeafer
+    readonly isApp: boolean
+    parent?: IApp
 
     running: boolean
 

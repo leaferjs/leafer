@@ -46,7 +46,7 @@ export class LayoutBlockData implements ILayoutBlockData {
     }
 
     public destroy(): void {
-        this.updatedList = undefined
+        this.updatedList = null
     }
 
 }

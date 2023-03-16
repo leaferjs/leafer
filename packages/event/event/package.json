@@ -1,6 +1,6 @@
 {
   "name": "@leafer/event",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.10",
   "description": "@leafer/event",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,9 +17,9 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/decorator": "1.0.0-alpha.9"
+    "@leafer/decorator": "1.0.0-alpha.10"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-alpha.9"
+     "@leafer/interface": "1.0.0-alpha.10"
   }
 }

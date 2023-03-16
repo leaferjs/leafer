@@ -121,10 +121,10 @@ export class Branch extends Leaf {
                     const event = new ChildEvent(ChildEvent.REMOVE, child, this)
                     if (this.hasEvent(ChildEvent.REMOVE)) this.emitEvent(event)
                     this.root.emitEvent(event)
-                    child.root = undefined
+                    child.root = null
                 }
 
-                child.parent = undefined
+                child.parent = null
                 this.__layout.boxBoundsChange()
             }
         } else {
