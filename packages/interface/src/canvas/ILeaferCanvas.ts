@@ -96,24 +96,23 @@ interface ICanvasMethod {
 
     // custom
 
-    setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
-    setShadow(x: number, y: number, blur: number, color?: string): void
-    setBlur(blur: number): void
-
-
-    setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void
-
-
     hitPath(point: IPointData, fillRule?: string): boolean
     hitStroke(point: IPointData): boolean
 
-    replaceBy(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
-    copy(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string): void
+    setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
+
+    setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void
+
+    setWorldShadow(x: number, y: number, blur: number, color?: string): void
+    setWorldBlur(blur: number): void
+
+    copyWorld(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string): void
     copyWorldToLocal(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toLocalBounds: IBoundsData, blendMode?: string): void
-    fillBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void
-    strokeBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void
-    clipBounds(bounds: IBoundsData, ceil?: boolean): void
-    clearBounds(bounds: IBoundsData, ceil?: boolean): void
+    fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
+    strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
+    clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void
+    clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void
+
     clear(): void
 }
 

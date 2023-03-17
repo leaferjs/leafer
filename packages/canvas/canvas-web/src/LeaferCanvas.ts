@@ -132,7 +132,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         let takeCanvas: ILeaferCanvas
         if (this.context && this.width) {
             takeCanvas = this.getSameCanvas()
-            takeCanvas.copy(this)
+            takeCanvas.copyWorld(this)
         }
 
         Object.assign(this, { width, height, pixelRatio })
@@ -144,7 +144,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         this.view.height = height * pixelRatio
 
         if (this.context && takeCanvas) {
-            this.copy(takeCanvas)
+            this.copyWorld(takeCanvas)
             takeCanvas.recycle()
         }
     }
@@ -204,20 +204,6 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         }
     }
 
-    public setShadow(x: number, y: number, blur: number, color?: string): void {
-        const { pixelRatio } = this
-        this.shadowOffsetX = x * pixelRatio
-        this.shadowOffsetY = y * pixelRatio
-        this.shadowBlur = blur * pixelRatio
-        this.shadowColor = color || 'black'
-    }
-
-    public setBlur(blur: number): void {
-        const { pixelRatio } = this
-        this.filter = `blur(${blur * pixelRatio}px)`
-    }
-
-
     public hitPath(point: IPointData, fillRule?: IWindingRule): boolean {
         return this.context.isPointInPath(point.x, point.y, fillRule)
     }
@@ -226,14 +212,22 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         return this.context.isPointInStroke(point.x, point.y)
     }
 
-    public replaceBy(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData): void {
-        canvas.save()
-        this.blendMode = 'copy'
-        this.copy(canvas, from, to)
-        canvas.restore()
+
+    public setWorldShadow(x: number, y: number, blur: number, color?: string): void {
+        const { pixelRatio } = this
+        this.shadowOffsetX = x * pixelRatio
+        this.shadowOffsetY = y * pixelRatio
+        this.shadowBlur = blur * pixelRatio
+        this.shadowColor = color || 'black'
     }
 
-    public copy(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: string): void {
+    public setWorldBlur(blur: number): void {
+        const { pixelRatio } = this
+        this.filter = `blur(${blur * pixelRatio}px)`
+    }
+
+
+    public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: string): void {
         if (from) {
             if (!to) to = from
             const { pixelRatio } = this
@@ -252,7 +246,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (fromWorld.b || fromWorld.c) {
             this.save()
             this.resetTransform()
-            this.copy(canvas, fromWorld, BoundsHelper.tempTimesMatrix(toLocalBounds, fromWorld))
+            this.copyWorld(canvas, fromWorld, BoundsHelper.tempTimesMatrix(toLocalBounds, fromWorld))
             this.restore()
         } else {
             this.drawImage(canvas.view as HTMLCanvasElement, fromWorld.x * pixelRatio, fromWorld.y * pixelRatio, fromWorld.width * pixelRatio, fromWorld.height * pixelRatio, toLocalBounds.x, toLocalBounds.y, toLocalBounds.width, toLocalBounds.height)
@@ -260,7 +254,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'normal'
     }
 
-    public fillBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void {
+    public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void {
         const { pixelRatio } = this
         if (blendMode) this.blendMode = blendMode
         this.fillStyle = color
@@ -268,7 +262,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'normal'
     }
 
-    public strokeBounds(bounds: IBoundsData, color: string | object, blendMode?: string): void {
+    public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void {
         const { pixelRatio } = this
         if (blendMode) this.blendMode = blendMode
         this.strokeStyle = color
@@ -276,18 +270,18 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'normal'
     }
 
-    public clearBounds(bounds: IBoundsData, ceil?: boolean): void {
+    public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
         const { pixelRatio } = this
         temp.copy(bounds).scale(pixelRatio)
-        if (ceil) temp.ceil()
+        if (ceilPixel) temp.ceil()
         this.clearRect(temp.x, temp.y, temp.width, temp.height)
     }
 
-    public clipBounds(bounds: IBoundsData, ceil?: boolean): void {
+    public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
         const { pixelRatio } = this
         this.beginPath()
         temp.copy(bounds).scale(pixelRatio)
-        if (ceil) temp.ceil()
+        if (ceilPixel) temp.ceil()
         this.rect(temp.x, temp.y, temp.width, temp.height)
         this.clip()
 

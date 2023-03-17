@@ -129,9 +129,9 @@ export class Renderer implements IRenderer {
         bounds.ceil()
 
         canvas.save()
-        canvas.clearBounds(bounds, true)
-        if (Debug.showRepaint) canvas.strokeBounds(bounds, 'red')
-        canvas.clipBounds(bounds, true)
+        canvas.clearWorld(bounds, true)
+        if (Debug.showRepaint) canvas.strokeWorld(bounds, 'red')
+        canvas.clipWorld(bounds, true)
         target.__render(canvas, fullMode ? {} : { bounds })
         canvas.restore()
 
