@@ -10,10 +10,10 @@ export interface IPoint extends IPointData {
     copy(point: IPointData): IPoint
     clone(): IPoint
 
-    rotate(angle: number, center?: IPointData): void
+    rotate(angle: number, center?: IPointData): IPoint
 
-    toLocal(matrix: IMatrixData): void
-    toWorld(matrix: IMatrixData): void
+    toLocal(matrix: IMatrixData, to?: IPointData): IPoint
+    toWorld(matrix: IMatrixData, to?: IPointData): IPoint
 
     getCenter(to: IPointData): IPointData
     getDistance(to: IPointData): number
@@ -55,26 +55,26 @@ export interface IBounds extends IBoundsData {
     clone(): IBounds
 
     scale(scale: number): IBounds
-    timesMatrix(matrix: IMatrixData): IBounds
+    toWorld(matrix: IMatrixData, to: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
-    spread(size: number): void
-    ceil(): void
 
-    add(bounds: IBoundsData): void
-    addList(boundsList: IBounds[]): void
-    setByList(boundsList: IBounds[], addMode?: boolean): void
-    addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): void
-    setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode: boolean): void
-    setByBoundsTimesMatrix(fromBounds: IBoundsData, fromMatrix: IMatrixData): void
-    setByPoints(points: IPointData[]): void
+    spread(size: number): IBounds
+    ceil(): IBounds
+
+    add(bounds: IBoundsData): IBounds
+    addList(boundsList: IBounds[]): IBounds
+    setByList(boundsList: IBounds[], addMode?: boolean): IBounds
+    addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
+    setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode: boolean): IBounds
+    setByPoints(points: IPointData[]): IBounds
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean
     hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixData): boolean
     hit(bounds: IBoundsData, boundsMatrix?: IMatrixData): boolean
     includes(bounds: IBoundsData, boundsMatrix?: IMatrixData): boolean
 
+    intersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): IBounds
     getIntersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): IBounds
-    setByIntersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): void
 
     isSame(bounds: IBoundsData): boolean
     isEmpty(): boolean
@@ -129,12 +129,12 @@ export interface IMatrix extends IMatrixData {
     scale(x: number, y?: number): IMatrix
     rotate(angle: number): IMatrix
 
-    times(matrix: IMatrixData): void
-    divide(matrix: IMatrixData): void
-    invert(): void
+    times(matrix: IMatrixData): IMatrix
+    divide(matrix: IMatrixData): IMatrix
+    invert(): IMatrix
 
-    toWorldPoint(local: IPointData, world?: IPointData): void
-    toLocalPoint(world: IPointData, local?: IPointData): void
+    toWorldPoint(local: IPointData, to?: IPointData): void
+    toLocalPoint(world: IPointData, to?: IPointData): void
 }
 
 

@@ -122,7 +122,7 @@ export class CanvasBase {
 
     // end
 
-    public bindContextMethod(): void {
+    public __bindContext(): void {
         let method: IFunction
         contextMethodNameList.forEach(name => {
             method = (this.context as IObject)[name]

@@ -4,4 +4,5 @@ import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 export interface IPlatform {
     requestRender?(render: IFunction): void
     canvas?: ILeaferCanvas
+    isWorker?: boolean
 }

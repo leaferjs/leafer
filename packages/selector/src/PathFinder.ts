@@ -69,17 +69,14 @@ export class PathFinder {
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
-            if (child.__interactionOff) continue
+            if (child.__.hitable) {
+                if (hitRadiusPoint(child.__world, point)) {
+                    if (child.__isBranch && child.__.hitChildren) this.eachThroughFind(child.children)
 
-            if (hitRadiusPoint(child.__world, point)) {
-                if (child.__isBranch) {
-                    child.__childrenInteractionOff || this.eachThroughFind(child.children)
+                    if (this.exclude && this.exclude.has(child)) continue
+                    if (child.__hitWorld(point)) this.throughPath.push(child)
                 }
-
-                if (this.exclude && this.exclude.has(child)) continue
-                if (child.__hitWorld(point)) this.throughPath.push(child)
             }
-
         }
     }
 
@@ -88,23 +85,23 @@ export class PathFinder {
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
-            if (child.__interactionOff) continue
+            if (child.__.hitable) {
+                if (hitRadiusPoint(child.__world, point)) {
+                    if (child.__isBranch) {
 
-            if (hitRadiusPoint(child.__world, point)) {
-                if (child.__isBranch) {
+                        if (child.__.hitChildren) this.eachFind(child.children)
 
-                    child.__childrenInteractionOff || this.eachFind(child.children)
+                        if (child.__isBranchLeaf) { // 填充了背景色的Group, 如画板/Frame元素
+                            if (!this.isStop) this.hitChild(child, point)
+                        }
 
-                    if (child.__isBranchLeaf) { // 填充了背景色的Group, 如画板/Frame元素
-                        if (!this.isStop) this.hitChild(child, point)
+                    } else {
+                        this.hitChild(child, point)
                     }
-
-                } else {
-                    this.hitChild(child, point)
                 }
-            }
 
-            if (this.isStop) break
+                if (this.isStop) break
+            }
         }
     }
 

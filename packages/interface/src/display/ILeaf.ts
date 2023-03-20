@@ -23,6 +23,7 @@ export interface ICachedLeaf {
     bounds: IBoundsData
 }
 
+
 export interface ILeafAttrData {
     // layer data
     id: __String
@@ -45,7 +46,13 @@ export interface ILeafAttrData {
     skewY: __Number
 
     draggable: __Boolean
+
+    hitable: __Boolean
+    hitType: IHitType
+    hitChildren: __Boolean
 }
+
+export type IHitType = 'visible' | 'fill-visible' | 'stroke-visible' | 'all' | 'fill' | 'stroke'
 
 export interface ILeafInputData {
     // layer data
@@ -69,6 +76,10 @@ export interface ILeafInputData {
     skewY?: __Number
 
     draggable?: __Boolean
+
+    hitable?: __Boolean
+    hitType?: IHitType
+    hitChildren?: __Boolean
 }
 export interface ILeafComputedData {
     // layer data
@@ -92,6 +103,10 @@ export interface ILeafComputedData {
     skewY?: number
 
     draggable?: boolean
+
+    hitable?: boolean
+    hitType?: IHitType
+    hitChildren?: boolean
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -102,9 +117,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     leafer?: ILeafer
     root?: ILeaf
     parent?: ILeaf
-
-    __interactionOff?: boolean
-    __childrenInteractionOff?: boolean
 
     __isRoot?: boolean
     __isBranch?: boolean

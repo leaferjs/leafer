@@ -23,17 +23,20 @@ export class Point implements IPoint {
         return new Point(this)
     }
 
-    public rotate(angle: number, center?: IPointData): void {
+    public rotate(angle: number, center?: IPointData): IPoint {
         P.rotate(this, angle, center)
+        return this
     }
 
 
-    public toLocal(matrix: IMatrixData, setLocal?: IPointData): void {
-        P.toLocal(this, matrix, setLocal)
+    public toLocal(matrix: IMatrixData, to?: IPointData): IPoint {
+        P.toLocal(this, matrix, to)
+        return this
     }
 
-    public toWorld(matrix: IMatrixData, setWorld?: IPointData): void {
-        P.toWorld(this, matrix, setWorld)
+    public toWorld(matrix: IMatrixData, to?: IPointData): IPoint {
+        P.toWorld(this, matrix, to)
+        return this
     }
 
     public getCenter(to: IPointData): IPointData {

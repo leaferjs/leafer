@@ -61,22 +61,6 @@ export const BoundsHelper = {
         return ot
     },
 
-    tempTimesMatrix(t: IBoundsData, matrix: IMatrixData): IBoundsData {
-        B.copy(B.tempBounds, t)
-        B.setByBoundsTimesMatrix(B.tempBounds, B.tempBounds, matrix)
-        return B.tempBounds
-    },
-
-    timesMatrix(t: IBoundsData, matrix: IMatrixData): void {
-        B.setByBoundsTimesMatrix(t, t, matrix)
-    },
-
-    getByTimesMatrix(t: IBoundsData, matrix: IMatrixData): IBoundsData {
-        t = { ...t }
-        B.setByBoundsTimesMatrix(t, t, matrix)
-        return t
-    },
-
     scale(t: IBoundsData, scale: number): void {
         t.x *= scale
         t.y *= scale
@@ -84,7 +68,57 @@ export const BoundsHelper = {
         t.height *= scale
     },
 
-    /**divideMatrix(t: IBoundsData, matrix: IMatrixData): void {
+    tempToWorld(t: IBoundsData, matrix: IMatrixData): IBoundsData {
+        B.copy(B.tempBounds, t)
+        B.toWorld(B.tempBounds, matrix)
+        return B.tempBounds
+    },
+
+    getWorld(t: IBoundsData, matrix: IMatrixData): IBoundsData {
+        t = { ...t }
+        B.toWorld(t, matrix)
+        return t
+    },
+
+    toWorld(t: IBoundsData, matrix: IMatrixData, to?: IBoundsData): void {
+
+        to || (to = t)
+
+        if (matrix.b === 0 && matrix.c === 0) {
+
+            to.x = matrix.e + t.x * matrix.a
+            to.y = matrix.f + t.y * matrix.d
+            to.width = t.width * matrix.a
+            to.height = t.height * matrix.d
+
+        } else {
+
+            point.x = t.x
+            point.y = t.y
+
+            toWorldPoint(matrix, point, toPoint)
+            setPoint(tempPointBounds, toPoint.x, toPoint.y)
+
+            point.x = t.x + t.width
+
+            toWorldPoint(matrix, point, toPoint)
+            addPoint(tempPointBounds, toPoint.x, toPoint.y)
+
+            point.y = t.y + t.height
+
+            toWorldPoint(matrix, point, toPoint)
+            addPoint(tempPointBounds, toPoint.x, toPoint.y)
+
+            point.x = t.x
+
+            toWorldPoint(matrix, point, toPoint)
+            addPoint(tempPointBounds, toPoint.x, toPoint.y)
+
+            toBounds(tempPointBounds, to)
+        }
+    },
+
+    /**toLocal(t: IBoundsData, matrix: IMatrixData): void {
         t.x = (t.x - matrix.e) / matrix.a
         t.y = (t.y - matrix.f) / matrix.d
         t.width /= matrix.a
@@ -160,43 +194,6 @@ export const BoundsHelper = {
         }
     },
 
-    setByBoundsTimesMatrix(t: IBoundsData, bounds: IBoundsData, matrix: IMatrixData): void {
-
-        if (matrix.b === 0 && matrix.c === 0) {
-
-            t.x = matrix.e + bounds.x * matrix.a
-            t.y = matrix.f + bounds.y * matrix.d
-            t.width = bounds.width * matrix.a
-            t.height = bounds.height * matrix.d
-
-        } else {
-
-            point.x = bounds.x
-            point.y = bounds.y
-
-            toWorldPoint(matrix, point, toPoint)
-            setPoint(tempPointBounds, toPoint.x, toPoint.y)
-
-            point.x = bounds.x + bounds.width
-
-            toWorldPoint(matrix, point, toPoint)
-            addPoint(tempPointBounds, toPoint.x, toPoint.y)
-
-            point.y = bounds.y + bounds.height
-
-            toWorldPoint(matrix, point, toPoint)
-            addPoint(tempPointBounds, toPoint.x, toPoint.y)
-
-            point.x = bounds.x
-
-            toWorldPoint(matrix, point, toPoint)
-            addPoint(tempPointBounds, toPoint.x, toPoint.y)
-
-            toBounds(tempPointBounds, t)
-        }
-    },
-
-
     setByPoints(t: IBoundsData, points: IPointData[]): void {
         points.forEach((point, index) => {
             index === 0 ? setPoint(tempPointBounds, point.x, point.y) : addPoint(tempPointBounds, point.x, point.y)
@@ -216,17 +213,17 @@ export const BoundsHelper = {
 
 
     hit(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): boolean {
-        if (otherMatrix) other = B.tempTimesMatrix(other, otherMatrix)
+        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
         return !((t.y + t.height < other.y) || (other.y + other.height < t.y) || (t.x + t.width < other.x) || (other.x + other.width < t.x))
     },
 
     includes(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): boolean {
-        if (otherMatrix) other = B.tempTimesMatrix(other, otherMatrix)
+        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
         return (t.x <= other.x) && (t.y <= other.y) && (t.x + t.width >= other.x + other.width) && (t.y + t.height >= other.y + other.height)
     },
 
     getIntersectData(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): IBoundsData {
-        if (otherMatrix) other = B.tempTimesMatrix(other, otherMatrix)
+        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
         let { x, y, width, height } = other
 
         right = x + width
@@ -245,7 +242,7 @@ export const BoundsHelper = {
         return { x, y, width, height }
     },
 
-    setByIntersect(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): void {
+    intersect(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): void {
         B.copy(t, B.getIntersectData(t, other, otherMatrix))
     },
 

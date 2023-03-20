@@ -2,7 +2,7 @@ import { ILeaf, ILeafLayout, ILayoutLocationType, ILayoutBoundsType, IBoundsData
 import { BoundsHelper } from '@leafer/math'
 
 
-const { setByBoundsTimesMatrix } = BoundsHelper
+const { toWorld } = BoundsHelper
 
 export class LeafLayout implements ILeafLayout {
 
@@ -129,13 +129,13 @@ export class LeafLayout implements ILeafLayout {
 
     protected getWorldBoxBounds(): IBoundsData {
         this._worldBoxBounds || (this._worldBoxBounds = {} as IBoundsData)
-        setByBoundsTimesMatrix(this._worldBoxBounds, this.boxBounds, this.leaf.__world)
+        toWorld(this.boxBounds, this.leaf.__world, this._worldBoxBounds)
         return this._worldBoxBounds
     }
 
     protected getWorldEventBounds(): IBoundsData {
         this._worldEventBounds || (this._worldEventBounds = {} as IBoundsData)
-        setByBoundsTimesMatrix(this._worldEventBounds, this.eventBounds, this.leaf.__world)
+        toWorld(this.eventBounds, this.leaf.__world, this._worldEventBounds)
         return this._worldEventBounds
     }
 

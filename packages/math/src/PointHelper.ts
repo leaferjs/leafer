@@ -49,20 +49,20 @@ export const PointHelper = {
         return temp
     },
 
-    toLocalRadiusPoint(t: IRadiusPointData, matrix: IMatrixData, setLocal?: IRadiusPointData): void {
-        setLocal || (setLocal = t)
-        toLocalPoint(matrix, t, setLocal)
-        setLocal.radiusX = t.radiusX / matrix.a
-        setLocal.radiusY = t.radiusY / matrix.d
+    toLocalRadiusPoint(t: IRadiusPointData, matrix: IMatrixData, to?: IRadiusPointData): void {
+        to || (to = t)
+        toLocalPoint(matrix, t, to)
+        to.radiusX = t.radiusX / matrix.a
+        to.radiusY = t.radiusY / matrix.d
     },
 
 
-    toLocal(t: IPointData, matrix: IMatrixData, setLocal?: IPointData): void {
-        toLocalPoint(matrix, t, setLocal)
+    toLocal(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
+        toLocalPoint(matrix, t, to)
     },
 
-    toWorld(t: IPointData, matrix: IMatrixData, setWorld?: IPointData): void {
-        toWorldPoint(matrix, t, setWorld)
+    toWorld(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
+        toWorldPoint(matrix, t, to)
     },
 
 

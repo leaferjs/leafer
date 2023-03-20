@@ -2,7 +2,7 @@ import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 
 
-const { setByBoundsTimesMatrix } = BoundsHelper
+const { toWorld, copyAndSpread } = BoundsHelper
 
 export const LeafBounds: ILeafBoundsModule = {
 
@@ -85,26 +85,26 @@ export const LeafBounds: ILeafBoundsModule = {
 
             layout.boundsChanged = false
 
-            setByBoundsTimesMatrix(this.__world, this.__layout.renderBounds, this.__world)
+            toWorld(this.__layout.renderBounds, this.__world, this.__world)
 
             if (resize) this.__onUpdateSize()
 
         } else {
-            setByBoundsTimesMatrix(this.__world, this.__layout.renderBounds, this.__world)
+            toWorld(this.__layout.renderBounds, this.__world, this.__world)
         }
 
     },
 
     __updateRelativeBoxBounds(): void {
-        setByBoundsTimesMatrix(this.__relative, this.__layout.boxBounds, this.__relative)
+        toWorld(this.__layout.boxBounds, this.__relative, this.__relative)
     },
 
     __updateRelativeEventBounds(): void {
-        setByBoundsTimesMatrix(this.__layout.relativeEventBounds, this.__layout.eventBounds, this.__relative)
+        toWorld(this.__layout.eventBounds, this.__relative, this.__layout.relativeEventBounds)
     },
 
     __updateRelativeRenderBounds(): void {
-        setByBoundsTimesMatrix(this.__layout.relativeRenderBounds, this.__layout.renderBounds, this.__relative)
+        toWorld(this.__layout.renderBounds, this.__relative, this.__layout.relativeRenderBounds)
     },
 
 
@@ -114,6 +114,14 @@ export const LeafBounds: ILeafBoundsModule = {
         b.y = 0
         b.width = this.__.width
         b.height = this.__.height
-    }
+    },
+
+    __updateEventBounds(): void {
+        copyAndSpread(this.__layout.eventBounds, this.__layout.boxBounds, this.__layout.eventBoundsSpreadWidth)
+    },
+
+    __updateRenderBounds(): void {
+        copyAndSpread(this.__layout.renderBounds, this.__layout.eventBounds, this.__layout.renderBoundsSpreadWidth)
+    },
 
 }

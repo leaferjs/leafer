@@ -1,6 +1,6 @@
 export { IApp } from './app/IApp'
 export { ILeafer, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 

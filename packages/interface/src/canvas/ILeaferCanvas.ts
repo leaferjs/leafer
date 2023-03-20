@@ -10,6 +10,8 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
     fill?: string
     pixelRatio?: number
+    hitable?: boolean
+    offscreen?: boolean
     webgl?: boolean
 }
 
@@ -132,13 +134,12 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     bounds: IBounds
 
     view: unknown
+    offscreen: boolean
     context: ICanvasContext2D
 
     recycled?: boolean
 
-    debug(): void
-
-    autoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
+    startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
     stopAutoLayout(): void
 
     resize(size: IScreenSizeData): void

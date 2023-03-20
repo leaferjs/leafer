@@ -89,29 +89,29 @@ export const MatrixHelper = {
         t.f = -(f * a - e * b) * s
     },
 
-    toWorldPoint(t: IMatrixData, local: IPointData, setWorld?: IPointData): void {
+    toWorldPoint(t: IMatrixData, local: IPointData, to?: IPointData): void {
         const { x, y } = local
 
         // world
-        setWorld || (setWorld = local)
-        setWorld.x = (x * t.a) + (y * t.c) + t.e
-        setWorld.y = (x * t.b) + (y * t.d) + t.f
+        to || (to = local)
+        to.x = (x * t.a) + (y * t.c) + t.e
+        to.y = (x * t.b) + (y * t.d) + t.f
     },
 
-    toLocalPoint(t: IMatrixData, world: IPointData, setLocal?: IPointData, fromOrigin?: boolean): void {
+    toLocalPoint(t: IMatrixData, world: IPointData, to?: IPointData, fromOrigin?: boolean): void {
         const { x, y } = world
         const { a, b, c, d } = t
         const s = 1 / (a * d - b * c)
 
         // local
-        setLocal || (setLocal = world)
-        setLocal.x = (x * d - y * c) * s
-        setLocal.y = (y * a - x * b) * s
+        to || (to = world)
+        to.x = (x * d - y * c) * s
+        to.y = (y * a - x * b) * s
 
         if (!fromOrigin) {
             const { e, f } = t
-            setLocal.x -= (e * d - f * c) * s
-            setLocal.y -= (f * a - e * b) * s
+            to.x -= (e * d - f * c) * s
+            to.y -= (f * a - e * b) * s
         }
     },
 

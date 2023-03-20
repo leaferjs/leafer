@@ -39,9 +39,6 @@ export class Leaf implements ILeaf {
     public __renderTime: number // μs 1000微秒 = 1毫秒
     public __complex: boolean // 外观是否复杂
 
-    public __interactionOff: boolean
-    public __childrenInteractionOff: boolean
-
     public __level: number // 所在层级 0 -> 高
     public __tempNumber: number // 用于排序，记录最后一次在parent中的排序索引，可用于移除之后回退
 

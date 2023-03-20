@@ -46,25 +46,28 @@ export class Matrix implements IMatrix {
     }
 
 
-    public times(matrix: IMatrixData): void {
+    public times(matrix: IMatrixData): IMatrix {
         M.times(this, matrix)
+        return this
     }
 
-    public divide(matrix: IMatrixData): void {
+    public divide(matrix: IMatrixData): IMatrix {
         M.divide(this, matrix)
+        return this
     }
 
-    public invert(): void {
+    public invert(): IMatrix {
         M.invert(this)
+        return this
     }
 
 
-    public toWorldPoint(local: IPointData, world?: IPointData): void {
-        M.toWorldPoint(this, local, world)
+    public toWorldPoint(local: IPointData, to?: IPointData): void {
+        M.toWorldPoint(this, local, to)
     }
 
-    public toLocalPoint(world: IPointData, local?: IPointData): void {
-        M.toLocalPoint(this, world, local)
+    public toLocalPoint(world: IPointData, to?: IPointData): void {
+        M.toLocalPoint(this, world, to)
     }
 
 

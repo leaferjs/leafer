@@ -32,8 +32,8 @@ export class Bounds implements IBounds {
         return this
     }
 
-    public timesMatrix(matrix: IMatrixData): IBounds {
-        B.timesMatrix(this, matrix)
+    public toWorld(matrix: IMatrixData, to: IBoundsData): IBounds {
+        B.toWorld(this, matrix, to)
         return this
     }
 
@@ -41,42 +41,46 @@ export class Bounds implements IBounds {
         return B.getFitMatrix(this, put)
     }
 
-    public spread(size: number): void {
+    public spread(size: number): IBounds {
         B.spread(this, size)
+        return this
     }
 
-    public ceil(): void {
+    public ceil(): IBounds {
         B.ceil(this)
+        return this
     }
 
 
 
-    public add(bounds: IBoundsData): void {
+    public add(bounds: IBoundsData): IBounds {
         B.add(this, bounds)
+        return this
     }
 
-    public addList(boundsList: IBounds[]): void {
+    public addList(boundsList: IBounds[]): IBounds {
         B.setByList(this, boundsList, true)
+        return this
     }
 
-    public setByList(boundsList: IBounds[], addMode?: boolean): void {
+    public setByList(boundsList: IBounds[], addMode?: boolean): IBounds {
         B.setByList(this, boundsList, addMode)
+        return this
     }
 
-    public addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): void {
+    public addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds {
         B.setByListWithHandle(this, list, boundsDataHandle, true)
+        return this
     }
 
-    public setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): void {
+    public setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds {
         B.setByListWithHandle(this, list, boundsDataHandle, addMode)
+        return this
     }
 
-    public setByBoundsTimesMatrix(fromBounds: IBoundsData, fromMatrix: IMatrixData): void {
-        B.setByBoundsTimesMatrix(this, fromBounds, fromMatrix)
-    }
-
-    public setByPoints(points: IPointData[]): void {
+    public setByPoints(points: IPointData[]): IBounds {
         B.setByPoints(this, points)
+        return this
     }
 
 
@@ -98,14 +102,14 @@ export class Bounds implements IBounds {
     }
 
 
+    public intersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): IBounds {
+        B.intersect(this, bounds, boundsMatrix)
+        return this
+    }
+
     public getIntersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): IBounds {
         return new Bounds(B.getIntersectData(this, bounds, boundsMatrix))
     }
-
-    public setByIntersect(bounds: IBoundsData, boundsMatrix?: IMatrixData): void {
-        B.setByIntersect(this, bounds, boundsMatrix)
-    }
-
 
 
     public isSame(bounds: IBoundsData): boolean {

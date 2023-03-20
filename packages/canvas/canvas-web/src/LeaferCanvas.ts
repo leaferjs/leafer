@@ -1,6 +1,7 @@
 import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ICanvasContext2D, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule } from '@leafer/interface'
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { ResizeEvent } from '@leafer/event'
+import { Platform } from '@leafer/platform'
 import { Debug } from '@leafer/debug'
 
 import { CanvasBase } from './CanvasBase'
@@ -15,19 +16,20 @@ const minSize: IScreenSizeData = {
     pixelRatio: 1
 }
 
-
 export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
 
-    public readonly innerId: InnerId
-
     public manager: ICanvasManager
-    public view: HTMLCanvasElement
+
+    public readonly innerId: InnerId
 
     public pixelRatio: number
     public get pixelWidth(): number { return this.width * this.pixelRatio }
     public get pixelHeight(): number { return this.height * this.pixelRatio }
 
     public bounds: IBounds
+
+    public view: HTMLCanvasElement | OffscreenCanvas
+    public offscreen: boolean
 
     public recycled?: boolean
 
@@ -41,79 +43,105 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         this.manager = manager
         this.innerId = IncrementId.create(IncrementId.CNAVAS)
 
-        if (config.view) {
+        const { view, width, height, pixelRatio, fill, hitable: pointerEvents } = config
+        const autoLayout = !width || !height
 
-            const { view } = config
+        this.pixelRatio = pixelRatio
+        this.offscreen = Platform.isWorker || config.offscreen
 
-            let realView: unknown = (typeof view === 'string') ? document.getElementById(view) : view as HTMLElement
-            if (realView) {
-                if (realView instanceof HTMLCanvasElement) {
-
-                    this.view = realView
-
-                } else {
-                    if (realView === window || realView === document) {
-                        const div = document.createElement('div')
-                        const { style } = div
-                        style.position = 'absolute'
-                        style.top = style.bottom = style.left = style.right = '0px'
-                        style.overflow = 'hidden'
-                        document.body.appendChild(div)
-                        realView = div
-                    }
-
-                    this.view = document.createElement('canvas');
-                    (realView as HTMLElement).appendChild(this.view)
-                }
-            } else {
-                debug.error(`can't find view by id: ${view}`)
-            }
-
+        if (this.offscreen) {
+            view ? this.view = view as OffscreenCanvas : this.__createView()
+        } else {
+            view ? this.__createViewFrom(view) : this.__createView()
+            const { style } = this.view as HTMLCanvasElement
+            if (fill) style.backgroundColor = fill
+            if (!pointerEvents) style.pointerEvents = 'none'
+            if (autoLayout) style.display || (style.display = 'block')
         }
 
-        if (!this.view) this.view = document.createElement('canvas')
-        this.pixelRatio = config.pixelRatio
+        this.__init()
+        if (!autoLayout) this.resize(config as IScreenSizeData)
+    }
 
-        if (!config.webgl) {
-            this.context = this.view.getContext('2d') as ICanvasContext2D
-            this.smooth = true
-            if (config.fill) this.view.style.backgroundColor = config.fill
-            if (config.width && config.height) this.resize(config as IScreenSizeData)
+    protected __init(): void {
+        this.context = this.view.getContext('2d') as ICanvasContext2D
+        this.smooth = true
+        this.__bindContext()
+    }
 
-            this.bindContextMethod()
+    protected __createView(): void {
+        this.view = this.offscreen ? new OffscreenCanvas(1, 1) : document.createElement('canvas')
+    }
+
+    protected __createViewFrom(inputView: string | object): void {
+        let find: unknown = (typeof inputView === 'string') ? document.getElementById(inputView) : inputView as HTMLElement
+        if (find) {
+            if (find instanceof HTMLCanvasElement) {
+
+                this.view = find
+
+            } else {
+
+                let parent = find as HTMLDivElement
+                if (find === window || find === document) {
+                    const div = document.createElement('div')
+                    const { style } = div
+                    style.position = 'absolute'
+                    style.top = style.bottom = style.left = style.right = '0px'
+                    style.overflow = 'hidden'
+                    document.body.appendChild(div)
+                    parent = div
+                }
+
+                this.__createView()
+                const view = this.view as HTMLCanvasElement
+
+                if (parent.hasChildNodes()) {
+                    const { style } = view
+                    style.position = 'absolute'
+                    style.top = style.left = '0px'
+                    parent.style.position || (parent.style.position = 'relative')
+                }
+
+                parent.appendChild(view)
+            }
+        } else {
+            debug.error(`can't find view by id: ${inputView}`)
+            this.__createView()
         }
     }
 
-    public debug(): void { }
-
     public pixel(num: number): number { return num * this.pixelRatio }
 
-    public autoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
-        const check = (parentSize: ISizeData) => {
-            const { x, y, width, height } = autoBounds.getBoundsFrom(parentSize)
-            const { style } = this.view
-            style.marginLeft = x + 'px'
-            style.marginTop = y + 'px'
+    public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
+        if (!this.offscreen) {
+            const view = this.view as HTMLCanvasElement
+            const check = (parentSize: ISizeData) => {
+                const { x, y, width, height } = autoBounds.getBoundsFrom(parentSize)
+                const { style } = view
+                style.marginLeft = x + 'px'
+                style.marginTop = y + 'px'
 
-            if (width !== this.width || height !== this.height) {
-                const { pixelRatio } = this
-                const size = { width, height, pixelRatio }
-                const oldSize = { width: this.width, height: this.height, pixelRatio: this.pixelRatio }
-                this.resize(size)
-                if (this.width !== undefined) listener(new ResizeEvent(size, oldSize))
+                if (width !== this.width || height !== this.height) {
+                    const { pixelRatio } = this
+                    const size = { width, height, pixelRatio }
+                    const oldSize = { width: this.width, height: this.height, pixelRatio: this.pixelRatio }
+                    this.resize(size)
+                    if (this.width !== undefined) listener(new ResizeEvent(size, oldSize))
+                }
             }
-        }
 
-        this.resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                check(entry.contentRect)
+            this.resizeObserver = new ResizeObserver((entries) => {
+                for (const entry of entries) {
+                    check(entry.contentRect)
+                }
+            })
+
+            const parent = view.parentElement
+            if (parent) {
+                this.resizeObserver.observe(parent)
+                check(parent.getBoundingClientRect())
             }
-        })
-
-        const parent = this.view.parentElement
-        if (parent) {
-            this.resizeObserver.observe(parent)
-            check(parent.getBoundingClientRect())
         }
     }
 
@@ -125,7 +153,6 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
     }
 
     public resize(size: IScreenSizeData): void {
-        const { style } = this.view
         const { width, height, pixelRatio } = size
         if (this.isSameSize(size)) return
 
@@ -138,8 +165,12 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         Object.assign(this, { width, height, pixelRatio })
         this.bounds = new Bounds(0, 0, width, height)
 
-        style.width = width + 'px'
-        style.height = height + 'px'
+        if (!this.offscreen) {
+            const { style } = this.view as HTMLCanvasElement
+            style.width = width + 'px'
+            style.height = height + 'px'
+        }
+
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio
 
@@ -246,7 +277,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (fromWorld.b || fromWorld.c) {
             this.save()
             this.resetTransform()
-            this.copyWorld(canvas, fromWorld, BoundsHelper.tempTimesMatrix(toLocalBounds, fromWorld))
+            this.copyWorld(canvas, fromWorld, BoundsHelper.tempToWorld(toLocalBounds, fromWorld))
             this.restore()
         } else {
             this.drawImage(canvas.view as HTMLCanvasElement, fromWorld.x * pixelRatio, fromWorld.y * pixelRatio, fromWorld.width * pixelRatio, fromWorld.height * pixelRatio, toLocalBounds.x, toLocalBounds.y, toLocalBounds.width, toLocalBounds.height)
@@ -329,10 +360,13 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         if (this.view) {
             super.destroy()
             this.stopAutoLayout()
+            if (!this.offscreen) {
+                const view = this.view as HTMLCanvasElement
+                if (view.parentElement) view.remove()
+            }
             this.manager = null
-            if (this.view && this.view.parentElement) this.view.remove()
             this.view = null
-            this.bounds = null
+            this.context = null
         }
     }
 
