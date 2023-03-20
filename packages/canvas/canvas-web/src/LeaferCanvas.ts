@@ -43,7 +43,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         this.manager = manager
         this.innerId = IncrementId.create(IncrementId.CNAVAS)
 
-        const { view, width, height, pixelRatio, fill, hitable: pointerEvents } = config
+        const { view, width, height, pixelRatio, fill, hitable } = config
         const autoLayout = !width || !height
 
         this.pixelRatio = pixelRatio
@@ -55,7 +55,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
             view ? this.__createViewFrom(view) : this.__createView()
             const { style } = this.view as HTMLCanvasElement
             if (fill) style.backgroundColor = fill
-            if (!pointerEvents) style.pointerEvents = 'none'
+            if (!hitable) style.pointerEvents = 'none'
             if (autoLayout) style.display || (style.display = 'block')
         }
 
