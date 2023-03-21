@@ -47,7 +47,7 @@ export interface ILeafAttrData {
 
     draggable: __Boolean
 
-    hitable: __Boolean
+    hittable: __Boolean
     hitType: IHitType
     hitChildren: __Boolean
 }
@@ -77,7 +77,7 @@ export interface ILeafInputData {
 
     draggable?: __Boolean
 
-    hitable?: __Boolean
+    hittable?: __Boolean
     hitType?: IHitType
     hitChildren?: __Boolean
 }
@@ -104,9 +104,13 @@ export interface ILeafComputedData {
 
     draggable?: boolean
 
-    hitable?: boolean
+    hittable?: boolean
     hitType?: IHitType
     hitChildren?: boolean
+
+    // other
+    __childBranchNumber?: number // 存在子分支的个数
+    __complex?: boolean // 外观是否复杂
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -130,7 +134,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __worldOpacity: number
     __renderTime: number // μs 1000微秒 = 1毫秒
-    __complex: boolean // 外观是否复杂
 
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态
@@ -183,6 +186,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __draw(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __updateWorldOpacity(): void
+    __updateRenderTime(): void
     __updateChange(): void
 
     // path
@@ -193,7 +197,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // branch
     children?: ILeaf[]
-    __childBranchNumber?: number // 存在子分支的个数
 
     __updateSortChildren(): void
     add(child: ILeaf, index?: number): void

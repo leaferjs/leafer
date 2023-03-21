@@ -10,7 +10,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
     fill?: string
     pixelRatio?: number
-    hitable?: boolean
+    hittable?: boolean
     offscreen?: boolean
     webgl?: boolean
 }

@@ -43,7 +43,7 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
         this.manager = manager
         this.innerId = IncrementId.create(IncrementId.CNAVAS)
 
-        const { view, width, height, pixelRatio, fill, hitable } = config
+        const { view, width, height, pixelRatio, fill, hittable: hitable } = config
         const autoLayout = !width || !height
 
         this.pixelRatio = pixelRatio

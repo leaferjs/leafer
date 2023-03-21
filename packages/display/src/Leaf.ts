@@ -37,7 +37,6 @@ export class Leaf implements ILeaf {
 
     public __worldOpacity: number
     public __renderTime: number // μs 1000微秒 = 1毫秒
-    public __complex: boolean // 外观是否复杂
 
     public __level: number // 所在层级 0 -> 高
     public __tempNumber: number // 用于排序，记录最后一次在parent中的排序索引，可用于移除之后回退
@@ -53,7 +52,6 @@ export class Leaf implements ILeaf {
 
     // branch 
     public children?: ILeaf[]
-    public __childBranchNumber?: number
 
     constructor(data?: ILeafInputData) {
 
@@ -120,14 +118,6 @@ export class Leaf implements ILeaf {
     // ---
 
 
-    // worldOpacity rewrite, include visible
-
-    public __updateWorldOpacity(): void { }
-
-    // ---
-
-
-
     // LeafMatrix rewrite
 
     public __updateWorldMatrix(): void { }
@@ -185,6 +175,10 @@ export class Leaf implements ILeaf {
     public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+
+    public __updateWorldOpacity(): void { }
+
+    public __updateRenderTime(): void { }
 
     public __updateChange(): void { }
 

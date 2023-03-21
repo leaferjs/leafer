@@ -17,9 +17,9 @@ import { IEvent } from '../event/IEvent'
 
 
 export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IInteractionConfig, ILayouterConfig {
-    start?: boolean
-    zoom?: boolean
-    move?: boolean
+    autoStart?: boolean
+    useZoom?: boolean
+    useMove?: boolean
 }
 
 export interface ILeafer extends IZoomView {

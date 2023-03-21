@@ -69,7 +69,7 @@ export class PathFinder {
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
-            if (child.__.hitable) {
+            if (child.__.hittable) {
                 if (hitRadiusPoint(child.__world, point)) {
                     if (child.__isBranch && child.__.hitChildren) this.eachThroughFind(child.children)
 
@@ -85,7 +85,7 @@ export class PathFinder {
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
-            if (child.__.hitable) {
+            if (child.__.hittable) {
                 if (hitRadiusPoint(child.__world, point)) {
                     if (child.__isBranch) {
 
