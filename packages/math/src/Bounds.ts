@@ -32,7 +32,7 @@ export class Bounds implements IBounds {
         return this
     }
 
-    public toWorld(matrix: IMatrixData, to: IBoundsData): IBounds {
+    public toWorld(matrix: IMatrixData, to?: IBoundsData): IBounds {
         B.toWorld(this, matrix, to)
         return this
     }

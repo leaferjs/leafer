@@ -1,6 +1,6 @@
 {
   "name": "@leafer/canvas-web",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.21",
   "description": "@leafer/canvas-web",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,11 +17,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/math": "1.0.0-alpha.10",
-    "@leafer/event": "1.0.0-alpha.10",
-    "@leafer/debug": "1.0.0-alpha.10"
+    "@leafer/math": "1.0.0-alpha.21",
+    "@leafer/event": "1.0.0-alpha.21",
+    "@leafer/debug": "1.0.0-alpha.21"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-alpha.10"
+     "@leafer/interface": "1.0.0-alpha.21"
   }
 }

@@ -1,10 +1,8 @@
 import { IResizeEvent, IScreenSizeData } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class ResizeEvent extends Event implements IResizeEvent {
 
     static RESIZE: string = 'resize'

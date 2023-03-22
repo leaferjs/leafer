@@ -1,10 +1,8 @@
 import { ILayoutEvent, ILayoutBlockData } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class LayoutEvent extends Event implements ILayoutEvent {
 
     static REQUEST = 'layout.request'

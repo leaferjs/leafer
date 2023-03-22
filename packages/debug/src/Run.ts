@@ -33,9 +33,7 @@ export class Run {
     static end(id: number, microsecond?: boolean): void {
         const time = R.idMap[id]
         const name = R.nameMap[id]
-        R.idMap[id] = undefined
-        R.nameMap[id] = undefined
-        R.nameToIdMap[name] = undefined
+        R.idMap[id] = R.nameMap[id] = R.nameToIdMap[name] = undefined
 
         if (microsecond) {
             debug.log(name, performance.now() - time, 'µs')

@@ -1,10 +1,10 @@
 import { IRotateEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { UIEvent } from './UIEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class RotateEvent extends UIEvent implements IRotateEvent {
 
     static ROTATE = 'rotate'

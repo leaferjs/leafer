@@ -24,6 +24,10 @@ export interface IEventTarget extends IEventer {
 
 }
 
+export interface ILeaferEvent {
+
+}
+
 export interface IRenderEvent {
 
 }

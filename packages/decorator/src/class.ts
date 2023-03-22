@@ -7,7 +7,7 @@ export function registerUI() {
     }
 }
 
-export function registerEvent() {
+export function registerUIEvent() {
     return (target: IObject) => {
         EventCreator.register(target)
     }

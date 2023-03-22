@@ -1,5 +1,6 @@
 import { IScreenSizeData, IHitCanvasManager, ILeaf, IHitCanvas, ILeaferCanvas, ILeafList } from '@leafer/interface'
 import { LeafList } from '@leafer/list'
+import { Creator } from '@leafer/platform'
 
 import { CanvasManager } from './CanvasManager'
 
@@ -13,12 +14,12 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
 
     public getImageType(leaf: ILeaf, size: IScreenSizeData): IHitCanvas {
         this.imageTypeList.push(leaf)
-        return this.leafer.creator.hitCanvas(size)
+        return Creator.hitCanvas(size)
     }
 
     public getPathType(leaf: ILeaf): IHitCanvas {
         this.pathTypeList.push(leaf)
-        return this.leafer.creator.hitCanvas()
+        return Creator.hitCanvas()
     }
 
     public clearImageType(): void {

@@ -1,15 +1,9 @@
-import { ILeaferCanvas, IScreenSizeData, ILeafer, ICanvasManager } from '@leafer/interface'
-
+import { ILeaferCanvas, IScreenSizeData, ICanvasManager } from '@leafer/interface'
+import { Creator } from '@leafer/platform'
 
 export class CanvasManager implements ICanvasManager {
 
-    public leafer: ILeafer
-
     public list: ILeaferCanvas[] = []
-
-    constructor(leafer: ILeafer) {
-        this.leafer = leafer
-    }
 
     public add(canvas: ILeaferCanvas): void {
         canvas.manager = this
@@ -27,7 +21,7 @@ export class CanvasManager implements ICanvasManager {
             }
         }
 
-        const canvas = this.leafer.creator.canvas(size)
+        const canvas = Creator.canvas(size)
         this.add(canvas)
         return canvas
     }
@@ -56,7 +50,6 @@ export class CanvasManager implements ICanvasManager {
 
     public destory(): void {
         this.clear()
-        this.leafer = null
     }
 
 }

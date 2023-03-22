@@ -5,6 +5,7 @@ export { TransformEvent } from './TransformEvent'
 export { WatchEvent } from './WatchEvent'
 export { LayoutEvent } from './LayoutEvent'
 export { RenderEvent } from './RenderEvent'
+export { LeaferEvent } from './LeaferEvent'
 
 export { Event } from './Event'
 

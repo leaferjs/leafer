@@ -1,10 +1,8 @@
 import { IRenderEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class RenderEvent extends Event implements IRenderEvent {
 
     static REQUEST = 'render.request'

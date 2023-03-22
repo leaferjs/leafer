@@ -1,10 +1,8 @@
 import { IAttrEvent, IEventTarget } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class AttrEvent extends Event implements IAttrEvent {
 
     static CHANGE = 'attr.change'

@@ -1,5 +1,5 @@
 import { IUIEvent, ILeaf, ILeafList } from '@leafer/interface'
-import { Creator } from '@leafer/platform'
+import { EventCreator } from '@leafer/platform'
 
 export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void {
     if (!path && !data.path) return
@@ -20,7 +20,7 @@ export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath
 
         if (leaf.hasEvent(type, true) && (!excludePath || !excludePath.has(leaf))) {
             data.phase = 1
-            const event = Creator.event(type, data)
+            const event = EventCreator.get(type, data)
             leaf.emitEvent(event, true)
             if (event.isStop) return
         }
@@ -32,7 +32,7 @@ export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath
 
         if (leaf.hasEvent(type, false) && (!excludePath || !excludePath.has(leaf))) {
             data.phase = (leaf === data.target) ? 2 : 3
-            const event = Creator.event(type, data)
+            const event = EventCreator.get(type, data)
             leaf.emitEvent(event)
             if (event.isStop) return
         }

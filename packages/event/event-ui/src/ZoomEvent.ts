@@ -1,9 +1,9 @@
 import { IZoomEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { UIEvent } from './UIEvent'
 
-@registerEvent()
+@registerUIEvent()
 export class ZoomEvent extends UIEvent implements IZoomEvent {
 
     static ZOOM = 'zoom'

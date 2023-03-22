@@ -37,7 +37,7 @@ export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VComma
 export { ILeaferImage, ILeaferImageConfig } from './image/ILeaferImage'
 
 export { InnerId, IEventer, IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
-export { IEventTarget, IEvent, IAttrEvent, ILayoutEvent, IRenderEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, ITransformEvent, ITransformEventData, TransformMode } from './event/IEvent'
+export { IEventTarget, IEvent, ILeaferEvent, IAttrEvent, ILayoutEvent, IRenderEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, ITransformEvent, ITransformEventData, TransformMode } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IKeyEvent } from './event/IUIEvent'
 export { IInteraction, IInteractionConfig, IWheelConfig, IPointerConfig } from './interaction/IInteraction'
 

@@ -1,10 +1,10 @@
 import { ISwipeEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { DragEvent } from './DragEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class SwipeEvent extends DragEvent implements ISwipeEvent {
 
     static SWIPE = 'swipe'

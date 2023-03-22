@@ -1,19 +1,17 @@
 import { ITransformEvent, ITransformEventData } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class TransformEvent extends Event implements ITransformEvent {
 
-    static BEFORE = 'transform.before'
+    static START = 'transform.start'
     static CHANGE = 'transform.change'
-    static AFTER = 'transform.after'
+    static END = 'transform.end'
 
-    static PRE_BEFORE = 'transform.pre_before'
-    static PRE_CHANGE = 'transform.pre_change'
-    static PRE_AFTER = 'transform.pre_after'
+    static BEFORE_START = 'transform.before_start'
+    static BEFORE_CHANGE = 'transform.before_change'
+    static BEFORE_END = 'transform.before_end'
 
     readonly x: number
     readonly y: number

@@ -17,7 +17,7 @@ export const BranchHelper = {
     pushAllChildBranch(branch: ILeaf, pushList: ILeafPushList): void {
         branch.__tempNumber = 1   // 标识需要更新子Leaf元素的WorldBounds分支 Layouter需使用
 
-        if (branch.__childBranchNumber) {
+        if (branch.__.__childBranchNumber) {
             const { children } = branch
             for (let i = 0, len = children.length; i < len; i++) {
                 branch = children[i]

@@ -1,10 +1,10 @@
 import { IPointerEvent, PointerType } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { UIEvent } from './UIEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class PointerEvent extends UIEvent implements IPointerEvent {
 
     static POINTER = 'pointer'

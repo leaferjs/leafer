@@ -1,6 +1,6 @@
 {
   "name": "@leafer/partner",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.21",
   "description": "@leafer/partner",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,10 +17,10 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/watcher": "1.0.0-alpha.10",
-    "@leafer/layouter": "1.0.0-alpha.10",
-    "@leafer/renderer": "1.0.0-alpha.10",
-    "@leafer/selector": "1.0.0-alpha.10"
+    "@leafer/watcher": "1.0.0-alpha.21",
+    "@leafer/layouter": "1.0.0-alpha.21",
+    "@leafer/renderer": "1.0.0-alpha.21",
+    "@leafer/selector": "1.0.0-alpha.21"
   }
 }
 

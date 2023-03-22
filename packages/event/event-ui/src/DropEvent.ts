@@ -1,11 +1,11 @@
 import { IDropEvent, ILeaf, ILeafList } from '@leafer/interface'
 import { LeafList } from '@leafer/list'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { PointerEvent } from './PointerEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class DropEvent extends PointerEvent implements IDropEvent {
 
     static DROP = 'drop'

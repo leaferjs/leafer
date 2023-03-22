@@ -1,10 +1,8 @@
 import { IWatchEvent, IWatchEventData } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class WatchEvent extends Event implements IWatchEvent {
 
     static REQUEST = 'watch.request'

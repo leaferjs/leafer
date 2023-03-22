@@ -95,7 +95,7 @@ export class Branch extends Leaf {
         child.parent = this
 
         index === undefined ? this.children.push(child) : this.children.splice(index, 0, child)
-        if (child.__isBranch) this.__.__childBranchNumber ? this.__.__childBranchNumber++ : this.__.__childBranchNumber = 1
+        if (child.__isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
 
         if (this.root) {
             child.__bindRoot(this.root)
@@ -115,7 +115,7 @@ export class Branch extends Leaf {
             if (index > -1) {
                 this.children.splice(index, 1)
 
-                if (child.__isBranch) this.__.__childBranchNumber > 1 ? this.__.__childBranchNumber-- : this.__.__childBranchNumber = 0
+                if (child.__isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
 
                 if (this.root) {
                     const event = new ChildEvent(ChildEvent.REMOVE, child, this)

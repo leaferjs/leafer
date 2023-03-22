@@ -1,10 +1,10 @@
 import { IKeyEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { UIEvent } from './UIEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class KeyEvent extends UIEvent implements IKeyEvent {
 
     static DOWN = 'key.down'

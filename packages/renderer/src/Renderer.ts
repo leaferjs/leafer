@@ -28,7 +28,7 @@ export class Renderer implements IRenderer {
 
     protected __eventIds: IEventListenerId[]
 
-    constructor(target: ILeaf, canvas: ILeaferCanvas, userConfig: IRendererConfig) {
+    constructor(target: ILeaf, canvas: ILeaferCanvas, userConfig?: IRendererConfig) {
         this.target = target
         this.canvas = canvas
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
@@ -96,7 +96,6 @@ export class Renderer implements IRenderer {
         target.emit(RenderEvent.ONCE)
         target.emit(RenderEvent.AFTER_ONCE)
 
-
         this.updateBlocks = null
 
         this.__checkAgain()
@@ -104,55 +103,48 @@ export class Renderer implements IRenderer {
 
     public partRender(): void {
         const { canvas, updateBlocks: list } = this
+        if (!list) return debug.warn('PartRender: need update attr')
 
-        if (!list) {
-            debug.warn('PartRender: layoutedBlocks is empty')
-            this.fullRender(canvas.bounds)
-            return
-        }
-
-        if (list.some(block => block.includes(this.target.__world))) {
-            this.mergeBlocks()
-            this.clipRender(this.updateBlocks[0], true)
-        } else {
-            list.forEach(block => {
-                if (canvas.bounds.hit(block) && !block.isEmpty()) this.clipRender(block.getIntersect(canvas.bounds))
-            })
-        }
+        if (list.some(block => block.includes(this.target.__world))) this.mergeBlocks()
+        list.forEach(block => { if (canvas.bounds.hit(block) && !block.isEmpty()) this.clipRender(block) })
     }
 
-    public clipRender(bounds: IBounds, fullMode?: boolean): void {
+    public clipRender(block: IBounds): void {
         const t = Run.start('PartRender')
-        const { canvas, target } = this
+        const { canvas } = this
 
-        bounds.spread(1 + 1 / this.canvas.pixelRatio)
-        bounds.ceil()
+        const bounds = block.getIntersect(canvas.bounds)
+        const includes = block.includes(this.target.__world)
 
         canvas.save()
-        canvas.clearWorld(bounds, true)
+        if (includes) {
+            canvas.clear()
+        } else {
+            bounds.spread(1 + 1 / this.canvas.pixelRatio).ceil()
+            canvas.clearWorld(bounds, true)
+            canvas.clipWorld(bounds, true)
+        }
         if (Debug.showRepaint) canvas.strokeWorld(bounds, 'red')
-        canvas.clipWorld(bounds, true)
-        target.__render(canvas, fullMode ? {} : { bounds })
+        this.__render(bounds)
         canvas.restore()
 
         Run.end(t)
     }
 
-    public fullRender(bounds?: IBounds): void {
-        const { canvas, target } = this
-        Renderer.fullRender(target, canvas, bounds)
-    }
-
-    static fullRender(target: ILeaf, canvas: ILeaferCanvas, bounds?: IBounds): void {
+    public fullRender(): void {
         const t = Run.start('FullRender')
-        if (!bounds) bounds = canvas.bounds
+        const { canvas } = this
 
         canvas.save()
         canvas.clear()
-        target.__render(canvas, canvas.bounds.includes(target.__world) ? {} : { bounds })
+        this.__render(canvas.bounds)
         canvas.restore()
 
         Run.end(t)
+    }
+
+    protected __render(bounds: IBounds): void {
+        this.target.__render(this.canvas, bounds.includes(this.target.__world) ? {} : { bounds })
     }
 
     public addBlock(block: IBounds): void {
@@ -161,11 +153,12 @@ export class Renderer implements IRenderer {
     }
 
     public mergeBlocks(): void {
-        const { updateBlocks } = this
-        if (updateBlocks) {
+        const { updateBlocks: list } = this
+        if (list) {
             const bounds = new Bounds()
-            bounds.setByList(updateBlocks)
-            this.updateBlocks = [bounds]
+            bounds.setByList(list)
+            list.length = 0
+            list.push(bounds)
         }
     }
 

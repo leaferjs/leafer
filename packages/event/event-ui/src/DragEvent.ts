@@ -1,10 +1,10 @@
 import { IDragEvent } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/decorator'
 
 import { PointerEvent } from './PointerEvent'
 
 
-@registerEvent()
+@registerUIEvent()
 export class DragEvent extends PointerEvent implements IDragEvent {
 
     static DRAG = 'drag'

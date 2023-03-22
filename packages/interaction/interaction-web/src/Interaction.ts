@@ -49,40 +49,40 @@ export class Interaction extends InteractionBase {
 
         // 优先使用PointerEvent > 再降级使用TouchEvent > MouseEvent
         this.viewEvents = {
-            'pointerdown': this.onPointerDown.bind(this),
-            'mousedown': this.onMouseDown.bind(this),
-            'touchstart': this.onTouchStart.bind(this),
+            'pointerdown': this.onPointerDown,
+            'mousedown': this.onMouseDown,
+            'touchstart': this.onTouchStart,
 
-            'wheel': this.onWheel.bind(this),
-            'gesturestart': this.onGesturestart.bind(this),
-            'gesturechange': this.onGesturechange.bind(this),
-            'gestureend': this.onGestureend.bind(this)
+            'wheel': this.onWheel,
+            'gesturestart': this.onGesturestart,
+            'gesturechange': this.onGesturechange,
+            'gestureend': this.onGestureend
         }
 
         this.windowEvents = {
-            'pointermove': this.onPointerMove.bind(this),
-            'pointerup': this.onPointerUp.bind(this),
-            'pointercancel': this.onPointerCancel.bind(this),
+            'pointermove': this.onPointerMove,
+            'pointerup': this.onPointerUp,
+            'pointercancel': this.onPointerCancel,
 
-            'mousemove': this.onMouseMove.bind(this),
-            'mouseup': this.onMouseUp.bind(this),
+            'mousemove': this.onMouseMove,
+            'mouseup': this.onMouseUp,
 
             // touch / multitouch
-            'touchmove': this.onTouchMove.bind(this),
-            'touchend': this.onTouchEnd.bind(this),
-            'touchcancel': this.onTouchCancel.bind(this),
+            'touchmove': this.onTouchMove,
+            'touchend': this.onTouchEnd,
+            'touchcancel': this.onTouchCancel,
 
-            'keydown': this.onKeyDown.bind(this),
-            'keyup': this.onKeyUp.bind(this)
+            'keydown': this.onKeyDown,
+            'keyup': this.onKeyUp
         }
 
 
         for (let name in this.viewEvents) {
-            view.addEventListener(name, this.viewEvents[name])
+            view.addEventListener(name, this.viewEvents[name].bind(this))
         }
 
         for (let name in this.windowEvents) {
-            window.addEventListener(name, this.windowEvents[name])
+            window.addEventListener(name, this.windowEvents[name].bind(this))
         }
 
         window.oncontextmenu = function () { return false }
@@ -124,14 +124,14 @@ export class Interaction extends InteractionBase {
 
     // pointer
     protected onPointerDown(e: PointerEvent): void {
-        if (!this.usePointer) this.usePointer = true
+        this.usePointer || (this.usePointer = true)
         if (this.useMutiTouch) return
         e.preventDefault()
         this.pointerDown(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onPointerMove(e: PointerEvent): void {
-        if (!this.usePointer) this.usePointer = true
+        this.usePointer || (this.usePointer = true)
         if (this.useMutiTouch) return
         this.pointerMove(PointerEventHelper.convert(e, this.getLocal(e)))
     }

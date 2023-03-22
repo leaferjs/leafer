@@ -1,10 +1,8 @@
 import { IChildEvent, ILeaf } from '@leafer/interface'
-import { registerEvent } from '@leafer/decorator'
 
 import { Event } from './Event'
 
 
-@registerEvent()
 export class ChildEvent extends Event implements IChildEvent {
 
     static ADD = 'child.add'

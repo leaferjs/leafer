@@ -1,6 +1,6 @@
 {
   "name": "@leafer/canvas",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.21",
   "description": "@leafer/canvas",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,9 +17,9 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/list": "1.0.0-alpha.10"
+    "@leafer/list": "1.0.0-alpha.21"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-alpha.10"
+     "@leafer/interface": "1.0.0-alpha.21"
   }
 }

@@ -38,8 +38,8 @@ export interface IRenderer {
     render(callback?: IFunction): void
     renderOnce(callback?: IFunction): void
     partRender(): void
-    clipRender(bounds: IBounds, fullMode?: boolean): void
-    fullRender(bounds?: IBounds): void
+    clipRender(bounds: IBounds): void
+    fullRender(): void
 
     addBlock(block: IBounds): void
     mergeBlocks(): void

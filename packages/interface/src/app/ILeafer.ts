@@ -13,7 +13,6 @@ import { IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
 import { IApp } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
-import { IEvent } from '../event/IEvent'
 
 
 export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IInteractionConfig, ILayouterConfig {
@@ -55,9 +54,6 @@ export interface ILeafer extends IZoomView {
 }
 
 export interface ICreator {
-    ui?(tag: string, data?: IObject): ILeaf
-    event?(type: string, event: IEvent): IEvent
-
     image?(options?: ILeaferImageConfig): ILeaferImage
     canvas?(options?: ILeaferCanvasConfig, manager?: ICanvasManager): ILeaferCanvas
     hitCanvas?(options?: IHitCanvasConfig, manager?: ICanvasManager): IHitCanvas

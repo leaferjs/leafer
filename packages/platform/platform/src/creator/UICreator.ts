@@ -17,7 +17,11 @@ export const UICreator = {
         }
     },
 
-    get(tag: string, data: IObject): ILeaf {
+    get(tag: string, data: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
+        if (x) data.x = x
+        if (y) data.y = y
+        if (width) data.width = width
+        if (height) data.height = height
         return new list[tag](data)
     }
 

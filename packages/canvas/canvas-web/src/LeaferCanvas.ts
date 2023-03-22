@@ -259,20 +259,18 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
 
 
     public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: string): void {
+        if (blendMode) this.blendMode = blendMode
         if (from) {
-            if (!to) to = from
             const { pixelRatio } = this
-            if (blendMode) this.blendMode = blendMode
+            if (!to) to = from
             this.drawImage(canvas.view as HTMLCanvasElement, from.x * pixelRatio, from.y * pixelRatio, from.width * pixelRatio, from.height * pixelRatio, to.x * pixelRatio, to.y * pixelRatio, to.width * pixelRatio, to.height * pixelRatio)
-            if (blendMode) this.blendMode = 'normal'
         } else {
             this.drawImage(canvas.view as HTMLCanvasElement, 0, 0)
         }
-
+        if (blendMode) this.blendMode = 'normal'
     }
 
     public copyWorldToLocal(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toLocalBounds: IBoundsData, blendMode?: string): void {
-        const { pixelRatio } = this
         if (blendMode) this.blendMode = blendMode
         if (fromWorld.b || fromWorld.c) {
             this.save()
@@ -280,38 +278,37 @@ export class LeaferCanvas extends CanvasBase implements ILeaferCanvas {
             this.copyWorld(canvas, fromWorld, BoundsHelper.tempToWorld(toLocalBounds, fromWorld))
             this.restore()
         } else {
+            const { pixelRatio } = this
             this.drawImage(canvas.view as HTMLCanvasElement, fromWorld.x * pixelRatio, fromWorld.y * pixelRatio, fromWorld.width * pixelRatio, fromWorld.height * pixelRatio, toLocalBounds.x, toLocalBounds.y, toLocalBounds.width, toLocalBounds.height)
         }
         if (blendMode) this.blendMode = 'normal'
     }
 
     public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void {
-        const { pixelRatio } = this
         if (blendMode) this.blendMode = blendMode
         this.fillStyle = color
-        this.fillRect(bounds.x * pixelRatio, bounds.y * pixelRatio, bounds.width * pixelRatio, bounds.height * pixelRatio)
+        temp.copy(bounds).scale(this.pixelRatio)
+        this.fillRect(temp.x, temp.y, temp.width, temp.height)
         if (blendMode) this.blendMode = 'normal'
     }
 
     public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void {
-        const { pixelRatio } = this
         if (blendMode) this.blendMode = blendMode
         this.strokeStyle = color
-        this.strokeRect(bounds.x * pixelRatio, bounds.y * pixelRatio, bounds.width * pixelRatio, bounds.height * pixelRatio)
+        temp.copy(bounds).scale(this.pixelRatio)
+        this.strokeRect(temp.x, temp.y, temp.width, temp.height)
         if (blendMode) this.blendMode = 'normal'
     }
 
     public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        const { pixelRatio } = this
-        temp.copy(bounds).scale(pixelRatio)
+        temp.copy(bounds).scale(this.pixelRatio)
         if (ceilPixel) temp.ceil()
         this.clearRect(temp.x, temp.y, temp.width, temp.height)
     }
 
     public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        const { pixelRatio } = this
         this.beginPath()
-        temp.copy(bounds).scale(pixelRatio)
+        temp.copy(bounds).scale(this.pixelRatio)
         if (ceilPixel) temp.ceil()
         this.rect(temp.x, temp.y, temp.width, temp.height)
         this.clip()
