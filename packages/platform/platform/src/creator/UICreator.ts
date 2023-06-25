@@ -9,20 +9,23 @@ export const UICreator = {
     list: {} as IObject,
 
     register(UI: IObject): void {
-        const { tag } = UI.prototype as ILeaf
+        const { __tag: tag } = UI.prototype as ILeaf
         if (list[tag]) {
-            debug.error('register the repeat UI: ', tag)
+            debug.error('repeat:', tag)
         } else {
             list[tag] = UI
         }
     },
 
     get(tag: string, data: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
-        if (x) data.x = x
-        if (y) data.y = y
-        if (width) data.width = width
-        if (height) data.height = height
-        return new list[tag](data)
+        const ui = new list[tag](data)
+        if (x !== undefined) {
+            ui.x = x
+            if (y) ui.y = y
+            if (width) ui.width = width
+            if (height) ui.height = height
+        }
+        return ui
     }
 
 }

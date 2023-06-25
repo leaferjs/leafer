@@ -1,37 +1,51 @@
 import { INumberMap, IStringMap } from '@leafer/interface'
 
+export const CanvasCommandOnlyMap: INumberMap = {
+
+    N: 21, // rect
+    D: 22, // roundRect
+    X: 23, // simple roundRect
+    G: 24, // ellipse
+    F: 25, // simple ellipse
+    O: 26, // arc
+    P: 27, // simple arc
+    U: 28 // arcTo
+
+}
 
 export const PathCommandMap: INumberMap = {
-    M: 1, //moveto
+
+    // svg and canvas
+
+    M: 1, // moveto
     m: 10,
-    L: 2, //lineto
+    L: 2, // lineto
     l: 20,
-    H: 3, //horizontal lineto
+    H: 3, // horizontal lineto
     h: 30,
-    V: 4, //vertical lineto
+    V: 4, // vertical lineto
     v: 40,
-    C: 5, //curveto
+    C: 5, // curveto
     c: 50,
-    S: 6, //smooth curveto
+    S: 6, // smooth curveto
     s: 60,
-    Q: 7, //quadratic Belzier curve
+    Q: 7, // quadratic Belzier curve
     q: 70,
-    T: 8, //smooth quadratic Belzier curveto
+    T: 8, // smooth quadratic Belzier curveto
     t: 80,
-    A: 9, //elliptical Arc
+    A: 9, //e lliptical Arc
     a: 90,
-    Z: 11, //closepath
+    Z: 11, // closepath
     z: 11,
 
-    // 非svg标准的canvas绘图命令
-    rect: 100,
-    roundRect: 101,
-    ellipse: 102,
-    arc: 103,
-    arcTo: 104
+    R: 12,  // Catmull Rom
+
+    // canvas
+    ...CanvasCommandOnlyMap
 }
 
 export const PathCommandLengthMap: INumberMap = {
+
     M: 3, //moveto
     m: 3,
     L: 3, //lineto
@@ -53,15 +67,21 @@ export const PathCommandLengthMap: INumberMap = {
     Z: 1, //closepath
     z: 1,
 
-    // 非svg标准的canvas绘图命令
-    rect: 5,
-    roundRect: 6,
-    ellipse: 9,
-    arc: 7,
-    arcTo: 6
+    // canvas
+
+    N: 5, // rect
+    D: 9, // roundRect
+    X: 6, // simple roundRect
+    G: 9, // ellipse
+    F: 5, // simple ellipse
+    O: 7, // arc
+    P: 4, // simple arc
+    U: 6 // arcTo
+
 }
 
-export const PathCommandNeedConvertMap: INumberMap = { // convert to:  M L C Q Z
+export const NeedConvertToCanvasCommandMap: INumberMap = { // convert to:  M L C Q Z
+
     // M: 1, //moveto
     m: 10,
     // L: 2, //lineto
@@ -83,25 +103,24 @@ export const PathCommandNeedConvertMap: INumberMap = { // convert to:  M L C Q Z
     // Z: 11, //closepath
     // z: 11
 
-    // 非svg标准的canvas绘图命令
-    rect: 100,
-    roundRect: 101,
-    ellipse: 102,
-    arc: 103,
-    arcTo: 104
 }
 
+
+export const NeedConvertToCurveCommandMap: INumberMap = {
+    ...NeedConvertToCanvasCommandMap,
+    ...CanvasCommandOnlyMap
+}
 
 const P = PathCommandMap
 
-export const NumberPathCommandMap: IStringMap = {}
+export const PathNumberCommandMap: IStringMap = {}
 for (let key in P) {
-    NumberPathCommandMap[P[key]] = key
+    PathNumberCommandMap[P[key]] = key
 }
 // {1: 'M'}
 
-export const NumberPathCommandLengthMap: INumberMap = {}
+export const PathNumberCommandLengthMap: INumberMap = {}
 for (let key in P) {
-    NumberPathCommandLengthMap[P[key]] = PathCommandLengthMap[key]
+    PathNumberCommandLengthMap[P[key]] = PathCommandLengthMap[key]
 }
 // {1: 3}

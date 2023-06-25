@@ -6,20 +6,31 @@ const debug = Debug.get('EventCreator')
 
 export const EventCreator = {
 
-    typeList: {} as IObject,
+    nameList: {} as IObject,
 
     register(Event: IObject): void {
-        let type: string
+        let name: string
         Object.keys(Event).forEach(key => {
-            type = Event[key]
-            if (typeof type === 'string') typeList[type] ? debug.error('register the repeat EventType: ', type) : typeList[type] = Event
+            name = Event[key]
+            if (typeof name === 'string') nameList[name] ? debug.error('repeat: ', name) : nameList[name] = Event
         })
     },
 
+    changeName(oldName: string, newName: string): void {
+        const Event = nameList[oldName]
+        if (Event) {
+            const constName = Object.keys(Event).find(key => Event[key] === oldName)
+            if (constName) {
+                Event[constName] = newName
+                nameList[newName] = Event
+            }
+        }
+    },
+
     get(type: string, ...params: unknown[]): IEvent {
-        return new typeList[type](...params)
+        return new nameList[type](...params)
     }
 
 }
 
-const { typeList } = EventCreator
+const { nameList } = EventCreator

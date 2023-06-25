@@ -1,9 +1,9 @@
 import { ILayouter, ILeaf, ILayoutBlockData, IEventListenerId, ILayouterConfig, ILeafList } from '@leafer/interface'
-import { LayoutEvent, RenderEvent, WatchEvent } from '@leafer/event'
+import { LayoutEvent, WatchEvent } from '@leafer/event'
 import { LeafLevelList, LeafList } from '@leafer/list'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
 import { DataHelper } from '@leafer/data'
-import { Run } from '@leafer/debug'
+import { Run, Debug } from '@leafer/debug'
 
 import { updateBounds, updateMatrix, updateChange } from './LayouterHelper'
 import { LayoutBlockData } from './LayoutBlockData'
@@ -11,6 +11,8 @@ import { LayoutBlockData } from './LayoutBlockData'
 
 const { updateAllWorldMatrix, updateAllChange } = LeafHelper
 const { pushAllBranchStack, updateWorldBoundsByBranchStack } = BranchHelper
+
+const debug = Debug.get('Layouter')
 
 export class Layouter implements ILayouter {
 
@@ -20,14 +22,13 @@ export class Layouter implements ILayouter {
     public totalTimes: number = 0
     public times: number
 
-    public changed: boolean = true
+    public disabled: boolean
     public running: boolean
+    public layouting: boolean
 
-    public config: ILayouterConfig = {
-        partLayout: {
-            maxTimes: 3
-        }
-    }
+    public waitAgain: boolean
+
+    public config: ILayouterConfig = {}
 
     protected __updateList: ILeafList
     protected __levelList: LeafLevelList = new LeafLevelList()
@@ -40,6 +41,7 @@ export class Layouter implements ILayouter {
     }
 
     public start(): void {
+        if (this.disabled) return
         this.running = true
     }
 
@@ -47,34 +49,61 @@ export class Layouter implements ILayouter {
         this.running = false
     }
 
-    public update(): void {
-        this.changed = true
+    public disable(): void {
+        this.stop()
+        this.__removeListenEvents()
+        this.disabled = true
     }
 
     public layout(): void {
         if (!this.running) return
         const { target } = this
-        const { LAYOUT, END } = LayoutEvent
         this.times = 0
-        this.changed = false
-        target.emit(LayoutEvent.START)
-        this.layoutOnce()
-        target.emitEvent(new LayoutEvent(LAYOUT, this.layoutedBlocks))
-        target.emitEvent(new LayoutEvent(END, this.layoutedBlocks))
+
+        try {
+            target.emit(LayoutEvent.START)
+            this.layoutOnce()
+            target.emitEvent(new LayoutEvent(LayoutEvent.END, this.layoutedBlocks, this.times))
+        } catch (e) {
+            debug.error(e)
+        }
+
         this.layoutedBlocks = null
+    }
+
+    public layoutAgain(): void {
+        if (this.layouting) {
+            this.waitAgain = true
+        } else {
+            this.layoutOnce()
+        }
     }
 
     public layoutOnce(): void {
 
-        this.totalTimes++
+        if (this.layouting) return debug.warn('layouting')
+        if (this.times > 3) return debug.warn('layout max times')
+
         this.times++
+        this.totalTimes++
+
+        this.layouting = true
 
         this.target.emit(WatchEvent.REQUEST)
+
         if (this.totalTimes > 1) {
             this.partLayout()
         } else {
             this.fullLayout()
         }
+
+        this.layouting = false
+
+        if (this.waitAgain) {
+            this.waitAgain = false
+            this.layoutOnce()
+        }
+
     }
 
     public partLayout(): void {
@@ -82,11 +111,11 @@ export class Layouter implements ILayouter {
 
         const t = Run.start('PartLayout')
         const { target, __updateList: updateList } = this
-        const { BEFORE_ONCE, ONCE, AFTER_ONCE } = LayoutEvent
+        const { BEFORE, LAYOUT, AFTER } = LayoutEvent
 
         const blocks = this.getBlocks(updateList)
         blocks.forEach(item => { item.setBefore() })
-        target.emitEvent(new LayoutEvent(BEFORE_ONCE, blocks))
+        target.emitEvent(new LayoutEvent(BEFORE, blocks, this.times))
 
         updateList.sort()
         updateMatrix(updateList, this.__levelList)
@@ -95,44 +124,42 @@ export class Layouter implements ILayouter {
 
         blocks.forEach(item => item.setAfter())
 
-        target.emitEvent(new LayoutEvent(ONCE, blocks))
-        target.emitEvent(new LayoutEvent(AFTER_ONCE, blocks))
+        target.emitEvent(new LayoutEvent(LAYOUT, blocks, this.times))
+        target.emitEvent(new LayoutEvent(AFTER, blocks, this.times))
 
-        this.setBlocks(blocks)
+        this.addBlocks(blocks)
 
         this.__levelList.reset()
         this.__updateList = null
         Run.end(t)
 
-        this.__checkAgain()
     }
 
     public fullLayout(): void {
         const t = Run.start('FullLayout')
 
         const { target } = this
-        const { BEFORE_ONCE, ONCE, AFTER_ONCE } = LayoutEvent
+        const { BEFORE, LAYOUT, AFTER } = LayoutEvent
 
         const blocks = this.getBlocks(new LeafList(target))
-        target.emitEvent(new LayoutEvent(BEFORE_ONCE, blocks))
+        target.emitEvent(new LayoutEvent(BEFORE, blocks, this.times))
 
         Layouter.fullLayout(target)
 
         blocks.forEach(item => { item.setAfter() })
-        target.emitEvent(new LayoutEvent(ONCE, blocks))
-        target.emitEvent(new LayoutEvent(AFTER_ONCE, blocks))
+        target.emitEvent(new LayoutEvent(LAYOUT, blocks, this.times))
+        target.emitEvent(new LayoutEvent(AFTER, blocks, this.times))
 
-        this.setBlocks(blocks)
+        this.addBlocks(blocks)
 
         Run.end(t)
 
-        this.__checkAgain()
     }
 
     static fullLayout(target: ILeaf): void {
         updateAllWorldMatrix(target)
 
-        if (target.__isBranch) {
+        if (target.isBranch) {
             const branchStack: ILeaf[] = [target]
             pushAllBranchStack(target, branchStack)
             updateWorldBoundsByBranchStack(branchStack)
@@ -152,12 +179,8 @@ export class Layouter implements ILayouter {
         return [this.createBlock(list)]
     }
 
-    public setBlocks(current: ILayoutBlockData[]) {
+    public addBlocks(current: ILayoutBlockData[]) {
         this.layoutedBlocks ? this.layoutedBlocks.push(...current) : this.layoutedBlocks = current
-    }
-
-    protected __checkAgain(): void {
-        if (this.changed && this.times <= this.config.partLayout.maxTimes) this.target.emit(LayoutEvent.AGAIN) // 防止更新布局过程中产生了属性修改
     }
 
     protected __onReceiveWatchData(event: WatchEvent): void {
@@ -167,21 +190,22 @@ export class Layouter implements ILayouter {
     protected __listenEvents(): void {
         const { target } = this
         this.__eventIds = [
-            target.on__(LayoutEvent.REQUEST, this.layout, this),
-            target.on__(LayoutEvent.AGAIN, this.layoutOnce, this),
-            target.on__(WatchEvent.DATA, this.__onReceiveWatchData, this),
-            target.on__(RenderEvent.REQUEST, this.update, this),
+            target.on_(LayoutEvent.REQUEST, this.layout, this),
+            target.on_(LayoutEvent.AGAIN, this.layoutAgain, this),
+            target.on_(WatchEvent.DATA, this.__onReceiveWatchData, this)
         ]
     }
 
     protected __removeListenEvents(): void {
-        this.target.off__(this.__eventIds)
+        this.target.off_(this.__eventIds)
     }
 
     public destroy(): void {
         if (this.target) {
+            this.stop()
             this.__removeListenEvents()
             this.target = null
+            this.config = null
         }
     }
 

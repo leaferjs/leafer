@@ -1,52 +1,54 @@
 import { ILeaf, ILeaferCanvas, IRenderOptions } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
-import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
+import { BranchHelper, LeafBoundsHelper, WaitHelper } from '@leafer/helper'
+import { useModule } from '@leafer/decorator'
+import { LeafMask } from '@leafer/display-module'
 
 import { Leaf } from './Leaf'
 
 
 const { setByListWithHandle } = BoundsHelper
 const { sort } = BranchHelper
-const { relativeBoxBounds: localBoxBounds, relativeEventBounds: localEventBounds, relativeRenderBounds: localRenderBounds } = LeafBoundsHelper
+const { localBoxBounds, localEventBounds, localRenderBounds, maskLocalBoxBounds, maskLocalEventBounds, maskLocalRenderBounds } = LeafBoundsHelper
 
+@useModule(LeafMask)
 export class Branch extends Leaf {
 
     constructor() {
         super()
-        this.__isBranch = true
+        this.isBranch = true
         this.children = []
     }
 
     // overwrite
 
-    public __updateEventBoundsSpreadWidth(): number {
+    public __updateStrokeSpread(): number {
         const { children } = this
         for (let i = 0, len = children.length; i < len; i++) {
-            if (children[i].__layout.eventBoundsSpreadWidth) return 1
+            if (children[i].__layout.strokeSpread) return 1
         }
         return 0
     }
 
-    public __updateRenderBoundsSpreadWidth(): number {
+    public __updateRenderSpread(): number {
         const { children } = this
         for (let i = 0, len = children.length; i < len; i++) {
-            if (children[i].__layout.renderBoundsSpreadWidth) return 1
+            if (children[i].__layout.renderSpread) return 1
         }
         return 0
     }
-
 
     public __updateBoxBounds(): void {
-        setByListWithHandle(this.__layout.boxBounds, this.children, localBoxBounds)
+        setByListWithHandle(this.__layout.boxBounds, this.children, this.__hasMask ? maskLocalBoxBounds : localBoxBounds)
     }
 
-    public __updateEventBounds(): void {
-        setByListWithHandle(this.__layout.eventBounds, this.children, localEventBounds)
+    public __updateStrokeBounds(): void {
+        setByListWithHandle(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalEventBounds : localEventBounds)
     }
 
     public __updateRenderBounds(): void {
-        setByListWithHandle(this.__layout.renderBounds, this.children, localRenderBounds)
+        setByListWithHandle(this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
     }
 
     public __updateChange(): void {
@@ -73,13 +75,52 @@ export class Branch extends Leaf {
     public __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
 
         if (this.__worldOpacity) {
+
             let child: ILeaf
-            const { bounds, hideBounds } = options, { children } = this
-            for (let i = 0, len = children.length; i < len; i++) {
-                child = children[i]
-                if (bounds && !bounds.hit(child.__world, options.matrix)) continue
-                if (hideBounds && hideBounds.includes(child.__world)) continue
-                child.__render(canvas, options)
+            const { children } = this
+
+            if (this.__hasMask && children.length > 1) {
+
+                let mask: boolean
+                let maskCanvas = canvas.getSameCanvas()
+                let contentCanvas = canvas.getSameCanvas()
+
+                for (let i = 0, len = children.length; i < len; i++) {
+                    child = children[i]
+
+                    if (child.isMask) {
+                        if (mask) {
+                            this.__renderMask(canvas, contentCanvas, maskCanvas)
+                            maskCanvas.clear()
+                            contentCanvas.clear()
+                        } else {
+                            mask = true
+                        }
+
+                        child.__render(maskCanvas, options)
+                        continue
+                    }
+
+                    child.__render(contentCanvas, options)
+                }
+
+                this.__renderMask(canvas, contentCanvas, maskCanvas)
+                maskCanvas.recycle()
+                contentCanvas.recycle()
+
+            } else {
+
+                const { bounds, hideBounds } = options
+
+                for (let i = 0, len = children.length; i < len; i++) {
+                    child = children[i]
+
+                    if (bounds && !bounds.hit(child.__world, options.matrix)) continue
+                    if (hideBounds && hideBounds.includes(child.__world, options.matrix)) continue
+
+                    child.__render(canvas, options)
+                }
+
             }
         }
 
@@ -87,25 +128,27 @@ export class Branch extends Leaf {
 
     public add(child: ILeaf, index?: number): void {
 
-        if (child.parent) {
-            if (child.parent !== this) console.warn('child had other parent, can not add to this, child innerId:' + child.innerId)
-            return
-        }
-
+        if (child.parent) child.parent.remove(child)
         child.parent = this
 
         index === undefined ? this.children.push(child) : this.children.splice(index, 0, child)
-        if (child.__isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
+        if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
+        child.__layout.boundsChanged || child.__layout.positionChange() // layouted(removed), need update
 
-        if (this.root) {
-            child.__bindRoot(this.root)
+        if (child.__parentWait) WaitHelper.run(child.__parentWait)
 
-            const event = new ChildEvent(ChildEvent.ADD, child, this)
-            if (this.hasEvent(ChildEvent.ADD)) this.emitEvent(event)
-            this.root.emitEvent(event)
+        if (this.leafer) {
+            child.__bindLeafer(this.leafer)
+
+            if (this.leafer.ready) {
+                const { ADD } = ChildEvent
+                const event = new ChildEvent(ADD, child, this)
+                if (child.hasEvent(ADD)) child.emitEvent(event)
+                if (this.hasEvent(ADD) && !this.isLeafer) this.emitEvent(event)
+                this.leafer.emitEvent(event)
+            }
         }
 
-        if (child.__parentWait) child.__runParentWait()
     }
 
     public remove(child?: Leaf): void {
@@ -114,21 +157,27 @@ export class Branch extends Leaf {
             const index = this.children.indexOf(child)
             if (index > -1) {
                 this.children.splice(index, 1)
+                if (this.__hasMask) this.__updateMask()
+                this.__layout.boxChange()
 
-                if (child.__isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
+                if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
+                child.parent = null
 
-                if (this.root) {
-                    const event = new ChildEvent(ChildEvent.REMOVE, child, this)
-                    if (this.hasEvent(ChildEvent.REMOVE)) this.emitEvent(event)
-                    this.root.emitEvent(event)
-                    child.root = null
+                if (this.leafer) {
+                    child.__bindLeafer(null)
+
+                    if (this.leafer.ready) {
+                        const { REMOVE } = ChildEvent
+                        const event = new ChildEvent(REMOVE, child, this)
+                        if (child.hasEvent(REMOVE)) child.emitEvent(event)
+                        if (this.hasEvent(REMOVE) && !this.isLeafer) this.emitEvent(event)
+                        this.leafer.emitEvent(event)
+                    }
                 }
 
-                child.parent = null
-                this.__layout.boxBoundsChange()
             }
         } else {
-            if (this.parent) this.parent.remove(this)
+            super.remove()
         }
 
     }

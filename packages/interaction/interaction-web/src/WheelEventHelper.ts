@@ -1,8 +1,7 @@
-import { IPointData, IWheelConfig, IObject } from '@leafer/interface'
+import { IPointData, IWheelConfig } from '@leafer/interface'
 import { MathHelper } from '@leafer/math'
+import { Platform } from '@leafer/platform'
 
-
-let countFirefoxWheel: number = 0
 
 export const WheelEventHelper = {
 
@@ -17,15 +16,13 @@ export const WheelEventHelper = {
         let { zoomMode, zoomSpeed } = config
 
         const y = e.deltaY || e.deltaX
-        //console.log(e.deltaX, e.deltaY)
 
         if (zoomMode) {
 
-            const firefoxWheel = (e as IObject).mozInputSource && e.deltaY % 18 === 0 // firfox鼠标竖向滚动为18的倍数
-            firefoxWheel ? countFirefoxWheel++ : countFirefoxWheel = 0
+            const intWheelDeltaY = Platform.intWheelDeltaY && Math.abs(e.deltaY) > 17 // firfox鼠标滚动为整数，为18或19的倍数
 
             // 触摸板滚动手势的deltaY是整数, 鼠标滚动/触摸板缩放的deltaY有小数点
-            zoom = (Math.floor(e.deltaY) !== e.deltaY || (firefoxWheel && countFirefoxWheel > 2)) && e.deltaX === 0
+            zoom = (Math.floor(e.deltaY) !== e.deltaY || intWheelDeltaY) && e.deltaX === 0
             if (e.shiftKey || e.metaKey || e.ctrlKey) zoom = true
 
         } else {

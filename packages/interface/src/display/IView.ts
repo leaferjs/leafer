@@ -6,4 +6,5 @@ export interface IZoomView extends IBranch {
     zoomLayer?: ILeaf
     moveLayer?: ILeaf
     transformData?: ITransformEventData
+    setZoomLayer(zoomLayer: ILeaf, moveLayer?: ILeaf): void
 }

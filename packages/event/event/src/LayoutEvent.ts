@@ -5,24 +5,30 @@ import { Event } from './Event'
 
 export class LayoutEvent extends Event implements ILayoutEvent {
 
+    static CHECK_UPDATE = 'layout.check_update'
+
     static REQUEST = 'layout.request'
 
     static START = 'layout.start'
 
-    static BEFORE_ONCE = 'layout.before_once'
-    static ONCE = 'layout.once'
-    static AFTER_ONCE = 'layout.after_once'
+    static BEFORE = 'layout.before'
+    static LAYOUT = 'layout.layout'
+    static AFTER = 'layout.after'
 
     static AGAIN = 'layout.again'
 
-    static LAYOUT = 'layout'
     static END = 'layout.end'
 
     readonly data: ILayoutBlockData[]
+    readonly times: number
 
-    constructor(type: string, data?: ILayoutBlockData[]) {
+    constructor(type: string, data?: ILayoutBlockData[], times?: number) {
         super(type)
-        if (data) this.data = data
+        if (data) {
+            this.data = data
+            this.times = times
+        }
+
     }
 
 }

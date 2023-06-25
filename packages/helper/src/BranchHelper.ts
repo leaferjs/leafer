@@ -21,7 +21,7 @@ export const BranchHelper = {
             const { children } = branch
             for (let i = 0, len = children.length; i < len; i++) {
                 branch = children[i]
-                if (branch.__isBranch) {
+                if (branch.isBranch) {
                     branch.__tempNumber = 1
                     pushList.push(branch)
                     pushAllChildBranch(branch, pushList)
@@ -53,7 +53,7 @@ export const BranchHelper = {
         let start = pushList.length
         const { children } = branch
         for (let i = 0, len = children.length; i < len; i++) {
-            if (children[i].__isBranch) {
+            if (children[i].isBranch) {
                 pushList.push(children[i])
             }
         }

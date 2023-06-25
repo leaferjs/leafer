@@ -17,15 +17,20 @@ export class PointerEvent extends UIEvent implements IPointerEvent {
     static MOVE = 'pointer.move'
     static UP = 'pointer.up'
 
+    static OVER = 'pointer.over'
+    static OUT = 'pointer.out'
+
     static ENTER = 'pointer.enter'
     static LEAVE = 'pointer.leave'
 
     static TAP = 'tap'
-    static CLICK = 'click'
-    static DOUBLE_CLICK = 'doubleclick'
+    static DOUBLE_TAP = 'double_tap'
 
-    static LONG_PRESS = 'longpress'
-    static LONG_TAP = 'longtap'
+    static CLICK = 'click'
+    static DOUBLE_CLICK = 'double_click'
+
+    static LONG_PRESS = 'long_press'
+    static LONG_TAP = 'long_tap'
 
     public readonly width: number
     public readonly height: number

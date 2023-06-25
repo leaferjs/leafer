@@ -1,4 +1,4 @@
-import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction } from '@leafer/interface'
+import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
 import { LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
 import { Bounds } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
@@ -19,6 +19,9 @@ export class Renderer implements IRenderer {
     public times: number = 0
 
     public running: boolean
+    public rendering: boolean
+
+    public waitAgain: boolean
     public changed: boolean
 
     public config: IRendererConfig = {
@@ -26,7 +29,13 @@ export class Renderer implements IRenderer {
         maxFPS: 60
     }
 
+    protected renderBounds: IBounds
+    protected renderOptions: IRenderOptions
+    protected totalBounds: IBounds
+
     protected __eventIds: IEventListenerId[]
+
+    protected get needFill(): boolean { return !!(!this.canvas.allowBackgroundColor && this.config.fill) }
 
     constructor(target: ILeaf, canvas: ILeaferCanvas, userConfig?: IRendererConfig) {
         this.target = target
@@ -53,52 +62,70 @@ export class Renderer implements IRenderer {
     }
 
     public render(callback?: IFunction): void {
+        if (!(this.running)) return
+
         const { target } = this
         this.times = 0
+        this.totalBounds = new Bounds()
 
-        debug.log(target.innerId, '--->')
+        debug.log(target.innerName, '--->')
 
-        target.emit(RenderEvent.START)
-        this.renderOnce(callback)
-        target.emit(RenderEvent.RENDER)
-        target.emit(RenderEvent.END)
+        try {
+            this.emitRender(RenderEvent.START)
+            this.renderOnce(callback)
+            this.emitRender(RenderEvent.END, this.totalBounds)
+        } catch (e) {
+            debug.error(e)
+        }
 
-        debug.log(target.innerId, '---|')
+        debug.log('-------------|')
+    }
+
+    public renderAgain(): void {
+        if (this.rendering) {
+            this.waitAgain = true
+        } else {
+            this.renderOnce()
+        }
     }
 
     public renderOnce(callback?: IFunction): void {
-        const { target } = this
+        if (this.rendering) return debug.warn('rendering')
+        if (this.times > 3) return debug.warn('render max times')
 
         this.times++
         this.totalTimes++
+
+        this.rendering = true
         this.changed = false
+        this.renderBounds = new Bounds()
+        this.renderOptions = {}
 
         if (callback) {
-
-            target.emit(RenderEvent.BEFORE_ONCE)
-
+            this.emitRender(RenderEvent.BEFORE)
             callback()
-
         } else {
-
             this.requestLayout()
 
-            target.emit(RenderEvent.BEFORE_ONCE)
+            this.emitRender(RenderEvent.BEFORE)
 
             if (this.config.usePartRender && this.totalTimes > 1) {
                 this.partRender()
             } else {
                 this.fullRender()
             }
-
         }
 
-        target.emit(RenderEvent.ONCE)
-        target.emit(RenderEvent.AFTER_ONCE)
+        this.emitRender(RenderEvent.RENDER, this.renderBounds, this.renderOptions)
+        this.emitRender(RenderEvent.AFTER, this.renderBounds, this.renderOptions)
 
         this.updateBlocks = null
+        this.rendering = false
 
-        this.__checkAgain()
+        if (this.waitAgain) {
+            this.waitAgain = false
+            this.renderOnce()
+        }
     }
 
     public partRender(): void {
@@ -115,17 +142,19 @@ export class Renderer implements IRenderer {
 
         const bounds = block.getIntersect(canvas.bounds)
         const includes = block.includes(this.target.__world)
+        const realBounds = new Bounds().copy(bounds)
 
         canvas.save()
-        if (includes) {
+
+        if (includes && !Debug.showRepaint) {
             canvas.clear()
         } else {
             bounds.spread(1 + 1 / this.canvas.pixelRatio).ceil()
             canvas.clearWorld(bounds, true)
             canvas.clipWorld(bounds, true)
         }
-        if (Debug.showRepaint) canvas.strokeWorld(bounds, 'red')
-        this.__render(bounds)
+
+        this.__render(bounds, realBounds)
         canvas.restore()
 
         Run.end(t)
@@ -143,9 +172,25 @@ export class Renderer implements IRenderer {
         Run.end(t)
     }
 
-    protected __render(bounds: IBounds): void {
-        this.target.__render(this.canvas, bounds.includes(this.target.__world) ? {} : { bounds })
+    protected __render(bounds: IBounds, realBounds?: IBounds): void {
+        const options: IRenderOptions = bounds?.includes(this.target.__world) ? {} : { bounds }
+
+        if (this.needFill) this.canvas.fillWorld(bounds, this.config.fill)
+        if (Debug.showRepaint) this.canvas.strokeWorld(bounds, 'red')
+
+        this.target.__render(this.canvas, options)
+
+        this.renderBounds = realBounds || bounds
+        this.renderOptions = options
+        this.totalBounds.isEmpty() ? this.totalBounds = this.renderBounds : this.totalBounds.add(this.renderBounds)
+
+        if (Debug.showHitView) this.renderHitView(options)
+        if (Debug.showBoundsView) this.renderBoundsView(options)
     }
+
+    public renderHitView(_options: IRenderOptions): void { }
+
+    public renderBoundsView(_options: IRenderOptions): void { }
 
     public addBlock(block: IBounds): void {
         if (!this.updateBlocks) this.updateBlocks = []
@@ -162,10 +207,6 @@ export class Renderer implements IRenderer {
         }
     }
 
-    protected __checkAgain(): void {
-        if (this.changed && this.times < 3) this.target.emit(RenderEvent.AGAIN)
-    }
-
     protected __requestRender(): void {
         const startTime = Date.now()
         Platform.requestRender(() => {
@@ -177,36 +218,53 @@ export class Renderer implements IRenderer {
     }
 
     protected __onResize(e: ResizeEvent): void {
+        if (this.canvas.unreal) return
         if (e.bigger || !e.samePixelRatio) {
             const { width, height } = e.old
             const bounds = new Bounds(0, 0, width, height)
-            if (!bounds.includes(this.target.__world)) {
-                this.target.__updateAttr('fill')
-                this.update()
+            if (!bounds.includes(this.target.__world) || this.needFill || !e.samePixelRatio) {
+                this.addBlock(this.canvas.bounds)
+                this.target.forceUpdate('blendMode')
             }
         }
     }
 
     protected __onLayoutEnd(event: LayoutEvent): void {
-        event.data.map(item => this.addBlock(item.updatedBounds))
+        if (event.data) event.data.map(item => {
+            let empty: boolean
+            if (item.updatedList) item.updatedList.list.some(leaf => {
+                empty = (!leaf.__world.width || !leaf.__world.height)
+                if (empty) {
+                    debug.warn(leaf.innerName, ': none bounds')
+                    empty = (!leaf.isBranch || leaf.isBranchLeaf) // render object
+                }
+                return empty
+            })
+            this.addBlock(empty ? this.canvas.bounds : item.updatedBounds)
+        })
+    }
+
+    protected emitRender(type: string, bounds?: IBounds, options?: IRenderOptions): void {
+        this.target.emitEvent(new RenderEvent(type, this.times, bounds, options))
     }
 
     protected __listenEvents(): void {
         const { target } = this
         this.__eventIds = [
-            target.on__(RenderEvent.REQUEST, this.update, this),
-            target.on__(LayoutEvent.END, this.__onLayoutEnd, this),
-            target.on__(RenderEvent.AGAIN, this.renderOnce, this),
-            target.on__(ResizeEvent.RESIZE, this.__onResize, this)
+            target.on_(RenderEvent.REQUEST, this.update, this),
+            target.on_(LayoutEvent.END, this.__onLayoutEnd, this),
+            target.on_(RenderEvent.AGAIN, this.renderAgain, this),
+            target.on_(ResizeEvent.RESIZE, this.__onResize, this)
         ]
     }
 
     protected __removeListenEvents(): void {
-        this.target.off__(this.__eventIds)
+        this.target.off_(this.__eventIds)
     }
 
     public destroy(): void {
         if (this.target) {
+            this.stop()
             this.__removeListenEvents()
             this.target = null
             this.canvas = null

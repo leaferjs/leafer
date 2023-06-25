@@ -34,14 +34,14 @@ type height = number
 type rotation = number
 type startAngle = number
 type endAngle = number
-type counterclockwise = boolean
+type anticlockwise = boolean
 type cornerRadius = number | number[]
 type radius = number
 
 export type RectCommandData = [Command, x, y, width, height]
 export type RoundRectCommandData = [Command, x, y, width, height, cornerRadius]
-export type EllipseCommandData = [Command, x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise]
-export type ArcCommandData = [Command, x, y, radius, startAngle, endAngle, counterclockwise]
+export type EllipseCommandData = [Command, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise]
+export type ArcCommandData = [Command, x, y, radius, startAngle, endAngle, anticlockwise]
 export type ArcToCommandData = [Command, x1, y1, x2, y2, radius]
 
 

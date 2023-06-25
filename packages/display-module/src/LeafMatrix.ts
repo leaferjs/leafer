@@ -10,10 +10,10 @@ export const LeafMatrix: ILeafMatrixModule = {
     __updateWorldMatrix(): void {
 
         const pw = this.parent ? this.parent.__world : defaultMatrix
-        const r = this.__relative
+        const r = this.__local
         const w = this.__world
 
-        if (this.__layout.matrixChanged) this.__updateRelativeMatrix()
+        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
 
         if (this.__layout.affectScaleOrRotation) {
             w.a = r.a * pw.a + r.b * pw.c
@@ -32,9 +32,9 @@ export const LeafMatrix: ILeafMatrixModule = {
         }
     },
 
-    __updateRelativeMatrix(): void {
+    __updateLocalMatrix(): void {
 
-        const r = this.__relative
+        const r = this.__local
         const layout = this.__layout
 
         if (layout.affectScaleOrRotation) {

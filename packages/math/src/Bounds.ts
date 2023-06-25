@@ -32,8 +32,8 @@ export class Bounds implements IBounds {
         return this
     }
 
-    public toWorld(matrix: IMatrixData, to?: IBoundsData): IBounds {
-        B.toWorld(this, matrix, to)
+    public toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds {
+        B.toOuterOf(this, matrix, to)
         return this
     }
 
@@ -120,8 +120,8 @@ export class Bounds implements IBounds {
         return B.isEmpty(this)
     }
 
-    public empty(): void {
-        B.empty(this)
+    public reset(): void {
+        B.reset(this)
     }
 
 }

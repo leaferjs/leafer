@@ -1,12 +1,17 @@
-import { IMatrix, IMatrixData, IPointData } from '@leafer/interface'
+import { IMatrix, IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
 import { OneRadian } from './MathHelper'
 
 
-const { sin, cos } = Math
+const { sin, cos, acos, atan, sqrt, PI } = Math
+const tempPoint = {} as IPointData
+
+function get(): IMatrixData {
+    return { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
+}
 
 export const MatrixHelper = {
 
-    defaultMatrix: { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 } as IMatrixData,
+    defaultMatrix: get(),
 
     tempMatrix: {} as IMatrixData,
 
@@ -19,6 +24,8 @@ export const MatrixHelper = {
         t.f = f
     },
 
+    get,
+
     copy(t: IMatrixData, matrix: IMatrixData): void {
         t.a = matrix.a
         t.b = matrix.b
@@ -28,47 +35,114 @@ export const MatrixHelper = {
         t.f = matrix.f
     },
 
+
     translate(t: IMatrixData, x: number, y: number): void {
         t.e += x
         t.f += y
     },
+
+    translateInner(t: IMatrixData, x: number, y: number): void {
+        t.e += t.a * x + t.c * y
+        t.f += t.b * x + t.d * y
+    },
+
 
     scale(t: IMatrixData, x: number, y: number = x): void {
         t.a *= x
         t.d *= y
         t.c *= x
         t.b *= y
-        t.e *= x
-        t.f *= y
     },
 
-    rotate(t: IMatrixData, angle: number): void {
-        const rotation = angle * OneRadian
-        const cosR = cos(rotation)
-        const sinR = sin(rotation)
+    scaleOf(t: IMatrixData, center: IPointData, x: number, y: number = x): void {
+        M.toInnerPoint(t, center, tempPoint)
+        M.scaleOfInner(t, tempPoint, x, y)
+    },
 
-        const { a, b, c, d, e, f } = t
+    scaleOfInner(t: IMatrixData, center: IPointData, x: number, y: number = x): void {
+        M.translateInner(t, center.x, center.y)
+        M.scale(t, x, y)
+        M.translateInner(t, -center.x, -center.y)
+    },
+
+
+    rotate(t: IMatrixData, angle: number): void {
+        angle *= OneRadian
+        const cosR = cos(angle)
+        const sinR = sin(angle)
+
+        const { a, b, c, d } = t
         t.a = (a * cosR) - (b * sinR)
         t.b = (a * sinR) + (b * cosR)
         t.c = (c * cosR) - (d * sinR)
         t.d = (c * sinR) + (d * cosR)
-        t.e = (e * cosR) - (f * sinR)
-        t.f = (e * sinR) + (f * cosR)
     },
 
-    times(t: IMatrixData, matrix: IMatrixData): void {
+    rotateOf(t: IMatrixData, center: IPointData, angle: number): void {
+        M.toInnerPoint(t, center, tempPoint)
+        M.rotateOfInner(t, tempPoint, angle)
+    },
+
+    rotateOfInner(t: IMatrixData, center: IPointData, angle: number): void {
+        M.translateInner(t, center.x, center.y)
+        M.rotate(t, angle)
+        M.translateInner(t, -center.x, -center.y)
+    },
+
+
+    skew(t: IMatrixData, x: number, y?: number): void {
+        const { a, b, c, d } = t
+        if (y) {
+            y *= OneRadian
+            t.a = a + c * y
+            t.b = b + d * y
+        }
+        if (x) {
+            x *= OneRadian
+            t.c = c + a * x
+            t.d = d + b * x
+        }
+    },
+
+    skewOf(t: IMatrixData, center: IPointData, x: number, y?: number): void {
+        M.toInnerPoint(t, center, tempPoint)
+        M.skewOfInner(t, tempPoint, x, y)
+    },
+
+    skewOfInner(t: IMatrixData, center: IPointData, x: number, y?: number): void {
+        M.translateInner(t, center.x, center.y)
+        M.skew(t, x, y)
+        M.translateInner(t, -center.x, -center.y)
+    },
+
+
+    multiply(t: IMatrixData, matrix: IMatrixData): void {
         const { a, b, c, d, e, f } = t
 
-        t.a = (matrix.a * a) + (matrix.b * c)
-        t.b = (matrix.a * b) + (matrix.b * d)
-        t.c = (matrix.c * a) + (matrix.d * c)
-        t.d = (matrix.c * b) + (matrix.d * d)
-        t.e = (matrix.e * a) + (matrix.f * c) + e
-        t.f = (matrix.e * b) + (matrix.f * d) + f
+        t.a = matrix.a * a + matrix.b * c
+        t.b = matrix.a * b + matrix.b * d
+        t.c = matrix.c * a + matrix.d * c
+        t.d = matrix.c * b + matrix.d * d
+        t.e = matrix.e * a + matrix.f * c + e
+        t.f = matrix.e * b + matrix.f * d + f
+    },
+
+    preMultiply(t: IMatrixData, matrix: IMatrixData): void {
+        const { a, b, c, d, e, f } = t
+
+        if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1) {
+            t.a = (a * matrix.a) + (b * matrix.c)
+            t.b = (a * matrix.b) + (b * matrix.d)
+            t.c = (c * matrix.a) + (d * matrix.c)
+            t.d = (c * matrix.b) + (d * matrix.d)
+        }
+
+        t.e = (e * matrix.a) + (f * matrix.c) + matrix.e
+        t.f = (e * matrix.b) + (f * matrix.d) + matrix.f
     },
 
     divide(t: IMatrixData, matrix: IMatrixData): void {
-        M.times(t, M.tempInvert(matrix))
+        M.multiply(t, M.tempInvert(matrix))
     },
 
     tempInvert(t: IMatrixData): IMatrixData {
@@ -89,39 +163,73 @@ export const MatrixHelper = {
         t.f = -(f * a - e * b) * s
     },
 
-    toWorldPoint(t: IMatrixData, local: IPointData, to?: IPointData): void {
-        const { x, y } = local
 
-        // world
-        to || (to = local)
-        to.x = (x * t.a) + (y * t.c) + t.e
-        to.y = (x * t.b) + (y * t.d) + t.f
+    toOuterPoint(t: IMatrixData, inner: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+        const { x, y } = inner
+
+        // outer
+        to || (to = inner)
+        to.x = (x * t.a) + (y * t.c)
+        to.y = (x * t.b) + (y * t.d)
+
+        if (!isMovePoint) {
+            to.x += t.e
+            to.y += t.f
+        }
     },
 
-    toLocalPoint(t: IMatrixData, world: IPointData, to?: IPointData, fromOrigin?: boolean): void {
-        const { x, y } = world
+    toInnerPoint(t: IMatrixData, outer: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+        const { x, y } = outer
         const { a, b, c, d } = t
         const s = 1 / (a * d - b * c)
 
-        // local
-        to || (to = world)
+        // inner
+        to || (to = outer)
         to.x = (x * d - y * c) * s
         to.y = (y * a - x * b) * s
 
-        if (!fromOrigin) {
+        if (!isMovePoint) {
             const { e, f } = t
             to.x -= (e * d - f * c) * s
             to.y -= (f * a - e * b) * s
         }
     },
 
-    empty(matrix: IMatrix): void {
-        matrix.a = 1
-        matrix.b = 0
-        matrix.c = 0
-        matrix.d = 1
-        matrix.e = 0
-        matrix.f = 0
+
+    decompose(t: IMatrixData): IMatrixDecompositionData {
+        const { a, b, c, d } = t
+        let scaleX = a, scaleY = d, rotation = 0, skewX = 0, skewY = 0
+        if (b || c) {
+
+            const s = a * d - b * c
+            const k = a * c + b * d
+
+            if (b) {
+                const ab = a * a + b * b
+                scaleX = sqrt(ab)
+                scaleY = s / scaleX
+
+                const r = a / scaleX
+                rotation = b > 0 ? acos(r) : -acos(r)
+                skewX = atan(k / ab) / OneRadian
+            } else {
+                const cd = c * c + d * d
+                scaleY = sqrt(cd)
+                scaleX = s / scaleY
+
+                const r = c / scaleY
+                rotation = PI / 2 - (d > 0 ? acos(-r) : -acos(r))
+                skewY = atan(k / cd) / OneRadian
+            }
+
+            rotation /= OneRadian
+        }
+
+        return { x: t.e, y: t.f, scaleX, scaleY, rotation, skewX, skewY }
+    },
+
+    reset(t: IMatrix): void {
+        M.set(t)
     }
 }
 

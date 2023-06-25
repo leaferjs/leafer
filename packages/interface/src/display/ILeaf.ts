@@ -5,15 +5,16 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IBoundsData, IRadiusPointData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IMatrixData, IRadiusPointData, IMatrixDecompositionAttr } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
 import { ILeafMatrix } from './module/ILeafMatrix'
 import { ILeafBounds } from './module/ILeafBounds'
-import { ILeafLayout } from '../layout/ILeafLayout'
+import { ILeafLayout, ILayoutBoundsType, ILayoutLocationType } from '../layout/ILeafLayout'
 import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
+import { ILeafMask } from './module/ILeafMask'
 import { ILeafData } from '../data/ILeafData'
 
 
@@ -30,8 +31,10 @@ export interface ILeafAttrData {
     name: __String
     className: __String
 
+    blendMode: IBlendMode
     opacity: __Number
     visible: __Boolean
+    isMask: __Boolean
     zIndex: __Number
 
     // layout data
@@ -48,11 +51,44 @@ export interface ILeafAttrData {
     draggable: __Boolean
 
     hittable: __Boolean
-    hitType: IHitType
+    hitFill: IHitType
+    hitStroke: IHitType
     hitChildren: __Boolean
+    hitSelf: __Boolean
 }
 
-export type IHitType = 'visible' | 'fill-visible' | 'stroke-visible' | 'all' | 'fill' | 'stroke'
+export type IHitType =
+    | 'path'
+    | 'pixel'
+    | 'all'
+    | 'none'
+
+export type IBlendMode =
+    | 'pass-through'
+    | 'normal'
+    | 'multiply'
+    | 'screen'
+    | 'overlay'
+    | 'darken'
+    | 'lighten'
+    | 'color-dodge'
+    | 'color-burn'
+    | 'hard-light'
+    | 'soft-light'
+    | 'difference'
+    | 'exclusion'
+    | 'hue'
+    | 'saturation'
+    | 'color'
+    | 'luminosity'
+    | 'source-over'  // other
+    | 'source-in'
+    | 'source-out'
+    | 'source-atop'
+    | 'destination-over'
+    | 'destination-in'
+    | 'destination-out'
+    | 'destination-atop'
 
 export interface ILeafInputData {
     // layer data
@@ -60,8 +96,10 @@ export interface ILeafInputData {
     name?: __String
     className?: __String
 
+    blendMode?: IBlendMode
     opacity?: __Number
     visible?: __Boolean
+    isMask?: __Boolean
     zIndex?: __Number
 
     // layout data
@@ -78,8 +116,10 @@ export interface ILeafInputData {
     draggable?: __Boolean
 
     hittable?: __Boolean
-    hitType?: IHitType
+    hitFill?: IHitType
+    hitStroke?: IHitType
     hitChildren?: __Boolean
+    hitSelf?: __Boolean
 }
 export interface ILeafComputedData {
     // layer data
@@ -87,8 +127,10 @@ export interface ILeafComputedData {
     name?: string
     className?: string
 
+    blendMode?: IBlendMode
     opacity?: number
     visible?: boolean
+    isMask?: boolean
     zIndex?: number
 
     // layout data
@@ -105,79 +147,114 @@ export interface ILeafComputedData {
     draggable?: boolean
 
     hittable?: boolean
-    hitType?: IHitType
+    hitFill?: IHitType
+    hitStroke?: IHitType
     hitChildren?: boolean
+    hitSelf?: boolean
 
     // other
     __childBranchNumber?: number // 存在子分支的个数
     __complex?: boolean // 外观是否复杂
 }
 
-export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
-    readonly tag: string
+export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
+    tag: string
+    readonly __tag: string
+    readonly innerName: string
+
     readonly __DataProcessor: IObject // IDataProcessor
     readonly __LayoutProcessor: IObject // ILeafLayout
 
     leafer?: ILeafer
-    root?: ILeaf
     parent?: ILeaf
 
-    __isRoot?: boolean
-    __isBranch?: boolean
-    __isBranchLeaf?: boolean
+    readonly isApp?: boolean
+    isLeafer?: boolean
+    isBranch?: boolean
+    isBranchLeaf?: boolean
 
     __: ILeafData
     __layout: ILeafLayout
 
-    __relative: IMatrixWithBoundsData
+    __local: IMatrixWithBoundsData
     __world: IMatrixWithBoundsData
-
     __worldOpacity: number
-    __renderTime: number // μs 1000微秒 = 1毫秒
+
+    readonly worldTransform: IMatrixData
+    readonly localTransform: IMatrixData
+
+    readonly worldBoxBounds: IBoundsData
+    readonly worldStrokeBounds: IBoundsData
+    readonly worldRenderBounds: IBoundsData
+
+    readonly worldOpacity: number
+
+    __renderTime?: number // μs 1000微秒 = 1毫秒
 
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态
 
+    __hasMask?: boolean
     __hitCanvas?: IHitCanvas
 
+    readonly __onlyHitMask: boolean
+    readonly __ignoreHitWorld: boolean
+
     __parentWait?: IFunction[]
+    __leaferWait?: IFunction[]
 
-    __addParentWait(item: IFunction): void
-    __runParentWait(): void
+    waitParent(item: IFunction): void
+    waitLeafer(item: IFunction): void
 
-    __setAsLeafer(): void
-    __setAsRoot(): void
+    __bindLeafer(leafer: ILeafer | null): void
 
-    __bindRoot(root: ILeaf): void
+    set(data: IObject): void
+    get(attrNames?: string[]): IObject
 
     // ILeafData ->
-    __set(attrName: string, newValue: __Value): void
-    __get(attrName: string): __Value
-    __updateAttr(attrName: string): void
+    __setAttr(attrName: string, newValue: __Value): void
+    __getAttr(attrName: string): __Value
+
+    forceUpdate(attrName?: string): void
 
     // ILeafMatrix ->
     __updateWorldMatrix(): void
-    __updateRelativeMatrix(): void
+    __updateLocalMatrix(): void
 
     // ILeafBounds ->
     __updateWorldBounds(): void
 
-    __updateRelativeBoxBounds(): void
-    __updateRelativeEventBounds(): void
-    __updateRelativeRenderBounds(): void
+    __updateLocalBoxBounds(): void
+    __updateLocalStrokeBounds(): void
+    __updateLocalRenderBounds(): void
 
     __updateBoxBounds(): void
-    __updateEventBounds(): void
+    __updateStrokeBounds(): void
     __updateRenderBounds(): void
 
-    __updateEventBoundsSpreadWidth(): number
-    __updateRenderBoundsSpreadWidth(): number
+    __updateStrokeSpread(): number
+    __updateRenderSpread(): number
 
     __onUpdateSize(): void
+
+    // IBranchMask ->
+    __updateMask(value?: boolean): void
+    __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas): void
+    __removeMask(child?: ILeaf): void
+
+    // convert
+    getWorld(attrName: IMatrixDecompositionAttr): number
+    getBounds(type: ILayoutBoundsType, locationType?: ILayoutLocationType): IBoundsData
+
+    worldToLocal(world: IPointData, to?: IPointData, isMovePoint?: boolean): void
+    localToWorld(local: IPointData, to?: IPointData, isMovePoint?: boolean): void
+    worldToInner(world: IPointData, to?: IPointData, isMovePoint?: boolean): void
+    innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean
     __hit(local: IRadiusPointData): boolean
+    __drawHitPath(canvas: ILeaferCanvas): void
     __updateHitCanvas(): void
 
     // ILeafRender ->
@@ -185,8 +262,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
     __draw(canvas: ILeaferCanvas, options: IRenderOptions): void
 
+    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void
+
     __updateWorldOpacity(): void
-    __updateRenderTime(): void
     __updateChange(): void
 
     // path
@@ -202,5 +280,3 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf): void
 }
-
-

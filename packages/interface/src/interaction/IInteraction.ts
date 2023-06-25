@@ -4,12 +4,12 @@ import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
 import { ISelector } from '../selector/ISelector'
-import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IBounds } from '../math/IMath'
+import { IControl } from '../control/IControl'
 
-export interface IInteraction {
+export interface IInteraction extends IControl {
     target: ILeaf
-    canvas: ILeaferCanvas
+    canvas: IInteractionCanvas
     selector: ISelector
 
     running: boolean
@@ -21,9 +21,7 @@ export interface IInteraction {
     shrinkCanvasBounds: IBounds
 
     downData: IPointerEvent
-
-    start(): void
-    stop(): void
+    downTime: number
 
     pointerDown(data: IPointerEvent): void
     pointerMove(data: IPointerEvent): void
@@ -36,14 +34,29 @@ export interface IInteraction {
     rotate(data: IRotateEvent): void
 
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
+}
 
-    destroy(): void
+export interface IInteractionCanvas {
+    bounds: IBounds
+    view: unknown
 }
 
 export interface IInteractionConfig {
     wheel?: IWheelConfig
     pointer?: IPointerConfig
+    zoom?: IZoomConfig
+    move?: IMoveConfig
+}
 
+export interface IZoomConfig {
+    min?: number
+    max?: number
+}
+
+export interface IMoveConfig {
+    dragEmpty?: boolean
+    dragOut?: boolean
+    autoDistance?: number
 }
 
 export interface IWheelConfig {
@@ -54,16 +67,19 @@ export interface IWheelConfig {
     delta?: IPointData  // 以chrome为基准, 鼠标滚动一格的距离
     getScale?: INumberFunction
     getMove?: IPointDataFunction
+    preventDefault?: boolean
 }
 
 export interface IPointerConfig {
     hitRadius?: number
     through?: boolean
-    clickTime?: number
+    tapMore?: boolean
+    tapTime?: number
     longPressTime?: number
     transformTime?: number
+    dragHover?: boolean
     dragDistance?: number
     swipeDistance?: number
-    autoMoveDistance?: number
-    ignoreMove: boolean // 性能优化字段, 控制move事件触发次数
+    ignoreMove?: boolean // 性能优化字段, 控制move事件触发次数
+    preventDefault?: boolean
 }

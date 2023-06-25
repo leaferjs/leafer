@@ -42,11 +42,11 @@ setTimeout(() => doRewrite(true))
 
 // class
 
-export function useModule(module: IObject) {
+export function useModule(module: IObject, exclude?: string[]) {
     return (target: IObject) => {
         const names = module.prototype ? getNames(module.prototype) : Object.keys(module)
         names.forEach(name => {
-            if (!excludeNames.includes(name)) {
+            if (!excludeNames.includes(name) && (!exclude || !exclude.includes(name))) {
                 if (module.prototype) {
                     const d = getDescriptor(module.prototype, name)
                     if (d.writable) target.prototype[name] = module.prototype[name]

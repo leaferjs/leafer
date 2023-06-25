@@ -1,8 +1,8 @@
-import { ILeaf, ILeafArrayMap, ILeafMap, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, ILeafList, IEventListenerId } from '@leafer/interface'
-import { ChildEvent } from '@leafer/event'
-import { LeafList } from '@leafer/list'
+import { ILeaf, ILeafArrayMap, ILeafMap, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig } from '@leafer/interface'
+import { ChildEvent, LayoutEvent } from '@leafer/event'
+import { DataHelper } from '@leafer/data'
 
-import { PathFinder } from './PathFinder'
+import { FindPath } from './FindPath'
 
 
 interface IFind {
@@ -13,9 +13,10 @@ interface IFind {
 export class Selector implements ISelector {
 
     public target: ILeaf
-    public defaultPath: ILeafList
 
-    protected pathFinder: PathFinder
+    public config: ISelectorConfig = {}
+
+    protected findPath: FindPath
 
     protected innerIdList: ILeafMap = {}
     protected idList: ILeafMap = {}
@@ -24,17 +25,17 @@ export class Selector implements ISelector {
 
     protected __eventIds: IEventListenerId[]
 
-    constructor(target: ILeaf) {
+    constructor(target: ILeaf, userConfig?: ISelectorConfig) {
         this.target = target
-        this.defaultPath = new LeafList(target)
-        this.pathFinder = new PathFinder(target, this)
+        if (userConfig) this.config = DataHelper.default(userConfig, this.config)
+        this.findPath = new FindPath(target, this)
         this.__listenEvents()
     }
 
-    public getHitPointPath(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
-        return this.pathFinder.getHitPointPath(hitPoint, hitRadius, options)
+    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
+        this.target.emit(LayoutEvent.CHECK_UPDATE)
+        return this.findPath.getByPoint(hitPoint, hitRadius, options)
     }
-
 
     public find(name: number | string, branch?: ILeaf): ILeaf | ILeaf[] {
         if (typeof name === 'number') {
@@ -96,7 +97,7 @@ export class Selector implements ISelector {
         if (!branch) branch = this.target
         let find: Array<ILeaf | ILeaf> = []
         this.loopFind(branch, (leaf) => {
-            if (leaf.tag === name) find.push(leaf)
+            if (leaf.__tag === name) find.push(leaf)
             return false
         })
         return find
@@ -108,7 +109,7 @@ export class Selector implements ISelector {
         for (let i = 0, len = children.length; i < len; i++) {
             branch = children[i] as ILeaf
             if (find(branch)) return
-            if (branch.__isBranch) this.loopFind(branch, find)
+            if (branch.isBranch) this.loopFind(branch, find)
         }
     }
 
@@ -121,21 +122,21 @@ export class Selector implements ISelector {
 
     protected __listenEvents(): void {
         this.__eventIds = [
-            this.target.on__(ChildEvent.REMOVE, this.__onRemoveChild, this)
+            this.target.on_(ChildEvent.REMOVE, this.__onRemoveChild, this)
         ]
     }
 
     protected __removeListenEvents(): void {
-        this.target.off__(this.__eventIds)
+        this.target.off_(this.__eventIds)
     }
 
     public destroy(): void {
         if (this.target) {
             this.__removeListenEvents()
-            this.pathFinder.destroy()
+            this.findPath.destroy()
 
             this.target = null
-            this.pathFinder = null
+            this.findPath = null
             this.innerIdList = null
             this.idList = null
             this.classNameList = null

@@ -1,4 +1,4 @@
-import { IMoveEvent, IZoomEvent, IRotateEvent, TransformMode } from '@leafer/interface'
+import { IMoveEvent, IZoomEvent, IRotateEvent, TransformMode, ITimer } from '@leafer/interface'
 import { MoveEvent, ZoomEvent, RotateEvent } from '@leafer/event-ui'
 
 import { InteractionBase } from './Interaction'
@@ -11,7 +11,7 @@ export class Transformer {
     protected zoomData: IZoomEvent
     protected rotateData: IRotateEvent
     protected transformMode: TransformMode
-    protected transformTimer: number
+    protected transformTimer: ITimer
 
     constructor(interaction: InteractionBase) {
         this.interaction = interaction
@@ -21,7 +21,7 @@ export class Transformer {
         const { interaction } = this
 
         if (!this.moveData) {
-            const { path } = interaction.selector.getHitPointPath(data, interaction.hitRadius)
+            const { path } = interaction.selector.getByPoint(data, interaction.hitRadius)
             data.path = path
             this.moveData = { ...data, moveX: 0, moveY: 0 }
             interaction.emit(MoveEvent.START, this.moveData)
@@ -37,7 +37,7 @@ export class Transformer {
         const { interaction } = this
 
         if (!this.zoomData) {
-            const { path } = interaction.selector.getHitPointPath(data, interaction.hitRadius)
+            const { path } = interaction.selector.getByPoint(data, interaction.hitRadius)
             data.path = path
             this.zoomData = { ...data, scale: 1 }
             interaction.emit(ZoomEvent.START, this.zoomData)
@@ -53,7 +53,7 @@ export class Transformer {
         const { interaction } = this
 
         if (!this.rotateData) {
-            const { path } = interaction.selector.getHitPointPath(data, interaction.hitRadius)
+            const { path } = interaction.selector.getByPoint(data, interaction.hitRadius)
             data.path = path
             this.rotateData = { ...data, rotation: 0 }
             interaction.emit(RotateEvent.START, this.rotateData)

@@ -1,7 +1,5 @@
 import { IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, ILeafEventerModule } from '@leafer/interface'
-import { Debug } from '@leafer/debug'
 
-const debug = Debug.get('Life')
 const empty = {}
 
 export const LeafEventer: ILeafEventerModule = {
@@ -51,13 +49,13 @@ export const LeafEventer: ILeafEventerModule = {
         })
     },
 
-    on__(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId {
+    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId {
         if (bind) listener = listener.bind(bind)
         this.on(type, listener, options)
         return { type, listener, options }
     },
 
-    off__(id: IEventListenerId | IEventListenerId[]): void {
+    off_(id: IEventListenerId | IEventListenerId[]): void {
         if (!id) return
         const list = id instanceof Array ? id : [id]
         list.forEach(item => {
@@ -71,8 +69,6 @@ export const LeafEventer: ILeafEventerModule = {
     },
 
     emit(type: string, event?: IEvent | IObject, capture?: boolean): void {
-        if (Debug.enable) debug.log(type)
-
         const map = __getListenerMap(this, capture)
         const list = map[type]
         if (list) {

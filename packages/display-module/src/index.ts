@@ -4,4 +4,5 @@ export { LeafMatrix } from './LeafMatrix'
 export { LeafBounds } from './LeafBounds'
 export { LeafHit } from './LeafHit'
 export { LeafRender } from './LeafRender'
+export { LeafMask } from './LeafMask'
 

@@ -3,7 +3,9 @@ export type __Boolean = boolean // boolean | string  will convert to boolean
 export type __String = string //  string  | other   will convert to string
 export type __Object = IObject // will convert to object
 export type __Value = __Number | __Boolean | __String | __Object  // 
+export type ITimer = any
 
+export type IPathString = string
 
 export interface IObject {
     [name: string]: any

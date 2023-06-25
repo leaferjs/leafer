@@ -1,104 +1,142 @@
 import { IPointData, ITwoPointBoundsData, IPathCommandData } from '@leafer/interface'
-import { TwoPointBoundsHelper } from '@leafer/math'
+import { OneRadian, PI2, PI_2, PointHelper, TwoPointBoundsHelper } from '@leafer/math'
 
 import { PathCommandMap } from './PathCommandMap'
+import { RectHelper } from './RectHelper'
+import { PathHelper } from './PathHelper'
 
-
-const tempPoint = {} as IPointData
-const { sin, cos, sqrt, atan2, ceil, abs, PI } = Math
+const { sin, cos, atan2, ceil, abs, PI } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
+const { set } = PointHelper
+const tempPoint = {} as IPointData
 
 export const BezierHelper = {
 
-    getFromACommand(fromX: number, fromY: number, rx: number, ry: number, rotateAngle: number, largeFlag: number, sweepFlag: number, toX: number, toY: number): IPathCommandData { //  [...CCommandData, ...CCommandData]
+    rect(data: IPathCommandData, x: number, y: number, width: number, height: number) {
+        PathHelper.creator.path = data
+        PathHelper.creator.moveTo(x, y).lineTo(x + width, y).lineTo(x + width, y + height).lineTo(x, y + height).lineTo(x, y)
+    },
 
-        const localToX = toX - fromX
-        const localToY = toY - fromY
+    roundRect(data: IPathCommandData, x: number, y: number, width: number, height: number, radius: number | number[]): void {
+        PathHelper.creator.path = []
+        RectHelper.drawRoundRect(PathHelper.creator, x, y, width, height, radius)
+        data.push(...PathHelper.convertToCanvasData(PathHelper.creator.path, true))
+    },
 
-        const rotation = rotateAngle * PI / 180
-        const sinRotation = sin(rotation)
-        const cosRotation = cos(rotation)
+    arcTo(data: IPathCommandData | null | void, fromX: number, fromY: number, x1: number, y1: number, toX: number, toY: number, radius: number, setPointBounds?: ITwoPointBoundsData, setEndPoint?: IPointData, setStartPoint?: IPointData): void {
+        const BAx = x1 - fromX
+        const BAy = y1 - fromY
+        const CBx = toX - x1
+        const CBy = toY - y1
 
-        const ax = -cosRotation * localToX * 0.5 - sinRotation * localToY * 0.5
-        const ay = -cosRotation * localToY * 0.5 + sinRotation * localToX * 0.5
-        const rxSquare = rx * rx
-        const rySquare = ry * ry
-        const pySquare = ay * ay
-        const pxSquare = ax * ax
-        const a = rxSquare * rySquare - rxSquare * pySquare - rySquare * pxSquare
-        let sr = 0
+        let startRadian = atan2(BAy, BAx)
+        let endRadian = atan2(CBy, CBx)
+        let totalRadian = endRadian - startRadian
+        if (totalRadian < 0) totalRadian += PI2
 
-        if (a < 0) {
-            const scale = sqrt(1 - a / (rxSquare * rySquare))
-            rx *= scale
-            ry *= scale
-        } else {
-            const sign = largeFlag === sweepFlag ? -1 : 1
-            sr = sign * sqrt(a / (rxSquare * pySquare + rySquare * pxSquare))
+        if (totalRadian === PI || (abs(BAx + BAy) < 1.e-12) || (abs(CBx + CBy) < 1.e-12)) { // invalid
+            if (data) data.push(PathCommandMap.L, x1, y1)
+            if (setPointBounds) {
+                setPoint(setPointBounds, fromX, fromY)
+                addPoint(setPointBounds, x1, y1)
+            }
+            if (setStartPoint) set(setStartPoint, fromX, fromY)
+            if (setEndPoint) set(setEndPoint, x1, y1)
+            return
         }
 
-        const cx = sr * rx * ay / ry
-        const cy = -sr * ry * ax / rx
-        const cx1 = cosRotation * cx - sinRotation * cy + localToX * 0.5
-        const cy1 = sinRotation * cx + cosRotation * cy + localToY * 0.5
+        const anticlockwise = BAx * CBy - CBx * BAy < 0
+        const sign = anticlockwise ? -1 : 1
+        const c = radius / cos(totalRadian / 2)
 
-        let r1 = atan2((ay - cy) / ry, (ax - cx) / rx)
-        let r2 = atan2((-ay - cy) / ry, (-ax - cx) / rx)
-        let totalRadian = r2 - r1
+        const centerX = x1 + c * cos(startRadian + totalRadian / 2 + PI_2 * sign)
+        const centerY = y1 + c * sin(startRadian + totalRadian / 2 + PI_2 * sign)
+        startRadian -= PI_2 * sign
+        endRadian -= PI_2 * sign
 
-        if (sweepFlag === 0 && totalRadian > 0) {
-            totalRadian -= 2 * PI
-        } else if (sweepFlag === 1 && totalRadian < 0) {
-            totalRadian += 2 * PI
-        }
+        return ellipse(data, centerX, centerY, radius, radius, 0, startRadian / OneRadian, endRadian / OneRadian, anticlockwise, setPointBounds, setEndPoint, setStartPoint)
+    },
 
-        // segments arc
-        const data: IPathCommandData = []
-        const segments = ceil(abs(totalRadian / PI * 2))
-        const segmentRadian = totalRadian / segments
-        const sinSegmentRadian2 = sin(segmentRadian / 2)
-        const sinSegmentRadian4 = sin(segmentRadian / 4)
-        const controlRadian = 8 / 3 * sinSegmentRadian4 * sinSegmentRadian4 / sinSegmentRadian2
+    arc(data: IPathCommandData | null | void, x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean, setPointBounds?: ITwoPointBoundsData, setEndPoint?: IPointData, setStartPoint?: IPointData): void {
+        return ellipse(data, x, y, radius, radius, 0, startAngle, endAngle, anticlockwise, setPointBounds, setEndPoint, setStartPoint)
+    },
 
-        r1 = 0
-        r2 = atan2((ay - cy) / ry, (ax - cx) / rx)
-        let startRadian = r2 - r1
-        let endRadian = startRadian + segmentRadian
-        let cosStart = cos(startRadian)
-        let sinStart = sin(startRadian)
-        let cosEnd: number, sinEnd: number
-        let startX = 0, startY = 0
+    ellipse(data: IPathCommandData | null | void, cx: number, cy: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise?: boolean, setPointBounds?: ITwoPointBoundsData, setEndPoint?: IPointData, setStartPoint?: IPointData): void {
+        const rotationRadian = rotation * OneRadian
+        const rotationSin = sin(rotationRadian)
+        const rotationCos = cos(rotationRadian)
+
+        let startRadian = startAngle * OneRadian
+        let endRadian = endAngle * OneRadian
+
+        if (startRadian > PI) startRadian -= PI2
+        if (endRadian < 0) endRadian += PI2
+
+        let totalRadian = endRadian - startRadian
+        if (totalRadian < 0) totalRadian += PI2
+        else if (totalRadian > PI2) totalRadian -= PI2
+
+        if (anticlockwise) totalRadian -= PI2
+
+
+        const parts = ceil(abs(totalRadian / PI_2))
+        const partRadian = totalRadian / parts
+        const partRadian4Sin = sin(partRadian / 4)
+        const control = 8 / 3 * partRadian4Sin * partRadian4Sin / sin(partRadian / 2)
+
+        endRadian = startRadian + partRadian
+
+        let startCos = cos(startRadian)
+        let startSin = sin(startRadian)
+        let endCos: number, endSin: number
 
         let x: number, y: number, x1: number, y1: number, x2: number, y2: number
-        for (let i = 0; i < segments; i++) {
 
-            cosEnd = cos(endRadian)
-            sinEnd = sin(endRadian)
+        let startX = x = rotationCos * radiusX * startCos - rotationSin * radiusY * startSin
+        let startY = y = rotationSin * radiusX * startCos + rotationCos * radiusY * startSin
 
-            // segment bezier
-            x = cosRotation * rx * cosEnd - sinRotation * ry * sinEnd + cx1
-            y = sinRotation * rx * cosEnd + cosRotation * ry * sinEnd + cy1
-            x1 = startX + controlRadian * (-cosRotation * rx * sinStart - sinRotation * ry * cosStart)
-            y1 = startY + controlRadian * (-sinRotation * rx * sinStart + cosRotation * ry * cosStart)
-            x2 = x + controlRadian * (cosRotation * rx * sinEnd + sinRotation * ry * cosEnd)
-            y2 = y + controlRadian * (sinRotation * rx * sinEnd - cosRotation * ry * cosEnd)
+        let fromX = cx + x, fromY = cy + y
 
-            data.push(PathCommandMap.C, x1 + fromX, y1 + fromY, x2 + fromX, y2 + fromY, x + fromX, y + fromY)
+        if (data) data.push(PathCommandMap.L, fromX, fromY)
+        if (setPointBounds) setPoint(setPointBounds, fromX, fromY)
+        if (setStartPoint) set(setStartPoint, fromX, fromY)
+
+        for (let i = 0; i < parts; i++) {
+
+            endCos = cos(endRadian)
+            endSin = sin(endRadian)
+
+            x = rotationCos * radiusX * endCos - rotationSin * radiusY * endSin
+            y = rotationSin * radiusX * endCos + rotationCos * radiusY * endSin
+            x1 = cx + startX - control * (rotationCos * radiusX * startSin + rotationSin * radiusY * startCos)
+            y1 = cy + startY - control * (rotationSin * radiusX * startSin - rotationCos * radiusY * startCos)
+            x2 = cx + x + control * (rotationCos * radiusX * endSin + rotationSin * radiusY * endCos)
+            y2 = cy + y + control * (rotationSin * radiusX * endSin - rotationCos * radiusY * endCos)
+
+            if (data) data.push(PathCommandMap.C, x1, y1, x2, y2, cx + x, cy + y)
+            if (setPointBounds) toTwoPointBounds(cx + startX, cy + startY, x1, y1, x2, y2, cx + x, cy + y, setPointBounds, true)
 
             startX = x
             startY = y
+            startCos = endCos
+            startSin = endSin
             startRadian = endRadian
-            cosStart = cosEnd
-            sinStart = sinEnd
-            endRadian += segmentRadian
-
+            endRadian += partRadian
         }
 
-        return data
+        if (setEndPoint) set(setEndPoint, cx + x, cy + y)
 
     },
 
-    toTwoPointBounds(fromX: number, fromY: number, x1: number, y1: number, x2: number, y2: number, toX: number, toY: number, pointBounds: ITwoPointBoundsData): void {
+    quadraticCurveTo(data: IPathCommandData, fromX: number, fromY: number, x1: number, y1: number, toX: number, toY: number): void {
+        data.push(PathCommandMap.C, (fromX + 2 * x1) / 3, (fromY + 2 * y1) / 3, (toX + 2 * x1) / 3, (toY + 2 * y1) / 3, toX, toY)
+    },
+
+    toTwoPointBoundsByQuadraticCurve(fromX: number, fromY: number, x1: number, y1: number, toX: number, toY: number, pointBounds: ITwoPointBoundsData, addMode?: boolean): void {
+        toTwoPointBounds(fromX, fromY, (fromX + 2 * x1) / 3, (fromY + 2 * y1) / 3, (toX + 2 * x1) / 3, (toY + 2 * y1) / 3, toX, toY, pointBounds, addMode)
+    },
+
+    toTwoPointBounds(fromX: number, fromY: number, x1: number, y1: number, x2: number, y2: number, toX: number, toY: number, pointBounds: ITwoPointBoundsData, addMode?: boolean): void {
 
         const tList = []
         let a, b, c, t, t1, t2, v, sqrtV
@@ -131,13 +169,14 @@ export const BezierHelper = {
             if (0 < t2 && t2 < 1) tList.push(t2)
         }
 
-        setPoint(pointBounds, fromX, fromY)
+        addMode ? addPoint(pointBounds, fromX, fromY) : setPoint(pointBounds, fromX, fromY)
         addPoint(pointBounds, toX, toY)
 
         for (let i = 0, len = tList.length; i < len; i++) {
-            B.getPointAndSet(tList[i], fromX, fromY, x1, y1, x2, y2, toX, toY, tempPoint)
+            getPointAndSet(tList[i], fromX, fromY, x1, y1, x2, y2, toX, toY, tempPoint)
             addPoint(pointBounds, tempPoint.x, tempPoint.y)
         }
+
     },
 
     getPointAndSet(t: number, fromX: number, fromY: number, x1: number, y1: number, x2: number, y2: number, toX: number, toY: number, setPoint: IPointData): void {
@@ -148,10 +187,9 @@ export const BezierHelper = {
 
     getPoint(t: number, fromX: number, fromY: number, x1: number, y1: number, x2: number, y2: number, toX: number, toY: number): IPointData {
         const point = {} as IPointData
-        B.getPointAndSet(t, fromX, fromY, x1, y1, x2, y2, toX, toY, point)
+        getPointAndSet(t, fromX, fromY, x1, y1, x2, y2, toX, toY, point)
         return point
     }
-
 }
 
-const B = BezierHelper
+const { getPointAndSet, toTwoPointBounds, ellipse } = BezierHelper

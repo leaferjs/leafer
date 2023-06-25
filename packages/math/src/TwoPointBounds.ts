@@ -16,6 +16,10 @@ export class TwoPointBounds implements ITwoPointBounds {
         P.addPoint(this, x, y)
     }
 
+    addBounds(x: number, y: number, width: number, height: number): void {
+        P.addBounds(this, x, y, width, height)
+    }
+
     add(pb: ITwoPointBoundsData): void {
         P.add(this, pb)
     }

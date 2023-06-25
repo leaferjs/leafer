@@ -10,6 +10,6 @@ export { PointHelper } from './PointHelper'
 export { BoundsHelper } from './BoundsHelper'
 export { TwoPointBoundsHelper } from './TwoPointBoundsHelper'
 export { MatrixHelper } from './MatrixHelper'
-export { MathHelper, OneRadian } from './MathHelper'
+export { MathHelper, OneRadian, PI2, PI_2 } from './MathHelper'
 
 export { StringNumberMap } from './StringNumber'

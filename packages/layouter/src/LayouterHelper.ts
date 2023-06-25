@@ -18,13 +18,13 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
                 updateAllWorldMatrix(leaf)
 
                 levelList.push(leaf)
-                if (leaf.__isBranch) pushAllChildBranch(leaf, levelList)
+                if (leaf.isBranch) pushAllChildBranch(leaf, levelList)
                 pushAllParent(leaf, levelList)
 
             } else if (layout.boundsChanged) {
 
                 levelList.push(leaf)
-                if (leaf.__isBranch) leaf.__tempNumber = 0  // 标识需要更新子Leaf元素的WorldBounds分支, 0表示不需要更新
+                if (leaf.isBranch) leaf.__tempNumber = 0  // 标识需要更新子Leaf元素的WorldBounds分支, 0表示不需要更新
                 pushAllParent(leaf, levelList)
             }
         }
@@ -43,9 +43,9 @@ export function updateBounds(boundsList: ILeafLevelList): void {
             branch = itemList[i]
 
             // 标识了需要更新子元素
-            if (branch.__isBranch && branch.__tempNumber) {
+            if (branch.isBranch && branch.__tempNumber) {
                 for (let j = 0, jLen = branch.children.length; j < jLen; j++) {
-                    if (!branch.children[j].__isBranch) {
+                    if (!branch.children[j].isBranch) {
                         branch.children[j].__updateWorldBounds()
                     }
                 }

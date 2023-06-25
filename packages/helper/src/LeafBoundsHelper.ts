@@ -7,16 +7,28 @@ export const LeafBoundsHelper = {
         return target.__world
     },
 
-    relativeBoxBounds(target: ILeaf): IBoundsData {
-        return target.__relative
+    localBoxBounds(target: ILeaf): IBoundsData {
+        return target.__local
     },
 
-    relativeEventBounds(target: ILeaf): IBoundsData {
-        return target.__layout.relativeEventBounds
+    localEventBounds(target: ILeaf): IBoundsData {
+        return target.__layout.localStrokeBounds
     },
 
-    relativeRenderBounds(target: ILeaf): IBoundsData {
-        return target.__layout.relativeRenderBounds
+    localRenderBounds(target: ILeaf): IBoundsData {
+        return target.__layout.localRenderBounds
+    },
+
+    maskLocalBoxBounds(target: ILeaf): IBoundsData {
+        return target.isMask ? target.__local : null
+    },
+
+    maskLocalEventBounds(target: ILeaf): IBoundsData {
+        return target.isMask ? target.__layout.localStrokeBounds : null
+    },
+
+    maskLocalRenderBounds(target: ILeaf): IBoundsData {
+        return target.isMask ? target.__layout.localRenderBounds : null
     }
 
 }

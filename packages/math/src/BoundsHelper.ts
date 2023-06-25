@@ -6,7 +6,7 @@ import { PointHelper as P } from './PointHelper'
 
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
-const { toWorldPoint } = M
+const { toOuterPoint } = M
 
 let right: number, bottom: number, boundsRight: number, boundsBottom: number
 const point = {} as IPointData
@@ -53,12 +53,20 @@ export const BoundsHelper = {
         return t
     },
 
-    getOutOfBounds(t: IBoundsData, bounds: IBoundsData): IOffsetBoundsData {
-        const offsetX = -(B.right(bounds) - t.x)
-        const offsetY = -(B.bottom(bounds) - t.y)
-        const ot = { ...t, offsetX, offsetY }
-        B.move(ot, -offsetX, -offsetY)
-        return ot
+    toOffsetOutBounds(t: IBoundsData, to?: IOffsetBoundsData, parent?: IBoundsData): void {
+        if (!to) {
+            to = t as IOffsetBoundsData
+        } else {
+            copy(to, t)
+        }
+        if (parent) {
+            to.offsetX = -(B.right(parent) - t.x)
+            to.offsetY = -(B.bottom(parent) - t.y)
+        } else {
+            to.offsetX = t.x + t.width
+            to.offsetY = t.y + t.height
+        }
+        B.move(to, -to.offsetX, -to.offsetY)
     },
 
     scale(t: IBoundsData, scale: number): void {
@@ -68,19 +76,19 @@ export const BoundsHelper = {
         t.height *= scale
     },
 
-    tempToWorld(t: IBoundsData, matrix: IMatrixData): IBoundsData {
+    tempToOuterOf(t: IBoundsData, matrix: IMatrixData): IBoundsData {
         B.copy(B.tempBounds, t)
-        B.toWorld(B.tempBounds, matrix)
+        B.toOuterOf(B.tempBounds, matrix)
         return B.tempBounds
     },
 
-    getWorld(t: IBoundsData, matrix: IMatrixData): IBoundsData {
+    getOuterOf(t: IBoundsData, matrix: IMatrixData): IBoundsData {
         t = { ...t }
-        B.toWorld(t, matrix)
+        B.toOuterOf(t, matrix)
         return t
     },
 
-    toWorld(t: IBoundsData, matrix: IMatrixData, to?: IBoundsData): void {
+    toOuterOf(t: IBoundsData, matrix: IMatrixData, to?: IBoundsData): void {
 
         to || (to = t)
 
@@ -96,34 +104,27 @@ export const BoundsHelper = {
             point.x = t.x
             point.y = t.y
 
-            toWorldPoint(matrix, point, toPoint)
+            toOuterPoint(matrix, point, toPoint)
             setPoint(tempPointBounds, toPoint.x, toPoint.y)
 
             point.x = t.x + t.width
 
-            toWorldPoint(matrix, point, toPoint)
+            toOuterPoint(matrix, point, toPoint)
             addPoint(tempPointBounds, toPoint.x, toPoint.y)
 
             point.y = t.y + t.height
 
-            toWorldPoint(matrix, point, toPoint)
+            toOuterPoint(matrix, point, toPoint)
             addPoint(tempPointBounds, toPoint.x, toPoint.y)
 
             point.x = t.x
 
-            toWorldPoint(matrix, point, toPoint)
+            toOuterPoint(matrix, point, toPoint)
             addPoint(tempPointBounds, toPoint.x, toPoint.y)
 
             toBounds(tempPointBounds, to)
         }
     },
-
-    /**toLocal(t: IBoundsData, matrix: IMatrixData): void {
-        t.x = (t.x - matrix.e) / matrix.a
-        t.y = (t.y - matrix.f) / matrix.d
-        t.width /= matrix.a
-        t.height /= matrix.d
-    },*/
 
     getFitMatrix(t: IBoundsData, put: IBoundsData): IMatrix {
         const scale = Math.min(1, Math.min(t.width / put.width, t.height / put.height))
@@ -175,15 +176,10 @@ export const BoundsHelper = {
     },
 
     setByListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode = false): void {
-        if (!list.length) {
-            B.empty(t)
-            return
-        }
-
         let bounds: IBoundsData, first = true
         for (let i = 0, len = list.length; i < len; i++) {
             bounds = boundsDataHandle ? boundsDataHandle(list[i]) : list[i] as IBoundsData
-            if (bounds.width || bounds.height) { // 必须有效的bounds
+            if (bounds && (bounds.width || bounds.height)) {
                 if (first) {
                     first = false
                     if (!addMode) copy(t, bounds)
@@ -192,6 +188,8 @@ export const BoundsHelper = {
                 }
             }
         }
+
+        if (first) B.reset(t)
     },
 
     setByPoints(t: IBoundsData, points: IPointData[]): void {
@@ -202,28 +200,28 @@ export const BoundsHelper = {
     },
 
     hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixData): boolean {
-        if (pointMatrix) point = P.tempToLocalRadiusPoint(point, pointMatrix)
+        if (pointMatrix) point = P.tempToInnerRadiusPointOf(point, pointMatrix)
         return (point.x >= t.x - point.radiusX && point.x <= t.x + t.width + point.radiusX) && (point.y >= t.y - point.radiusY && point.y <= t.y + t.height + point.radiusY)
     },
 
     hitPoint(t: IBoundsData, point: IPointData, pointMatrix?: IMatrixData): boolean {
-        if (pointMatrix) point = P.tempToLocal(point, pointMatrix)
+        if (pointMatrix) point = P.tempToInnerOf(point, pointMatrix)
         return (point.x >= t.x && point.x <= t.x + t.width) && (point.y >= t.y && point.y <= t.y + t.height)
     },
 
 
     hit(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): boolean {
-        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
+        if (otherMatrix) other = B.tempToOuterOf(other, otherMatrix)
         return !((t.y + t.height < other.y) || (other.y + other.height < t.y) || (t.x + t.width < other.x) || (other.x + other.width < t.x))
     },
 
     includes(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): boolean {
-        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
+        if (otherMatrix) other = B.tempToOuterOf(other, otherMatrix)
         return (t.x <= other.x) && (t.y <= other.y) && (t.x + t.width >= other.x + other.width) && (t.y + t.height >= other.y + other.height)
     },
 
     getIntersectData(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): IBoundsData {
-        if (otherMatrix) other = B.tempToWorld(other, otherMatrix)
+        if (otherMatrix) other = B.tempToOuterOf(other, otherMatrix)
         let { x, y, width, height } = other
 
         right = x + width
@@ -254,11 +252,8 @@ export const BoundsHelper = {
         return t.x === 0 && t.y === 0 && t.width === 0 && t.height === 0
     },
 
-    empty(bounds: IBoundsData): void {
-        bounds.x = 0
-        bounds.y = 0
-        bounds.width = 0
-        bounds.height = 0
+    reset(t: IBoundsData): void {
+        B.set(t)
     }
 }
 

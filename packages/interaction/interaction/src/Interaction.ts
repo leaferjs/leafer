@@ -1,4 +1,4 @@
-import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, ILeaferCanvas, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId } from '@leafer/interface'
+import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer } from '@leafer/interface'
 import { PointerEvent, DropEvent, PointerButton } from '@leafer/event-ui'
 import { ResizeEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
@@ -16,7 +16,7 @@ const { pathHasEventType } = InteractionHelper
 export class InteractionBase implements IInteraction {
 
     public target: ILeaf
-    public canvas: ILeaferCanvas
+    public canvas: IInteractionCanvas
     public selector: ISelector
 
     public running: boolean
@@ -28,17 +28,18 @@ export class InteractionBase implements IInteraction {
             zoomSpeed: 0.5,
             moveSpeed: 0.5,
             rotateSpeed: 0.5,
-            delta: { x: 80 / 4, y: 8.0 }
+            delta: { x: 80 / 4, y: 8.0 },
+            preventDefault: true
         },
         pointer: {
             hitRadius: 5,
             through: false,
-            clickTime: 120,
+            tapTime: 120,
             longPressTime: 800,
             transformTime: 500,
+            dragHover: true,
             dragDistance: 2,
             swipeDistance: 20,
-            autoMoveDistance: 2,
             ignoreMove: false
         }
     }
@@ -49,24 +50,27 @@ export class InteractionBase implements IInteraction {
 
     public downData: IPointerEvent
 
-    protected downTime: number
+    public downTime: number
+    protected overPath: LeafList
     protected enterPath: LeafList
 
     protected waitTap: boolean
-    protected longPressTimer: number
+    protected longPressTimer: ITimer
     protected longPressed: boolean
-    protected clickCount = 0
-    protected clickTimer: number
+    protected tapCount = 0
+    protected tapTimer: ITimer
 
     protected dragger: Dragger
     protected transformer: Transformer
 
     protected __eventIds: IEventListenerId[]
+    protected defaultPath: ILeafList
 
-    constructor(target: ILeaf, canvas: ILeaferCanvas, selector: ISelector, userConfig?: IInteractionConfig) {
+    constructor(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, userConfig?: IInteractionConfig) {
         this.target = target
         this.canvas = canvas
         this.selector = selector
+        this.defaultPath = new LeafList(target)
 
         this.transformer = new Transformer(this)
         this.dragger = new Dragger(this)
@@ -86,10 +90,10 @@ export class InteractionBase implements IInteraction {
 
 
     public pointerDown(data: IPointerEvent): void {
-        this.emit(PointerEvent.BEFORE_DOWN, data, this.selector.defaultPath)
+        this.emit(PointerEvent.BEFORE_DOWN, data, this.defaultPath)
 
         const { hitRadius, through } = this.config.pointer
-        const find = this.selector.getHitPointPath(data, hitRadius, { through })
+        const find = this.selector.getByPoint(data, hitRadius, { through })
         if (find.throughPath) data.throughPath = find.throughPath
         data.path = find.path
         this.emit(PointerEvent.DOWN, data)
@@ -112,7 +116,7 @@ export class InteractionBase implements IInteraction {
     }
 
     public pointerMoveReal(data: IPointerEvent): void {
-        this.emit(PointerEvent.BEFORE_MOVE, data, this.selector.defaultPath)
+        this.emit(PointerEvent.BEFORE_MOVE, data, this.defaultPath)
 
         if (this.downData) {
             const canDrag = PointHelper.getDistance(this.downData, data) > this.config.pointer.dragDistance
@@ -123,21 +127,25 @@ export class InteractionBase implements IInteraction {
 
         if (this.dragger.moving || this.config.pointer.ignoreMove) return
 
-        const find = this.selector.getHitPointPath(data, this.hitRadius, { exclude: this.dragger.getDragList() })
+        const find = this.selector.getByPoint(data, this.hitRadius, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
         data.path = find.path
         this.emit(PointerEvent.MOVE, data)
 
+        this.pointerOverOrOut(data)
         this.pointerEnterOrLeave(data)
-        if (this.dragger.dragging) this.dragger.dropEnterOrLeave(data)
+        if (this.dragger.dragging) {
+            this.dragger.dragOverOrOut(data)
+            this.dragger.dragEnterOrLeave(data)
+        }
     }
 
     public pointerUp(data: IPointerEvent): void {
         if (!this.downData) return
 
-        this.emit(PointerEvent.BEFORE_UP, data, this.selector.defaultPath)
+        this.emit(PointerEvent.BEFORE_UP, data, this.defaultPath)
 
         const { through } = this.config.pointer
-        const find = this.selector.getHitPointPath(data, this.hitRadius, { through })
+        const find = this.selector.getByPoint(data, this.hitRadius, { through })
         if (find.throughPath) data.throughPath = find.throughPath
         data.path = find.path
 
@@ -147,7 +155,6 @@ export class InteractionBase implements IInteraction {
         this.touchLeave(data)
 
         this.tap(data)
-        this.longTap(data)
 
         this.dragger.dragEnd(data)
 
@@ -178,8 +185,26 @@ export class InteractionBase implements IInteraction {
 
 
     // helper
+    protected pointerOverOrOut(data: IPointerEvent): void {
+        if (this.dragger.moving) return
+        if (this.dragging && !this.config.pointer.dragHover) return
+
+        const { path } = data
+        if (this.overPath) {
+            if (path.indexAt(0) !== this.overPath.indexAt(0)) {
+                this.emit(PointerEvent.OUT, data, this.overPath)
+                this.emit(PointerEvent.OVER, data, path)
+            }
+        } else {
+            this.emit(PointerEvent.OVER, data, path)
+        }
+        this.overPath = path
+    }
+
     protected pointerEnterOrLeave(data: IPointerEvent): void {
-        if (this.dragger.moving || this.dragger.dragging) return
+        if (this.dragger.moving) return
+        if (this.dragging && !this.config.pointer.dragHover) return
+
         const { path } = data
         this.emit(PointerEvent.ENTER, data, path, this.enterPath)
         this.emit(PointerEvent.LEAVE, data, this.enterPath, path)
@@ -196,29 +221,51 @@ export class InteractionBase implements IInteraction {
     }
 
     protected tap(data: IPointerEvent): void {
+        const { pointer } = this.config
+
+        const longTap = this.longTap(data)
+        if (!pointer.tapMore && longTap) return
+
         if (!this.waitTap) return
-        if (!this.clickCount) this.emit(PointerEvent.TAP, data)
+        if (pointer.tapMore) this.emitTap(data)
 
         const useTime = Date.now() - this.downTime
 
-        if (useTime < this.config.pointer.clickTime + 50 && pathHasEventType(data.path, PointerEvent.DOUBLE_CLICK)) {
+        const hasDouble = [PointerEvent.DOUBLE_TAP, PointerEvent.DOUBLE_CLICK].some(type => pathHasEventType(data.path, type))
 
-            this.clickCount++
-            if (this.clickCount === 2) {
+        if (useTime < pointer.tapTime + 50 && hasDouble) {
+
+            this.tapCount++
+            if (this.tapCount === 2) {
                 this.tapWaitCancel()
-                this.emit(PointerEvent.DOUBLE_CLICK, data)
+                this.emitDoubleTap(data)
             } else {
-                clearTimeout(this.clickTimer)
-                this.clickTimer = window.setTimeout(() => {
-                    this.tapWaitCancel()
-                    this.emit(PointerEvent.CLICK, data)
-                }, this.config.pointer.clickTime)
+                clearTimeout(this.tapTimer)
+                this.tapTimer = setTimeout(() => {
+                    if (!pointer.tapMore) {
+                        this.tapWaitCancel()
+                        this.emitTap(data)
+                    }
+                }, pointer.tapTime)
             }
 
         } else {
-            this.tapWaitCancel()
-            this.emit(PointerEvent.CLICK, data)
+
+            if (!pointer.tapMore) {
+                this.tapWaitCancel()
+                this.emitTap(data)
+            }
         }
+    }
+
+    protected emitTap(data: IPointerEvent) {
+        this.emit(PointerEvent.TAP, data)
+        this.emit(PointerEvent.CLICK, data)
+    }
+
+    protected emitDoubleTap(data: IPointerEvent) {
+        this.emit(PointerEvent.DOUBLE_TAP, data)
+        this.emit(PointerEvent.DOUBLE_CLICK, data)
     }
 
     public pointerWaitCancel(): void {
@@ -227,27 +274,32 @@ export class InteractionBase implements IInteraction {
     }
 
     protected tapWait(): void {
-        clearTimeout(this.clickTimer)
+        clearTimeout(this.tapTimer)
         this.waitTap = true
     }
 
     protected tapWaitCancel(): void {
-        clearTimeout(this.clickTimer)
+        clearTimeout(this.tapTimer)
         this.waitTap = false
-        this.clickCount = 0
+        this.tapCount = 0
     }
 
     protected longPressWait(data: IPointerEvent): void {
         clearTimeout(this.longPressTimer)
-        this.longPressTimer = window.setTimeout(() => {
+        this.longPressTimer = setTimeout(() => {
             this.longPressed = true
             this.emit(PointerEvent.LONG_PRESS, data)
         }, this.config.pointer.longPressTime)
     }
 
-    protected longTap(data: IPointerEvent): void {
-        if (this.longPressed) this.emit(PointerEvent.LONG_TAP, data)
+    protected longTap(data: IPointerEvent): boolean {
+        let longTap
+        if (this.longPressed) {
+            this.emit(PointerEvent.LONG_TAP, data)
+            if (pathHasEventType(data.path, PointerEvent.LONG_TAP)) longTap = true
+        }
         this.longPressWaitCancel()
+        return longTap
     }
 
     protected longPressWaitCancel(): void {
@@ -262,11 +314,12 @@ export class InteractionBase implements IInteraction {
 
     protected __listenEvents(): void {
         const { target } = this
-        this.__eventIds = [target.on__(ResizeEvent.RESIZE, this.__onResize, this)]
+        this.__eventIds = [target.on_(ResizeEvent.RESIZE, this.__onResize, this)]
+        this.__onResize()
     }
 
     protected __removeListenEvents(): void {
-        this.target.off__(this.__eventIds)
+        this.target.off_(this.__eventIds)
     }
 
 
@@ -277,8 +330,8 @@ export class InteractionBase implements IInteraction {
 
     public destroy(): void {
         if (this.target) {
-            this.running = false
 
+            this.stop()
             this.__removeListenEvents()
             this.dragger.destroy()
             this.transformer.destroy()

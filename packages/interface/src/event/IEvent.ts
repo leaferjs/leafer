@@ -56,7 +56,7 @@ export interface IUpdateEvent extends IEvent {
 
 }
 
-export interface IAttrEvent extends IEvent {
+export interface IPropertyEvent extends IEvent {
     readonly attrName: string
     readonly oldValue: unknown
     readonly newValue: unknown
@@ -64,6 +64,7 @@ export interface IAttrEvent extends IEvent {
 
 export interface ILayoutEvent extends IEvent {
     readonly data: ILayoutBlockData[]
+    readonly times: number
 }
 
 export interface IWatchEvent extends IEvent {

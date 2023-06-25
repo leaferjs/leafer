@@ -4,5 +4,5 @@ export type ILeafMatrixModule = ILeafMatrix & ThisType<ILeaf>
 
 export interface ILeafMatrix {
     __updateWorldMatrix?(): void
-    __updateRelativeMatrix?(): void
+    __updateLocalMatrix?(): void
 }

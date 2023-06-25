@@ -1,8 +1,8 @@
-import { IBoundsData, IMatrixData } from '../math/IMath'
+import { IBoundsData, IMatrixData, IMatrixDecompositionData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 
-export type ILayoutLocationType = 'world' | 'relative' | 'local'
-export type ILayoutBoundsType = 'content' | 'box' | 'event' | 'margin' | 'render'
+export type ILayoutLocationType = 'world' | 'local' | 'inner'
+export type ILayoutBoundsType = 'content' | 'box' | 'stroke' | 'margin' | 'render'
 
 export interface ILeafLayout {
 
@@ -13,23 +13,23 @@ export interface ILeafLayout {
     // local
 
     boxBounds: IBoundsData    //  | content + padding |
-    eventBounds: IBoundsData  //  | boxBounds + border |  
-    renderBounds: IBoundsData //  | eventBounds + shadow |
+    strokeBounds: IBoundsData  //  | boxBounds + border |  
+    renderBounds: IBoundsData //  | strokeBounds + shadow |
 
     // auto layout
-    marginBounds: IBoundsData //  | eventBounds + margin |
+    marginBounds: IBoundsData //  | strokeBounds + margin |
     contentBounds: IBoundsData // | content |  
 
-    // relative
+    // local
 
-    //relativeBoxBounds: IBoundsData = leaf.__local
-    relativeEventBounds: IBoundsData
-    relativeRenderBounds: IBoundsData
+    //localBoxBounds: IBoundsData = leaf.__local
+    localStrokeBounds: IBoundsData
+    localRenderBounds: IBoundsData
 
     // state
 
     // matrix changed
-    matrixChanged: boolean
+    matrixChanged: boolean // include positionChanged scaleChanged skewChanged
     positionChanged: boolean // x, y
     scaleChanged: boolean // scaleX scaleY
     rotationChanged: boolean // rotaiton, skewX scaleY 数据更新
@@ -37,11 +37,11 @@ export interface ILeafLayout {
     // bounds changed
     boundsChanged: boolean
 
-    boxBoundsChanged: boolean
-    eventBoundsChanged: boolean
-    renderBoundsChanged: boolean
+    boxChanged: boolean
+    strokeChanged: boolean
+    renderChanged: boolean
 
-    localBoxBoundsChanged: boolean // position
+    localBoxChanged: boolean // position
 
     // face changed
     surfaceChanged: boolean
@@ -54,25 +54,29 @@ export interface ILeafLayout {
     // keep state
     affectScaleOrRotation: boolean
     affectRotation: boolean
-    eventBoundsSpreadWidth: number
-    renderBoundsSpreadWidth: number
-    renderShapeBoundsSpreadWidth: number
 
-    update(): void
+    strokeSpread: number
+    renderSpread: number
+    strokeBoxSpread: number
+    renderShapeSpread: number
 
-    getTransform(type: ILayoutLocationType): IMatrixData
-    getBounds(type: ILayoutLocationType, boundsType: ILayoutBoundsType): IBoundsData
+    checkUpdate(): void
+
+    getTransform(locationType: ILayoutLocationType): IMatrixData
+    decomposeTransform(locationType: ILayoutLocationType): IMatrixDecompositionData
+    getBounds(type: ILayoutBoundsType, locationType: ILayoutLocationType): IBoundsData
 
     // 独立 / 引用 boxBounds
-    eventBoundsSpread(): void
-    renderBoundsSpread(): void
-    eventBoundsSpreadCancel(): void
-    renderBoundsSpreadCancel(): void
+    spreadStroke(): void
+    spreadRender(): void
+    spreadStrokeCancel(): void
+    spreadRenderCancel(): void
 
     // bounds
-    boxBoundsChange(): void
-    eventBoundsChange(): void
-    renderBoundsChange(): void
+    boxChange(): void
+    localBoxChange(): void
+    strokeChange(): void
+    renderChange(): void
 
     // matrix
     positionChange(): void

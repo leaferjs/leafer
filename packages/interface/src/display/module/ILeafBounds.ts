@@ -5,16 +5,16 @@ export type ILeafBoundsModule = ILeafBounds & ThisType<ILeaf>
 export interface ILeafBounds {
     __updateWorldBounds?(): void
 
-    __updateRelativeBoxBounds?(): void
-    __updateRelativeEventBounds?(): void
-    __updateRelativeRenderBounds?(): void
+    __updateLocalBoxBounds?(): void
+    __updateLocalStrokeBounds?(): void
+    __updateLocalRenderBounds?(): void
 
     __updateBoxBounds?(): void
-    __updateEventBounds?(): void
+    __updateStrokeBounds?(): void
     __updateRenderBounds?(): void
 
-    __updateEventBoundsSpreadWidth?(): number
-    __updateRenderBoundsSpreadWidth?(): number
+    __updateStrokeSpread?(): number
+    __updateRenderSpread?(): number
 
     __onUpdateSize?(): void
 }

@@ -10,9 +10,7 @@ type CanvasTextAlign = 'center' | 'end' | 'left' | 'right' | 'start'
 type CanvasTextBaseline = 'alphabetic' | 'bottom' | 'hanging' | 'ideographic' | 'middle' | 'top'
 //type CanvasTextRendering = 'auto' | 'geometricPrecision' | 'optimizeLegibility' | 'optimizeSpeed'
 
-/** This Canvas 2D API interface is used to declare a path that can then be used on a CanvasRenderingContext2D object. The path methods of the CanvasRenderingContext2D interface are also present on this interface, which gives you the convenience of being able to retain and replay your path whenever desired. */
 export interface IPath2D extends CanvasPath {
-    /** Adds to the path the path given by the argument. */
     addPath(path: IPath2D, transform?: DOMMatrix2DInit): void
 }
 
@@ -60,13 +58,7 @@ interface CanvasFilters {
     filter: string
 }
 
-/** An opaque object describing a gradient. It is returned by the methods CanvasRenderingContext2D.createLinearGradient() or CanvasRenderingContext2D.createRadialGradient(). */
 export interface CanvasGradient {
-    /**
-     * Adds a color stop with the given color to the gradient at the given offset. 0.0 is the offset at one end of the gradient, 1.0 is the offset at the other end.
-     *
-     * Throws an 'IndexSizeError' DOMException if the offset is out of range. Throws a 'SyntaxError' DOMException if the color cannot be parsed.
-     */
     addColorStop(offset: number, color: string): void
 }
 
@@ -89,11 +81,11 @@ interface CanvasImageSmoothing {
 }
 
 interface CanvasPath {
-    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void
+    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void
     arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void
     bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void
     closePath(): void
-    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void
+    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void
     lineTo(x: number, y: number): void
     moveTo(x: number, y: number): void
     quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void
@@ -111,9 +103,7 @@ interface CanvasPathDrawingStyles {
     setLineDash(segments: number[]): void
 }
 
-/** An opaque object describing a pattern, based on an image, a canvas, or a video, created by the CanvasRenderingContext2D.createPattern() method. */
 export interface CanvasPattern {
-    /** Sets the transformation matrix that will be used when rendering the pattern during a fill or stroke painting operation. */
     setTransform(transform?: DOMMatrix2DInit): void
 }
 
@@ -135,8 +125,6 @@ interface CanvasRenderingContext2DSettings {
     desynchronized?: boolean
     willReadFrequently?: boolean
 }
-
-/** The CanvasRenderingContext2D interface, part of the Canvas API, provides the 2D rendering context for the drawing surface of a <canvas> element. It is used for drawing shapes, text, images, and other objects. */
 export interface ICanvasContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
     readonly canvas: HTMLCanvasElement
     getContextAttributes(): CanvasRenderingContext2DSettings
@@ -165,7 +153,6 @@ interface CanvasUserInterface {
 }
 
 
-/** The dimensions of a piece of text in the canvas, as created by the CanvasRenderingContext2D.measureText() method. */
 export interface ITextMetrics {
     /** Returns the measurement described below. */
     readonly actualBoundingBoxAscent: number
@@ -277,7 +264,6 @@ interface DOMMatrixReadOnly {
     rotateFromVector(x?: number, y?: number): DOMMatrix
     scale(scaleX?: number, scaleY?: number, scaleZ?: number, originX?: number, originY?: number, originZ?: number): DOMMatrix
     scale3d(scale?: number, originX?: number, originY?: number, originZ?: number): DOMMatrix
-    /** @deprecated */
     scaleNonUniform(scaleX?: number, scaleY?: number): DOMMatrix
     skewX(sx?: number): DOMMatrix
     skewY(sy?: number): DOMMatrix

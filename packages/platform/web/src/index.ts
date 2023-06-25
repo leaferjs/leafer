@@ -7,7 +7,6 @@ export * from '@leafer/interaction-web'
 
 import { ICreator, IFunction } from '@leafer/interface'
 import { Platform, Creator } from '@leafer/core'
-import { Watcher, Layouter, Renderer, Selector } from '@leafer/partner'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
 import { LeaferImage } from '@leafer/image-web'
@@ -19,13 +18,19 @@ Object.assign(Creator, {
     image: (options) => new LeaferImage(options),
     hitCanvas: (options?, manager?) => new LeaferCanvas(options, manager),
 
-    watcher: (target) => new Watcher(target),
-    layouter: (target) => new Layouter(target),
-    renderer: (target, canvas, options?) => new Renderer(target, canvas, options),
-    selector: (target) => new Selector(target),
-
     interaction: (target, canvas, selector, options?) => new Interaction(target, canvas, selector, options),
 } as ICreator)
 
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
 Platform.canvas = Creator.canvas()
+Platform.devicePixelRatio = devicePixelRatio
+Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
+
+const { userAgent } = navigator
+
+if (userAgent.indexOf("Firefox") > -1) {
+    Platform.conicGradientRotate90 = true
+    Platform.intWheelDeltaY = true
+} else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
+    Platform.fullImageShadow = true
+}

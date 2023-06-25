@@ -10,6 +10,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
     fill?: string
     pixelRatio?: number
+    smooth?: boolean
     hittable?: boolean
     offscreen?: boolean
     webgl?: boolean
@@ -28,7 +29,7 @@ export interface ICanvasStrokeOptions {
     miterLimit?: number
 }
 
-export interface ICanvasAttr extends ICanvasStrokeOptions {
+export interface ICanvasAttr extends ICanvasStrokeOptions, IObject {
 
     smooth: boolean // imageSmoothingEnabled: boolean
     smoothLevel: string // imageSmoothingQuality: string
@@ -73,6 +74,7 @@ interface ICanvasMethod {
     strokeRect(x: number, y: number, width: number, height: number): void
     clearRect(x: number, y: number, width: number, height: number): void
 
+    transform(a: number, b: number, c: number, d: number, e: number, f: number): void
     translate(x: number, y: number): void
     scale(x: number, y: number): void
     rotate(angle: number): void
@@ -98,10 +100,14 @@ interface ICanvasMethod {
 
     // custom
 
-    hitPath(point: IPointData, fillRule?: string): boolean
-    hitStroke(point: IPointData): boolean
+    saveBlendMode(blendMode?: string): void
+    restoreBlendMode(): void
+
+    hitFill(point: IPointData, fillRule?: string): boolean
+    hitStroke(point: IPointData, strokeWidth?: number): boolean
 
     setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
+    setStrokeOptions(options: ICanvasStrokeOptions): void
 
     setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void
 
@@ -109,7 +115,9 @@ interface ICanvasMethod {
     setWorldBlur(blur: number): void
 
     copyWorld(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string): void
-    copyWorldToLocal(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toLocalBounds: IBoundsData, blendMode?: string): void
+    copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: string): void
+    useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
+
     fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
     strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
     clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void
@@ -120,9 +128,10 @@ interface ICanvasMethod {
 
 export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
-    manager: ICanvasManager
-
     readonly innerId: InnerId
+    name: string
+
+    manager: ICanvasManager
 
     width: number
     height: number
@@ -130,28 +139,45 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     pixelRatio: number
     readonly pixelWidth: number
     readonly pixelHeight: number
+    readonly allowBackgroundColor?: boolean
 
     bounds: IBounds
 
+    config: ILeaferCanvasConfig
+
+    autoLayout: boolean
+
     view: unknown
+    parentView: unknown
+
+    unreal?: boolean
+
     offscreen: boolean
+
     context: ICanvasContext2D
 
     recycled?: boolean
+
+    worldTransform: IMatrixData
+
+    init(): void
+
+    setBackgroundColor(color: string): void
+    setHittable(hittable: boolean): void
 
     startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
     stopAutoLayout(): void
 
     resize(size: IScreenSizeData): void
-    pixel(num: number): number
+    setViewSize(size: IScreenSizeData): void
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean
-    getSameCanvas(useSameTransform?: boolean): ILeaferCanvas
+    getSameCanvas(useSameWorldTransform?: boolean): ILeaferCanvas
     getBiggerCanvas(addWidth: number, addHeight: number): ILeaferCanvas
-    useSameTransform(canvas: ILeaferCanvas): void
     recycle(): void
 
+    unrealCanvas(): void
     destroy(): void
 }
 

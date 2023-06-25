@@ -2,7 +2,7 @@ import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 
 
-const { toWorld, copyAndSpread } = BoundsHelper
+const { toOuterOf, copyAndSpread } = BoundsHelper
 
 export const LeafBounds: ILeafBoundsModule = {
 
@@ -14,97 +14,98 @@ export const LeafBounds: ILeafBoundsModule = {
             const layout = this.__layout
 
 
-            if (layout.boxBoundsChanged) {
+            if (layout.boxChanged) {
 
                 this.__updatePath()
                 this.__updateRenderPath()
 
                 this.__updateBoxBounds()
-                layout.boxBoundsChanged = false
+                layout.boxChanged = false
                 resize = true
             }
 
 
-            if (layout.localBoxBoundsChanged) { // position change
+            if (layout.localBoxChanged) { // position change
 
-                this.__updateRelativeBoxBounds()
-                layout.localBoxBoundsChanged = false
+                this.__updateLocalBoxBounds()
+                layout.localBoxChanged = false
 
-                if (layout.eventBoundsSpreadWidth) layout.eventBoundsChanged = true
-                if (layout.renderBoundsSpreadWidth) layout.renderBoundsChanged = true
-                this.parent?.__layout.boxBoundsChange()
+                if (layout.strokeSpread) layout.strokeChanged = true
+                if (layout.renderSpread) layout.renderChanged = true
+                this.parent?.__layout.boxChange()
             }
 
 
-            if (layout.eventBoundsChanged) {
+            if (layout.strokeChanged) {
 
-                layout.eventBoundsSpreadWidth = this.__updateEventBoundsSpreadWidth()
+                layout.strokeSpread = this.__updateStrokeSpread()
 
-                if (layout.eventBoundsSpreadWidth) {
+                if (layout.strokeSpread) {
 
-                    if (layout.eventBounds === layout.boxBounds) {
-                        layout.eventBoundsSpread()
+                    if (layout.strokeBounds === layout.boxBounds) {
+                        layout.spreadStroke()
                     }
 
-                    this.__updateEventBounds()
-                    this.__updateRelativeEventBounds()
-                    layout.eventBoundsChanged = false
-
-                    if (layout.renderBoundsSpreadWidth) layout.renderBoundsChanged = true
+                    this.__updateStrokeBounds()
+                    this.__updateLocalStrokeBounds()
 
                 } else {
-                    layout.eventBoundsSpreadCancel()
+                    layout.spreadStrokeCancel()
                 }
 
-                this.parent?.__layout.eventBoundsChange()
+                layout.strokeChanged = false
+                if (layout.renderSpread) layout.renderChanged = true
+
+                if (this.parent) this.parent.__layout.strokeChange()
                 resize || (resize = true)
             }
 
 
-            if (layout.renderBoundsChanged) {
+            if (layout.renderChanged) {
 
-                layout.renderBoundsSpreadWidth = this.__updateRenderBoundsSpreadWidth()
+                layout.renderSpread = this.__updateRenderSpread()
 
-                if (layout.renderBoundsSpreadWidth) {
+                if (layout.renderSpread) {
 
-                    if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.eventBounds) {
-                        layout.renderBoundsSpread()
+                    if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.strokeBounds) {
+                        layout.spreadRender()
                     }
 
                     this.__updateRenderBounds()
-                    this.__updateRelativeRenderBounds()
-                    layout.renderBoundsChanged = false
+                    this.__updateLocalRenderBounds()
 
                 } else {
-                    layout.renderBoundsSpreadCancel()
+                    layout.spreadRenderCancel()
                 }
 
-                this.parent?.__layout.renderBoundsChange()
+                layout.renderChanged = false
+
+                if (this.parent) this.parent.__layout.renderChange()
             }
 
 
             layout.boundsChanged = false
 
-            toWorld(this.__layout.renderBounds, this.__world, this.__world)
+            toOuterOf(this.__layout.renderBounds, this.__world, this.__world)
 
             if (resize) this.__onUpdateSize()
 
         } else {
-            toWorld(this.__layout.renderBounds, this.__world, this.__world)
+            toOuterOf(this.__layout.renderBounds, this.__world, this.__world)
         }
 
     },
 
-    __updateRelativeBoxBounds(): void {
-        toWorld(this.__layout.boxBounds, this.__relative, this.__relative)
+    __updateLocalBoxBounds(): void {
+        toOuterOf(this.__layout.boxBounds, this.__local, this.__local)
     },
 
-    __updateRelativeEventBounds(): void {
-        toWorld(this.__layout.eventBounds, this.__relative, this.__layout.relativeEventBounds)
+    __updateLocalStrokeBounds(): void {
+        toOuterOf(this.__layout.strokeBounds, this.__local, this.__layout.localStrokeBounds)
     },
 
-    __updateRelativeRenderBounds(): void {
-        toWorld(this.__layout.renderBounds, this.__relative, this.__layout.relativeRenderBounds)
+    __updateLocalRenderBounds(): void {
+        toOuterOf(this.__layout.renderBounds, this.__local, this.__layout.localRenderBounds)
     },
 
 
@@ -116,12 +117,12 @@ export const LeafBounds: ILeafBoundsModule = {
         b.height = this.__.height
     },
 
-    __updateEventBounds(): void {
-        copyAndSpread(this.__layout.eventBounds, this.__layout.boxBounds, this.__layout.eventBoundsSpreadWidth)
+    __updateStrokeBounds(): void {
+        copyAndSpread(this.__layout.strokeBounds, this.__layout.boxBounds, this.__layout.strokeSpread)
     },
 
     __updateRenderBounds(): void {
-        copyAndSpread(this.__layout.renderBounds, this.__layout.eventBounds, this.__layout.renderBoundsSpreadWidth)
+        copyAndSpread(this.__layout.renderBounds, this.__layout.strokeBounds, this.__layout.renderSpread)
     },
 
 }

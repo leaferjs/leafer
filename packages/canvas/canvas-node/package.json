@@ -1,6 +1,6 @@
 {
   "name": "@leafer/canvas-node",
-  "version": "1.0.0-alpha.21",
+  "version": "1.0.0-beta",
   "description": "@leafer/canvas-node",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -15,5 +15,11 @@
   "keywords": [
     "leafer",
     "leaferjs"
-  ]
+  ],
+  "dependencies": {
+    "@leafer/canvas": "1.0.0-beta"
+  },
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-beta"
+  }
 }

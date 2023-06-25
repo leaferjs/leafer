@@ -1,6 +1,6 @@
-import { IObject, IPointData, IBounds } from '@leafer/interface'
+import { IObject, IPointData, ITimer } from '@leafer/interface'
 import { InteractionBase, InteractionHelper } from '@leafer/interaction'
-import { Bounds, MathHelper } from '@leafer/math'
+import { MathHelper } from '@leafer/math'
 import { Keyboard } from '@leafer/event-ui'
 
 import { PointerEventHelper } from './PointerEventHelper'
@@ -13,7 +13,7 @@ interface IClientPoint {
     clientY: number
 }
 
-interface IGestureEvent extends IClientPoint {
+interface IGestureEvent extends IClientPoint, UIEvent {
     scale: number
     rotation: number
     preventDefault(): void
@@ -25,17 +25,15 @@ const { getMoveEventData, getZoomEventData, getRotateEventData } = InteractionHe
 export class Interaction extends InteractionBase {
 
     protected view: HTMLElement
-    protected clientBounds: IBounds
 
     protected viewEvents: IObject
     protected windowEvents: IObject
-
 
     protected usePointer: boolean
     protected useMutiTouch: boolean
     protected useTouch: boolean
 
-    protected touchTimer: number
+    protected touchTimer: ITimer
     protected touches?: Touch[]
     protected lastGestureScale: number
     protected lastGestureRotation: number
@@ -45,9 +43,7 @@ export class Interaction extends InteractionBase {
 
         const view = this.view = this.canvas.view as HTMLCanvasElement
 
-        this.__onResize()
-
-        // 优先使用PointerEvent > 再降级使用TouchEvent > MouseEvent
+        // PointerEvent > TouchEvent > MouseEvent
         this.viewEvents = {
             'pointerdown': this.onPointerDown,
             'mousedown': this.onMouseDown,
@@ -76,41 +72,50 @@ export class Interaction extends InteractionBase {
             'keyup': this.onKeyUp
         }
 
+        const { viewEvents, windowEvents } = this
 
-        for (let name in this.viewEvents) {
-            view.addEventListener(name, this.viewEvents[name].bind(this))
+        for (let name in viewEvents) {
+            viewEvents[name] = viewEvents[name].bind(this)
+            view.addEventListener(name, viewEvents[name])
         }
 
-        for (let name in this.windowEvents) {
-            window.addEventListener(name, this.windowEvents[name].bind(this))
+        for (let name in windowEvents) {
+            windowEvents[name] = windowEvents[name].bind(this)
+            window.addEventListener(name, windowEvents[name])
         }
-
-        window.oncontextmenu = function () { return false }
     }
 
     protected __removeListenEvents(): void {
         super.__removeListenEvents()
 
-        for (let name in this.viewEvents) {
-            this.view.removeEventListener(name, this.viewEvents[name])
+        const { viewEvents, windowEvents } = this
+
+        for (let name in viewEvents) {
+            this.view.removeEventListener(name, viewEvents[name])
             this.viewEvents = {}
         }
 
-        for (let name in this.windowEvents) {
-            window.removeEventListener(name, this.windowEvents[name])
+        for (let name in windowEvents) {
+            window.removeEventListener(name, windowEvents[name])
             this.windowEvents = {}
         }
     }
 
-    protected __onResize(): void {
-        super.__onResize()
-        this.clientBounds = new Bounds(this.view.getBoundingClientRect())
-    }
-
     protected getLocal(p: IClientPoint): IPointData {
-        return { x: p.clientX - this.clientBounds.x, y: p.clientY - this.clientBounds.y }
+        const viewClientBounds = this.view.getBoundingClientRect()
+        return { x: p.clientX - viewClientBounds.x, y: p.clientY - viewClientBounds.y }
     }
 
+
+    protected preventDefaultPointer(e: UIEvent): void {
+        const { pointer } = this.config
+        if (pointer.preventDefault) e.preventDefault()
+    }
+
+    protected preventDefaultWheel(e: UIEvent): void {
+        const { wheel } = this.config
+        if (wheel.preventDefault) e.preventDefault()
+    }
 
     // key
     protected onKeyDown(e: KeyboardEvent): void {
@@ -124,9 +129,10 @@ export class Interaction extends InteractionBase {
 
     // pointer
     protected onPointerDown(e: PointerEvent): void {
+        this.preventDefaultPointer(e)
+
         this.usePointer || (this.usePointer = true)
         if (this.useMutiTouch) return
-        e.preventDefault()
         this.pointerDown(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
@@ -137,8 +143,9 @@ export class Interaction extends InteractionBase {
     }
 
     protected onPointerUp(e: PointerEvent): void {
+        if (this.downData) this.preventDefaultPointer(e)
+
         if (this.useMutiTouch) return
-        e.preventDefault()
         this.pointerUp(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
@@ -150,8 +157,9 @@ export class Interaction extends InteractionBase {
 
     // mouse
     protected onMouseDown(e: MouseEvent): void {
+        this.preventDefaultPointer(e)
+
         if (this.useTouch || this.usePointer) return
-        e.preventDefault()
         this.pointerDown(PointerEventHelper.convertMouse(e, this.getLocal(e)))
     }
 
@@ -161,8 +169,9 @@ export class Interaction extends InteractionBase {
     }
 
     protected onMouseUp(e: MouseEvent): void {
+        if (this.downData) this.preventDefaultPointer(e)
+
         if (this.useTouch || this.usePointer) return
-        e.preventDefault()
         this.pointerUp(PointerEventHelper.convertMouse(e, this.getLocal(e)))
     }
 
@@ -197,12 +206,11 @@ export class Interaction extends InteractionBase {
     }
 
     protected onTouchEnd(e: TouchEvent): void {
-        e.preventDefault()
         this.mutiTouchEnd()
 
         if (this.usePointer) return
         if (this.touchTimer) clearTimeout(this.touchTimer)
-        this.touchTimer = window.setTimeout(() => {
+        this.touchTimer = setTimeout(() => {
             this.useTouch = false
         }, 500) // stop touch > mouse
         const touch = PointerEventHelper.getTouch(e)
@@ -254,27 +262,27 @@ export class Interaction extends InteractionBase {
 
     // wheel
     protected onWheel(e: WheelEvent): void {
-        e.preventDefault()
+        this.preventDefaultWheel(e)
 
         const { wheel } = this.config
         const scale = wheel.getScale ? wheel.getScale(e, wheel) : WheelEventHelper.getScale(e, wheel)
-
         const local = this.getLocal(e)
-        const eventBase = InteractionHelper.getBase(e)
 
+        const eventBase = InteractionHelper.getBase(e)
         scale !== 1 ? this.zoom(getZoomEventData(local, scale, eventBase)) : this.move(getMoveEventData(local, wheel.getMove ? wheel.getMove(e, wheel) : WheelEventHelper.getMove(e, wheel), eventBase))
     }
 
 
     // safari 
     protected onGesturestart(e: IGestureEvent): void {
-        e.preventDefault()
+        this.preventDefaultWheel(e)
+
         this.lastGestureScale = 1
         this.lastGestureRotation = 0
     }
 
     protected onGesturechange(e: IGestureEvent): void {
-        e.preventDefault()
+        this.preventDefaultWheel(e)
 
         const local = this.getLocal(e)
         const eventBase = InteractionHelper.getBase(e)
@@ -292,7 +300,8 @@ export class Interaction extends InteractionBase {
     }
 
     protected onGestureend(e: IGestureEvent): void {
-        e.preventDefault()
+        this.preventDefaultWheel(e)
+
         this.transformEnd()
     }
 

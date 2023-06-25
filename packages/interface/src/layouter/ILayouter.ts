@@ -1,6 +1,7 @@
 import { IBounds } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
+import { IControl } from '../control/IControl'
 
 export interface ILayoutChangedData {
     matrixList: ILeaf[]
@@ -30,30 +31,30 @@ export interface ILayouterConfig {
     partLayout?: IPartLayoutConfig
 }
 
-export interface ILayouter {
+export interface ILayouter extends IControl {
     target: ILeaf
     layoutedBlocks: ILayoutBlockData[]
 
     totalTimes: number
     times: number
 
+    disabled: boolean
     running: boolean
-    changed: boolean
+    layouting: boolean
+
+    waitAgain: boolean
 
     config: ILayouterConfig
 
-    start(): void
-    stop(): void
-    update(): void
+    disable(): void
 
     layout(): void
+    layoutAgain(): void
     layoutOnce(): void
     partLayout(): void
     fullLayout(): void
 
     createBlock(data: ILeafList | ILeaf[]): ILayoutBlockData
     getBlocks(list: ILeafList): ILayoutBlockData[]
-    setBlocks(current: ILayoutBlockData[]): void
-
-    destroy(): void
+    addBlocks(current: ILayoutBlockData[]): void
 }

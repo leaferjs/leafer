@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, __Value } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -11,18 +11,45 @@ export class LeafData implements ILeafData {
         this.__leaf = leaf
     }
 
-    public __setInput(name: string, value: any): void {
-        this.__input || (this.__input = {})
-        this.__input[name] = value
-    }
-
-    public __getInput(name: string): any {
+    public __get(name: string): unknown {
         if (this.__input) {
             const value = this.__input[name]
             return value === undefined ? (this as IObject)[name] : value
         } else {
             return (this as IObject)[name]
         }
+    }
+
+    public __setInput(name: string, value: any): void {
+        this.__input || (this.__input = {})
+        this.__input[name] = value
+    }
+
+    public __getInput(name: string): unknown {
+        if (this.__input) {
+            const value = this.__input[name]
+            return value === undefined ? (this as IObject)['_' + name] : value
+        } else {
+            return (this as IObject)['_' + name]
+        }
+    }
+
+    public __removeInput(name: string): void {
+        if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
+    }
+
+    public __getInputData(): IObject {
+        const data: IObject = {}, { __input } = this
+        let realKey: string, value: __Value
+
+        for (let key in this) {
+            realKey = key.substring(1)
+            if ((this as any)[realKey] !== undefined) {
+                value = __input ? __input[realKey] : undefined
+                data[realKey] = value === undefined ? this[key] : value
+            }
+        }
+        return data
     }
 
     public __setMiddle(name: string, value: any): void {

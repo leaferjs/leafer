@@ -12,6 +12,12 @@ export class DragEvent extends PointerEvent implements IDragEvent {
     static START = 'drag.start'
     static END = 'drag.end'
 
+    static OVER = 'drag.over'
+    static OUT = 'drag.out'
+
+    static ENTER = 'drag.enter'
+    static LEAVE = 'drag.leave'
+
     readonly moveX: number
     readonly moveY: number
     readonly totalX: number

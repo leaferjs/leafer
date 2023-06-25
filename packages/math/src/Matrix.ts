@@ -1,4 +1,4 @@
-import { IMatrix, IMatrixData, IPointData } from '@leafer/interface'
+import { IMatrix, IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -30,8 +30,12 @@ export class Matrix implements IMatrix {
 
 
     public translate(x: number, y: number): IMatrix {
-        this.e += x
-        this.f += y
+        M.translate(this, x, y)
+        return this
+    }
+
+    public translateInner(x: number, y: number): IMatrix {
+        M.translateInner(this, x, y)
         return this
     }
 
@@ -40,14 +44,54 @@ export class Matrix implements IMatrix {
         return this
     }
 
+    public scaleOf(center: IPointData, x: number, y?: number): IMatrix {
+        M.scaleOf(this, center, x, y)
+        return this
+    }
+    public scaleOfInner(center: IPointData, x: number, y?: number): IMatrix {
+        M.scaleOfInner(this, center, x, y)
+        return this
+    }
+
     public rotate(angle: number): IMatrix {
         M.rotate(this, angle)
         return this
     }
 
+    public rotateOf(center: IPointData, angle: number): IMatrix {
+        M.rotateOf(this, center, angle)
+        return this
+    }
 
-    public times(matrix: IMatrixData): IMatrix {
-        M.times(this, matrix)
+    public rotateOfInner(center: IPointData, angle: number): IMatrix {
+        M.rotateOfInner(this, center, angle)
+        return this
+    }
+
+
+    public skew(x: number, y?: number): IMatrix {
+        M.skew(this, x, y)
+        return this
+    }
+
+    public skewOf(center: IPointData, x: number, y?: number): IMatrix {
+        M.skewOf(this, center, x, y)
+        return this
+    }
+
+    public skewOfInner(center: IPointData, x: number, y?: number): IMatrix {
+        M.skewOfInner(this, center, x, y)
+        return this
+    }
+
+
+    public multiply(matrix: IMatrixData): IMatrix {
+        M.multiply(this, matrix)
+        return this
+    }
+
+    public preMultiply(matrix: IMatrixData): IMatrix {
+        M.preMultiply(this, matrix)
         return this
     }
 
@@ -62,17 +106,21 @@ export class Matrix implements IMatrix {
     }
 
 
-    public toWorldPoint(local: IPointData, to?: IPointData): void {
-        M.toWorldPoint(this, local, to)
+    public toOuterPoint(inner: IPointData, to?: IPointData): void {
+        M.toOuterPoint(this, inner, to)
     }
 
-    public toLocalPoint(world: IPointData, to?: IPointData): void {
-        M.toLocalPoint(this, world, to)
+    public toInnerPoint(outer: IPointData, to?: IPointData): void {
+        M.toInnerPoint(this, outer, to)
+    }
+
+    public decompose(): IMatrixDecompositionData {
+        return M.decompose(this)
     }
 
 
-    public empty(): void {
-        M.empty(this)
+    public reset(): void {
+        M.reset(this)
     }
 
 }

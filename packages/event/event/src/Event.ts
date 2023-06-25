@@ -31,5 +31,4 @@ export class Event implements IEvent {
     public stop(): void {
         this.isStop = true
     }
-
 }

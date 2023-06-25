@@ -1,64 +1,91 @@
-import { IPathCommandData } from '@leafer/interface'
-import { PathCommandMap } from './PathCommandMap'
+import { IPathCommandData, IPathDrawer, IPathString } from '@leafer/interface'
+import { PathCommandDataHelper } from './PathCommandDataHelper'
+import { PathHelper } from './PathHelper'
 
 
-let data: IPathCommandData
-const { M, L, C, Q, Z, rect, roundRect, ellipse, arc, arcTo } = PathCommandMap
+const { moveTo, lineTo, quadraticCurveTo, bezierCurveTo, closePath, beginPath, rect, roundRect, ellipse, arc, arcTo, moveToEllipse, moveToArc } = PathCommandDataHelper
 
-export const PathCreator = {
+export class PathCreator implements IPathDrawer {
 
-    begin(commandData: IPathCommandData): void {
-        data = commandData
-    },
+    public path: IPathCommandData
 
-    end(): void {
-        data = null
-    },
+    constructor(path?: IPathCommandData | IPathString) {
+        if (path) {
+            this.path = typeof path === 'string' ? PathHelper.parse(path) : path
+        } else {
+            this.path = []
+        }
+    }
 
-    // draw
+    public beginPath(): PathCreator {
+        beginPath(this.path)
+        return this
+    }
 
-    moveTo(x: number, y: number): void {
-        data.push(M, x, y)
-    },
+    // svg and canvas
 
-    lineTo(x: number, y: number): void {
-        data.push(L, x, y)
-    },
+    public moveTo(x: number, y: number): PathCreator {
+        moveTo(this.path, x, y)
+        return this
+    }
 
-    bezierCurveTo(x1: number, y1: number, x2: number, y2: number, x: number, y: number): void {
-        data.push(C, x1, y1, x2, y2, x, y)
-    },
+    public lineTo(x: number, y: number): PathCreator {
+        lineTo(this.path, x, y)
+        return this
+    }
 
-    quadraticCurveTo(x1: number, y1: number, x: number, y: number): void {
-        data.push(Q, x1, y1, x, y)
-    },
+    public bezierCurveTo(x1: number, y1: number, x2: number, y2: number, x: number, y: number): PathCreator {
+        bezierCurveTo(this.path, x1, y1, x2, y2, x, y)
+        return this
+    }
 
-    close(end?: boolean): void {
-        data.push(Z)
-        if (end) data = null
-    },
+    public quadraticCurveTo(x1: number, y1: number, x: number, y: number): PathCreator {
+        quadraticCurveTo(this.path, x1, y1, x, y)
+        return this
+    }
 
+    public closePath(): PathCreator {
+        closePath(this.path)
+        return this
+    }
 
-    // 非svg标准的canvas绘图命令
+    // canvas
 
-    rect(x: number, y: number, width: number, height: number): void {
-        data.push(rect, x, y, width, height)
-    },
+    public rect(x: number, y: number, width: number, height: number): PathCreator {
+        rect(this.path, x, y, width, height)
+        return this
+    }
 
-    roundRect(x: number, y: number, width: number, height: number, cornerRadius?: number | number[]): void {
-        data.push(roundRect, x, y, width, height, cornerRadius as unknown as number)
-    },
+    public roundRect(x: number, y: number, width: number, height: number, cornerRadius: number | number[]): PathCreator {
+        roundRect(this.path, x, y, width, height, cornerRadius)
+        return this
+    }
 
-    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void {
-        data.push(ellipse, x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise as unknown as number)
-    },
+    public ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        ellipse(this.path, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
+        return this
+    }
 
-    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, counterclockwise?: boolean): void {
-        data.push(arc, x, y, radius, startAngle, endAngle, counterclockwise as unknown as number)
-    },
+    public arc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        arc(this.path, x, y, radius, startAngle, endAngle, anticlockwise)
+        return this
+    }
 
-    arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): void {
-        data.push(arcTo, x1, y1, x2, y2, radius)
+    public arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): PathCreator {
+        arcTo(this.path, x1, y1, x2, y2, radius)
+        return this
+    }
+
+    // moveTo, then draw
+
+    public moveToEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        moveToEllipse(this.path, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
+        return this
+    }
+
+    public moveToArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        moveToArc(this.path, x, y, radius, startAngle, endAngle, anticlockwise)
+        return this
     }
 
 }

@@ -1,5 +1,7 @@
+import { IObject } from '../data/IData'
 import { ILeafList } from '../data/IList'
 import { IEvent } from './IEvent'
+import { ILeaferImage } from '../image/ILeaferImage'
 
 export interface IUIEvent extends IEvent {
     x: number
@@ -18,6 +20,8 @@ export interface IUIEvent extends IEvent {
 
     path: ILeafList
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
+
+    origin: IObject
 
     stopDefault(): void
     stopNow(): void
@@ -46,6 +50,7 @@ export interface IDragEvent extends IPointerEvent {
 
 export interface IDropEvent extends IPointerEvent {
     list: ILeafList
+    data?: IObject
 }
 
 export interface IRotateEvent extends IUIEvent {
@@ -66,4 +71,9 @@ export interface ISwipeEvent extends IDragEvent {
 
 export interface IKeyEvent extends IUIEvent {
 
+}
+
+export interface IImageEvent extends IEvent {
+    image: ILeaferImage
+    error: string | IObject
 }

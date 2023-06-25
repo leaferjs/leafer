@@ -3,7 +3,7 @@ import { OneRadian } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
 
-const { toLocalPoint, toWorldPoint } = M
+const { toInnerPoint, toOuterPoint } = M
 const { sin, cos, abs, sqrt, atan2 } = Math
 
 
@@ -25,44 +25,45 @@ export const PointHelper = {
     },
 
 
-    rotate(point: IPointData, rotation: number, center?: IPointData): void {
+    rotate(t: IPointData, rotation: number, center?: IPointData): void {
         if (!center) center = P.defaultPoint
         const cosR = cos(rotation * OneRadian)
         const sinR = sin(rotation * OneRadian)
-        const rx = point.x - center.x
-        const ry = point.y - center.y
-        point.x = center.x + rx * cosR - ry * sinR
-        point.y = center.y + rx * sinR - ry * cosR
+        const rx = t.x - center.x
+        const ry = t.y - center.y
+        t.x = center.x + rx * cosR - ry * sinR
+        t.y = center.y + rx * sinR - ry * cosR
     },
 
-    tempToLocal(t: IPointData, matrix: IMatrixData): IPointData {
+
+    tempToInnerOf(t: IPointData, matrix: IMatrixData): IPointData {
         const { tempPoint: temp } = P
         P.copy(temp, t)
-        toLocalPoint(matrix, temp, temp)
+        toInnerPoint(matrix, temp, temp)
         return temp
     },
 
-    tempToLocalRadiusPoint(t: IRadiusPointData, matrix: IMatrixData): IRadiusPointData {
+    tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixData): IRadiusPointData {
         const { tempRadiusPoint: temp } = P
         P.copy(temp, t)
-        P.toLocalRadiusPoint(t, matrix, temp)
+        P.toInnerRadiusPointOf(t, matrix, temp)
         return temp
     },
 
-    toLocalRadiusPoint(t: IRadiusPointData, matrix: IMatrixData, to?: IRadiusPointData): void {
+    toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixData, to?: IRadiusPointData): void {
         to || (to = t)
-        toLocalPoint(matrix, t, to)
+        toInnerPoint(matrix, t, to)
         to.radiusX = t.radiusX / matrix.a
         to.radiusY = t.radiusY / matrix.d
     },
 
 
-    toLocal(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
-        toLocalPoint(matrix, t, to)
+    toInnerOf(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
+        toInnerPoint(matrix, t, to)
     },
 
-    toWorld(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
-        toWorldPoint(matrix, t, to)
+    toOuterOf(t: IPointData, matrix: IMatrixData, to?: IPointData): void {
+        toOuterPoint(matrix, t, to)
     },
 
 
@@ -88,8 +89,11 @@ export const PointHelper = {
     getDistancePoint(t: IPointData, to: IPointData, distance: number): IPointData {
         const r = P.getAtan2(t, to)
         return { x: t.x + cos(r) * distance, y: t.y + sin(r) * distance }
-    }
+    },
 
+    reset(t: IPointData): void {
+        P.reset(t)
+    }
 }
 
 const P = PointHelper

@@ -1,6 +1,3 @@
-import { IObject } from '@leafer/interface'
-
-
 export class Debug {
 
     static enable: boolean
@@ -9,11 +6,9 @@ export class Debug {
     static excludeList: string[] = []
 
     // other
-    static __: IObject = {}
-
-    @debugAttr()
     static showRepaint: boolean
-
+    static showHitView: boolean | string | string[]
+    static showBoundsView: boolean | string | string[]
 
     public name: string
 
@@ -37,6 +32,7 @@ export class Debug {
         this.excludeList = name
     }
 
+
     log(...messages: unknown[]): void {
         if (D.enable) {
             if (D.filterList.length && D.filterList.every(name => name !== this.name)) return
@@ -50,17 +46,12 @@ export class Debug {
     }
 
     error(...messages: unknown[]): void {
-        console.error(this.name, ...messages)
+        try {
+            throw new Error()
+        } catch (e) {
+            console.error(this.name, ...messages, e)
+        }
     }
 }
 
 const D = Debug
-
-function debugAttr(defaultValue?: unknown) {
-    return (target: IObject, key: string) => {
-        Object.defineProperty(target, key, {
-            get() { return target.enable ? target.__[key] : defaultValue },
-            set(value: unknown) { this.__[key] = value }
-        })
-    }
-}

@@ -29,13 +29,13 @@ export class Point implements IPoint {
     }
 
 
-    public toLocal(matrix: IMatrixData, to?: IPointData): IPoint {
-        P.toLocal(this, matrix, to)
+    public toInnerOf(matrix: IMatrixData, to?: IPointData): IPoint {
+        P.toInnerOf(this, matrix, to)
         return this
     }
 
-    public toWorld(matrix: IMatrixData, to?: IPointData): IPoint {
-        P.toWorld(this, matrix, to)
+    public toOuterOf(matrix: IMatrixData, to?: IPointData): IPoint {
+        P.toOuterOf(this, matrix, to)
         return this
     }
 
@@ -53,6 +53,10 @@ export class Point implements IPoint {
 
     public getAtan2(to: IPointData): number {
         return P.getAtan2(this, to)
+    }
+
+    public reset(): void {
+        P.reset(this)
     }
 
 }

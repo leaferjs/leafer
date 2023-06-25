@@ -1,5 +1,5 @@
 import { ILeaf, IWatcher, IEventListenerId, ILeafList, IWatcherConfig } from '@leafer/interface'
-import { AttrEvent, ChildEvent, RenderEvent, WatchEvent } from '@leafer/event'
+import { PropertyEvent, ChildEvent, RenderEvent, WatchEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
 import { DataHelper } from '@leafer/data'
 
@@ -11,8 +11,9 @@ export class Watcher implements IWatcher {
 
     public totalTimes: number = 0
 
+    public disabled: boolean
     public running: boolean
-    public changed: boolean = true
+    public changed: boolean
 
     public config: IWatcherConfig = {}
 
@@ -25,22 +26,26 @@ export class Watcher implements IWatcher {
     }
 
     public start(): void {
+        if (this.disabled) return
         this.running = true
-        this.changed = false
-        this.update()
     }
 
     public stop(): void {
         this.running = false
     }
 
-    public update(): void {
-        if (!this.running) return
-        this.changed = true
-        this.target.emit(RenderEvent.REQUEST)
+    public disable(): void {
+        this.stop()
+        this.__removeListenEvents()
+        this.disabled = true
     }
 
-    protected __onAttrChange(event: AttrEvent): void {
+    public update(): void {
+        this.changed = true
+        if (this.running) this.target.emit(RenderEvent.REQUEST)
+    }
+
+    protected __onAttrChange(event: PropertyEvent): void {
         this.updatedList.push(event.target as ILeaf)
         this.update()
     }
@@ -60,18 +65,19 @@ export class Watcher implements IWatcher {
     protected __listenEvents(): void {
         const { target } = this
         this.__eventIds = [
-            target.on__(AttrEvent.CHANGE, this.__onAttrChange, this),
-            target.on__([ChildEvent.ADD, ChildEvent.REMOVE], this.__onChildEvent, this),
-            target.on__(WatchEvent.REQUEST, this.__onRquestData, this)
+            target.on_(PropertyEvent.CHANGE, this.__onAttrChange, this),
+            target.on_([ChildEvent.ADD, ChildEvent.REMOVE], this.__onChildEvent, this),
+            target.on_(WatchEvent.REQUEST, this.__onRquestData, this)
         ]
     }
 
     protected __removeListenEvents(): void {
-        this.target.off__(this.__eventIds)
+        this.target.off_(this.__eventIds)
     }
 
     public destroy(): void {
         if (this.target) {
+            this.stop()
             this.__removeListenEvents()
             this.target = null
             this.updatedList = null

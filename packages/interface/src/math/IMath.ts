@@ -12,13 +12,15 @@ export interface IPoint extends IPointData {
 
     rotate(angle: number, center?: IPointData): IPoint
 
-    toLocal(matrix: IMatrixData, to?: IPointData): IPoint
-    toWorld(matrix: IMatrixData, to?: IPointData): IPoint
+    toInnerOf(matrix: IMatrixData, to?: IPointData): IPoint
+    toOuterOf(matrix: IMatrixData, to?: IPointData): IPoint
 
     getCenter(to: IPointData): IPointData
     getDistance(to: IPointData): number
     getAngle(to: IPointData): number
     getAtan2(to: IPointData): number
+
+    reset(): void
 }
 
 export interface IRadiusPointData extends IPointData {
@@ -55,7 +57,7 @@ export interface IBounds extends IBoundsData {
     clone(): IBounds
 
     scale(scale: number): IBounds
-    toWorld(matrix: IMatrixData, to?: IBoundsData): IBounds
+    toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
 
     spread(size: number): IBounds
@@ -78,7 +80,7 @@ export interface IBounds extends IBoundsData {
 
     isSame(bounds: IBoundsData): boolean
     isEmpty(): boolean
-    empty(): void
+    reset(): void
 }
 
 export interface ITwoPointBoundsData {
@@ -90,6 +92,7 @@ export interface ITwoPointBoundsData {
 
 export interface ITwoPointBounds extends ITwoPointBoundsData {
     addPoint(x: number, y: number): void
+    addBounds(x: number, y: number, width: number, height: number): void
     add(pointBounds: ITwoPointBoundsData): void
 }
 
@@ -120,21 +123,57 @@ export interface IMatrixData {
     e: number
     f: number
 }
+
+export interface IMatrixDecompositionData {
+    x: number
+    y: number
+    scaleX: number
+    scaleY: number
+    rotation: number
+    skewX: number
+    skewY: number
+}
+
+export type IMatrixDecompositionAttr =
+    | 'x'
+    | 'y'
+    | 'scaleX'
+    | 'scaleY'
+    | 'rotation'
+    | 'skewX'
+    | 'skewY'
+
 export interface IMatrix extends IMatrixData {
     set(a: number, b: number, c: number, d: number, e: number, f: number): void
     copy(matrix: IMatrixData): IMatrix
     clone(): IMatrix
 
     translate(x: number, y: number): IMatrix
-    scale(x: number, y?: number): IMatrix
-    rotate(angle: number): IMatrix
+    translateInner(x: number, y: number): IMatrix
 
-    times(matrix: IMatrixData): IMatrix
+    scale(x: number, y?: number): IMatrix
+    scaleOf(center: IPointData, x: number, y?: number): IMatrix
+    scaleOfInner(center: IPointData, x: number, y?: number): IMatrix
+
+    rotate(angle: number): IMatrix
+    rotateOf(center: IPointData, angle: number): IMatrix
+    rotateOfInner(center: IPointData, angle: number): IMatrix
+
+    skew(x: number, y?: number): IMatrix
+    skewOf(center: IPointData, x: number, y?: number): IMatrix
+    skewOfInner(center: IPointData, x: number, y?: number): IMatrix
+
+    multiply(matrix: IMatrixData): IMatrix
     divide(matrix: IMatrixData): IMatrix
+    preMultiply(matrix: IMatrixData): IMatrix
     invert(): IMatrix
 
-    toWorldPoint(local: IPointData, to?: IPointData): void
-    toLocalPoint(world: IPointData, to?: IPointData): void
+    toOuterPoint(inner: IPointData, to?: IPointData): void
+    toInnerPoint(outer: IPointData, to?: IPointData): void
+
+    decompose(): IMatrixDecompositionData
+
+    reset(): void
 }
 
 

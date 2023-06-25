@@ -1,30 +1,23 @@
 import { ILeafDataProxyModule } from '@leafer/interface'
-import { AttrEvent } from '@leafer/event'
+import { PropertyEvent } from '@leafer/event'
 
 
 export const LeafDataProxy: ILeafDataProxyModule = {
 
-    __set(attrName: string, newValue: unknown): void {
-        if (this.root) {
-            const oldValue = this.__.__getInput(attrName)
-            if (oldValue !== newValue) {
-                this.__[attrName] = newValue
-                this.root.emitEvent(new AttrEvent(AttrEvent.CHANGE, this, attrName, oldValue, newValue))
-            }
+    __setAttr(name: string, newValue: unknown): void {
+        if (this.leafer && this.leafer.ready) {
+            this.__[name] = newValue
+            const { CHANGE } = PropertyEvent
+            const event = new PropertyEvent(CHANGE, this, name, this.__.__get(name), newValue)
+            if (this.hasEvent(CHANGE) && !this.isLeafer) this.emitEvent(event)
+            this.leafer.emitEvent(event)
         } else {
-            this.__[attrName] = newValue
+            this.__[name] = newValue
         }
     },
 
-    __get(attrName: string): unknown {
-        return this.__.__getInput(attrName)
-    },
-
-    __updateAttr(attrName: string): void {
-        if (this.root) {
-            const value = this.__.__getInput(attrName)
-            this.root.emitEvent(new AttrEvent(AttrEvent.CHANGE, this, attrName, value, value))
-        }
+    __getAttr(name: string): unknown {
+        return this.__.__get(name)
     }
 
 }

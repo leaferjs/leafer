@@ -1,155 +1,175 @@
 import { ILeafData, ILeaf, IObject, __Value } from '@leafer/interface'
 import { defineKey, getDescriptor } from './object'
+import { Debug } from '@leafer/debug'
+
 
 // name
 
 export function aliasType(name: string) {
     return (target: ILeaf, key: string) => {
         defineKey(target, key, {
-            get() { return this.__get(name) },
+            get() { return this.__getAttr(name) },
             set(value: __Value) {
-                this.__set(name, value)
+                this.__setAttr(name, value)
             }
         })
     }
 }
 
+export function defineLeafAttr(target: ILeaf, key: string, defaultValue?: __Value, mergeDescriptor?: IObject & ThisType<ILeaf>): void {
+    const defaultDescriptor: IObject & ThisType<ILeaf> = {
+        get() { return this.__getAttr(key) },
+        set(value: __Value) { this.__setAttr(key, value) },
+        configurable: true,
+        enumerable: true
+    }
+    defineKey(target, key, Object.assign(defaultDescriptor, mergeDescriptor || {}))
+    defineDataProcessor(target, key, defaultValue)
+}
+
 export function dataType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
-            set(value: __Value) {
-                this.__set(key, value)
-            }
-        })
-        defineDataProcessor(target, key, defaultValue)
+        defineLeafAttr(target, key, defaultValue)
     }
 }
 
 export function positionType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
+                this.__setAttr(key, value)
                 this.__layout.positionChanged || this.__layout.positionChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export function scaleType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
+                this.__setAttr(key, value)
                 this.__layout.scaleChanged || this.__layout.scaleChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
+
 export function rotationType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
+                this.__setAttr(key, value)
                 this.__layout.rotationChanged || this.__layout.rotationChange()
 
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export function boundsType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
-                this.__layout.boxBoundsChanged || this.__layout.boxBoundsChange()
+                this.__setAttr(key, value)
+                this.__layout.boxChanged || this.__layout.boxChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export const pathType = boundsType
 
 
-export function affectEventBoundsType(defaultValue?: __Value) {
+export function affectStrokeBoundsType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
-                this.__layout.eventBoundsChanged || this.__layout.eventBoundsChange()
+                this.__setAttr(key, value)
+                this.__layout.strokeChanged || this.__layout.strokeChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
+export const strokeType = affectStrokeBoundsType
+
 export function affectRenderBoundsType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
-                this.__layout.renderBoundsChanged || this.__layout.renderBoundsChange()
+                this.__setAttr(key, value)
+                this.__layout.renderChanged || this.__layout.renderChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export function surfaceType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
+                this.__setAttr(key, value)
                 this.__layout.surfaceChanged || this.__layout.surfaceChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export function opacityType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.root ? this.__set(key, value) : this.__[key] = value
+                this.__setAttr(key, value)
                 this.__layout.opacityChanged || this.__layout.opacityChange()
             }
         })
-        defineDataProcessor(target, key, defaultValue)
     }
 }
 
 export function sortType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__get(key) },
+        defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
-                this.__set(key, value)
+                this.__setAttr(key, value)
                 this.__layout.surfaceChanged || this.__layout.surfaceChange()
 
                 if (this.parent) {
                     this.parent.__layout.childrenSortChanged = true
                 } else {
-                    this.__addParentWait(() => { this.parent.__layout.childrenSortChanged = true })
+                    this.waitParent(() => { this.parent.__layout.childrenSortChanged = true })
                 }
             }
         })
-        defineDataProcessor(target, key, defaultValue)
+    }
+}
+
+export function maskType(defaultValue?: __Value) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: boolean) {
+                this.__setAttr(key, value)
+                this.__layout.boxChanged || this.__layout.boxChange()
+
+                if (this.parent) {
+                    this.parent.__updateMask(value)
+                } else {
+                    this.waitParent(() => { this.parent.__updateMask(value) })
+                }
+            }
+        })
+    }
+}
+
+export function hitType(defaultValue?: __Value) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: __Value) {
+                this.__setAttr(key, value)
+                if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
+            }
+        })
     }
 }
 
@@ -179,8 +199,12 @@ function getSetMethodName(key: string): string {
     return 'set' + key.charAt(0).toUpperCase() + key.slice(1)
 }
 
+export function setDefaultValue(target: IObject, key: string, defaultValue: __Value): void {
+    defineDataProcessor(target.prototype, key, defaultValue)
+}
+
 // define leaf.__[key] getter/setter
-export function defineDataProcessor(target: ILeaf, key: string, defaultValue: __Value): void {
+export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: __Value): void {
 
     const data = target.__DataProcessor.prototype as ILeafData
     const computedKey = '_' + key
@@ -193,17 +217,16 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue: __
         },
         set(value: __Value) {
             this[computedKey] = value
-        }
+        },
+        configurable: true,
+        enumerable: true
     }
 
     if (defaultValue === undefined) property.get = function () { return this[computedKey] }
 
     const descriptor = getDescriptor(data, key)
 
-    if (descriptor) {
-        if (descriptor.set) property.set = descriptor.set // use custom set
-        if (descriptor.get) property.get = descriptor.get // use custom get
-    }
+    if (descriptor && descriptor.set) property.set = descriptor.set // use custom set
 
     if (data[setMethodName]) {
         property.set = data[setMethodName] //  use custom setKey(value)

@@ -17,6 +17,7 @@ export class CanvasManager implements ICanvasManager {
             old = list[i]
             if (old.recycled && old.isSameSize(size)) {
                 old.recycled = false
+                old.manager || (old.manager = this)
                 return old
             }
         }

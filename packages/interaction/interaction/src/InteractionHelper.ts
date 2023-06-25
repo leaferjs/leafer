@@ -46,10 +46,11 @@ export const InteractionHelper = {
         } as IDragEvent
     },
 
-    getDropEventData(dragData: ILeafList, event: IPointerEvent): IDropEvent {
+    getDropEventData(event: IPointerEvent, list: ILeafList, data: IObject): IDropEvent {
         return {
             ...event,
-            list: dragData
+            list,
+            data
         }
     },
 
@@ -83,7 +84,8 @@ export const InteractionHelper = {
             ctrlKey: e.ctrlKey,
             shiftKey: e.shiftKey,
             metaKey: e.metaKey,
-            buttons: e.buttons === undefined ? 1 : e.buttons // touchEvent no button and buttons, set default
+            buttons: e.buttons === undefined ? 1 : e.buttons, // touchEvent no button and buttons, set default
+            origin: e
         } as IUIEvent
     },
 
