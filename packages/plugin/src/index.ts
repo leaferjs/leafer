@@ -5,17 +5,18 @@ import { Debug } from '@leafer/debug'
 const debug = Debug.get('plugin')
 
 export const Plugin = {
+    powers: {} as IObject,
     list: [] as IPlugin[]
 }
 
-export function usePlugin(plugin: IPlugin, params?: IObject) {
+export function usePlugin(plugin: IPlugin) {
 
     Plugin.list.push(plugin)
-    if (plugin.dependencies) {
+    if (plugin.import) {
         const realParams: IObject = {}
-        plugin.dependencies.forEach(item => {
-            if (params[item]) {
-                realParams[item] = params[item]
+        plugin.import.forEach(item => {
+            if (Plugin.powers[item]) {
+                realParams[item] = Plugin.powers[item]
             } else {
                 debug.error(item + ' non-existent')
             }

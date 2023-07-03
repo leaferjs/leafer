@@ -1,5 +1,5 @@
 export { IApp } from './app/IApp'
-export { ILeafer, ILeaferType, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
+export { ILeafer, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
 export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IBlendMode } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'

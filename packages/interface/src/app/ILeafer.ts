@@ -57,10 +57,14 @@ export interface ILeafer extends IZoomView, IControl {
     __eventIds: IEventListenerId[]
 
     init(userConfig?: ILeaferConfig, parentApp?: IApp): void
-
     forceFullRender(): void
-
     resize(size: IScreenSizeData): void
+}
+
+export interface ILeaferTypeCreator {
+    list: ILeaferTypeList
+    register(name: string, fn: ILeaferTypeFunction): void
+    run(name: string, leafer: ILeafer): void
 }
 
 export interface ILeaferTypeFunction {
@@ -70,7 +74,6 @@ export interface ILeaferTypeFunction {
 export interface ILeaferTypeList {
     [key: string]: ILeaferTypeFunction
 }
-
 
 export interface ICreator {
     image?(options?: ILeaferImageConfig): ILeaferImage
