@@ -1,6 +1,6 @@
 {
   "name": "@leafer/display-module",
-  "version": "1.0.0-beta",
+  "version": "1.0.0-beta.2",
   "description": "@leafer/display-module",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,10 +17,10 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/event": "1.0.0-beta",
-    "@leafer/math": "1.0.0-beta"
+    "@leafer/event": "1.0.0-beta.2",
+    "@leafer/math": "1.0.0-beta.2"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta"
+     "@leafer/interface": "1.0.0-beta.2"
   }
 }
