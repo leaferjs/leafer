@@ -1,7 +1,6 @@
 import { ICanvasContext2D, IObject, IScreenSizeData } from '@leafer/interface'
 import { LeaferCanvasBase } from '@leafer/canvas'
-
-import { Canvas } from 'skia-canvas'
+import { Platform } from '@leafer/platform'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
@@ -21,7 +20,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     protected __createView(): void {
-        this.view = new Canvas(this.width, this.height)
+        this.view = Platform.origin.createCanvas(this.width, this.height)
     }
 
     public setViewSize(size: IScreenSizeData): void {

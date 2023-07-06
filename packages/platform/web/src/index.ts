@@ -22,9 +22,7 @@ Object.assign(Creator, {
 } as ICreator)
 
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
-Platform.canvas = Creator.canvas()
 Platform.devicePixelRatio = devicePixelRatio
-Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
 
 const { userAgent } = navigator
 
@@ -34,3 +32,26 @@ if (userAgent.indexOf("Firefox") > -1) {
 } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
     Platform.fullImageShadow = true
 }
+
+Platform.origin = {
+    createCanvas(width: number, height: number): HTMLCanvasElement {
+        const canvas = document.createElement('canvas')
+        canvas.width = width
+        canvas.height = height
+        return canvas
+    },
+    loadImage(src: any): Promise<HTMLImageElement> {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.setAttribute('crossOrigin', 'anonymous')
+            img.crossOrigin = 'anonymous'
+            img.onload = () => { resolve(img) }
+            img.onerror = (e) => { reject(e) }
+            if (!src.startsWith('data:')) src.includes("?") ? src + "&xhr" : src + "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
+            img.src = src
+        })
+    }
+}
+
+Platform.canvas = Creator.canvas()
+Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient

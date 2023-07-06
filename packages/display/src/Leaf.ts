@@ -18,6 +18,8 @@ const { LEAF, create } = IncrementId
 export class Leaf implements ILeaf {
 
     public get tag(): string { return this.__tag }
+    public set tag(_value: string) { }
+
     public get __tag(): string { return 'Leaf' }
 
     public readonly innerId: InnerId  // 内部唯一标识
