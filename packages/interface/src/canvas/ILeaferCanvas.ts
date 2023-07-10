@@ -139,7 +139,10 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     pixelRatio: number
     readonly pixelWidth: number
     readonly pixelHeight: number
+
     readonly allowBackgroundColor?: boolean
+    backgroundColor?: string
+    hittable?: boolean
 
     bounds: IBounds
 
@@ -162,8 +165,9 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     init(): void
 
-    setBackgroundColor(color: string): void
-    setHittable(hittable: boolean): void
+    toBlob(type?: string, quality?: any): Promise<any>
+    toDataURL(type?: string, quality?: any): string
+    saveAs(filename: string, quality?: any): Promise<void>
 
     startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
     stopAutoLayout(): void
@@ -183,3 +187,9 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
 
 export type IHitCanvas = ILeaferCanvas
+
+export interface IBlobFunction {
+    (blob: IBlob | null): void
+}
+
+type IBlob = any

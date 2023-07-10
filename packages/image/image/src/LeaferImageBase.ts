@@ -17,8 +17,8 @@ export class LeaferImageBase implements ILeaferImage {
         this.options = _options
     }
 
-    public load(onSuccess: IFunction, onError: IFunction): void {
-        Platform.origin.loadImage(this.options.url).then((img) => {
+    public async load(onSuccess: IFunction, onError: IFunction): Promise<void> {
+        return Platform.origin.loadImage(this.options.url).then((img) => {
             this.ready = true
             this.width = img.naturalWidth || img.width
             this.height = img.naturalHeight || img.height

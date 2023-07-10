@@ -1,4 +1,5 @@
-import { IFunction } from '@leafer/interface'
+import { IFunction, ITaskProcessor, ITaskProcessorConfig } from '@leafer/interface'
+import { DataHelper } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 import { TaskItem } from './TaskItem'
@@ -6,86 +7,70 @@ import { TaskItem } from './TaskItem'
 
 const debug = Debug.get('TaskProcessor')
 
+export class TaskProcessor implements ITaskProcessor {
 
-export interface ITaskProcessorParams {
-    onComplete?: IFunction
-    onTask?: IFunction
-    onError?: IFunction
-    parallel?: number
-}
+    public config: ITaskProcessorConfig = { parallel: 6 }
 
-
-export class TaskProcessor {
-
-    private parallel = 6
-    private params: ITaskProcessorParams = {}
-
-    // 需要初始化的动态数据
     private list: Array<TaskItem> = []
-    private index = 0
 
     private parallelList: Array<TaskItem>
     private parallelSuccessNumber: number
 
+    public get isComplete(): boolean { return this._isComplete }
     private _isComplete: boolean
-    public get isComplete(): boolean {
-        return this._isComplete
-    }
 
+    public get running(): boolean { return this._running }
     private _running: boolean
-    public get running(): boolean {
-        return this._running
-    }
 
-    constructor(params?: ITaskProcessorParams) {
-        if (params) {
-            this.params = params
-            if (params.parallel) this.parallel = params.parallel
-        }
-        this.init()
-    }
+    public get percent(): number {
+        const { total } = this
+        let totalTime = 0, runTime = 0
 
-    get percent(): number {
-        const len = this.list.length
-        let totalTime = 0
-        let runTime = 0
-        for (let i = 0; i < len; i++) {
-            if (i <= this.index) {
+        for (let i = 0; i < total; i++) {
+            if (i <= this.finishedIndex) {
                 runTime += this.list[i].taskTime
-                if (i === this.index) totalTime = runTime
+                if (i === this.finishedIndex) totalTime = runTime
             } else {
                 totalTime += this.list[i].taskTime
             }
         }
 
-        let percent = this._isComplete ? 1 : (runTime / totalTime)
-        if (Number.isNaN(percent)) percent = 0
-        return percent
-
+        return this._isComplete ? 1 : (runTime / totalTime)
     }
 
-    get total(): number {
+    public get total(): number {
         return this.list.length
     }
 
-    get runIndex(): number {
-        return this.index
+    public index = 0
+
+    public get finishedIndex(): number {
+        return this._isComplete ? 0 : this.index + this.parallelSuccessNumber
     }
+
+    public get remain(): number {
+        return this._isComplete ? 0 : this.total - this.finishedIndex
+    }
+
+
+    constructor(config?: ITaskProcessorConfig) {
+        if (config) DataHelper.assign(this.config, config)
+        this.init()
+    }
+
 
     protected init(): void {
         this.empty()
         this.index = 0
         this.parallelSuccessNumber = 0
         this._running = false
-        this._isComplete = false
+        this._isComplete = true
     }
 
     protected empty(): void {
         this.list = []
         this.parallelList = []
     }
-
-
 
     public start(): void {
         this._running = true
@@ -132,8 +117,6 @@ export class TaskProcessor {
         this.push(new TaskItem(callback))
     }
 
-
-
     private push(task: TaskItem, taskTime?: number): void {
         if (taskTime) task.taskTime = taskTime
         task.parent = this
@@ -151,7 +134,7 @@ export class TaskProcessor {
 
         } else {
 
-            this.runTask()
+            this.remain ? this.runTask() : this.onComplete()
 
         }
     }
@@ -187,7 +170,7 @@ export class TaskProcessor {
 
         this.parallelList = []
         this.parallelSuccessNumber = 0
-        let end = this.index + this.parallel
+        let end = this.index + this.config.parallel
 
         if (end > this.list.length) end = this.list.length
 
@@ -213,13 +196,13 @@ export class TaskProcessor {
 
         // 找到下一个可以并行的任务
         const parallelWaitNumber = parallelList.length
-        const nextIndex = this.index + this.parallelSuccessNumber + parallelWaitNumber
+        const nextIndex = this.finishedIndex + parallelWaitNumber
 
         if (parallelList.length) {
 
             if (!this._running) return
 
-            if (nextIndex < this.list.length) {
+            if (nextIndex < this.total) {
 
                 task = this.list[nextIndex]
 
@@ -253,15 +236,15 @@ export class TaskProcessor {
     }
 
     private onComplete(): void {
-        this.stop()
         this._isComplete = true
-        if (this.params.onComplete) this.params.onComplete()
+        this.stop()
+        if (this.config.onComplete) this.config.onComplete()
     }
 
     private onTask(task: TaskItem): void {
         task.complete()
-        if (this.params.onTask) this.params.onTask()
-        if (this.index === this.list.length - 1) this.onComplete()
+        if (this.config.onTask) this.config.onTask()
+        if (this.finishedIndex + 1 === this.total) this.onComplete()
     }
 
     private onParallelError(error: unknown): void {
@@ -279,6 +262,11 @@ export class TaskProcessor {
 
     private onError(error: unknown): void {
         this.pause()
-        if (this.params.onError) this.params.onError(error)
+        if (this.config.onError) this.config.onError(error)
+    }
+
+    public destory(): void {
+        this.empty()
+        this.config = {}
     }
 }

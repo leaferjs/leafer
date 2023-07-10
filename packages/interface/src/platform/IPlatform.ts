@@ -1,6 +1,7 @@
 import { IFunction } from '../function/IFunction'
-import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
+import { ILeaferCanvas, IBlobFunction } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
+import { IExportFileType, IExportImageType } from '../file/IFileType'
 
 export interface IPlatform {
     requestRender?(render: IFunction): void
@@ -13,15 +14,10 @@ export interface IPlatform {
     fullImageShadow?: boolean // safari need 
     layout(target: ILeaf): void
     origin?: {
-        createCanvas: ICreateCanvasFunction,
-        loadImage: ILoadImageFunction
+        createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
+        canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string
+        canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
+        canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
+        loadImage(url: string): Promise<any>
     }
-}
-
-interface ICreateCanvasFunction {
-    (width: number, height: number, format?: 'svg' | 'pdf'): any
-}
-
-interface ILoadImageFunction {
-    (url: string): Promise<any>
 }

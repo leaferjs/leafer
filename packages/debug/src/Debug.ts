@@ -1,3 +1,5 @@
+import { IBooleanMap } from '@leafer/interface'
+
 export class Debug {
 
     static enable: boolean
@@ -11,6 +13,8 @@ export class Debug {
     static showBoundsView: boolean | string | string[]
 
     public name: string
+
+    public repeatMap: IBooleanMap = {}
 
     constructor(name: string) {
         this.name = name
@@ -43,6 +47,13 @@ export class Debug {
 
     warn(...messages: unknown[]): void {
         console.warn(this.name, ...messages)
+    }
+
+    repeat(name: string, ...messages: unknown[]) {
+        if (!this.repeatMap[name]) {
+            console.warn(this.name, 'repeat:' + name, ...messages)
+            this.repeatMap[name] = true
+        }
     }
 
     error(...messages: unknown[]): void {

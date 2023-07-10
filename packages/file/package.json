@@ -1,7 +1,7 @@
 {
-  "name": "@leafer/debug",
+  "name": "@leafer/file",
   "version": "1.0.0-beta.5",
-  "description": "@leafer/debug",
+  "description": "@leafer/file",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "main": "src/index.ts",
@@ -10,14 +10,14 @@
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
   },
-  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/debug",
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/file",
   "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/math": "1.0.0-beta.5"
+    "@leafer/debug": "1.0.0-beta.5"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-beta.5"

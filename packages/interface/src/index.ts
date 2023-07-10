@@ -25,18 +25,22 @@ export { ICanvasManager } from './canvas/ICanvasManager'
 export { IHitCanvasManager } from './canvas/IHitCanvasManager'
 export { IImageManager } from './image/IImageManager'
 
+export { ITaskProcessor, ITaskProcessorConfig } from './task/ITaskProcessor'
+
 
 export { IControl } from './control/IControl'
 export { IPlatform } from './platform/IPlatform'
 export { IPlugin } from './plugin/IPlugin'
 
 
-export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasConfig, IHitCanvasConfig } from './canvas/ILeaferCanvas'
+export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasConfig, IHitCanvasConfig, IBlobFunction } from './canvas/ILeaferCanvas'
+export { ISkiaCanvas, ISkiaCanvasExportConfig } from './canvas/ISkiaCanvas'
 export { IPathDrawer, IPathCreator } from './path/IPathDrawer'
 export { IWindingRule, ICanvasContext2D, ITextMetrics, IPath2D } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig, ILeaferImageOnLoaded, ILeaferImageOnError } from './image/ILeaferImage'
+export { IExportFileType, IExportImageType } from './file/IFileType'
 
 export { InnerId, IEventer, IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
 export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, ITransformEvent, ITransformEventData, TransformMode } from './event/IEvent'

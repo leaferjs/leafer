@@ -18,7 +18,7 @@ export interface ILeaferImage {
     width: number
     height: number
     ready: boolean
-    load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError): void
+    load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError): Promise<void>
     getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): unknown
 }
 

@@ -33,15 +33,11 @@ export class LeaferCanvas extends LeaferCanvasBase {
         if (!this.autoLayout) this.resize(this.config as IScreenSizeData)
     }
 
-    public setBackgroundColor(color: string): void {
-        const view = this.view as HTMLElement
-        view.style.backgroundColor = color
-    }
+    public set backgroundColor(color: string) { (this.view as HTMLElement).style.backgroundColor = color }
+    public get backgroundColor(): string { return (this.view as HTMLElement).style.backgroundColor }
 
-    public setHittable(hittable: boolean): void {
-        const view = this.view as HTMLElement
-        view.style.pointerEvents = hittable ? 'auto' : 'none'
-    }
+    public set hittable(hittable: boolean) { (this.view as HTMLElement).style.pointerEvents = hittable ? 'auto' : 'none' }
+    public get hittable() { return (this.view as HTMLElement).style.pointerEvents !== 'none' }
 
     protected __createContext(): void {
         this.context = this.view.getContext('2d') as ICanvasContext2D

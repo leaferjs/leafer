@@ -5,12 +5,16 @@ export * from '@leafer/canvas-web'
 export * from '@leafer/image-web'
 export * from '@leafer/interaction-web'
 
-import { ICreator, IFunction } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType } from '@leafer/interface'
 import { Platform, Creator } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
 import { LeaferImage } from '@leafer/image-web'
 import { Interaction } from '@leafer/interaction-web'
+import { FileHelper } from '@leafer/file'
+
+
+const { mineType, fileType } = FileHelper
 
 
 Object.assign(Creator, {
@@ -21,17 +25,6 @@ Object.assign(Creator, {
     interaction: (target, canvas, selector, options?) => new Interaction(target, canvas, selector, options),
 } as ICreator)
 
-Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
-Platform.devicePixelRatio = devicePixelRatio
-
-const { userAgent } = navigator
-
-if (userAgent.indexOf("Firefox") > -1) {
-    Platform.conicGradientRotate90 = true
-    Platform.intWheelDeltaY = true
-} else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
-    Platform.fullImageShadow = true
-}
 
 Platform.origin = {
     createCanvas(width: number, height: number): HTMLCanvasElement {
@@ -39,6 +32,19 @@ Platform.origin = {
         canvas.width = width
         canvas.height = height
         return canvas
+    },
+    canvasToDataURL: (canvas: HTMLCanvasElement, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
+    canvasToBolb: (canvas: HTMLCanvasElement, type?: IExportFileType, quality?: number) => new Promise((resolve) => canvas.toBlob(resolve, mineType(type), quality)),
+    canvasSaveAs: (canvas: HTMLCanvasElement, filename: string, quality?: any) => {
+        return new Promise((resolve) => {
+            let el = document.createElement('a')
+            el.href = canvas.toDataURL(mineType(fileType(filename)), quality)
+            el.download = filename
+            document.body.appendChild(el)
+            el.click()
+            document.body.removeChild(el)
+            resolve()
+        })
     },
     loadImage(src: any): Promise<HTMLImageElement> {
         return new Promise((resolve, reject) => {
@@ -53,5 +59,16 @@ Platform.origin = {
     }
 }
 
+Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
 Platform.canvas = Creator.canvas()
+Platform.devicePixelRatio = devicePixelRatio
 Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
+
+const { userAgent } = navigator
+
+if (userAgent.indexOf("Firefox") > -1) {
+    Platform.conicGradientRotate90 = true
+    Platform.intWheelDeltaY = true
+} else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
+    Platform.fullImageShadow = true
+}

@@ -1,9 +1,10 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IBlobFunction, IExportImageType, IExportFileType } from '@leafer/interface'
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
 
 import { Canvas } from './Canvas'
+import { FileHelper } from '@leafer/file'
 
 
 const temp = new Bounds()
@@ -22,6 +23,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public pixelRatio: number
     public get pixelWidth(): number { return this.width * this.pixelRatio }
     public get pixelHeight(): number { return this.height * this.pixelRatio }
+
     public get allowBackgroundColor(): boolean { return this.view && this.parentView && !this.offscreen }
 
     public bounds: IBounds
@@ -64,8 +66,44 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public init(): void { }
-    public setBackgroundColor(_color: string): void { }
-    public setHittable(_hittable: boolean): void { }
+
+
+    public toBlob(type?: IExportFileType, quality?: any): Promise<any> {
+        return new Promise((resolve) => {
+            const canvas = this.getSaveCanvas(type)
+            Platform.origin.canvasToBolb(canvas.view, type, quality).then((blob) => {
+                resolve(blob)
+                canvas.recycle()
+            })
+        })
+    }
+
+    public toDataURL(type?: IExportImageType, quality?: any): string {
+        const canvas = this.getSaveCanvas(type)
+        const data = Platform.origin.canvasToDataURL(canvas.view, type, quality)
+        canvas.recycle()
+        return data
+    }
+
+    public saveAs(filename: string, quality?: any): Promise<void> {
+        return new Promise((resolve) => {
+            const canvas = this.getSaveCanvas(FileHelper.fileType(filename))
+            Platform.origin.canvasSaveAs(canvas.view, filename, quality).then(() => {
+                resolve()
+                canvas.recycle()
+            })
+        })
+    }
+
+    public getSaveCanvas(type: string): ILeaferCanvas {
+        const { backgroundColor, bounds } = this as ILeaferCanvas
+        const canvas = this.getSameCanvas()
+        if (['jpg', 'jpeg'].includes(type)) canvas.fillWorld(bounds, '#FFFFFF')
+        if (backgroundColor) canvas.fillWorld(bounds, backgroundColor)
+        canvas.copyWorld(this)
+        return canvas
+    }
+
 
     public resize(size: IScreenSizeData): void {
         if (this.isSameSize(size)) return

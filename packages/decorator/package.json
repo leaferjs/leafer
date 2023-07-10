@@ -1,6 +1,6 @@
 {
   "name": "@leafer/decorator",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.5",
   "description": "@leafer/decorator",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,10 +17,10 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/platform": "1.0.0-beta.2",
-    "@leafer/debug": "1.0.0-beta.2"
+    "@leafer/platform": "1.0.0-beta.5",
+    "@leafer/debug": "1.0.0-beta.5"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.2"
+     "@leafer/interface": "1.0.0-beta.5"
   }
 }

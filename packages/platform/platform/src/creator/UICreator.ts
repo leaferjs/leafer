@@ -11,7 +11,7 @@ export const UICreator = {
     register(UI: IObject): void {
         const { __tag: tag } = UI.prototype as ILeaf
         if (list[tag]) {
-            debug.error('repeat:', tag)
+            debug.repeat(tag)
         } else {
             list[tag] = UI
         }

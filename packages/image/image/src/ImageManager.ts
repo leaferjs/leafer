@@ -1,5 +1,7 @@
-import { ILeafer, ILeaferCanvasConfig, IImageManager, ILeaferImageConfig, ILeaferImage } from '@leafer/interface'
+import { ILeafer, ILeaferCanvasConfig, IImageManager, ILeaferImageConfig, ILeaferImage, ITaskProcessor, IFunction } from '@leafer/interface'
 import { Creator } from '@leafer/platform'
+import { TaskProcessor } from '@leafer/task'
+
 
 
 interface ILeaferImageMap {
@@ -11,10 +13,13 @@ export class ImageManager implements IImageManager {
 
     public leafer: ILeafer
 
+    public tasker: ITaskProcessor
+
     public map: ILeaferImageMap = {}
 
     constructor(leafer: ILeafer, _config: ILeaferCanvasConfig) {
         this.leafer = leafer
+        this.tasker = new TaskProcessor()
     }
 
     public get(config: ILeaferImageConfig): ILeaferImage {
@@ -24,6 +29,11 @@ export class ImageManager implements IImageManager {
             this.map[config.url] = image
         }
         return image
+    }
+
+    public load(image: ILeaferImage, onSuccess: IFunction, onError: IFunction): void {
+        this.tasker.add(async () => await image.load(onSuccess, onError))
+        if (!this.tasker.running) this.tasker.start()
     }
 
     public destory(): void {
