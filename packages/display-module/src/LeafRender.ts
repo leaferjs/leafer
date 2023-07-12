@@ -7,7 +7,17 @@ export const LeafRender: ILeafRenderModule = {
         if (this.__worldOpacity) {
             canvas.setWorld(this.__world, options.matrix)
             canvas.opacity = this.__worldOpacity
-            this.__draw(canvas, options)
+
+            if (this.__.__single) {
+                const tempCanvas = canvas.getSameCanvas(true)
+
+                this.__draw(tempCanvas, options)
+
+                canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, this.__.blendMode)
+                tempCanvas.recycle()
+            } else {
+                this.__draw(canvas, options)
+            }
         }
     },
 

@@ -1,5 +1,5 @@
 import { IFunction } from '../function/IFunction'
-import { ILeaferCanvas, IBlobFunction } from '../canvas/ILeaferCanvas'
+import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 

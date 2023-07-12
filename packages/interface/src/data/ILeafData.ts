@@ -5,6 +5,9 @@ export interface IDataProcessor extends IObject {
     __leaf: ILeaf
     __input: IObject
     __middle: IObject
+
+    __single: boolean
+
     __get(name: string): unknown
 
     __setInput(name: string, value: unknown): void

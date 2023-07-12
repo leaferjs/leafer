@@ -3,7 +3,6 @@ import { Creator } from '@leafer/platform'
 import { TaskProcessor } from '@leafer/task'
 
 
-
 interface ILeaferImageMap {
     [name: string]: ILeaferImage
 }

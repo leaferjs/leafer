@@ -15,6 +15,7 @@ export { ILeafHit, ILeafHitModule } from './display/module/ILeafHit'
 export { ILeafRender, ILeafRenderModule } from './display/module/ILeafRender'
 export { ILeafEventer, ILeafEventerModule } from './display/module/ILeafEventer'
 export { ILeafMask, ILeafMaskModule } from './display/module/ILeafMask'
+export { IBranchRender, IBranchRenderModule } from './display/module/IBranchRender'
 
 export { IRenderer, IRendererConfig, IRenderOptions } from './renderer/IRenderer'
 export { IWatcher, IWatchEventData, IWatcherConfig } from './watcher/IWatcher'

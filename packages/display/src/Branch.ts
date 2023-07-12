@@ -1,9 +1,9 @@
-import { ILeaf, ILeaferCanvas, IRenderOptions } from '@leafer/interface'
+import { ILeaf } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper, WaitHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
-import { LeafMask } from '@leafer/display-module'
+import { BranchRender, LeafMask } from '@leafer/display-module'
 
 import { Leaf } from './Leaf'
 
@@ -12,6 +12,8 @@ const { setByListWithHandle } = BoundsHelper
 const { sort } = BranchHelper
 const { localBoxBounds, localEventBounds, localRenderBounds, maskLocalBoxBounds, maskLocalEventBounds, maskLocalRenderBounds } = LeafBoundsHelper
 
+
+@useModule(BranchRender)
 @useModule(LeafMask)
 export class Branch extends Leaf {
 
@@ -70,60 +72,6 @@ export class Branch extends Leaf {
             }
             children.sort(sort)
         }
-    }
-
-    public __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
-
-        if (this.__worldOpacity) {
-
-            let child: ILeaf
-            const { children } = this
-
-            if (this.__hasMask && children.length > 1) {
-
-                let mask: boolean
-                let maskCanvas = canvas.getSameCanvas()
-                let contentCanvas = canvas.getSameCanvas()
-
-                for (let i = 0, len = children.length; i < len; i++) {
-                    child = children[i]
-
-                    if (child.isMask) {
-                        if (mask) {
-                            this.__renderMask(canvas, contentCanvas, maskCanvas)
-                            maskCanvas.clear()
-                            contentCanvas.clear()
-                        } else {
-                            mask = true
-                        }
-
-                        child.__render(maskCanvas, options)
-                        continue
-                    }
-
-                    child.__render(contentCanvas, options)
-                }
-
-                this.__renderMask(canvas, contentCanvas, maskCanvas)
-                maskCanvas.recycle()
-                contentCanvas.recycle()
-
-            } else {
-
-                const { bounds, hideBounds } = options
-
-                for (let i = 0, len = children.length; i < len; i++) {
-                    child = children[i]
-
-                    if (bounds && !bounds.hit(child.__world, options.matrix)) continue
-                    if (hideBounds && hideBounds.includes(child.__world, options.matrix)) continue
-
-                    child.__render(canvas, options)
-                }
-
-            }
-        }
-
     }
 
     public add(child: ILeaf, index?: number): void {

@@ -6,3 +6,4 @@ export { LeafHit } from './LeafHit'
 export { LeafRender } from './LeafRender'
 export { LeafMask } from './LeafMask'
 
+export { BranchRender } from './BranchRender'

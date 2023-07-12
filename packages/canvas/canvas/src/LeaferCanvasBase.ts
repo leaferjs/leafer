@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IBlobFunction, IExportImageType, IExportFileType } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType } from '@leafer/interface'
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'

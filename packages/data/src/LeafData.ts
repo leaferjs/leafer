@@ -7,6 +7,8 @@ export class LeafData implements ILeafData {
     public __input: IObject
     public __middle: IObject
 
+    public __single: boolean
+
     constructor(leaf: ILeaf) {
         this.__leaf = leaf
     }
