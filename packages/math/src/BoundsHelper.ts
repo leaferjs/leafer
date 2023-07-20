@@ -94,10 +94,22 @@ export const BoundsHelper = {
 
         if (matrix.b === 0 && matrix.c === 0) {
 
-            to.x = matrix.e + t.x * matrix.a
-            to.y = matrix.f + t.y * matrix.d
-            to.width = t.width * matrix.a
-            to.height = t.height * matrix.d
+            const { a, d } = matrix
+            if (a > 0) {
+                to.width = t.width * a
+                to.x = matrix.e + t.x * a
+            } else {
+                to.width = t.width * -a
+                to.x = matrix.e + t.x * a - to.width
+            }
+
+            if (d > 0) {
+                to.height = t.height * d
+                to.y = matrix.f + t.y * d
+            } else {
+                to.height = t.height * -d
+                to.y = matrix.f + t.y * d - to.height
+            }
 
         } else {
 
