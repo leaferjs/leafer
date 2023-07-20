@@ -12,7 +12,7 @@ export interface IPlatform {
     conicGradientSupport?: boolean
     conicGradientRotate90?: boolean // fixfox need rotate
     fullImageShadow?: boolean // safari need 
-    layout(target: ILeaf): void
+    layout?(target: ILeaf): void
     origin?: {
         createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
         canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string

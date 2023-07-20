@@ -10,7 +10,7 @@ import { Renderer } from '@leafer/renderer'
 import { Selector } from '@leafer/selector'
 
 import { ICreator } from '@leafer/interface'
-import { Creator } from '@leafer/core'
+import { Creator, Platform } from '@leafer/platform'
 
 Object.assign(Creator, {
     watcher: (target, options?) => new Watcher(target, options),
@@ -18,3 +18,5 @@ Object.assign(Creator, {
     renderer: (target, canvas, options?) => new Renderer(target, canvas, options),
     selector: (target, options?) => new Selector(target, options)
 } as ICreator)
+
+Platform.layout = Layouter.fullLayout

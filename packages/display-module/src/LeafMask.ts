@@ -15,6 +15,7 @@ export const LeafMask: ILeafMaskModule = {
         content.resetTransform()
         content.useMask(mask)
         canvas.resetTransform()
+        canvas.opacity = this.__worldOpacity
         canvas.copyWorld(content)
     },
 

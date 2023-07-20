@@ -62,7 +62,7 @@ export class Leaf implements ILeaf {
     public __hitCanvas?: IHitCanvas
 
     public get __onlyHitMask(): boolean { return this.__hasMask && !this.__.hitChildren }
-    public get __ignoreHitWorld(): boolean { return this.__hasMask && this.__.hitChildren }
+    public get __ignoreHitWorld(): boolean { return (this.__hasMask || this.__hasEraser) && this.__.hitChildren }
 
     // event
     public __captureMap?: IEventListenerMap

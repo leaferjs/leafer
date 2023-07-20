@@ -23,6 +23,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 this.__renderBranch(tempCanvas, options)
 
+                canvas.opacity = this.__worldOpacity
                 canvas.copyWorld(tempCanvas, this.__world, this.__world, this.__.isEraser ? 'destination-out' : this.__.blendMode)
                 tempCanvas.recycle()
             } else {
