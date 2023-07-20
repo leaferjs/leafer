@@ -44,12 +44,12 @@ export class Matrix implements IMatrix {
         return this
     }
 
-    public scaleOf(center: IPointData, x: number, y?: number): IMatrix {
-        M.scaleOf(this, center, x, y)
+    public scaleOfOuter(origin: IPointData, x: number, y?: number): IMatrix {
+        M.scaleOfOuter(this, origin, x, y)
         return this
     }
-    public scaleOfInner(center: IPointData, x: number, y?: number): IMatrix {
-        M.scaleOfInner(this, center, x, y)
+    public scaleOfInner(origin: IPointData, x: number, y?: number): IMatrix {
+        M.scaleOfInner(this, origin, x, y)
         return this
     }
 
@@ -58,13 +58,13 @@ export class Matrix implements IMatrix {
         return this
     }
 
-    public rotateOf(center: IPointData, angle: number): IMatrix {
-        M.rotateOf(this, center, angle)
+    public rotateOfOuter(origin: IPointData, angle: number): IMatrix {
+        M.rotateOfOuter(this, origin, angle)
         return this
     }
 
-    public rotateOfInner(center: IPointData, angle: number): IMatrix {
-        M.rotateOfInner(this, center, angle)
+    public rotateOfInner(origin: IPointData, angle: number): IMatrix {
+        M.rotateOfInner(this, origin, angle)
         return this
     }
 
@@ -74,13 +74,13 @@ export class Matrix implements IMatrix {
         return this
     }
 
-    public skewOf(center: IPointData, x: number, y?: number): IMatrix {
-        M.skewOf(this, center, x, y)
+    public skewOfOuter(origin: IPointData, x: number, y?: number): IMatrix {
+        M.skewOfOuter(this, origin, x, y)
         return this
     }
 
-    public skewOfInner(center: IPointData, x: number, y?: number): IMatrix {
-        M.skewOfInner(this, center, x, y)
+    public skewOfInner(origin: IPointData, x: number, y?: number): IMatrix {
+        M.skewOfInner(this, origin, x, y)
         return this
     }
 

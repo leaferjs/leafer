@@ -54,15 +54,15 @@ export const MatrixHelper = {
         t.b *= y
     },
 
-    scaleOf(t: IMatrixData, center: IPointData, x: number, y: number = x): void {
-        M.toInnerPoint(t, center, tempPoint)
+    scaleOfOuter(t: IMatrixData, origin: IPointData, x: number, y: number = x): void {
+        M.toInnerPoint(t, origin, tempPoint)
         M.scaleOfInner(t, tempPoint, x, y)
     },
 
-    scaleOfInner(t: IMatrixData, center: IPointData, x: number, y: number = x): void {
-        M.translateInner(t, center.x, center.y)
+    scaleOfInner(t: IMatrixData, origin: IPointData, x: number, y: number = x): void {
+        M.translateInner(t, origin.x, origin.y)
         M.scale(t, x, y)
-        M.translateInner(t, -center.x, -center.y)
+        M.translateInner(t, -origin.x, -origin.y)
     },
 
 
@@ -78,15 +78,15 @@ export const MatrixHelper = {
         t.d = (c * sinR) + (d * cosR)
     },
 
-    rotateOf(t: IMatrixData, center: IPointData, angle: number): void {
-        M.toInnerPoint(t, center, tempPoint)
+    rotateOfOuter(t: IMatrixData, origin: IPointData, angle: number): void {
+        M.toInnerPoint(t, origin, tempPoint)
         M.rotateOfInner(t, tempPoint, angle)
     },
 
-    rotateOfInner(t: IMatrixData, center: IPointData, angle: number): void {
-        M.translateInner(t, center.x, center.y)
+    rotateOfInner(t: IMatrixData, origin: IPointData, angle: number): void {
+        M.translateInner(t, origin.x, origin.y)
         M.rotate(t, angle)
-        M.translateInner(t, -center.x, -center.y)
+        M.translateInner(t, -origin.x, -origin.y)
     },
 
 
@@ -104,15 +104,15 @@ export const MatrixHelper = {
         }
     },
 
-    skewOf(t: IMatrixData, center: IPointData, x: number, y?: number): void {
-        M.toInnerPoint(t, center, tempPoint)
+    skewOfOuter(t: IMatrixData, origin: IPointData, x: number, y?: number): void {
+        M.toInnerPoint(t, origin, tempPoint)
         M.skewOfInner(t, tempPoint, x, y)
     },
 
-    skewOfInner(t: IMatrixData, center: IPointData, x: number, y?: number): void {
-        M.translateInner(t, center.x, center.y)
+    skewOfInner(t: IMatrixData, origin: IPointData, x: number, y?: number): void {
+        M.translateInner(t, origin.x, origin.y)
         M.skew(t, x, y)
-        M.translateInner(t, -center.x, -center.y)
+        M.translateInner(t, -origin.x, -origin.y)
     },
 
 

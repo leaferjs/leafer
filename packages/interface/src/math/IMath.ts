@@ -152,16 +152,16 @@ export interface IMatrix extends IMatrixData {
     translateInner(x: number, y: number): IMatrix
 
     scale(x: number, y?: number): IMatrix
-    scaleOf(center: IPointData, x: number, y?: number): IMatrix
-    scaleOfInner(center: IPointData, x: number, y?: number): IMatrix
+    scaleOfOuter(origin: IPointData, x: number, y?: number): IMatrix
+    scaleOfInner(origin: IPointData, x: number, y?: number): IMatrix
 
     rotate(angle: number): IMatrix
-    rotateOf(center: IPointData, angle: number): IMatrix
-    rotateOfInner(center: IPointData, angle: number): IMatrix
+    rotateOfOuter(origin: IPointData, angle: number): IMatrix
+    rotateOfInner(origin: IPointData, angle: number): IMatrix
 
     skew(x: number, y?: number): IMatrix
-    skewOf(center: IPointData, x: number, y?: number): IMatrix
-    skewOfInner(center: IPointData, x: number, y?: number): IMatrix
+    skewOfOuter(origin: IPointData, x: number, y?: number): IMatrix
+    skewOfInner(origin: IPointData, x: number, y?: number): IMatrix
 
     multiply(matrix: IMatrixData): IMatrix
     divide(matrix: IMatrixData): IMatrix
