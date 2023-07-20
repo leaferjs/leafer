@@ -7,33 +7,29 @@ export interface IUIEvent extends IEvent {
     x: number
     y: number
 
-    altKey: boolean
-    ctrlKey: boolean
-    shiftKey: boolean
-    metaKey: boolean
-    readonly spaceKey: boolean
+    altKey?: boolean
+    ctrlKey?: boolean
+    shiftKey?: boolean
+    metaKey?: boolean
+    readonly spaceKey?: boolean
 
-    readonly left: boolean
-    readonly right: boolean
-    readonly middle: boolean
-    buttons: number
+    readonly left?: boolean
+    readonly right?: boolean
+    readonly middle?: boolean
+    buttons?: number
 
-    path: ILeafList
+    path?: ILeafList
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
 
-    origin: IObject
-
-    stopDefault(): void
-    stopNow(): void
-    stop(): void
+    origin?: IObject
 }
 
 
 export interface IPointerEvent extends IUIEvent {
-    width: number
-    height: number
-    pointerType: PointerType
-    pressure: number
+    width?: number
+    height?: number
+    pointerType?: PointerType
+    pressure?: number
     tangentialPressure?: number
     tiltX?: number
     tiltY?: number

@@ -174,7 +174,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     stopAutoLayout(): void
 
     resize(size: IScreenSizeData): void
-    setViewSize(size: IScreenSizeData): void
+    updateViewSize(): void
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean

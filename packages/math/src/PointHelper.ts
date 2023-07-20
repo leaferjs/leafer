@@ -24,6 +24,10 @@ export const PointHelper = {
         t.y = point.y
     },
 
+    move(t: IPointData, x: number, y: number): void {
+        t.x += x
+        t.y += y
+    },
 
     rotate(t: IPointData, rotation: number, center?: IPointData): void {
         if (!center) center = P.defaultPoint

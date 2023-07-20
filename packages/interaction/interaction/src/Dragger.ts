@@ -209,8 +209,8 @@ export class Dragger {
             totalX += moveX
             totalY += moveY
 
-            BoundsHelper.move(downData, moveX, moveY)
-            BoundsHelper.move(this.dragData, moveX, moveY)
+            PointHelper.move(downData, moveX, moveY)
+            PointHelper.move(this.dragData, moveX, moveY)
 
             interaction.move({ ...data, moveX, moveY, totalX, totalY })
             interaction.pointerMoveReal(data)

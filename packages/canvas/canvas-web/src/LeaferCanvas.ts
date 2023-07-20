@@ -93,8 +93,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
         }
     }
 
-    public setViewSize(size: IScreenSizeData): void {
-        const { width, height, pixelRatio } = size
+    public updateViewSize(): void {
+        const { width, height, pixelRatio } = this
 
         if (!this.offscreen) {
             const { style } = this.view as HTMLCanvasElement

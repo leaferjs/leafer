@@ -25,8 +25,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.view = Platform.origin.createCanvas(this.width, this.height)
     }
 
-    public setViewSize(size: IScreenSizeData): void {
-        const { width, height, pixelRatio } = size
+    public updateViewSize(): void {
+        const { width, height, pixelRatio } = this
 
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio

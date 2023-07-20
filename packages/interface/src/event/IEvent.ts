@@ -5,19 +5,19 @@ import { ILeaf } from '../display/ILeaf'
 import { IScreenSizeData } from '../math/IMath'
 
 export interface IEvent {
-    type: string
-    target: IEventTarget
-    current: IEventTarget
+    type?: string
+    target?: IEventTarget
+    current?: IEventTarget
 
     bubbles?: boolean
     phase?: number
 
-    isStopDefault: boolean
-    isStop: boolean
-    isStopNow: boolean
-    stopDefault(): void
-    stopNow(): void
-    stop(): void
+    isStopDefault?: boolean
+    isStop?: boolean
+    isStopNow?: boolean
+    stopDefault?(): void
+    stopNow?(): void
+    stop?(): void
 }
 
 export interface IEventTarget extends IEventer {

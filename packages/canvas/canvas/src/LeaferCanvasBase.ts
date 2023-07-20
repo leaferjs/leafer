@@ -116,8 +116,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public resize(size: IScreenSizeData): void {
         if (this.isSameSize(size)) return
 
-        const { width, height } = size
-
         let takeCanvas: ILeaferCanvas
         if (this.context && !this.unreal && this.width) {
             takeCanvas = this.getSameCanvas()
@@ -125,10 +123,11 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
 
         DataHelper.copyAttrs(this, size, canvasSizeAttrs)
-        this.bounds = new Bounds(0, 0, width, height)
+        this.bounds = new Bounds(0, 0, this.width, this.height)
+        this.pixelRatio || (this.pixelRatio = 1)
 
         if (!this.unreal) {
-            this.setViewSize(size)
+            this.updateViewSize()
             this.smooth = this.config.smooth
         }
 
@@ -139,7 +138,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
     }
 
-    public setViewSize(_size: IScreenSizeData): void { }
+    public updateViewSize(): void { }
     public startAutoLayout(_autoBounds: IAutoBounds, _listener: IResizeEventListener): void { }
     public stopAutoLayout(): void { }
 
