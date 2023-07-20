@@ -61,7 +61,7 @@ export interface ILeafLayout {
     strokeBoxSpread: number
     renderShapeSpread: number
 
-    checkUpdate(): void
+    checkUpdate(force?: boolean): void
 
     getTransform(locationType: ILayoutLocationType): IMatrixData
     decomposeTransform(locationType: ILayoutLocationType): IMatrixDecompositionData

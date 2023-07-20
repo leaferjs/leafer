@@ -1,5 +1,5 @@
 import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
-import { LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
+import { AnimateEvent, LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
 import { Bounds } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
 import { Platform } from '@leafer/platform'
@@ -42,6 +42,7 @@ export class Renderer implements IRenderer {
         this.canvas = canvas
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
         this.__listenEvents()
+        this.__requestRender()
     }
 
     public start(): void {
@@ -53,7 +54,6 @@ export class Renderer implements IRenderer {
     }
 
     public update(): void {
-        if (!this.changed) this.__requestRender()
         this.changed = true
     }
 
@@ -74,7 +74,6 @@ export class Renderer implements IRenderer {
             this.emitRender(RenderEvent.START)
             this.renderOnce(callback)
             this.emitRender(RenderEvent.END, this.totalBounds)
-            this.target.emit(RenderEvent.NEXT)
         } catch (e) {
             debug.error(e)
         }
@@ -211,10 +210,12 @@ export class Renderer implements IRenderer {
     protected __requestRender(): void {
         const startTime = Date.now()
         Platform.requestRender(() => {
+            this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
             if (this.changed) {
-                this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
                 if (this.running) this.render()
             }
+            if (this.running) this.target.emit(AnimateEvent.FRAME)
+            if (this.target) this.__requestRender()
         })
     }
 

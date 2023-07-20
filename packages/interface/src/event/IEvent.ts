@@ -32,6 +32,10 @@ export interface IRenderEvent {
 
 }
 
+export interface IAnimateEvent {
+
+}
+
 export interface IChildEvent extends IEvent {
     parent?: ILeaf
     child?: ILeaf

@@ -229,13 +229,13 @@ export class Leaf implements ILeaf {
     }
 
     public scaleOf(origin: IPointData, x: number, y?: number): void {
-        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
+        this.__layout.checkUpdate()
         if (y === undefined) y = x
         LeafHelper.zoomOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), x, y)
     }
 
     public rotateOf(origin: IPointData, angle: number): void {
-        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
+        this.__layout.checkUpdate()
         LeafHelper.rotateOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), angle)
     }
 

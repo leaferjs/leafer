@@ -1,6 +1,7 @@
 import { ILeaf, ILeafArrayMap, ILeafMap, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig } from '@leafer/interface'
 import { ChildEvent, LayoutEvent } from '@leafer/event'
 import { DataHelper } from '@leafer/data'
+import { Platform } from '@leafer/platform'
 
 import { FindPath } from './FindPath'
 
@@ -33,7 +34,7 @@ export class Selector implements ISelector {
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
-        this.target.emit(LayoutEvent.CHECK_UPDATE)
+        if (Platform.realtimeLayout) this.target.emit(LayoutEvent.CHECK_UPDATE)
         return this.findPath.getByPoint(hitPoint, hitRadius, options)
     }
 

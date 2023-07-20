@@ -74,14 +74,13 @@ export class LeafLayout implements ILeafLayout {
     }
 
 
-    public checkUpdate(): void {
+    public checkUpdate(force?: boolean): void {
         const { leafer } = this.leaf
         if (leafer) {
             if (leafer.ready) {
-                if (leafer.watcher.changed) leafer.layouter.layout()
+                if ((Platform.realtimeLayout || force) && leafer.watcher.changed) leafer.layouter.layout()
             } else {
                 leafer.start()
-                leafer.layouter.layout()
             }
         } else {
             let root = this.leaf
