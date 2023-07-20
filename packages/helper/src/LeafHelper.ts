@@ -40,6 +40,15 @@ export const LeafHelper = {
         }
     },
 
+    worldHittable(t: ILeaf): boolean {
+        if (!t.__.hittable) return false
+        let { parent } = t
+        while (parent) {
+            if (!parent.__.hittable || !parent.__.hitChildren) return false
+            parent = parent.parent
+        }
+        return true
+    },
 
     // transform
 
