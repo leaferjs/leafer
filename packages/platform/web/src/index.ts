@@ -6,12 +6,11 @@ export * from '@leafer/image-web'
 export * from '@leafer/interaction-web'
 
 import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
-import { Platform, Creator } from '@leafer/core'
+import { Platform, Creator, FileHelper } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
 import { LeaferImage } from '@leafer/image-web'
 import { Interaction } from '@leafer/interaction-web'
-import { FileHelper } from '@leafer/file'
 
 
 const { mineType, fileType } = FileHelper

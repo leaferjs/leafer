@@ -2,10 +2,10 @@ import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMat
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
-
-import { Canvas } from './Canvas'
 import { FileHelper } from '@leafer/file'
 import { Debug } from '@leafer/debug'
+
+import { Canvas } from './Canvas'
 
 
 const temp = new Bounds()

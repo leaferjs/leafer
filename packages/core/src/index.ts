@@ -19,3 +19,4 @@ export * from '@leafer/platform'
 export * from '@leafer/plugin'
 
 export * from '@leafer/task'
+export * from '@leafer/file'
