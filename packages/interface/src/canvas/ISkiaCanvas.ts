@@ -1,5 +1,7 @@
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 
+export type ICanvasType = 'skia' | 'canvas'
+
 export interface ISkiaCanvas {
     toBuffer(format: IExportFileType, config: ISkiaCanvasExportConfig): Promise<any>
     toBufferSync(format: IExportFileType, config: ISkiaCanvasExportConfig): any

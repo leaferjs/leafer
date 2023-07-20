@@ -13,7 +13,7 @@ export const LeafRender: ILeafRenderModule = {
 
                 this.__draw(tempCanvas, options)
 
-                canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, this.__.blendMode)
+                canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, this.__.isEraser ? 'destination-out' : this.__.blendMode)
                 tempCanvas.recycle()
             } else {
                 this.__draw(canvas, options)

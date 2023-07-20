@@ -7,9 +7,12 @@ export const LeafEventer: ILeafEventerModule = {
     on(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void {
         let capture: boolean, once: boolean
         if (options) {
-            const isBoolean = typeof options === 'boolean'
-            capture = isBoolean ? options : options.capture
-            once = isBoolean ? false : options.once
+            if (typeof options === 'boolean') {
+                capture = options
+            } else {
+                capture = options.capture
+                once = options.once
+            }
         }
 
         let events: IEventListenerItem[]

@@ -3,6 +3,17 @@ import { ILeaf, ILeaferCanvas, IRenderOptions, IBranchRenderModule } from '@leaf
 
 export const BranchRender: IBranchRenderModule = {
 
+    __updateChange(): void {
+        const { __layout: layout } = this
+        if (layout.childrenSortChanged) {
+            this.__updateSortChildren()
+            layout.childrenSortChanged = false
+        }
+
+        this.__.__checkSingle()
+    },
+
+
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
 
@@ -12,7 +23,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 this.__renderBranch(tempCanvas, options)
 
-                canvas.copyWorld(tempCanvas, this.__world, this.__world, this.__.blendMode)
+                canvas.copyWorld(tempCanvas, this.__world, this.__world, this.__.isEraser ? 'destination-out' : this.__.blendMode)
                 tempCanvas.recycle()
             } else {
                 this.__renderBranch(canvas, options)

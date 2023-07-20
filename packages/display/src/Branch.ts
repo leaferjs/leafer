@@ -53,14 +53,6 @@ export class Branch extends Leaf {
         setByListWithHandle(this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
     }
 
-    public __updateChange(): void {
-        const { __layout: layout } = this
-        if (layout.childrenSortChanged) {
-            this.__updateSortChildren()
-            layout.childrenSortChanged = false
-        }
-    }
-
 
     // own
 

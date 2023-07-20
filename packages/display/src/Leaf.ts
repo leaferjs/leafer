@@ -4,7 +4,7 @@ import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafHit, LeafEventer, LeafRender } from '@leafer/display-module'
 import { useModule } from '@leafer/decorator'
-import { WaitHelper } from '@leafer/helper'
+import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
@@ -58,6 +58,7 @@ export class Leaf implements ILeaf {
     public __tempNumber: number // temp sort
 
     public __hasMask?: boolean
+    public __hasEraser?: boolean
     public __hitCanvas?: IHitCanvas
 
     public get __onlyHitMask(): boolean { return this.__hasMask && !this.__.hitChildren }
@@ -90,11 +91,11 @@ export class Leaf implements ILeaf {
 
 
     public waitParent(item: IFunction): void {
-        this.__parentWait ? this.__parentWait.push(item) : this.__parentWait = [item]
+        this.parent ? item() : (this.__parentWait ? this.__parentWait.push(item) : this.__parentWait = [item])
     }
 
     public waitLeafer(item: IFunction): void {
-        this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item]
+        this.leafer ? item() : (this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item])
     }
 
 
@@ -174,7 +175,9 @@ export class Leaf implements ILeaf {
 
     // LeafMask rewrite
 
-    public __updateMask(): void { }
+    public __updateEraser(_value?: boolean): void { }
+
+    public __updateMask(_value?: boolean): void { }
 
     public __renderMask(_canvas: ILeaferCanvas, _content: ILeaferCanvas, _mask: ILeaferCanvas): void { }
 
@@ -216,6 +219,24 @@ export class Leaf implements ILeaf {
 
     public innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void {
         MatrixHelper.toOuterPoint(this.worldTransform, inner, to, isMovePoint)
+    }
+
+
+    // transform
+
+    public move(x: number, y?: number): void {
+        LeafHelper.moveLocal(this, x, y)
+    }
+
+    public scaleOf(origin: IPointData, x: number, y?: number): void {
+        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
+        if (y === undefined) y = x
+        LeafHelper.zoomOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), x, y)
+    }
+
+    public rotateOf(origin: IPointData, angle: number): void {
+        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
+        LeafHelper.rotateOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), angle)
     }
 
 

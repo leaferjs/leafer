@@ -74,6 +74,7 @@ export class Renderer implements IRenderer {
             this.emitRender(RenderEvent.START)
             this.renderOnce(callback)
             this.emitRender(RenderEvent.END, this.totalBounds)
+            this.target.emit(RenderEvent.NEXT)
         } catch (e) {
             debug.error(e)
         }

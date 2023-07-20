@@ -35,6 +35,7 @@ export interface ILeafAttrData {
     opacity: __Number
     visible: __Boolean
     isMask: __Boolean
+    isEraser?: __Boolean
     zIndex: __Number
 
     // layout data
@@ -100,6 +101,7 @@ export interface ILeafInputData {
     opacity?: __Number
     visible?: __Boolean
     isMask?: __Boolean
+    isEraser?: __Boolean
     zIndex?: __Number
 
     // layout data
@@ -131,6 +133,7 @@ export interface ILeafComputedData {
     opacity?: number
     visible?: boolean
     isMask?: boolean
+    isEraser?: boolean
     zIndex?: number
 
     // layout data
@@ -195,6 +198,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __tempNumber?: number // 用于临时运算储存状态
 
     __hasMask?: boolean
+    __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
 
     readonly __onlyHitMask: boolean
@@ -238,6 +242,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __onUpdateSize(): void
 
     // IBranchMask ->
+    __updateEraser(value?: boolean): void
     __updateMask(value?: boolean): void
     __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas): void
     __removeMask(child?: ILeaf): void
@@ -250,6 +255,10 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     localToWorld(local: IPointData, to?: IPointData, isMovePoint?: boolean): void
     worldToInner(world: IPointData, to?: IPointData, isMovePoint?: boolean): void
     innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void
+
+    move(x: number, y?: number): void
+    scaleOf(origin: IPointData, x: number, y?: number): void
+    rotateOf(origin: IPointData, rotation: number): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean

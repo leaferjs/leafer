@@ -29,9 +29,12 @@ export class ResizeEvent extends Event implements IResizeEvent {
     readonly old: IScreenSizeData
 
     constructor(size: IScreenSizeData | string, oldSize?: IScreenSizeData) {
-        const realSize = typeof size === 'object'
-        super(realSize ? ResizeEvent.RESIZE : size)
-        if (realSize) Object.assign(this, size)
+        if (typeof size === 'object') {
+            super(ResizeEvent.RESIZE)
+            Object.assign(this, size)
+        } else {
+            super(size)
+        }
         this.old = oldSize
     }
 

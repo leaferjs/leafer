@@ -8,27 +8,27 @@ export const LeafBoundsHelper = {
     },
 
     localBoxBounds(target: ILeaf): IBoundsData {
-        return target.__local
+        return target.__.isEraser ? null : target.__local
     },
 
     localEventBounds(target: ILeaf): IBoundsData {
-        return target.__layout.localStrokeBounds
+        return target.__.isEraser ? null : target.__layout.localStrokeBounds
     },
 
     localRenderBounds(target: ILeaf): IBoundsData {
-        return target.__layout.localRenderBounds
+        return target.__.isEraser ? null : target.__layout.localRenderBounds
     },
 
     maskLocalBoxBounds(target: ILeaf): IBoundsData {
-        return target.isMask ? target.__local : null
+        return target.__.isMask ? target.__local : null
     },
 
     maskLocalEventBounds(target: ILeaf): IBoundsData {
-        return target.isMask ? target.__layout.localStrokeBounds : null
+        return target.__.isMask ? target.__layout.localStrokeBounds : null
     },
 
     maskLocalRenderBounds(target: ILeaf): IBoundsData {
-        return target.isMask ? target.__layout.localRenderBounds : null
+        return target.__.isMask ? target.__layout.localRenderBounds : null
     }
 
 }

@@ -43,6 +43,13 @@ export const PointHelper = {
         return temp
     },
 
+    tempToOuterOf(t: IPointData, matrix: IMatrixData): IPointData {
+        const { tempPoint: temp } = P
+        P.copy(temp, t)
+        toOuterPoint(matrix, temp, temp)
+        return temp
+    },
+
     tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixData): IRadiusPointData {
         const { tempRadiusPoint: temp } = P
         P.copy(temp, t)

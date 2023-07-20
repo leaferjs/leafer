@@ -49,7 +49,7 @@ export const LeafHelper = {
         L.moveLocal(t, local.x, local.y)
     },
 
-    moveLocal(t: ILeaf, x: number, y: number): void {
+    moveLocal(t: ILeaf, x: number, y: number = 0): void {
         t.x = t.__.x + x
         t.y = t.__.y + y
     },

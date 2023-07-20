@@ -31,6 +31,7 @@ export interface ILeafLayout {
     // matrix changed
     matrixChanged: boolean // include positionChanged scaleChanged skewChanged
     positionChanged: boolean // x, y
+    originChanged?: boolean // originX originY
     scaleChanged: boolean // scaleX scaleY
     rotationChanged: boolean // rotaiton, skewX scaleY 数据更新
 

@@ -15,6 +15,7 @@ import { IZoomView } from '../display/IView'
 import { IApp } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
 import { IControl } from '../control/IControl'
+import { IFunction } from '../function/IFunction'
 
 
 export type ILeaferType = 'draw' | 'design' | 'board' | 'document' | 'user'
@@ -32,6 +33,7 @@ export interface ILeafer extends IZoomView, IControl {
     running: boolean
     ready: boolean
     viewReady: boolean
+    readonly viewLoaded: boolean
 
     pixelRatio: number
 
@@ -57,8 +59,10 @@ export interface ILeafer extends IZoomView, IControl {
     __eventIds: IEventListenerId[]
 
     init(userConfig?: ILeaferConfig, parentApp?: IApp): void
+    setZoomLayer(zoomLayer: ILeaf, moveLayer?: ILeaf): void
     forceFullRender(): void
     resize(size: IScreenSizeData): void
+    waitViewLoaded(fun: IFunction): void
 }
 
 export interface ILeaferTypeCreator {

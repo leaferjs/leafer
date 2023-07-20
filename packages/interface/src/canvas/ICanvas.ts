@@ -67,6 +67,10 @@ declare var CanvasGradient: {
     new(): CanvasGradient
 }
 
+interface ImageDataSettings {
+    colorSpace?: PredefinedColorSpace
+}
+
 interface CanvasImageData {
     createImageData(sw: number, sh: number, settings?: ImageDataSettings): ImageData
     createImageData(imagedata: ImageData): ImageData

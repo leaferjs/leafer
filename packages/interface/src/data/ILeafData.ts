@@ -7,6 +7,7 @@ export interface IDataProcessor extends IObject {
     __middle: IObject
 
     __single: boolean
+    __checkSingle(): void
 
     __get(name: string): unknown
 
@@ -17,6 +18,7 @@ export interface IDataProcessor extends IObject {
 
     __setMiddle(name: string, value: unknown): void
     __getMiddle(name: string): unknown
+
     destroy(): void
 }
 

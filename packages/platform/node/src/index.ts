@@ -4,7 +4,7 @@ export * from '@leafer/partner'
 export * from '@leafer/canvas-node'
 export * from '@leafer/image-web'
 
-import { ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas } from '@leafer/interface'
 import { Platform, Creator } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
@@ -21,18 +21,22 @@ Object.assign(Creator, {
 } as ICreator)
 
 
-export function useSkiaCanvas(skia: IObject): void {
-    const { Canvas, loadImage } = skia
-    Platform.origin = {
-        createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
-        canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURLSync(type, { quality }),
-        canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
-        canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: any) => canvas.saveAs(filename, { quality }),
-        loadImage
+export function useCanvas(canvasType: ICanvasType, power: IObject): void {
+    if (!Platform.origin) {
+        if (canvasType === 'skia') {
+            const { Canvas, loadImage } = power
+            Platform.origin = {
+                createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
+                canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURLSync(type, { quality }),
+                canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
+                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: any) => canvas.saveAs(filename, { quality }),
+                loadImage
+            }
+        }
+        Platform.canvas = Creator.canvas()
     }
-    Platform.canvas = Creator.canvas()
 }
 
 Platform.requestRender = function (render: IFunction): void { setTimeout(render) }
-Platform.devicePixelRatio = devicePixelRatio
+Platform.devicePixelRatio = 1
 Platform.conicGradientSupport = true

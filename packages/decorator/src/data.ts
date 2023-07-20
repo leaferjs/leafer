@@ -134,12 +134,7 @@ export function sortType(defaultValue?: __Value) {
             set(value: __Value) {
                 this.__setAttr(key, value)
                 this.__layout.surfaceChanged || this.__layout.surfaceChange()
-
-                if (this.parent) {
-                    this.parent.__layout.childrenSortChanged = true
-                } else {
-                    this.waitParent(() => { this.parent.__layout.childrenSortChanged = true })
-                }
+                this.waitParent(() => { this.parent.__layout.childrenSortChanged = true })
             }
         })
     }
@@ -151,12 +146,18 @@ export function maskType(defaultValue?: __Value) {
             set(value: boolean) {
                 this.__setAttr(key, value)
                 this.__layout.boxChanged || this.__layout.boxChange()
+                this.waitParent(() => { this.parent.__updateMask(value) })
+            }
+        })
+    }
+}
 
-                if (this.parent) {
-                    this.parent.__updateMask(value)
-                } else {
-                    this.waitParent(() => { this.parent.__updateMask(value) })
-                }
+export function eraserType(defaultValue?: __Value) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: boolean) {
+                this.__setAttr(key, value)
+                this.waitParent(() => { this.parent.__updateEraser(value) })
             }
         })
     }

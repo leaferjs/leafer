@@ -117,6 +117,7 @@ interface ICanvasMethod {
     copyWorld(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string): void
     copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: string): void
     useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
+    useEraser(eraserCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
 
     fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
     strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
@@ -165,9 +166,9 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     init(): void
 
-    toBlob(type?: string, quality?: any): Promise<any>
-    toDataURL(type?: string, quality?: any): string
-    saveAs(filename: string, quality?: any): Promise<void>
+    toBlob(type?: string, quality?: number): Promise<IBlob>
+    toDataURL(type?: string, quality?: number): string
+    saveAs(filename: string, quality?: number): Promise<boolean>
 
     startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
     stopAutoLayout(): void
@@ -192,4 +193,4 @@ export interface IBlobFunction {
     (blob: IBlob | null): void
 }
 
-type IBlob = any
+export type IBlob = any

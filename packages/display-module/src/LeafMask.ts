@@ -3,6 +3,10 @@ import { ILeaf, ILeaferCanvas, ILeafMaskModule } from '@leafer/interface'
 
 export const LeafMask: ILeafMaskModule = {
 
+    __updateEraser(value?: boolean): void {
+        this.__hasEraser = value ? true : this.children.some(item => item.__.isEraser)
+    },
+
     __updateMask(value?: boolean): void {
         this.__hasMask = value ? true : this.children.some(item => item.__.isMask)
     },

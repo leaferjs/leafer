@@ -17,6 +17,8 @@ export class RenderEvent extends Event implements IRenderEvent {
 
     static END = 'render.end'
 
+    static NEXT = 'render.next'
+
     readonly renderBounds: IBounds
     readonly renderOptions: IRenderOptions
     readonly times: number

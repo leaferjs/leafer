@@ -63,6 +63,18 @@ export class LeafData implements ILeafData {
         return this.__middle && this.__middle[name]
     }
 
+    public __checkSingle(): void {
+        if ((this as ILeafData).blendMode === 'pass-through') {
+            if (this.__leaf.__hasEraser || (this as ILeafData).isEraser) {
+                this.__single = true
+            } else if (this.__single) {
+                this.__single = false
+            }
+        } else {
+            this.__single = true
+        }
+    }
+
     public destroy(): void {
         this.__leaf = null
     }
