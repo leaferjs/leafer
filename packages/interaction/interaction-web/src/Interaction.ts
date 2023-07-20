@@ -117,6 +117,10 @@ export class Interaction extends InteractionBase {
         if (wheel.preventDefault) e.preventDefault()
     }
 
+    protected preventWindowPointer(e: UIEvent) {
+        return !this.downData && e.target !== this.view
+    }
+
     // key
     protected onKeyDown(e: KeyboardEvent): void {
         Keyboard.setDownCode(e.code)
@@ -138,14 +142,13 @@ export class Interaction extends InteractionBase {
 
     protected onPointerMove(e: PointerEvent): void {
         this.usePointer || (this.usePointer = true)
-        if (this.useMutiTouch) return
+        if (this.useMutiTouch || this.preventWindowPointer(e)) return
         this.pointerMove(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onPointerUp(e: PointerEvent): void {
         if (this.downData) this.preventDefaultPointer(e)
-
-        if (this.useMutiTouch) return
+        if (this.useMutiTouch || this.preventWindowPointer(e)) return
         this.pointerUp(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
@@ -164,14 +167,13 @@ export class Interaction extends InteractionBase {
     }
 
     protected onMouseMove(e: MouseEvent): void {
-        if (this.useTouch || this.usePointer) return
+        if (this.useTouch || this.usePointer || this.preventWindowPointer(e)) return
         this.pointerMove(PointerEventHelper.convertMouse(e, this.getLocal(e)))
     }
 
     protected onMouseUp(e: MouseEvent): void {
         if (this.downData) this.preventDefaultPointer(e)
-
-        if (this.useTouch || this.usePointer) return
+        if (this.useTouch || this.usePointer || this.preventWindowPointer(e)) return
         this.pointerUp(PointerEventHelper.convertMouse(e, this.getLocal(e)))
     }
 
@@ -200,7 +202,7 @@ export class Interaction extends InteractionBase {
     protected onTouchMove(e: TouchEvent): void {
         this.mutiTouchMove(e)
 
-        if (this.usePointer) return
+        if (this.usePointer || this.preventWindowPointer(e)) return
         const touch = PointerEventHelper.getTouch(e)
         this.pointerMove(PointerEventHelper.convertTouch(e, this.getLocal(touch)))
     }
@@ -208,7 +210,7 @@ export class Interaction extends InteractionBase {
     protected onTouchEnd(e: TouchEvent): void {
         this.mutiTouchEnd()
 
-        if (this.usePointer) return
+        if (this.usePointer || this.preventWindowPointer(e)) return
         if (this.touchTimer) clearTimeout(this.touchTimer)
         this.touchTimer = setTimeout(() => {
             this.useTouch = false
