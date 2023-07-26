@@ -63,8 +63,10 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
     Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
 }
 
+Platform.name = 'web'
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
 Platform.devicePixelRatio = devicePixelRatio
+Platform.realtimeLayout = true
 
 const { userAgent } = navigator
 
@@ -73,4 +75,13 @@ if (userAgent.indexOf("Firefox") > -1) {
     Platform.intWheelDeltaY = true
 } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
     Platform.fullImageShadow = true
+}
+
+if (userAgent.indexOf('Windows') > -1) {
+    Platform.os = 'Windows'
+    Platform.intWheelDeltaY = true
+} else if (userAgent.indexOf('Mac') > -1) {
+    Platform.os = 'Mac'
+} else if (userAgent.indexOf('Linux') > -1) {
+    Platform.os = 'Linux'
 }

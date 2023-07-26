@@ -37,6 +37,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
     }
 }
 
+Platform.name = 'node'
 Platform.requestRender = function (render: IFunction): void { setTimeout(render) }
 Platform.devicePixelRatio = 1
 Platform.conicGradientSupport = true

@@ -4,11 +4,13 @@ import { ILeaf } from '../display/ILeaf'
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 
 export interface IPlatform {
+    name?: 'web' | 'node' | 'miniapp'
+    os?: 'Mac' | 'Windows' | 'Linux'
     requestRender?(render: IFunction): void
     canvas?: ILeaferCanvas
     isWorker?: boolean
     devicePixelRatio?: number
-    intWheelDeltaY?: boolean // firxfox need
+    intWheelDeltaY?: boolean // firxfox / Windows need
     conicGradientSupport?: boolean
     conicGradientRotate90?: boolean // fixfox need rotate
     fullImageShadow?: boolean // safari need 

@@ -9,6 +9,7 @@ import { Transformer } from './Transformer'
 import { Dragger } from './Dragger'
 import { emit } from './emit'
 import { InteractionHelper } from './InteractionHelper'
+import { Platform } from '@leafer/platform'
 
 
 const { pathHasEventType } = InteractionHelper
@@ -28,7 +29,7 @@ export class InteractionBase implements IInteraction {
             zoomSpeed: 0.5,
             moveSpeed: 0.5,
             rotateSpeed: 0.5,
-            delta: { x: 80 / 4, y: 8.0 },
+            delta: Platform.os === 'Windows' ? { x: 150 / 4, y: 150 / 4 } : { x: 80 / 4, y: 8.0 },
             preventDefault: true
         },
         pointer: {
