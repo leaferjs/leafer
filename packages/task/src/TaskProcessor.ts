@@ -21,6 +21,7 @@ export class TaskProcessor implements ITaskProcessor {
 
     public get running(): boolean { return this._running }
     private _running: boolean
+    private _timer: any
 
     public get percent(): number {
         const { total } = this
@@ -49,7 +50,7 @@ export class TaskProcessor implements ITaskProcessor {
     }
 
     public get remain(): number {
-        return this._isComplete ? 0 : this.total - this.finishedIndex
+        return this._isComplete ? this.total : this.total - this.finishedIndex
     }
 
 
@@ -58,16 +59,15 @@ export class TaskProcessor implements ITaskProcessor {
         this.init()
     }
 
-
     protected init(): void {
         this.empty()
-        this.index = 0
-        this.parallelSuccessNumber = 0
         this._running = false
         this._isComplete = true
     }
 
     protected empty(): void {
+        this.index = 0
+        this.parallelSuccessNumber = 0
         this.list = []
         this.parallelList = []
     }
@@ -79,6 +79,7 @@ export class TaskProcessor implements ITaskProcessor {
     }
 
     public pause(): void {
+        clearTimeout(this._timer)
         this._running = false
     }
 
@@ -94,7 +95,9 @@ export class TaskProcessor implements ITaskProcessor {
     }
 
     public stop(): void {
+        clearTimeout(this._timer)
         this._running = false
+        this._isComplete = true
         this.list.forEach(item => {
             item.complete()
         })
@@ -219,24 +222,27 @@ export class TaskProcessor implements ITaskProcessor {
                     })
 
                 }
+
             }
 
         } else {
 
             this.index += this.parallelSuccessNumber
+            this.parallelSuccessNumber = 0
             this.nextTask()
 
         }
     }
 
     private nextTask(): void {
-        setTimeout(() => {
-            this.run()
-        }, 0)
+        if (this.total === this.finishedIndex) {
+            this.onComplete()
+        } else {
+            this._timer = setTimeout(() => this.run(), 0)
+        }
     }
 
     private onComplete(): void {
-        this._isComplete = true
         this.stop()
         if (this.config.onComplete) this.config.onComplete()
     }
@@ -244,7 +250,6 @@ export class TaskProcessor implements ITaskProcessor {
     private onTask(task: TaskItem): void {
         task.complete()
         if (this.config.onTask) this.config.onTask()
-        if (this.finishedIndex + 1 === this.total) this.onComplete()
     }
 
     private onParallelError(error: unknown): void {
