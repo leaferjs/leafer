@@ -4,5 +4,5 @@ export interface IPlugin extends IObject {
     name?: string
     importVersion: string
     import: string[]
-    run(LeaferUI: IObject): void
+    run(LeaferUI: IObject, config: IObject): void
 }

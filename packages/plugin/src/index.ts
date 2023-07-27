@@ -9,9 +9,9 @@ export const PluginManager = {
     list: [] as IPlugin[]
 }
 
-export function usePlugin(plugin: IPlugin, power?: IObject) {
+export function usePlugin(plugin: IPlugin, config?: IObject) {
 
-    if (!power) power = PluginManager.power
+    const { power } = PluginManager
     PluginManager.list.push(plugin)
 
     const realParams: IObject = {}
@@ -29,7 +29,7 @@ export function usePlugin(plugin: IPlugin, power?: IObject) {
     }
 
     try {
-        plugin.run(realParams)
+        plugin.run(realParams, config)
     } catch (e) {
         debug.error(e)
     }
