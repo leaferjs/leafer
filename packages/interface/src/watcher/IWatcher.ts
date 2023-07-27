@@ -12,15 +12,17 @@ export interface IWatcherConfig {
 
 export interface IWatcher extends IControl {
     target: ILeaf
-    updatedList: ILeafList
 
     totalTimes: number
 
     disabled: boolean
     running: boolean
     changed: boolean
+    hasRemoved: boolean
 
     config: IWatcherConfig
+
+    updatedList: ILeafList
 
     disable(): void
 

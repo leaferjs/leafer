@@ -116,7 +116,7 @@ export class Branch extends Leaf {
                 }
 
             }
-        } else {
+        } else if (child === undefined) {
             super.remove()
         }
 

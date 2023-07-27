@@ -30,7 +30,7 @@ export class Layouter implements ILayouter {
 
     public config: ILayouterConfig = {}
 
-    protected __updateList: ILeafList
+    protected __updatedList: ILeafList
     protected __levelList: LeafLevelList = new LeafLevelList()
     protected __eventIds: IEventListenerId[]
 
@@ -107,10 +107,10 @@ export class Layouter implements ILayouter {
     }
 
     public partLayout(): void {
-        if (!this.__updateList?.length) return
+        if (!this.__updatedList?.length) return
 
         const t = Run.start('PartLayout')
-        const { target, __updateList: updateList } = this
+        const { target, __updatedList: updateList } = this
         const { BEFORE, LAYOUT, AFTER } = LayoutEvent
 
         const blocks = this.getBlocks(updateList)
@@ -130,7 +130,7 @@ export class Layouter implements ILayouter {
         this.addBlocks(blocks)
 
         this.__levelList.reset()
-        this.__updateList = null
+        this.__updatedList = null
         Run.end(t)
 
     }
@@ -184,7 +184,7 @@ export class Layouter implements ILayouter {
     }
 
     protected __onReceiveWatchData(event: WatchEvent): void {
-        this.__updateList = event.data.updatedList
+        this.__updatedList = event.data.updatedList
     }
 
     protected __listenEvents(): void {

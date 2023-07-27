@@ -7,17 +7,28 @@ import { DataHelper } from '@leafer/data'
 export class Watcher implements IWatcher {
 
     public target: ILeaf
-    public updatedList: ILeafList = new LeafList()
 
     public totalTimes: number = 0
 
     public disabled: boolean
     public running: boolean
     public changed: boolean
+    public hasRemoved: boolean
 
     public config: IWatcherConfig = {}
 
+    public get updatedList(): ILeafList {
+        if (this.hasRemoved) {
+            const updatedList = new LeafList()
+            this.__updatedList.list.forEach(item => { if (item.leafer) updatedList.push(item) })
+            return updatedList
+        } else {
+            return this.__updatedList
+        }
+    }
+
     protected __eventIds: IEventListenerId[]
+    protected __updatedList: ILeafList = new LeafList()
 
     constructor(target: ILeaf, userConfig?: IWatcherConfig) {
         this.target = target
@@ -46,7 +57,7 @@ export class Watcher implements IWatcher {
     }
 
     protected __onAttrChange(event: PropertyEvent): void {
-        this.updatedList.push(event.target as ILeaf)
+        this.__updatedList.push(event.target as ILeaf)
         this.update()
     }
 
@@ -54,13 +65,14 @@ export class Watcher implements IWatcher {
         if (event.type === ChildEvent.ADD) {
             this.__pushChild(event.child)
         } else {
-            this.updatedList.push(event.parent) // 此处可以优化
+            this.hasRemoved || (this.hasRemoved = true)
+            this.__updatedList.push(event.parent)
         }
         this.update()
     }
 
     protected __pushChild(child: ILeaf): void {
-        this.updatedList.push(child)
+        this.__updatedList.push(child)
         if (child.isBranch) this.__loopChildren(child)
     }
 
@@ -71,9 +83,10 @@ export class Watcher implements IWatcher {
 
     public __onRquestData(): void {
         this.target.emitEvent(new WatchEvent(WatchEvent.DATA, { updatedList: this.updatedList }))
-        this.updatedList = new LeafList()
+        this.__updatedList = new LeafList()
         this.totalTimes++
         this.changed = false
+        this.hasRemoved = false
     }
 
     protected __listenEvents(): void {
@@ -94,7 +107,7 @@ export class Watcher implements IWatcher {
             this.stop()
             this.__removeListenEvents()
             this.target = null
-            this.updatedList = null
+            this.__updatedList = null
         }
     }
 
