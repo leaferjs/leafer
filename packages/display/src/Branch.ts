@@ -67,7 +67,6 @@ export class Branch extends Leaf {
     }
 
     public add(child: ILeaf, index?: number): void {
-
         if (child.parent) child.parent.remove(child)
         child.parent = this
 
@@ -79,48 +78,50 @@ export class Branch extends Leaf {
 
         if (this.leafer) {
             child.__bindLeafer(this.leafer)
-
-            if (this.leafer.ready) {
-                const { ADD } = ChildEvent
-                const event = new ChildEvent(ADD, child, this)
-                if (child.hasEvent(ADD)) child.emitEvent(event)
-                if (this.hasEvent(ADD) && !this.isLeafer) this.emitEvent(event)
-                this.leafer.emitEvent(event)
-            }
+            if (this.leafer.ready) this.__emitChildEvent(ChildEvent.ADD, child)
         }
-
     }
 
     public remove(child?: Leaf): void {
-
         if (child) {
             const index = this.children.indexOf(child)
             if (index > -1) {
                 this.children.splice(index, 1)
-                if (this.__hasMask) this.__updateMask()
-                this.__layout.boxChange()
-
                 if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
-                child.parent = null
-
-                if (this.leafer) {
-                    child.__bindLeafer(null)
-
-                    if (this.leafer.ready) {
-                        const { REMOVE } = ChildEvent
-                        const event = new ChildEvent(REMOVE, child, this)
-                        if (child.hasEvent(REMOVE)) child.emitEvent(event)
-                        if (this.hasEvent(REMOVE) && !this.isLeafer) this.emitEvent(event)
-                        this.leafer.emitEvent(event)
-                    }
-                }
-
+                this.__preRemove()
+                this.__realRemoveChild(child)
             }
         } else if (child === undefined) {
             super.remove()
         }
+    }
 
+    public removeAll(): void {
+        const { children } = this
+        this.children = []
+        this.__preRemove()
+        this.__.__childBranchNumber = 0
+        children.forEach(child => { this.__realRemoveChild(child) })
+    }
+
+    protected __preRemove(): void {
+        if (this.__hasMask) this.__updateMask()
+        if (this.__hasEraser) this.__updateEraser()
+        this.__layout.boxChange()
+    }
+
+    protected __realRemoveChild(child: ILeaf): void {
+        child.parent = null
+        if (this.leafer) {
+            child.__bindLeafer(null)
+            if (this.leafer.ready) this.__emitChildEvent(ChildEvent.REMOVE, child)
+        }
+    }
+
+    protected __emitChildEvent(type: string, child: ILeaf): void {
+        const event = new ChildEvent(type, child, this)
+        if (child.hasEvent(type)) child.emitEvent(event)
+        if (this.hasEvent(type) && !this.isLeafer) this.emitEvent(event)
+        this.leafer.emitEvent(event)
     }
 }
-
-
