@@ -51,8 +51,22 @@ export class Watcher implements IWatcher {
     }
 
     protected __onChildEvent(event: ChildEvent): void {
-        this.updatedList.push(event.type === ChildEvent.REMOVE ? event.parent : event.child) // 此处可以优化
+        if (event.type === ChildEvent.ADD) {
+            this.__pushChild(event.child)
+        } else {
+            this.updatedList.push(event.parent) // 此处可以优化
+        }
         this.update()
+    }
+
+    protected __pushChild(child: ILeaf): void {
+        this.updatedList.push(child)
+        if (child.isBranch) this.__loopChildren(child)
+    }
+
+    protected __loopChildren(parent: ILeaf): void {
+        const { children } = parent
+        for (let i = 0, len = children.length; i < len; i++) this.__pushChild(children[i])
     }
 
     public __onRquestData(): void {
