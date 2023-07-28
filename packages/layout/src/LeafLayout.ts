@@ -70,7 +70,8 @@ export class LeafLayout implements ILeafLayout {
         this.leaf = leaf
         this.renderBounds = this.strokeBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
         this.localRenderBounds = this.localStrokeBounds = leaf.__local
-        this.boxChange()
+        this.boxChanged || this.boxChange()
+        this.positionChanged || this.positionChange()
     }
 
 
