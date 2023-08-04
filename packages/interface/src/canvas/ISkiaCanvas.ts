@@ -1,6 +1,6 @@
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 
-export type ICanvasType = 'skia' | 'canvas'
+export type ICanvasType = 'skia' | 'canvas' | 'wx'
 
 export interface ISkiaCanvas {
     toBuffer(format: IExportFileType, config: ISkiaCanvasExportConfig): Promise<any>

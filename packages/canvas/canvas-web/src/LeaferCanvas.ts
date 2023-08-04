@@ -1,7 +1,8 @@
-import { ICanvasContext2D, IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener } from '@leafer/interface'
+import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener } from '@leafer/interface'
 import { LeaferCanvasBase, canvasSizeAttrs } from '@leafer/canvas'
 import { ResizeEvent } from '@leafer/event'
 import { DataHelper } from '@leafer/data'
+import { Platform } from '@leafer/platform'
 import { Debug } from '@leafer/debug'
 
 
@@ -38,11 +39,6 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public set hittable(hittable: boolean) { (this.view as HTMLElement).style.pointerEvents = hittable ? 'auto' : 'none' }
     public get hittable() { return (this.view as HTMLElement).style.pointerEvents !== 'none' }
-
-    protected __createContext(): void {
-        this.context = this.view.getContext('2d') as ICanvasContext2D
-        this.__bindContext()
-    }
 
     protected __createView(): void {
         if (this.offscreen) {
@@ -104,6 +100,11 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio
+
+    }
+
+    public updateClientBounds(): void {
+        if (!this.offscreen) this.clientBounds = (this.view as HTMLCanvasElement).getBoundingClientRect()
     }
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
@@ -113,6 +114,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
             try {
 
                 this.resizeObserver = new ResizeObserver((entries) => {
+                    this.updateClientBounds()
                     for (const entry of entries) this.checkAutoBounds(entry.contentRect)
                 })
 
@@ -133,7 +135,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     protected imitateResizeObserver(): void {
         if (this.autoLayout) {
             if (this.parentView) this.checkAutoBounds(this.parentView.getBoundingClientRect())
-            window.requestAnimationFrame(this.imitateResizeObserver.bind(this))
+            Platform.requestRender(this.imitateResizeObserver.bind(this))
         }
     }
 

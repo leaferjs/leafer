@@ -1,10 +1,9 @@
-import { IObject, IPointData, ITimer } from '@leafer/interface'
+import { IObject, IPointData, ITimer, IKeepTouchData } from '@leafer/interface'
 import { InteractionBase, InteractionHelper } from '@leafer/interaction'
 import { MathHelper } from '@leafer/math'
 import { Keyboard } from '@leafer/event-ui'
 
 import { PointerEventHelper } from './PointerEventHelper'
-import { MutiTouchHelper } from './MutiTouchHelper'
 import { WheelEventHelper } from './WheelEventHelper'
 
 
@@ -30,7 +29,7 @@ export class Interaction extends InteractionBase {
     protected windowEvents: IObject
 
     protected usePointer: boolean
-    protected useMutiTouch: boolean
+    protected useMultiTouch: boolean
     protected useTouch: boolean
 
     protected touchTimer: ITimer
@@ -102,8 +101,16 @@ export class Interaction extends InteractionBase {
     }
 
     protected getLocal(p: IClientPoint): IPointData {
-        const viewClientBounds = this.view.getBoundingClientRect()
-        return { x: p.clientX - viewClientBounds.x, y: p.clientY - viewClientBounds.y }
+        const { clientBounds } = this.canvas
+        return { x: p.clientX - clientBounds.x, y: p.clientY - clientBounds.y }
+    }
+
+    protected getTouches(touches: TouchList): Touch[] {
+        const list: Touch[] = []
+        for (let i = 0, len = touches.length; i < len; i++) {
+            list.push(touches[i])
+        }
+        return list
     }
 
 
@@ -136,24 +143,24 @@ export class Interaction extends InteractionBase {
         this.preventDefaultPointer(e)
 
         this.usePointer || (this.usePointer = true)
-        if (this.useMutiTouch) return
+        if (this.useMultiTouch) return
         this.pointerDown(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onPointerMove(e: PointerEvent): void {
         this.usePointer || (this.usePointer = true)
-        if (this.useMutiTouch || this.preventWindowPointer(e)) return
+        if (this.useMultiTouch || this.preventWindowPointer(e)) return
         this.pointerMove(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onPointerUp(e: PointerEvent): void {
         if (this.downData) this.preventDefaultPointer(e)
-        if (this.useMutiTouch || this.preventWindowPointer(e)) return
+        if (this.useMultiTouch || this.preventWindowPointer(e)) return
         this.pointerUp(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onPointerCancel(): void {
-        if (this.useMutiTouch) return
+        if (this.useMultiTouch) return
         this.pointerCancel()
     }
 
@@ -187,7 +194,7 @@ export class Interaction extends InteractionBase {
     protected onTouchStart(e: TouchEvent): void {
         e.preventDefault()
 
-        this.mutiTouchStart(e)
+        this.multiTouchStart(e)
 
         if (this.usePointer) return
         if (this.touchTimer) {
@@ -200,7 +207,7 @@ export class Interaction extends InteractionBase {
     }
 
     protected onTouchMove(e: TouchEvent): void {
-        this.mutiTouchMove(e)
+        this.multiTouchMove(e)
 
         if (this.usePointer || this.preventWindowPointer(e)) return
         const touch = PointerEventHelper.getTouch(e)
@@ -208,7 +215,7 @@ export class Interaction extends InteractionBase {
     }
 
     protected onTouchEnd(e: TouchEvent): void {
-        this.mutiTouchEnd()
+        this.multiTouchEnd()
 
         if (this.usePointer || this.preventWindowPointer(e)) return
         if (this.touchTimer) clearTimeout(this.touchTimer)
@@ -225,40 +232,43 @@ export class Interaction extends InteractionBase {
     }
 
 
-    // mutiTouch
-    protected mutiTouchStart(e: TouchEvent): void {
-        this.useMutiTouch = (e.touches.length >= 2)
-        this.touches = this.useMutiTouch ? MutiTouchHelper.getTouches(e.touches) : undefined
-        if (this.useMutiTouch) this.pointerCancel()
+    // multiTouch
+    protected multiTouchStart(e: TouchEvent): void {
+        this.useMultiTouch = (e.touches.length >= 2)
+        this.touches = this.useMultiTouch ? this.getTouches(e.touches) : undefined
+        if (this.useMultiTouch) this.pointerCancel()
     }
 
-    protected mutiTouchMove(e: TouchEvent): void {
-        if (!this.useMutiTouch) return
-        if (e.touches.length >= 2) {
-            const touches = MutiTouchHelper.getTouches(e.touches)
-            const touch0 = touches.find(touch => touch.identifier === this.touches[0].identifier)
-            const touch1 = touches.find(touch => touch.identifier === this.touches[1].identifier)
-
-            if (touch0 && touch1) {
-                const from = [this.getLocal(this.touches[0]), this.getLocal(this.touches[1])]
-                const to = [this.getLocal(touch0), this.getLocal(touch1)]
-                const { move, angle, scale, center } = MutiTouchHelper.getData(from, to)
-
-                const eventBase = InteractionHelper.getBase(e)
-
-                this.rotate(getRotateEventData(center, angle, eventBase))
-                this.zoom(getZoomEventData(center, scale, eventBase))
-                this.move(getMoveEventData(center, move, eventBase))
-
+    protected multiTouchMove(e: TouchEvent): void {
+        if (!this.useMultiTouch) return
+        if (e.touches.length > 1) {
+            const touches = this.getTouches(e.touches)
+            const list = this.getKeepTouchList(this.touches, touches)
+            if (list.length > 1) {
+                this.multiTouch(InteractionHelper.getBase(e), list)
                 this.touches = touches
             }
         }
     }
 
-    protected mutiTouchEnd(): void {
+    protected multiTouchEnd(): void {
         this.touches = null
-        this.useMutiTouch = false
+        this.useMultiTouch = false
         this.transformEnd()
+    }
+
+    protected getKeepTouchList(old: Touch[], touches: Touch[]): IKeepTouchData[] {
+        let to: Touch
+        const list: IKeepTouchData[] = []
+        old.forEach(from => {
+            to = touches.find(touch => touch.identifier === from.identifier)
+            if (to) list.push({ from: this.getLocal(from), to: this.getLocal(to) })
+        })
+        return list
+    }
+
+    protected getLocalTouchs(points: Touch[]): IPointData[] {
+        return points.map(point => this.getLocal(point))
     }
 
 

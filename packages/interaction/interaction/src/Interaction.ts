@@ -1,6 +1,6 @@
-import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer } from '@leafer/interface'
+import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData } from '@leafer/interface'
 import { PointerEvent, DropEvent, PointerButton } from '@leafer/event-ui'
-import { ResizeEvent } from '@leafer/event'
+import { LeaferEvent, ResizeEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
 import { Bounds, PointHelper } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
@@ -10,9 +10,10 @@ import { Dragger } from './Dragger'
 import { emit } from './emit'
 import { InteractionHelper } from './InteractionHelper'
 import { Platform } from '@leafer/platform'
+import { MultiTouchHelper } from './MultiTouchHelper'
 
 
-const { pathHasEventType } = InteractionHelper
+const { pathHasEventType, getMoveEventData, getZoomEventData, getRotateEventData } = InteractionHelper
 
 export class InteractionBase implements IInteraction {
 
@@ -88,6 +89,9 @@ export class InteractionBase implements IInteraction {
     public stop(): void {
         this.running = false
     }
+
+
+    public receive(_event: any): void { }
 
 
     public pointerDown(data: IPointerEvent): void {
@@ -167,7 +171,16 @@ export class InteractionBase implements IInteraction {
     }
 
 
+    public multiTouch(data: IUIEvent, list: IKeepTouchData[]): void {
+        const { move, angle, scale, center } = MultiTouchHelper.getData(list)
+        this.rotate(getRotateEventData(center, angle, data))
+        this.zoom(getZoomEventData(center, scale, data))
+        this.move(getMoveEventData(center, move, data))
+    }
+
+
     // window transform
+
     public move(data: IMoveEvent): void {
         this.transformer.move(data)
     }
@@ -316,7 +329,7 @@ export class InteractionBase implements IInteraction {
     protected __listenEvents(): void {
         const { target } = this
         this.__eventIds = [target.on_(ResizeEvent.RESIZE, this.__onResize, this)]
-        this.__onResize()
+        target.once(LeaferEvent.READY, () => this.__onResize())
     }
 
     protected __removeListenEvents(): void {

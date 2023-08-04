@@ -2,10 +2,11 @@ import { INumberFunction, IPointDataFunction } from '../function/IFunction'
 import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent } from '../event/IUIEvent'
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
-import { IPointData } from '../math/IMath'
+import { IBoundsData, IPointData } from '../math/IMath'
 import { ISelector } from '../selector/ISelector'
 import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
+import { IKeepTouchData } from '../event/IEvent'
 
 export interface IInteraction extends IControl {
     target: ILeaf
@@ -23,11 +24,15 @@ export interface IInteraction extends IControl {
     downData: IPointerEvent
     downTime: number
 
+    receive(event: any): void
+
     pointerDown(data: IPointerEvent): void
     pointerMove(data: IPointerEvent): void
     pointerMoveReal(data: IPointerEvent): void
     pointerUp(data: IPointerEvent): void
     pointerCancel(): void
+
+    multiTouch(data: IUIEvent, list: IKeepTouchData[]): void
 
     move(data: IMoveEvent): void
     zoom(data: IZoomEvent): void
@@ -37,8 +42,9 @@ export interface IInteraction extends IControl {
 }
 
 export interface IInteractionCanvas {
+    view: any
     bounds: IBounds
-    view: unknown
+    clientBounds: IBoundsData
 }
 
 export interface IInteractionConfig {

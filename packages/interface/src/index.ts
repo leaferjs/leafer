@@ -30,7 +30,7 @@ export { ITaskProcessor, ITaskProcessorConfig } from './task/ITaskProcessor'
 
 
 export { IControl } from './control/IControl'
-export { IPlatform } from './platform/IPlatform'
+export { IPlatform, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platform/IPlatform'
 export { IPlugin } from './plugin/IPlugin'
 
 
@@ -44,7 +44,7 @@ export { ILeaferImage, ILeaferImageConfig, ILeaferImageOnLoaded, ILeaferImageOnE
 export { IExportFileType, IExportImageType } from './file/IFileType'
 
 export { InnerId, IEventer, IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
-export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, ITransformEvent, ITransformEventData, TransformMode } from './event/IEvent'
+export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, ITransformEvent, ITransformEventData, TransformMode, IMultiTouchData, IKeepTouchData } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IKeyEvent, IImageEvent } from './event/IUIEvent'
 export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPointerConfig } from './interaction/IInteraction'
 

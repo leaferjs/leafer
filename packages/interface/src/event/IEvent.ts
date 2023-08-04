@@ -2,7 +2,7 @@ import { IEventer } from './IEventer'
 import { IWatchEventData } from '../watcher/IWatcher'
 import { ILayoutBlockData } from '../layouter/ILayouter'
 import { ILeaf } from '../display/ILeaf'
-import { IScreenSizeData } from '../math/IMath'
+import { IScreenSizeData, IPointData } from '../math/IMath'
 
 export interface IEvent {
     type?: string
@@ -96,3 +96,16 @@ export interface ITransformEvent extends IEvent, ITransformEventData {
     readonly rotation: number
 }
 export type TransformMode = 'move' | 'zoom' | 'rotate'
+
+
+export interface IMultiTouchData {
+    move: IPointData,
+    scale: number,
+    angle: number,
+    center: IPointData
+}
+
+export interface IKeepTouchData {
+    from: IPointData
+    to: IPointData
+}

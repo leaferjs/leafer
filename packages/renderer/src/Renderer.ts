@@ -62,7 +62,10 @@ export class Renderer implements IRenderer {
     }
 
     public render(callback?: IFunction): void {
-        if (!(this.running)) return
+        if (!(this.running && this.canvas.view)) {
+            this.changed = true
+            return
+        }
 
         const { target } = this
         this.times = 0
@@ -212,7 +215,7 @@ export class Renderer implements IRenderer {
         Platform.requestRender(() => {
             this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
             if (this.changed) {
-                if (this.running) this.render()
+                if (this.running && this.canvas.view) this.render()
             }
             if (this.running) this.target.emit(AnimateEvent.FRAME)
             if (this.target) this.__requestRender()

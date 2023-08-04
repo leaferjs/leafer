@@ -2,6 +2,8 @@ import { IFunction } from '../function/IFunction'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
 import { IExportFileType, IExportImageType } from '../file/IFileType'
+import { IBoundsData, ISizeData } from '../math/IMath'
+import { IObject } from '../data/IData'
 
 export interface IPlatform {
     name?: 'web' | 'node' | 'miniapp'
@@ -22,5 +24,22 @@ export interface IPlatform {
         canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
         loadImage(url: string): Promise<any>
-    }
+    },
+    miniapp?: IMiniapp
+}
+
+
+export interface IMiniappSelect extends IObject { }
+
+export interface IMiniappSizeView extends ISizeData {
+    view: any
+}
+
+export interface IMiniapp {
+    select(name: string): IMiniappSelect
+    getBounds(select: IMiniappSelect): Promise<IBoundsData>
+    getSizeView(select: IMiniappSelect): Promise<IMiniappSizeView>
+    onWindowResize(fun: IFunction): void
+    offWindowResize(fun: IFunction): void
+    saveToAlbum(path: string): Promise<any>
 }
