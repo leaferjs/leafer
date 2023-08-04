@@ -146,13 +146,14 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     hittable?: boolean
 
     bounds: IBounds
+    clientBounds: IBoundsData
 
     config: ILeaferCanvasConfig
 
     autoLayout: boolean
 
-    view: unknown
-    parentView: unknown
+    view: any
+    parentView: any
 
     unreal?: boolean
 
@@ -175,6 +176,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     resize(size: IScreenSizeData): void
     updateViewSize(): void
+    updateClientBounds(): void
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean
@@ -187,7 +189,10 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 }
 
 
-export type IHitCanvas = ILeaferCanvas
+export interface IHitCanvas extends ILeaferCanvas {
+
+}
+
 
 export interface IBlobFunction {
     (blob: IBlob | null): void

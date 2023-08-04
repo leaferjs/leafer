@@ -29,13 +29,14 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public get allowBackgroundColor(): boolean { return this.view && this.parentView && !this.offscreen }
 
     public bounds: IBounds
+    public clientBounds: IBoundsData
 
     public config: ILeaferCanvasConfig
 
     public autoLayout: boolean
 
-    public view: unknown
-    public parentView: unknown
+    public view: any
+    public parentView: any
 
     public unreal?: boolean
 
@@ -63,12 +64,14 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.config = config
 
         this.init()
-
-        this.textBaseline = "alphabetic"
     }
 
     public init(): void { }
 
+    protected __createContext(): void {
+        this.context = this.view.getContext('2d')
+        this.__bindContext()
+    }
 
     public toBlob(type?: IExportFileType, quality?: number): Promise<IBlob> {
         return new Promise((resolve) => {
@@ -131,6 +134,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
             this.smooth = this.config.smooth
         }
 
+        this.updateClientBounds()
+
         if (this.context && !this.unreal && takeCanvas) {
             this.clearWorld(takeCanvas.bounds)
             this.copyWorld(takeCanvas)
@@ -139,6 +144,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public updateViewSize(): void { }
+    public updateClientBounds(): void { }
+
     public startAutoLayout(_autoBounds: IAutoBounds, _listener: IResizeEventListener): void { }
     public stopAutoLayout(): void { }
 
@@ -205,7 +212,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public hitFill(point: IPointData, fillRule?: IWindingRule): boolean {
-        return this.context.isPointInPath(point.x, point.y, fillRule)
+        return fillRule ? this.context.isPointInPath(point.x, point.y, fillRule) : this.context.isPointInPath(point.x, point.y)
     }
 
     public hitStroke(point: IPointData, strokeWidth?: number): boolean {

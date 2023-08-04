@@ -34,7 +34,7 @@ export class Selector implements ISelector {
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
-        if (Platform.realtimeLayout) this.target.emit(LayoutEvent.CHECK_UPDATE)
+        if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
         return this.findPath.getByPoint(hitPoint, hitRadius, options)
     }
 

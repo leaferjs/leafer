@@ -136,6 +136,7 @@ export class Canvas implements ICanvasAttr {
             method = (this.context as IObject)[name]
             if (method) (this as IObject)[name] = method.bind(this.context)
         })
+        this.textBaseline = "alphabetic"
     }
 
     // canvas method

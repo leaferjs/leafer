@@ -1,4 +1,4 @@
-import { ICanvasContext2D, IObject, IScreenSizeData } from '@leafer/interface'
+import { IObject, IScreenSizeData } from '@leafer/interface'
 import { LeaferCanvasBase } from '@leafer/canvas'
 import { Platform } from '@leafer/platform'
 
@@ -16,13 +16,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.resize(this.config as IScreenSizeData)
     }
 
-    protected __createContext(): void {
-        this.context = this.view.getContext('2d') as unknown as ICanvasContext2D
-        this.__bindContext()
-    }
-
     protected __createView(): void {
-        this.view = Platform.origin.createCanvas(this.width, this.height)
+        this.view = Platform.origin.createCanvas(1, 1)
     }
 
     public updateViewSize(): void {
@@ -30,6 +25,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio
+
+        this.clientBounds = this.bounds
     }
 
 }

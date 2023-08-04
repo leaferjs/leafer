@@ -21,6 +21,7 @@
     "@leafer/math": "1.0.0-beta.7",
     "@leafer/data": "1.0.0-beta.7",
     "@leafer/event": "1.0.0-beta.7",
+    "@leafer/platform": "1.0.0-beta.7",
     "@leafer/debug": "1.0.0-beta.7"
   },
   "devDependencies": {
