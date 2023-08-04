@@ -68,7 +68,9 @@ export class Interaction extends InteractionBase {
             'touchcancel': this.onTouchCancel,
 
             'keydown': this.onKeyDown,
-            'keyup': this.onKeyUp
+            'keyup': this.onKeyUp,
+
+            'scroll': this.onScroll
         }
 
         const { viewEvents, windowEvents } = this
@@ -137,6 +139,9 @@ export class Interaction extends InteractionBase {
         Keyboard.setUpCode(e.code)
     }
 
+    protected onScroll(): void {
+        this.canvas.updateClientBounds()
+    }
 
     // pointer
     protected onPointerDown(e: PointerEvent): void {

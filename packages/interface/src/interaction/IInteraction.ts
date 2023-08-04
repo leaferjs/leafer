@@ -2,11 +2,12 @@ import { INumberFunction, IPointDataFunction } from '../function/IFunction'
 import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent } from '../event/IUIEvent'
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
-import { IBoundsData, IPointData } from '../math/IMath'
+import { IPointData } from '../math/IMath'
 import { ISelector } from '../selector/ISelector'
 import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
+import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 
 export interface IInteraction extends IControl {
     target: ILeaf
@@ -41,10 +42,8 @@ export interface IInteraction extends IControl {
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
 }
 
-export interface IInteractionCanvas {
-    view: any
-    bounds: IBounds
-    clientBounds: IBoundsData
+export interface IInteractionCanvas extends ILeaferCanvas {
+
 }
 
 export interface IInteractionConfig {
