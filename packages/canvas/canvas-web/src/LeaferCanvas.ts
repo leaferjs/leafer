@@ -25,7 +25,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         } else {
             view ? this.__createViewFrom(view) : this.__createView()
             const { style } = this.view as HTMLCanvasElement
-            if (this.autoLayout) style.display || (style.display = 'block')
+            style.display || (style.display = 'block')
             this.parentView = (this.view as HTMLCanvasElement).parentElement
         }
 
