@@ -9,6 +9,9 @@ export class LeafData implements ILeafData {
 
     public __single: boolean
 
+    public __naturalWidth?: number
+    public __naturalHeight?: number
+
     constructor(leaf: ILeaf) {
         this.__leaf = leaf
     }
