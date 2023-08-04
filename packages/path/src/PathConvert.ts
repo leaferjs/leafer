@@ -11,6 +11,7 @@ interface ICurrentCommand {
     name?: number
     length?: number
     index?: number
+    dot?: number
 }
 
 
@@ -23,7 +24,7 @@ const setEndPoint = {} as IPointData
 
 export const PathConvert = {
 
-    current: {} as ICurrentCommand,
+    current: { dot: 0 } as ICurrentCommand,
 
     stringify(data: IPathCommandData): string {
         let i = 0, len = data.length, count: number, str: string = '', command: number, lastCommand: number
@@ -59,11 +60,18 @@ export const PathConvert = {
 
             if (StringNumberMap[char]) {
 
+                if (char === '.') {
+                    current.dot++
+                    if (current.dot > 1) {
+                        pushData(data, num); num = '' //  .375.375
+                    }
+                }
+
                 num += char
 
             } else if (Command[char]) {
 
-                if (num) { pushData(data, Number(num)); num = '' }
+                if (num) { pushData(data, num); num = '' }
 
                 current.name = Command[char]
                 current.length = PathCommandLengthMap[char]
@@ -79,12 +87,12 @@ export const PathConvert = {
                     if (lastChar === 'e' || lastChar === 'E') { // L45e-12  21e+22
                         num += char
                     } else {
-                        if (num) pushData(data, Number(num)) // L-34-35 L+12+28
+                        if (num) pushData(data, num) // L-34-35 L+12+28
                         num = char
                     }
 
                 } else {
-                    if (num) { pushData(data, Number(num)); num = '' }
+                    if (num) { pushData(data, num); num = '' }
                 }
 
             }
@@ -93,7 +101,7 @@ export const PathConvert = {
 
         }
 
-        if (num) pushData(data, Number(num))
+        if (num) pushData(data, num)
 
         return needConvert ? PathConvert.toCanvasData(data, curveMode) : data
     },
@@ -301,14 +309,15 @@ export const PathConvert = {
         }
     },
 
-    pushData(data: IPathCommandData, num: number) {
+    pushData(data: IPathCommandData, strNum: string | number) {
         if (current.index === current.length) { // 单个命令，多个数据的情况
             current.index = 1
             data.push(current.name)
         }
 
-        data.push(num)
+        data.push(Number(strNum))
         current.index++
+        current.dot = 0
     }
 
 }
