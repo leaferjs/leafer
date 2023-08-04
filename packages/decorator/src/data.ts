@@ -223,7 +223,19 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: _
         enumerable: true
     }
 
-    if (defaultValue === undefined) property.get = function () { return this[computedKey] }
+    if (defaultValue === undefined) {
+        property.get = function () { return this[computedKey] }
+    } else if (key === 'width') {
+        property.get = function () {
+            const v = this[computedKey]
+            return v === undefined ? ((this as ILeafData).__naturalWidth || defaultValue) : v
+        }
+    } else if (key === 'height') {
+        property.get = function () {
+            const v = this[computedKey]
+            return v === undefined ? ((this as ILeafData).__naturalHeight || defaultValue) : v
+        }
+    }
 
     const descriptor = getDescriptor(data, key)
 

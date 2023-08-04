@@ -130,7 +130,7 @@ export class Leaf implements ILeaf {
 
     public forceUpdate(attrName?: string): void {
         if (!attrName) attrName = 'x'
-        const value = this.__.__get(attrName);
+        const value = this.__.__getInput(attrName);
         (this as any)[attrName] = value
     }
 

@@ -158,6 +158,8 @@ export interface ILeafComputedData {
     // other
     __childBranchNumber?: number // 存在子分支的个数
     __complex?: boolean // 外观是否复杂
+    __naturalWidth?: number
+    __naturalHeight?: number
 }
 
 export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
