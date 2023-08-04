@@ -1,3 +1,4 @@
+import { ILeafer } from '../app/ILeafer'
 import { IObject } from '../data/IData'
 
 export interface IPlugin extends IObject {
@@ -5,4 +6,5 @@ export interface IPlugin extends IObject {
     importVersion: string
     import: string[]
     run(LeaferUI: IObject, config: IObject): void
+    onLeafer?(leafer: ILeafer): void
 }
