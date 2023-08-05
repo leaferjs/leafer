@@ -25,8 +25,8 @@ export interface IUIEvent extends IEvent {
 
     origin?: IObject
 
-    getInner(target?: ILeaf): IPointData
-    getLocal(target?: ILeaf): IPointData
+    getInner?(target?: ILeaf): IPointData
+    getLocal?(target?: ILeaf): IPointData
 }
 
 
@@ -48,8 +48,8 @@ export interface IDragEvent extends IPointerEvent {
     totalX: number
     totalY: number
 
-    getInnerMove(target?: ILeaf): IPointData
-    getLocalMove(target?: ILeaf): IPointData
+    getInnerMove?(target?: ILeaf): IPointData
+    getLocalMove?(target?: ILeaf): IPointData
 }
 
 export interface IDropEvent extends IPointerEvent {
