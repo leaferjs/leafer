@@ -2,6 +2,8 @@ import { IObject } from '../data/IData'
 import { ILeafList } from '../data/IList'
 import { IEvent } from './IEvent'
 import { ILeaferImage } from '../image/ILeaferImage'
+import { ILeaf } from '../display/ILeaf'
+import { IPointData } from '../math/IMath'
 
 export interface IUIEvent extends IEvent {
     x: number
@@ -22,6 +24,9 @@ export interface IUIEvent extends IEvent {
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
 
     origin?: IObject
+
+    getInner(target?: ILeaf): IPointData
+    getLocal(target?: ILeaf): IPointData
 }
 
 
@@ -42,6 +47,9 @@ export interface IDragEvent extends IPointerEvent {
     moveY: number
     totalX: number
     totalY: number
+
+    getInnerMove(target?: ILeaf): IPointData
+    getLocalMove(target?: ILeaf): IPointData
 }
 
 export interface IDropEvent extends IPointerEvent {

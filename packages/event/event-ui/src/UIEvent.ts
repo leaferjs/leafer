@@ -1,10 +1,12 @@
-import { ILeaf, ILeafList, IObject, IUIEvent } from '@leafer/interface'
+import { ILeaf, ILeafList, IObject, IPointData, IUIEvent } from '@leafer/interface'
 import { Event } from '@leafer/event'
 import { EventCreator } from '@leafer/platform'
 
 import { Keyboard } from './Keyboard'
 import { PointerButton as B } from './PointerButton'
 
+
+const point = {} as IPointData
 
 export class UIEvent extends Event implements IUIEvent {
 
@@ -34,6 +36,18 @@ export class UIEvent extends Event implements IUIEvent {
     constructor(params: IUIEvent) {
         super(params.type)
         Object.assign(this, params)
+    }
+
+    public getInner(target?: ILeaf): IPointData {
+        if (!target) target = this.current
+        target.worldToInner(this, point)
+        return { ...point }
+    }
+
+    public getLocal(target?: ILeaf): IPointData {
+        if (!target) target = this.current
+        target.worldToLocal(this, point)
+        return { ...point }
     }
 
     static changeName(oldName: string, newName: string): void {
