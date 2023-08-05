@@ -49,7 +49,7 @@ export class CanvasManager implements ICanvasManager {
         this.list.length = 0
     }
 
-    public destory(): void {
+    public destroy(): void {
         this.clear()
     }
 

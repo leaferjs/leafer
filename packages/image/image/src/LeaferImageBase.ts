@@ -39,7 +39,7 @@ export class LeaferImageBase implements ILeaferImage {
         return canvas
     }
 
-    public destory(): void {
+    public destroy(): void {
         this.view = null
         this.options = null
     }

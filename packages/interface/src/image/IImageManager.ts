@@ -6,5 +6,5 @@ export interface IImageManager {
     tasker: ITaskProcessor
     get(config: ILeaferImageConfig): ILeaferImage
     load(image: ILeaferImage, onSuccess: IFunction, onError: IFunction): void
-    destory(): void
+    destroy(): void
 }

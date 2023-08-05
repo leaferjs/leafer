@@ -24,5 +24,5 @@ export interface ITaskProcessor {
     add(taskCallback: IFunction, taskTime?: number): void
     addParallel(taskCallback: IFunction, taskTime?: number): void
     addEmpty(callback?: IFunction): void
-    destory(): void
+    destroy(): void
 }

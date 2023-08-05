@@ -6,5 +6,5 @@ export interface ICanvasManager {
     recycle(old: ILeaferCanvas): void
     clearRecycled(): void
     clear(): void
-    destory(): void
+    destroy(): void
 }

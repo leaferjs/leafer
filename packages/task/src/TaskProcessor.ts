@@ -270,7 +270,7 @@ export class TaskProcessor implements ITaskProcessor {
         if (this.config.onError) this.config.onError(error)
     }
 
-    public destory(): void {
+    public destroy(): void {
         this.empty()
         this.config = {}
     }

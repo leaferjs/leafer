@@ -35,7 +35,7 @@ export class ImageManager implements IImageManager {
         if (!this.tasker.running) this.tasker.start()
     }
 
-    public destory(): void {
+    public destroy(): void {
         this.leafer = null
         this.map = null
     }
