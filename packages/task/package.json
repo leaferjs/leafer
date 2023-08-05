@@ -1,6 +1,6 @@
 {
   "name": "@leafer/task",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "@leafer/task",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,10 +17,10 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/math": "1.0.0-beta.7",
-    "@leafer/debug": "1.0.0-beta.7"
+    "@leafer/math": "1.0.0-beta.8",
+    "@leafer/debug": "1.0.0-beta.8"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.7"
+     "@leafer/interface": "1.0.0-beta.8"
   }
 }
