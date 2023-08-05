@@ -16,7 +16,7 @@
     "leafer",
     "leaferjs"
   ],
-  "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.7"
+  "dependencies": {
+    "@leafer/image": "1.0.0-beta.7"
   }
 }

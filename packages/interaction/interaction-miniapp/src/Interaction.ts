@@ -68,7 +68,7 @@ export class Interaction extends InteractionBase {
 
     protected onTouchMove(e: TouchEvent): void {
         this.multiTouchMove(e)
-
+        if (this.useMultiTouch) return
         const touch = PointerEventHelper.getTouch(e)
         this.pointerMove(PointerEventHelper.convertTouch(e, this.getLocal(touch)))
     }

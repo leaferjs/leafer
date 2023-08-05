@@ -2,7 +2,7 @@ export * from '@leafer/core'
 export * from '@leafer/partner'
 
 export * from '@leafer/canvas-miniapp'
-export * from '@leafer/image-web'
+export * from '@leafer/image-miniapp'
 
 import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData } from '@leafer/interface'
 import { Platform, Creator, FileHelper } from '@leafer/core'
@@ -24,10 +24,10 @@ Object.assign(Creator, {
 } as ICreator)
 
 
-export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
+export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
     if (!Platform.origin) {
         Platform.origin = {
-            createCanvas: (width: number, height: number, _format?: string) => wx.createOffscreenCanvas({ type: '2d', width, height }),
+            createCanvas: (width: number, height: number, _format?: string) => app.createOffscreenCanvas({ type: '2d', width, height }),
             canvasToDataURL: (canvas: IObject, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
             canvasToBolb: (canvas: IObject, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
             canvasSaveAs: (canvas: IObject, filePath: string, quality?: any) => {
@@ -36,10 +36,10 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                     data = data.substring(data.indexOf('64,') + 3)
                     let toAlbum: boolean
                     if (!filePath.includes('/')) {
-                        filePath = `${wx.env.USER_DATA_PATH}/` + filePath
+                        filePath = `${app.env.USER_DATA_PATH}/` + filePath
                         toAlbum = true
                     }
-                    const fs = wx.getFileSystemManager()
+                    const fs = app.getFileSystemManager()
                     fs.writeFile({
                         filePath,
                         data,
@@ -70,7 +70,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
 
         Platform.miniapp = {
             select(name: string): IMiniappSelect {
-                return wx.createSelectorQuery().select(name)
+                return app.createSelectorQuery().select(name)
             },
             getBounds(select: IMiniappSelect): Promise<IBoundsData> {
                 return new Promise((resolve) => {
@@ -90,18 +90,18 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             },
             saveToAlbum(path: string): Promise<any> {
                 return new Promise((resolve) => {
-                    wx.getSetting({
+                    app.getSetting({
                         success: (res: any) => {
                             if (res.authSetting['scope.writePhotosAlbum']) {
-                                wx.saveImageToPhotosAlbum({
+                                app.saveImageToPhotosAlbum({
                                     filePath: path,
                                     success() { resolve(true) }
                                 })
                             } else {
-                                wx.authorize({
+                                app.authorize({
                                     scope: 'scope.writePhotosAlbum',
                                     success: () => {
-                                        wx.saveImageToPhotosAlbum({
+                                        app.saveImageToPhotosAlbum({
                                             filePath: path,
                                             success() { resolve(true) }
                                         })
@@ -114,10 +114,10 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 })
             },
             onWindowResize(fun: IFunction): void {
-                wx.onWindowResize(fun)
+                app.onWindowResize(fun)
             },
             offWindowResize(fun: IFunction): void {
-                wx.offWindowResize(fun)
+                app.offWindowResize(fun)
             }
         }
 

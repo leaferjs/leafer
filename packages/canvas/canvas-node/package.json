@@ -17,6 +17,7 @@
     "leaferjs"
   ],
   "dependencies": {
+    "@leafer/platform": "1.0.0-beta.7",
     "@leafer/canvas": "1.0.0-beta.7"
   },
   "devDependencies": {
