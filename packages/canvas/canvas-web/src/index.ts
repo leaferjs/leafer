@@ -1,4 +1,6 @@
+import { canvasPatch } from '@leafer/canvas'
+
 export { LeaferCanvas } from './LeaferCanvas'
 
-import { patch } from './patch'
-patch()
+canvasPatch(CanvasRenderingContext2D.prototype)
+canvasPatch(Path2D.prototype)

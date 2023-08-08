@@ -1,5 +1,5 @@
-import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs } from '@leafer/canvas'
+import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject } from '@leafer/interface'
+import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs } from '@leafer/canvas'
 import { Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
 import { ResizeEvent } from '@leafer/event'
@@ -31,7 +31,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         }
     }
 
-    protected initView(view?: any): void {
+    protected initView(view?: IObject): void {
         if (!view) {
             view = {}
             this.__createView()
@@ -42,6 +42,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const { width, height, pixelRatio } = this.config
         const size = { width: width || view.width, height: height || view.height, pixelRatio }
         this.resize(size)
+
+        canvasPatch((this.context as IObject).__proto__)
     }
 
     protected __createView(): void {

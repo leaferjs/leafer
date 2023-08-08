@@ -10,6 +10,7 @@ export class LeaferImageBase implements ILeaferImage {
     public height: number
 
     public ready: boolean
+    public error: IObject
 
     public options: ILeaferImageConfig
 
@@ -25,6 +26,7 @@ export class LeaferImageBase implements ILeaferImage {
             this.view = img
             if (onSuccess) onSuccess(this)
         }).catch((e) => {
+            this.error = e
             if (onError) onError(e)
         })
     }
