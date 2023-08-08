@@ -28,6 +28,12 @@ export class Interaction extends InteractionBase {
     protected useTouch: boolean
     protected touches?: ITouch[]
 
+    protected __listenEvents(): void {
+        super.__listenEvents()
+        if (this.config.eventer) this.config.eventer.receiveEvent = this.receive.bind(this)
+
+    }
+
     public receive(e: any): void {
         switch (e.type) {
             case 'touchstart':

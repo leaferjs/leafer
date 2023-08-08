@@ -63,7 +63,6 @@ export interface ILeafer extends IZoomView, IControl {
     forceFullRender(): void
     resize(size: IScreenSizeData): void
     waitViewLoaded(fun: IFunction): void
-    receiveEvent(event: IObject): void
 }
 
 export interface ILeaferTypeCreator {

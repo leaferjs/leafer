@@ -37,13 +37,21 @@ export class LeaferCanvas extends LeaferCanvasBase {
             this.__createView()
         } else {
             this.view = view.view || view
+            Platform.canvas = this
         }
         this.__createContext()
         const { width, height, pixelRatio } = this.config
         const size = { width: width || view.width, height: height || view.height, pixelRatio }
         this.resize(size)
 
+        // fix roundRect
+        if (this.context.roundRect) {
+            this.roundRect = function (x: number, y: number, width: number, height: number, radius?: number | number[]): void {
+                this.context.roundRect(x, y, width, height, typeof radius === 'number' ? [radius] : radius)
+            }
+        }
         canvasPatch((this.context as IObject).__proto__)
+
     }
 
     protected __createView(): void {
@@ -96,6 +104,5 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.resizeListener = null
         Platform.miniapp.offWindowResize(this.checkSize)
     }
-
 
 }

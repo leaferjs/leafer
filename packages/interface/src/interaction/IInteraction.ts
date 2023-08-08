@@ -8,6 +8,7 @@ import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
+import { IObject } from '../data/IData'
 
 export interface IInteraction extends IControl {
     target: ILeaf
@@ -51,6 +52,7 @@ export interface IInteractionConfig {
     pointer?: IPointerConfig
     zoom?: IZoomConfig
     move?: IMoveConfig
+    eventer?: IObject
 }
 
 export interface IZoomConfig {
