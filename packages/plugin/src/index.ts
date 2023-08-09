@@ -17,12 +17,13 @@ export const PluginManager = {
 export function usePlugin(plugin: IPlugin, config?: IObject) {
 
     const { power } = PluginManager
-    PluginManager.list.push(plugin)
+    const clonePlugin = { ...plugin }
+    PluginManager.list.push(clonePlugin)
 
     const realParams: IObject = {}
 
-    if (plugin.import) {
-        plugin.import.forEach(item => {
+    if (clonePlugin.import) {
+        clonePlugin.import.forEach(item => {
             if (power[item]) {
                 realParams[item] = power[item]
             } else {
@@ -34,7 +35,7 @@ export function usePlugin(plugin: IPlugin, config?: IObject) {
     }
 
     try {
-        plugin.run(realParams, config)
+        clonePlugin.run(realParams, config)
     } catch (e) {
         debug.error(e)
     }
