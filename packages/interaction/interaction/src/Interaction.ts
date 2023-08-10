@@ -220,8 +220,8 @@ export class InteractionBase implements IInteraction {
         if (this.dragging && !this.config.pointer.dragHover) return
 
         const { path } = data
-        this.emit(PointerEvent.ENTER, data, path, this.enterPath)
         this.emit(PointerEvent.LEAVE, data, this.enterPath, path)
+        this.emit(PointerEvent.ENTER, data, path, this.enterPath)
         this.enterPath = path
     }
 
