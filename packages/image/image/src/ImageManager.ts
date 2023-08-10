@@ -31,8 +31,7 @@ export class ImageManager implements IImageManager {
     }
 
     public load(image: ILeaferImage, onSuccess: IFunction, onError: IFunction): void {
-        this.tasker.addParallel(async () => await image.load(onSuccess, onError))
-        if (!this.tasker.running) this.tasker.start()
+        this.tasker.addParallel(async () => await image.load(onSuccess, onError), null, true)
     }
 
     public destroy(): void {

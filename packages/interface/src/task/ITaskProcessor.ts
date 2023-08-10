@@ -21,8 +21,8 @@ export interface ITaskProcessor {
     resume(): void
     skip(): void
     stop(): void
-    add(taskCallback: IFunction, taskTime?: number): void
-    addParallel(taskCallback: IFunction, taskTime?: number): void
+    add(taskCallback: IFunction, taskTime?: number, start?: boolean): void
+    addParallel(taskCallback: IFunction, taskTime?: number, start?: boolean,): void
     addEmpty(callback?: IFunction): void
     destroy(): void
 }

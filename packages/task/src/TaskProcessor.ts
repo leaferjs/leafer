@@ -106,24 +106,25 @@ export class TaskProcessor implements ITaskProcessor {
 
 
 
-    public add(taskCallback: IFunction, taskTime?: number): void {
-        this.push(new TaskItem(taskCallback), taskTime)
+    public add(taskCallback: IFunction, taskTime?: number, start?: boolean,): void {
+        this.push(new TaskItem(taskCallback), taskTime, start)
     }
 
-    public addParallel(taskCallback: IFunction, taskTime?: number): void {
+    public addParallel(taskCallback: IFunction, taskTime?: number, start?: boolean): void {
         const task = new TaskItem(taskCallback)
         task.parallel = true
-        this.push(task, taskTime)
+        this.push(task, taskTime, start)
     }
 
     public addEmpty(callback?: IFunction): void {
         this.push(new TaskItem(callback))
     }
 
-    private push(task: TaskItem, taskTime?: number): void {
+    private push(task: TaskItem, taskTime?: number, start?: boolean): void {
         if (taskTime) task.taskTime = taskTime
         task.parent = this
         this.list.push(task)
+        if (start && !this.running) this.start()
     }
 
     private run(): void {
