@@ -1,10 +1,15 @@
 import { ILeaferImage, ILeaferImageConfig } from './ILeaferImage'
 import { ITaskProcessor } from '../task/ITaskProcessor'
-import { IFunction } from '../function/IFunction'
+
+interface ILeaferImageMap {
+    [name: string]: ILeaferImage
+}
 
 export interface IImageManager {
+    map: ILeaferImageMap
     tasker: ITaskProcessor
     get(config: ILeaferImageConfig): ILeaferImage
-    load(image: ILeaferImage, onSuccess: IFunction, onError: IFunction): void
+    recycle(image: ILeaferImage): void
+    clearRecycled(): void
     destroy(): void
 }

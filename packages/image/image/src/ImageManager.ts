@@ -1,42 +1,41 @@
-import { ILeafer, ILeaferCanvasConfig, IImageManager, ILeaferImageConfig, ILeaferImage, ITaskProcessor, IFunction } from '@leafer/interface'
+import { IImageManager, ILeaferImageConfig, ILeaferImage } from '@leafer/interface'
 import { Creator } from '@leafer/platform'
 import { TaskProcessor } from '@leafer/task'
 
+export const ImageManager: IImageManager = {
 
-interface ILeaferImageMap {
-    [name: string]: ILeaferImage
-}
+    map: {},
 
+    tasker: new TaskProcessor(),
 
-export class ImageManager implements IImageManager {
-
-    public leafer: ILeafer
-
-    public tasker: ITaskProcessor
-
-    public map: ILeaferImageMap = {}
-
-    constructor(leafer: ILeafer, _config: ILeaferCanvasConfig) {
-        this.leafer = leafer
-        this.tasker = new TaskProcessor()
-    }
-
-    public get(config: ILeaferImageConfig): ILeaferImage {
-        let image = this.map[config.url]
+    get(config: ILeaferImageConfig): ILeaferImage {
+        let image = I.map[config.url]
         if (!image) {
             image = Creator.image(config)
-            this.map[config.url] = image
+            I.map[config.url] = image
         }
+        image.use++
         return image
-    }
+    },
 
-    public load(image: ILeaferImage, onSuccess: IFunction, onError: IFunction): void {
-        this.tasker.addParallel(async () => await image.load(onSuccess, onError), null, true)
-    }
+    recycle(image: ILeaferImage): void {
+        image.use--
+    },
 
-    public destroy(): void {
-        this.leafer = null
-        this.map = null
+    clearRecycled(): void {
+        Object.values(I.map).forEach(image => {
+            if (!image.use) {
+                I.map[image.url] = undefined
+                image.destroy()
+            }
+        })
+    },
+
+    destroy(): void {
+        I.map = {}
+        I.tasker = null
     }
 
 }
+
+const I = ImageManager

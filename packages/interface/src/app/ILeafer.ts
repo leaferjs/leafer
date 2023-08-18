@@ -8,7 +8,6 @@ import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
 import { IAutoBounds, IScreenSizeData } from '../math/IMath'
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
-import { IImageManager } from '../image/IImageManager'
 import { IEventListenerId } from '../event/IEventer'
 import { IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
@@ -50,7 +49,6 @@ export interface ILeafer extends IZoomView, IControl {
 
     canvasManager: ICanvasManager
     hitCanvasManager?: IHitCanvasManager
-    imageManager: IImageManager
 
     autoLayout?: IAutoBounds
 

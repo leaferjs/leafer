@@ -129,7 +129,8 @@ export class Leaf implements ILeaf {
     // ---
 
     public forceUpdate(attrName?: string): void {
-        if (!attrName) attrName = 'x'
+        if (attrName === undefined) attrName = 'x'
+        else if (attrName === 'surface') attrName = 'blendMode'
         const value = this.__.__getInput(attrName);
         (this as any)[attrName] = value
     }

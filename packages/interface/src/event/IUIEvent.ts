@@ -78,6 +78,8 @@ export interface IKeyEvent extends IUIEvent {
 }
 
 export interface IImageEvent extends IEvent {
-    image: ILeaferImage
-    error: string | IObject
+    image?: ILeaferImage
+    attrName?: string
+    attrValue?: IObject
+    error?: string | IObject
 }

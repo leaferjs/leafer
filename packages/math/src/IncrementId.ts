@@ -7,6 +7,7 @@ export const IncrementId = {
     LEAF: 'leaf',
     TASK: 'task',
     CNAVAS: 'canvas',
+    IMAGE: 'image',
 
     types: {} as INumberMap,
 
