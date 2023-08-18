@@ -1,6 +1,9 @@
-import { IBranch, ILeaf, IPointData } from '@leafer/interface'
-import { Matrix, MatrixHelper, PointHelper } from '@leafer/math'
+import { IBranch, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
+import { MatrixHelper, PointHelper } from '@leafer/math'
 
+
+const { copy, translate, toInnerPoint, scaleOfOuter, rotateOfOuter } = MatrixHelper
+const matrix = {} as IMatrixData
 
 export const LeafHelper = {
 
@@ -54,13 +57,13 @@ export const LeafHelper = {
 
     moveWorld(t: ILeaf, x: number, y: number): void {
         const local = { x, y }
-        if (t.parent) MatrixHelper.toInnerPoint(t.parent.__world, local, local, true)
+        if (t.parent) toInnerPoint(t.parent.__world, local, local, true)
         L.moveLocal(t, local.x, local.y)
     },
 
     moveLocal(t: ILeaf, x: number, y: number = 0): void {
-        t.x = t.__.x + x
-        t.y = t.__.y + y
+        t.x += x
+        t.y += y
     },
 
     zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, moveLayer?: ILeaf): void {
@@ -68,15 +71,15 @@ export const LeafHelper = {
         this.zoomOfLocal(t, local, scaleX, scaleY, moveLayer)
     },
 
-    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, moveLayer?: ILeaf): void {
-        if (!scaleY) scaleY = scaleX
+    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, moveLayer?: ILeaf): void {
+        copy(matrix, t.__local)
+        if (moveLayer) translate(matrix, moveLayer.__.x, moveLayer.__.y)
+        scaleOfOuter(matrix, origin, scaleX, scaleY)
         if (!moveLayer) moveLayer = t
-        const { x, y } = moveLayer.__
-        const matrix = new Matrix().translate(x, y).scaleOfOuter(origin, scaleX, scaleY)
-        moveLayer.x = matrix.e
-        moveLayer.y = matrix.f
-        t.scaleX = t.__.scaleX * scaleX
-        t.scaleY = t.__.scaleY * scaleY
+        moveLayer.x += matrix.e - t.__local.e
+        moveLayer.y += matrix.f - t.__local.f
+        t.scaleX *= scaleX
+        t.scaleY *= scaleY
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number, moveLayer?: ILeaf): void {
@@ -85,12 +88,13 @@ export const LeafHelper = {
     },
 
     rotateOfLocal(t: ILeaf, origin: IPointData, angle: number, moveLayer?: ILeaf): void {
+        copy(matrix, t.__local)
+        if (moveLayer) translate(matrix, moveLayer.__.x, moveLayer.__.y)
+        rotateOfOuter(matrix, origin, angle)
         if (!moveLayer) moveLayer = t
-        const { x, y } = moveLayer.__
-        const matrix = new Matrix().translate(x, y).rotateOfOuter(origin, angle)
-        moveLayer.x = matrix.e
-        moveLayer.y = matrix.f
-        t.rotation = t.__.rotation + angle
+        moveLayer.x += matrix.e - t.__local.e
+        moveLayer.y += matrix.f - t.__local.f
+        t.rotation += angle
     },
 
     drop(t: ILeaf, parent: IBranch): void {

@@ -8,6 +8,9 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
+const { toInnerPoint, toOuterPoint } = MatrixHelper
+const { tempToOuterOf, copy } = PointHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -199,44 +202,43 @@ export class Leaf implements ILeaf {
 
     public worldToLocal(world: IPointData, to?: IPointData, isMovePoint?: boolean): void {
         if (this.parent) {
-            MatrixHelper.toInnerPoint(this.parent.worldTransform, world, to, isMovePoint)
+            toInnerPoint(this.parent.worldTransform, world, to, isMovePoint)
         } else {
-            if (to) PointHelper.copy(to, world)
+            if (to) copy(to, world)
         }
     }
 
     public localToWorld(local: IPointData, to?: IPointData, isMovePoint?: boolean): void {
         if (this.parent) {
-            MatrixHelper.toOuterPoint(this.parent.worldTransform, local, to, isMovePoint)
+            toOuterPoint(this.parent.worldTransform, local, to, isMovePoint)
         } else {
-            if (to) PointHelper.copy(to, local)
+            if (to) copy(to, local)
         }
     }
 
     public worldToInner(world: IPointData, to?: IPointData, isMovePoint?: boolean): void {
-        MatrixHelper.toInnerPoint(this.worldTransform, world, to, isMovePoint)
+        toInnerPoint(this.worldTransform, world, to, isMovePoint)
     }
 
     public innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void {
-        MatrixHelper.toOuterPoint(this.worldTransform, inner, to, isMovePoint)
+        toOuterPoint(this.worldTransform, inner, to, isMovePoint)
     }
 
 
     // transform
 
     public move(x: number, y?: number): void {
-        LeafHelper.moveLocal(this, x, y)
+        moveLocal(this, x, y)
     }
 
     public scaleOf(origin: IPointData, x: number, y?: number): void {
         this.__layout.checkUpdate()
-        if (y === undefined) y = x
-        LeafHelper.zoomOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), x, y)
+        zoomOfLocal(this, tempToOuterOf(origin, this.__local), x, y)
     }
 
     public rotateOf(origin: IPointData, angle: number): void {
         this.__layout.checkUpdate()
-        LeafHelper.rotateOfLocal(this, PointHelper.tempToOuterOf(origin, this.__local), angle)
+        rotateOfLocal(this, tempToOuterOf(origin, this.__local), angle)
     }
 
 

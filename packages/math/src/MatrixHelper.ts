@@ -49,9 +49,9 @@ export const MatrixHelper = {
 
     scale(t: IMatrixData, x: number, y: number = x): void {
         t.a *= x
+        t.b *= x
+        t.c *= y
         t.d *= y
-        t.c *= x
-        t.b *= y
     },
 
     scaleOfOuter(t: IMatrixData, origin: IPointData, x: number, y: number = x): void {

@@ -36,7 +36,7 @@ export const PointHelper = {
         const rx = t.x - center.x
         const ry = t.y - center.y
         t.x = center.x + rx * cosR - ry * sinR
-        t.y = center.y + rx * sinR - ry * cosR
+        t.y = center.y + rx * sinR + ry * cosR
     },
 
 
