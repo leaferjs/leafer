@@ -95,7 +95,6 @@ export class Branch extends Leaf {
                 if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
                 this.__preRemove()
                 this.__realRemoveChild(child)
-                this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
             }
         } else if (child === undefined) {
             super.remove()
@@ -114,6 +113,7 @@ export class Branch extends Leaf {
         if (this.__hasMask) this.__updateMask()
         if (this.__hasEraser) this.__updateEraser()
         this.__layout.boxChange()
+        this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
     protected __realRemoveChild(child: ILeaf): void {
