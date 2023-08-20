@@ -57,12 +57,15 @@ export class Branch extends Leaf {
     // own
 
     public __updateSortChildren(): void {
+        let affectSort: boolean
         const { children } = this
         if (children.length > 1) {
             for (let i = 0, len = children.length; i < len; i++) {
                 children[i].__tempNumber = i
+                if (children[i].__.zIndex) affectSort = true
             }
             children.sort(sort)
+            this.__layout.affectChildrenSort = affectSort
         }
     }
 
@@ -80,6 +83,8 @@ export class Branch extends Leaf {
             child.__bindLeafer(this.leafer)
             if (this.leafer.ready) this.__emitChildEvent(ChildEvent.ADD, child)
         }
+
+        this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
     public remove(child?: Leaf): void {
@@ -90,6 +95,7 @@ export class Branch extends Leaf {
                 if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
                 this.__preRemove()
                 this.__realRemoveChild(child)
+                this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
             }
         } else if (child === undefined) {
             super.remove()

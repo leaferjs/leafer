@@ -55,6 +55,7 @@ export interface ILeafLayout {
     // keep state
     affectScaleOrRotation: boolean
     affectRotation: boolean
+    affectChildrenSort?: boolean
 
     strokeSpread: number
     renderSpread: number
@@ -87,6 +88,8 @@ export interface ILeafLayout {
     // face
     surfaceChange(): void
     opacityChange(): void
+
+    childrenSortChange(): void
 
     destroy(): void
 }

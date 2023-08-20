@@ -59,6 +59,7 @@ export class LeafLayout implements ILeafLayout {
     // keep state
     public affectScaleOrRotation: boolean
     public affectRotation: boolean
+    public affectChildrenSort?: boolean
 
     public strokeSpread: number
     public renderSpread: number
@@ -256,6 +257,13 @@ export class LeafLayout implements ILeafLayout {
     public opacityChange(): void {
         this.opacityChanged = true
         this.surfaceChanged || this.surfaceChange()
+    }
+
+    public childrenSortChange(): void {
+        if (!this.childrenSortChanged) {
+            this.childrenSortChanged = true
+            this.leaf.forceUpdate('surface')
+        }
     }
 
     public destroy(): void {

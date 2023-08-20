@@ -134,7 +134,7 @@ export function sortType(defaultValue?: __Value) {
             set(value: __Value) {
                 this.__setAttr(key, value)
                 this.__layout.surfaceChanged || this.__layout.surfaceChange()
-                this.waitParent(() => { this.parent.__layout.childrenSortChanged = true })
+                this.waitParent(() => { this.parent.__layout.childrenSortChange() })
             }
         })
     }
