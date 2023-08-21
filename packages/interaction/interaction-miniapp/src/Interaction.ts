@@ -50,7 +50,8 @@ export class Interaction extends InteractionBase {
         }
     }
 
-    protected getLocal(p: IClientPoint): IPointData {
+    protected getLocal(p: IClientPoint, updateClient?: boolean): IPointData {
+        if (updateClient) this.canvas.updateClientBounds()
         if (p.x !== undefined) {
             return { x: p.x, y: p.y } // Canvas
         } else {
@@ -69,7 +70,7 @@ export class Interaction extends InteractionBase {
         this.multiTouchStart(e)
 
         const touch = PointerEventHelper.getTouch(e)
-        this.pointerDown(PointerEventHelper.convertTouch(e, this.getLocal(touch)))
+        this.pointerDown(PointerEventHelper.convertTouch(e, this.getLocal(touch, true)))
     }
 
     protected onTouchMove(e: TouchEvent): void {

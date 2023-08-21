@@ -102,7 +102,8 @@ export class Interaction extends InteractionBase {
         }
     }
 
-    protected getLocal(p: IClientPoint): IPointData {
+    protected getLocal(p: IClientPoint, updateClient?: boolean): IPointData {
+        if (updateClient) this.canvas.updateClientBounds()
         const { clientBounds } = this.canvas
         return { x: p.clientX - clientBounds.x, y: p.clientY - clientBounds.y }
     }
@@ -155,7 +156,7 @@ export class Interaction extends InteractionBase {
     protected onPointerMove(e: PointerEvent): void {
         this.usePointer || (this.usePointer = true)
         if (this.useMultiTouch || this.preventWindowPointer(e)) return
-        this.pointerMove(PointerEventHelper.convert(e, this.getLocal(e)))
+        this.pointerMove(PointerEventHelper.convert(e, this.getLocal(e, true)))
     }
 
     protected onPointerUp(e: PointerEvent): void {
@@ -180,7 +181,7 @@ export class Interaction extends InteractionBase {
 
     protected onMouseMove(e: MouseEvent): void {
         if (this.useTouch || this.usePointer || this.preventWindowPointer(e)) return
-        this.pointerMove(PointerEventHelper.convertMouse(e, this.getLocal(e)))
+        this.pointerMove(PointerEventHelper.convertMouse(e, this.getLocal(e, true)))
     }
 
     protected onMouseUp(e: MouseEvent): void {
@@ -208,7 +209,7 @@ export class Interaction extends InteractionBase {
         }
         this.useTouch = true
         const touch = PointerEventHelper.getTouch(e)
-        this.pointerDown(PointerEventHelper.convertTouch(e, this.getLocal(touch)))
+        this.pointerDown(PointerEventHelper.convertTouch(e, this.getLocal(touch, true)))
     }
 
     protected onTouchMove(e: TouchEvent): void {
