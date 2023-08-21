@@ -46,7 +46,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                     if (type == "png") return canvas.toBuffer('image/png')
                     return canvas.toBuffer(`image/${type == "jpg" ? "jpeg" : type}`, quality)
                 },
-                canvasSaveAs: (canvas: INapiCanvas, filename: string, quality?: any) => canvas.encode("png").then(data => promises.writeFile(join(__dirname, filename), data)),
+                canvasSaveAs: (canvas: INapiCanvas, filename: string, quality?: any) => canvas.encode("png").then(data => promises.writeFile(join(filename), data)),
                 loadImage
             }
         }
