@@ -8,6 +8,7 @@ interface ILeaferImageMap {
 export interface IImageManager {
     map: ILeaferImageMap
     tasker: ITaskProcessor
+    patternTasker: ITaskProcessor
     get(config: ILeaferImageConfig): ILeaferImage
     recycle(image: ILeaferImage): void
     clearRecycled(): void

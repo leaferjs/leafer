@@ -16,6 +16,8 @@ export class LeaferImageBase implements ILeaferImage {
     public width: number
     public height: number
 
+    public isSVG: boolean
+
     public get completed() { return this.ready || !!this.error }
 
     public ready: boolean
@@ -29,8 +31,9 @@ export class LeaferImageBase implements ILeaferImage {
     protected waitComplete: IFunction[] = []
 
     constructor(config: ILeaferImageConfig) {
-        this.config = config
         this.innerId = create(IMAGE)
+        this.config = config
+        if (config.url.includes('.svg')) this.isSVG = true
     }
 
     public load(onSuccess: IFunction, onError: IFunction): number {

@@ -8,6 +8,8 @@ export const ImageManager: IImageManager = {
 
     tasker: new TaskProcessor(),
 
+    patternTasker: new TaskProcessor(),
+
     get(config: ILeaferImageConfig): ILeaferImage {
         let image = I.map[config.url]
         if (!image) {

@@ -240,7 +240,7 @@ export class Renderer implements IRenderer {
             if (item.updatedList) item.updatedList.list.some(leaf => {
                 empty = (!leaf.__world.width || !leaf.__world.height)
                 if (empty) {
-                    debug.warn(leaf.innerName, ': none bounds')
+                    if (!leaf.isLeafer) debug.warn(leaf.innerName, ': empty')
                     empty = (!leaf.isBranch || leaf.isBranchLeaf) // render object
                 }
                 return empty

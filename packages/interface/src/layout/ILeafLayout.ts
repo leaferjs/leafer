@@ -10,7 +10,7 @@ export interface ILeafLayout {
 
     useZoomProxy: boolean
 
-    // local
+    // inner
 
     boxBounds: IBoundsData    //  | content + padding |
     strokeBounds: IBoundsData  //  | boxBounds + border |  

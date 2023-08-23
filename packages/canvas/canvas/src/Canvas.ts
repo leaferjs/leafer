@@ -156,8 +156,13 @@ export class Canvas implements ICanvasAttr {
     @contextMethod()
     public restore(): void { }
 
-    @contextMethod()
-    public transform(_a: number, _b: number, _c: number, _d: number, _e: number, _f: number): void { }
+    public transform(a: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): void {
+        if (typeof a === 'object') {
+            this.context.transform(a.a, a.b, a.c, a.d, a.e, a.f)
+        } else {
+            this.context.transform(a, b, c, d, e, f)
+        }
+    }
 
     @contextMethod()
     public translate(_x: number, _y: number): void { }

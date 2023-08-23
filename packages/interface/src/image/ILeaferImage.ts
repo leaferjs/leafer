@@ -22,6 +22,8 @@ export interface ILeaferImage {
     width: number
     height: number
 
+    isSVG: boolean
+
     readonly completed: boolean
     ready: boolean
     error: IObject

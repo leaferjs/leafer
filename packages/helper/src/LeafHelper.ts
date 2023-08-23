@@ -73,7 +73,7 @@ export const LeafHelper = {
 
     zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, moveLayer?: ILeaf): void {
         copy(matrix, t.__local)
-        if (moveLayer) translate(matrix, moveLayer.__.x, moveLayer.__.y)
+        if (moveLayer) translate(matrix, moveLayer.x, moveLayer.y)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         if (!moveLayer) moveLayer = t
         moveLayer.x += matrix.e - t.__local.e
@@ -89,7 +89,7 @@ export const LeafHelper = {
 
     rotateOfLocal(t: ILeaf, origin: IPointData, angle: number, moveLayer?: ILeaf): void {
         copy(matrix, t.__local)
-        if (moveLayer) translate(matrix, moveLayer.__.x, moveLayer.__.y)
+        if (moveLayer) translate(matrix, moveLayer.x, moveLayer.y)
         rotateOfOuter(matrix, origin, angle)
         if (!moveLayer) moveLayer = t
         moveLayer.x += matrix.e - t.__local.e

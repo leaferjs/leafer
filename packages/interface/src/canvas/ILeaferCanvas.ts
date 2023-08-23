@@ -74,7 +74,7 @@ interface ICanvasMethod {
     strokeRect(x: number, y: number, width: number, height: number): void
     clearRect(x: number, y: number, width: number, height: number): void
 
-    transform(a: number, b: number, c: number, d: number, e: number, f: number): void
+    transform(a: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): void
     translate(x: number, y: number): void
     scale(x: number, y: number): void
     rotate(angle: number): void
