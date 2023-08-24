@@ -33,7 +33,12 @@ export class LeaferImageBase implements ILeaferImage {
     constructor(config: ILeaferImageConfig) {
         this.innerId = create(IMAGE)
         this.config = config
-        if (config.url.includes('.svg')) this.isSVG = true
+        const { url } = config
+        if (url.startsWith('data:')) {
+            if (url.startsWith('data:image/svg')) this.isSVG = true
+        } else {
+            if (url.includes('.svg')) this.isSVG = true
+        }
     }
 
     public load(onSuccess: IFunction, onError: IFunction): number {
