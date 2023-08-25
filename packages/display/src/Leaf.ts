@@ -290,8 +290,8 @@ export class Leaf implements ILeaf {
 
     public add(_child: ILeaf, _index?: number): void { }
 
-    public remove(_child?: ILeaf, _destroy?: boolean): void {
-        if (this.parent) this.parent.remove(this)
+    public remove(_child?: ILeaf, destroy?: boolean): void {
+        if (this.parent) this.parent.remove(this, destroy)
     }
 
     // ---

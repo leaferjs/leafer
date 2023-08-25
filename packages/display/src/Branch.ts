@@ -98,7 +98,7 @@ export class Branch extends Leaf {
                 if (destroy) child.destroy()
             }
         } else if (child === undefined) {
-            super.remove()
+            super.remove(null, destroy)
         }
     }
 
