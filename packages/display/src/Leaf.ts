@@ -319,10 +319,18 @@ export class Leaf implements ILeaf {
 
     public destroy(): void {
         if (this.__) {
+
             if (this.__hitCanvas) {
                 this.__hitCanvas.destroy()
                 this.__hitCanvas = null
             }
+
+            if (this.children) {
+                this.children.forEach(child => { child.destroy() })
+                this.children.length = 0
+            }
+
+            if (this.parent) this.remove()
 
             this.leafer = null
             this.parent = null
@@ -335,10 +343,6 @@ export class Leaf implements ILeaf {
             this.__captureMap = null
             this.__bubbleMap = null
 
-            if (this.children) {
-                this.children.forEach(child => { child.destroy() })
-                this.children.length = 0
-            }
         }
     }
 

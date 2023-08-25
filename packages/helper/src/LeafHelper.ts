@@ -56,6 +56,7 @@ export const LeafHelper = {
     // transform
 
     moveWorld(t: ILeaf, x: number, y: number): void {
+        t.__layout.checkUpdate()
         const local = { x, y }
         if (t.parent) toInnerPoint(t.parent.__world, local, local, true)
         L.moveLocal(t, local.x, local.y)
@@ -67,6 +68,7 @@ export const LeafHelper = {
     },
 
     zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, moveLayer?: ILeaf): void {
+        t.__layout.checkUpdate()
         const local = t.parent ? PointHelper.tempToInnerOf(origin, t.parent.__world) : origin
         this.zoomOfLocal(t, local, scaleX, scaleY, moveLayer)
     },
@@ -83,6 +85,7 @@ export const LeafHelper = {
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number, moveLayer?: ILeaf): void {
+        t.__layout.checkUpdate()
         const local = t.parent ? PointHelper.tempToInnerOf(origin, t.parent.__world) : origin
         this.rotateOfLocal(t, local, angle, moveLayer)
     },

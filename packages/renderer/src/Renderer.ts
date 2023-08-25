@@ -1,5 +1,6 @@
 import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
 import { AnimateEvent, LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
+import { ImageManager } from '@leafer/image'
 import { Bounds } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
 import { Platform } from '@leafer/platform'
@@ -77,6 +78,8 @@ export class Renderer implements IRenderer {
             this.emitRender(RenderEvent.START)
             this.renderOnce(callback)
             this.emitRender(RenderEvent.END, this.totalBounds)
+
+            ImageManager.clearRecycled()
         } catch (e) {
             debug.error(e)
         }

@@ -95,6 +95,7 @@ export class LeaferImageBase implements ILeaferImage {
     public destroy(): void {
         this.view = null
         this.config = null
+        this.waitComplete.length = 0
     }
 
 }

@@ -6,6 +6,8 @@ export const ImageManager: IImageManager = {
 
     map: {},
 
+    recycledList: [],
+
     tasker: new TaskProcessor(),
 
     patternTasker: new TaskProcessor(),
@@ -24,15 +26,20 @@ export const ImageManager: IImageManager = {
 
     recycle(image: ILeaferImage): void {
         image.use--
+        setTimeout(() => { if (!image.use) I.recycledList.push(image) }, 0)
     },
 
     clearRecycled(): void {
-        Object.values(I.map).forEach(image => {
-            if (!image.use) {
-                I.map[image.url] = undefined
-                image.destroy()
-            }
-        })
+        const list = I.recycledList
+        if (list.length) {
+            list.forEach(image => {
+                if (!image.use) {
+                    delete I.map[image.url]
+                    image.destroy()
+                }
+            })
+            list.length = 0
+        }
     },
 
     destroy(): void {
