@@ -58,14 +58,15 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                     })
                 })
             },
-            loadImage(src: any): Promise<HTMLImageElement> {
+            loadImage(url: string): Promise<HTMLImageElement> {
                 return new Promise((resolve, reject) => {
                     const img = Platform.canvas.view.createImage()
                     img.onload = () => { resolve(img) }
                     img.onerror = (error: any) => { reject(error) }
-                    img.src = src
+                    img.src = url
                 })
-            }
+            },
+            noRepeat: 'repeat-x' // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
         }
 
         Platform.miniapp = {
