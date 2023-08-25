@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IMatrixData } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IMatrixData, IBranch } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -290,7 +290,7 @@ export class Leaf implements ILeaf {
 
     public add(_child: ILeaf, _index?: number): void { }
 
-    public remove(_child?: ILeaf): void {
+    public remove(_child?: ILeaf, _destroy?: boolean): void {
         if (this.parent) this.parent.remove(this)
     }
 
@@ -320,28 +320,15 @@ export class Leaf implements ILeaf {
     public destroy(): void {
         if (this.__) {
 
-            if (this.__hitCanvas) {
-                this.__hitCanvas.destroy()
-                this.__hitCanvas = null
-            }
-
-            if (this.children) {
-                this.children.forEach(child => { child.destroy() })
-                this.children.length = 0
-            }
-
+            if (this.children && this.children.length) (this as unknown as IBranch).removeAll(true)
             if (this.parent) this.remove()
 
-            this.leafer = null
-            this.parent = null
+            if (this.__hitCanvas) this.__hitCanvas.destroy()
 
             this.__.destroy()
             this.__layout.destroy()
-            this.__ = null
-            this.__layout = null
 
-            this.__captureMap = null
-            this.__bubbleMap = null
+            this.leafer = this.parent = this.__hitCanvas = this.__ = this.__layout = this.__captureMap = this.__bubbleMap = null
 
         }
     }

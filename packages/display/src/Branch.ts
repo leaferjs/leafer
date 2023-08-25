@@ -87,7 +87,7 @@ export class Branch extends Leaf {
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
-    public remove(child?: Leaf): void {
+    public remove(child?: Leaf, destroy?: boolean): void {
         if (child) {
             const index = this.children.indexOf(child)
             if (index > -1) {
@@ -95,18 +95,22 @@ export class Branch extends Leaf {
                 if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
                 this.__preRemove()
                 this.__realRemoveChild(child)
+                if (destroy) child.destroy()
             }
         } else if (child === undefined) {
             super.remove()
         }
     }
 
-    public removeAll(): void {
+    public removeAll(destroy?: boolean): void {
         const { children } = this
         this.children = []
         this.__preRemove()
         this.__.__childBranchNumber = 0
-        children.forEach(child => { this.__realRemoveChild(child) })
+        children.forEach(child => {
+            this.__realRemoveChild(child)
+            if (destroy) child.destroy()
+        })
     }
 
     protected __preRemove(): void {
