@@ -16,14 +16,18 @@ export const PluginManager = {
 
 export function usePlugin(plugin: IPlugin, config?: IObject) {
 
-    const { power } = PluginManager
-    const clonePlugin = { ...plugin }
-    PluginManager.list.push(clonePlugin)
-
     const realParams: IObject = {}
+    const { power, list } = PluginManager
 
-    if (clonePlugin.import) {
-        clonePlugin.import.forEach(item => {
+    if (list.includes(plugin)) {
+        debug.warn('repeat run', plugin.name)
+        return
+    }
+
+    list.push(plugin)
+
+    if (plugin.import) {
+        plugin.import.forEach(item => {
             if (power[item]) {
                 realParams[item] = power[item]
             } else {
@@ -35,7 +39,7 @@ export function usePlugin(plugin: IPlugin, config?: IObject) {
     }
 
     try {
-        clonePlugin.run(realParams, config)
+        plugin.run(realParams, config)
     } catch (e) {
         debug.error(e)
     }
