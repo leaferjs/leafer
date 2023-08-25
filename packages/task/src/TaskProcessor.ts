@@ -1,11 +1,8 @@
 import { IFunction, ITaskProcessor, ITaskProcessorConfig } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
-import { Debug } from '@leafer/debug'
 
 import { TaskItem } from './TaskItem'
 
-
-const debug = Debug.get('TaskProcessor')
 
 export class TaskProcessor implements ITaskProcessor {
 
@@ -254,7 +251,6 @@ export class TaskProcessor implements ITaskProcessor {
     }
 
     private onParallelError(error: unknown): void {
-        debug.error('ParallelError')
 
         // 并行变串行, 以便下次重试
         this.parallelList.forEach(task => {

@@ -1,9 +1,11 @@
 import { IFunction } from '@leafer/interface'
 import { IncrementId } from '@leafer/math'
+import { Debug } from '@leafer/debug'
 
 import { TaskProcessor } from './TaskProcessor'
 
 
+const debug = Debug.get('TaskProcessor')
 export class TaskItem {
 
     readonly id: number
@@ -23,8 +25,10 @@ export class TaskItem {
     }
 
     async run(): Promise<void> {
-        if (this.task && !this.isComplete && this.parent.running) {
-            await this.task()
+        try {
+            if (this.task && !this.isComplete && this.parent.running) await this.task()
+        } catch (error) {
+            debug.error(error)
         }
     }
 
