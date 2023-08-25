@@ -1,6 +1,6 @@
 {
   "name": "@leafer/node",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "@leafer/node",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,13 +17,13 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "1.0.0-beta.9",
-    "@leafer/partner": "1.0.0-beta.9",
-    "@leafer/canvas-node": "1.0.0-beta.9",
-    "@leafer/interaction": "1.0.0-beta.9",
-    "@leafer/image-node": "1.0.0-beta.9"
+    "@leafer/core": "1.0.0-beta.10",
+    "@leafer/partner": "1.0.0-beta.10",
+    "@leafer/canvas-node": "1.0.0-beta.10",
+    "@leafer/interaction": "1.0.0-beta.10",
+    "@leafer/image-node": "1.0.0-beta.10"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.9"
+     "@leafer/interface": "1.0.0-beta.10"
   }
 }
