@@ -2,14 +2,14 @@ import { ILeafMatrixModule } from '@leafer/interface'
 import { OneRadian, MatrixHelper } from '@leafer/math'
 
 
-const { defaultMatrix } = MatrixHelper
 const { sin, cos } = Math
+const defaultWorld = { ...MatrixHelper.defaultMatrix, scaleX: 1, scaleY: 1 }
 
 export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        const pw = this.parent ? this.parent.__world : defaultMatrix
+        const pw = this.parent ? this.parent.__world : defaultWorld
         const r = this.__local
         const w = this.__world
 
@@ -22,6 +22,9 @@ export const LeafMatrix: ILeafMatrixModule = {
             w.d = r.c * pw.b + r.d * pw.d
             w.e = r.e * pw.a + r.f * pw.c + pw.e
             w.f = r.e * pw.b + r.f * pw.d + pw.f
+
+            w.scaleX = pw.scaleX * this.__.scaleX
+            w.scaleY = pw.scaleY * this.__.scaleY
         } else {
             w.a = pw.a
             w.b = pw.b
@@ -29,6 +32,9 @@ export const LeafMatrix: ILeafMatrixModule = {
             w.d = pw.d
             w.e = r.e * pw.a + r.f * pw.c + pw.e
             w.f = r.e * pw.b + r.f * pw.d + pw.f
+
+            w.scaleX = pw.scaleX
+            w.scaleY = pw.scaleY
         }
     },
 

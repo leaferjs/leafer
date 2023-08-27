@@ -9,7 +9,7 @@ const { IMAGE, create } = IncrementId
 export class LeaferImageBase implements ILeaferImage {
 
     public readonly innerId: InnerId
-    public get url() { return this.config.url }
+    public get url() { return this.config && this.config.url }
 
     public view: any
 
