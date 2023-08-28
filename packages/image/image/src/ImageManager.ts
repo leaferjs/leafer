@@ -26,14 +26,14 @@ export const ImageManager: IImageManager = {
 
     recycle(image: ILeaferImage): void {
         image.use--
-        setTimeout(() => { if (!image.use) I.recycledList.push(image) }, 0)
+        setTimeout(() => { if (!image.use) I.recycledList.push(image) })
     },
 
     clearRecycled(): void {
         const list = I.recycledList
         if (list.length) {
             list.forEach(image => {
-                if (!image.use) {
+                if (!image.use && image.url) {
                     delete I.map[image.url]
                     image.destroy()
                 }
