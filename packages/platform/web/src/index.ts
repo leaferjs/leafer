@@ -53,7 +53,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 img.crossOrigin = 'anonymous'
                 img.onload = () => { resolve(img) }
                 img.onerror = (e) => { reject(e) }
-                if (!src.startsWith('data:')) src.includes("?") ? src + "&xhr" : src + "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
+                if (!src.startsWith('data:')) src += src.includes("?") ? "&xhr" : "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
                 img.src = src
             })
         }

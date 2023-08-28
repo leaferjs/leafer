@@ -20,14 +20,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public init(): void {
         const { view } = this.config
 
-        if (this.offscreen) {
-            view ? this.view = view as OffscreenCanvas : this.__createView()
-        } else {
-            view ? this.__createViewFrom(view) : this.__createView()
-            const { style } = this.view as HTMLCanvasElement
-            style.display || (style.display = 'block')
-            this.parentView = (this.view as HTMLCanvasElement).parentElement
-        }
+        view ? this.__createViewFrom(view) : this.__createView()
+        const { style } = this.view as HTMLCanvasElement
+        style.display || (style.display = 'block')
+        this.parentView = (this.view as HTMLCanvasElement).parentElement
 
         this.__createContext()
 
@@ -41,14 +37,6 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public get hittable() { return (this.view as HTMLElement).style.pointerEvents !== 'none' }
 
     protected __createView(): void {
-        if (this.offscreen) {
-            try {
-                this.view = new OffscreenCanvas(1, 1)
-                return
-            } catch (e) {
-                debug.error(e)
-            }
-        }
         this.view = document.createElement('canvas')
     }
 
@@ -92,11 +80,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public updateViewSize(): void {
         const { width, height, pixelRatio } = this
 
-        if (!this.offscreen) {
-            const { style } = this.view as HTMLCanvasElement
-            style.width = width + 'px'
-            style.height = height + 'px'
-        }
+        const { style } = this.view as HTMLCanvasElement
+        style.width = width + 'px'
+        style.height = height + 'px'
 
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio
@@ -104,31 +90,29 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public updateClientBounds(): void {
-        if (!this.offscreen) this.clientBounds = (this.view as HTMLCanvasElement).getBoundingClientRect()
+        this.clientBounds = (this.view as HTMLCanvasElement).getBoundingClientRect()
     }
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
-        if (!this.offscreen) {
-            this.autoBounds = autoBounds
-            this.resizeListener = listener
-            try {
+        this.autoBounds = autoBounds
+        this.resizeListener = listener
+        try {
 
-                this.resizeObserver = new ResizeObserver((entries) => {
-                    this.updateClientBounds()
-                    for (const entry of entries) this.checkAutoBounds(entry.contentRect)
-                })
+            this.resizeObserver = new ResizeObserver((entries) => {
+                this.updateClientBounds()
+                for (const entry of entries) this.checkAutoBounds(entry.contentRect)
+            })
 
-                const parent = this.parentView
-                if (parent) {
-                    this.resizeObserver.observe(parent)
-                    this.checkAutoBounds(parent.getBoundingClientRect())
-                }
-
-            } catch (e) {
-
-                this.imitateResizeObserver()
-
+            const parent = this.parentView
+            if (parent) {
+                this.resizeObserver.observe(parent)
+                this.checkAutoBounds(parent.getBoundingClientRect())
             }
+
+        } catch (e) {
+
+            this.imitateResizeObserver()
+
         }
     }
 
@@ -177,7 +161,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public destroy(): void {
         if (this.view) {
             this.stopAutoLayout()
-            if (!this.unreal && !this.offscreen) {
+            if (!this.unreal) {
                 const view = this.view as HTMLCanvasElement
                 if (view.parentElement) view.remove()
             }

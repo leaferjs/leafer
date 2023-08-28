@@ -12,7 +12,6 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     pixelRatio?: number
     smooth?: boolean
     hittable?: boolean
-    offscreen?: boolean
     webgl?: boolean
 }
 
@@ -156,8 +155,6 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     parentView: any
 
     unreal?: boolean
-
-    offscreen: boolean
 
     context: ICanvasContext2D
 

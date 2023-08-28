@@ -26,7 +26,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public get pixelWidth(): number { return this.width * this.pixelRatio }
     public get pixelHeight(): number { return this.height * this.pixelRatio }
 
-    public get allowBackgroundColor(): boolean { return this.view && this.parentView && !this.offscreen }
+    public get allowBackgroundColor(): boolean { return this.view && this.parentView }
 
     public bounds: IBounds
     public clientBounds: IBoundsData
@@ -39,8 +39,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public parentView: any
 
     public unreal?: boolean
-
-    public offscreen: boolean
 
     public recycled?: boolean
 
@@ -60,7 +58,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.autoLayout = !width || !height
 
         this.pixelRatio = pixelRatio
-        this.offscreen = Platform.isWorker || config.offscreen
         this.config = config
 
         this.init()

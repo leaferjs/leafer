@@ -1,0 +1,29 @@
+{
+  "name": "@leafer/worker",
+  "version": "1.0.0-beta.11",
+  "description": "@leafer/worker",
+  "author": "Chao (Leafer) Wan",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "files": ["src"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leaferjs/leafer.git"
+  },
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/platform/worker",
+  "bugs": "https://github.com/leaferjs/leafer/issues",
+  "keywords": [
+    "leafer",
+    "leaferjs"
+  ],
+  "dependencies": {
+    "@leafer/core": "1.0.0-beta.11",
+    "@leafer/partner": "1.0.0-beta.11",
+    "@leafer/canvas-worker": "1.0.0-beta.11",
+    "@leafer/interaction": "1.0.0-beta.11",
+    "@leafer/image-worker": "1.0.0-beta.11"
+  },
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-beta.11"
+  }
+}
