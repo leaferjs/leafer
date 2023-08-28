@@ -1,4 +1,4 @@
-import { IFunction } from '@leafer/interface'
+import { IFunction, ITaskItem } from '@leafer/interface'
 import { IncrementId } from '@leafer/math'
 import { Debug } from '@leafer/debug'
 
@@ -6,18 +6,19 @@ import { TaskProcessor } from './TaskProcessor'
 
 
 const debug = Debug.get('TaskProcessor')
-export class TaskItem {
+export class TaskItem implements ITaskItem {
 
     readonly id: number
 
     public parent: TaskProcessor
 
-    public parallel: boolean
+    public parallel = true
+    public time = 1 // 预估任务需要运行的时间， 毫秒为单位
+
     public isComplete: boolean
+    public isCancel: boolean
 
     private task: IFunction
-
-    public taskTime = 1 // 预估任务需要运行的时间， 毫秒为单位
 
     constructor(task?: IFunction) {
         this.id = IncrementId.create(IncrementId.TASK)
@@ -36,6 +37,11 @@ export class TaskItem {
         this.isComplete = true
         this.parent = null
         this.task = null
+    }
+
+    public cancel(): void {
+        this.isCancel = true
+        this.complete()
     }
 
 }

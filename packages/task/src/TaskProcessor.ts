@@ -1,4 +1,4 @@
-import { IFunction, ITaskProcessor, ITaskProcessorConfig } from '@leafer/interface'
+import { IFunction, ITaskProcessor, ITaskProcessorConfig, ITaskOptions, ITaskItem } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
 
 import { TaskItem } from './TaskItem'
@@ -8,33 +8,15 @@ export class TaskProcessor implements ITaskProcessor {
 
     public config: ITaskProcessorConfig = { parallel: 6 }
 
-    private list: Array<TaskItem> = []
+    protected list: ITaskItem[] = []
 
-    private parallelList: Array<TaskItem>
-    private parallelSuccessNumber: number
+    protected parallelList: ITaskItem[]
+    protected parallelSuccessNumber: number
 
-    public get isComplete(): boolean { return this._isComplete }
-    private _isComplete: boolean
+    public running = false
+    public isComplete = true
 
-    public get running(): boolean { return this._running }
-    private _running: boolean
-    private _timer: any
-
-    public get percent(): number {
-        const { total } = this
-        let totalTime = 0, runTime = 0
-
-        for (let i = 0; i < total; i++) {
-            if (i <= this.finishedIndex) {
-                runTime += this.list[i].taskTime
-                if (i === this.finishedIndex) totalTime = runTime
-            } else {
-                totalTime += this.list[i].taskTime
-            }
-        }
-
-        return this._isComplete ? 1 : (runTime / totalTime)
-    }
+    protected timer: any
 
     public get total(): number {
         return this.list.length
@@ -43,23 +25,68 @@ export class TaskProcessor implements ITaskProcessor {
     public index = 0
 
     public get finishedIndex(): number {
-        return this._isComplete ? 0 : this.index + this.parallelSuccessNumber
+        return this.isComplete ? 0 : this.index + this.parallelSuccessNumber
     }
 
     public get remain(): number {
-        return this._isComplete ? this.total : this.total - this.finishedIndex
+        return this.isComplete ? this.total : this.total - this.finishedIndex
+    }
+
+    public get percent(): number {
+        const { total } = this
+        let totalTime = 0, runTime = 0
+
+        for (let i = 0; i < total; i++) {
+            if (i <= this.finishedIndex) {
+                runTime += this.list[i].time
+                if (i === this.finishedIndex) totalTime = runTime
+            } else {
+                totalTime += this.list[i].time
+            }
+        }
+
+        return this.isComplete ? 1 : (runTime / totalTime)
     }
 
 
     constructor(config?: ITaskProcessorConfig) {
         if (config) DataHelper.assign(this.config, config)
-        this.init()
+        this.empty()
     }
 
-    protected init(): void {
-        this.empty()
-        this._running = false
-        this._isComplete = true
+    // list
+
+    public add(taskCallback: IFunction, options?: ITaskOptions | number): ITaskItem {
+        let start: boolean, parallel: boolean, time: number, delay: number
+
+        const task = new TaskItem(taskCallback)
+        task.parent = this
+
+        if (typeof options === 'number') {
+            delay = options
+        } else if (options) {
+            parallel = options.parallel
+            start = options.start
+            time = options.time
+            delay = options.delay
+        }
+
+        if (time) task.time = time
+        if (parallel === false) task.parallel = false
+        if (delay === undefined) {
+            this.push(task, start)
+        } else {
+            setTimeout(() => this.push(task, start), delay)
+        }
+
+        return task
+    }
+
+    protected push(task: ITaskItem, start?: boolean): void {
+        this.list.push(task)
+        if (start !== false && !this.timer) {
+            this.timer = setTimeout(() => this.start())
+        }
     }
 
     protected empty(): void {
@@ -69,21 +96,24 @@ export class TaskProcessor implements ITaskProcessor {
         this.parallelList = []
     }
 
+    // control
+
     public start(): void {
-        this._running = true
-        this._isComplete = false
-        this.run()
+        if (!this.running) {
+            this.running = true
+            this.isComplete = false
+            this.run()
+        }
     }
 
     public pause(): void {
-        clearTimeout(this._timer)
-        this._running = false
+        clearTimeout(this.timer)
+        this.timer = null
+        this.running = false
     }
 
     public resume(): void {
-        this._running = true
-        this._isComplete = false
-        this.run()
+        this.start()
     }
 
     public skip(): void {
@@ -92,46 +122,22 @@ export class TaskProcessor implements ITaskProcessor {
     }
 
     public stop(): void {
-        clearTimeout(this._timer)
-        this._running = false
-        this._isComplete = true
-        this.list.forEach(item => {
-            item.complete()
-        })
+        this.isComplete = true
+        this.list.forEach(task => { if (!task.isComplete) task.cancel() })
+        this.pause()
         this.empty()
     }
 
+    // run 
 
-
-    public add(taskCallback: IFunction, taskTime?: number, start?: boolean,): void {
-        this.push(new TaskItem(taskCallback), taskTime, start)
-    }
-
-    public addParallel(taskCallback: IFunction, taskTime?: number, start?: boolean): void {
-        const task = new TaskItem(taskCallback)
-        task.parallel = true
-        this.push(task, taskTime, start)
-    }
-
-    public addEmpty(callback?: IFunction): void {
-        this.push(new TaskItem(callback))
-    }
-
-    private push(task: TaskItem, taskTime?: number, start?: boolean): void {
-        if (taskTime) task.taskTime = taskTime
-        task.parent = this
-        this.list.push(task)
-        if (start && !this.running) this.start()
-    }
-
-    private run(): void {
-        if (!this._running) return
+    protected run(): void {
+        if (!this.running) return
 
         this.setParallelList()
 
         if (this.parallelList.length > 1) {
 
-            this.runParallelTask()
+            this.runParallelTasks()
 
         } else {
 
@@ -154,20 +160,31 @@ export class TaskProcessor implements ITaskProcessor {
         })
     }
 
-    protected runParallelTask(): void {
-        this.parallelList.forEach(task => {
-            task.run().then(() => {
+    protected runParallelTasks(): void {
+        this.parallelList.forEach(task => this.runParallelTask(task))
+    }
 
-                this.onTask(task)
-                this.fillParallelTask()
-            }).catch(error => {
-                this.onParallelError(error)
-            })
+    protected runParallelTask(task: ITaskItem): void {
+        task.run().then(() => {
+
+            this.onTask(task)
+            this.fillParallelTask()
+
+        }).catch(error => {
+            this.onParallelError(error)
         })
     }
 
+    private nextTask(): void {
+        if (this.total === this.finishedIndex) {
+            this.onComplete()
+        } else {
+            this.timer = setTimeout(() => this.run())
+        }
+    }
+
     protected setParallelList(): void {
-        let task: TaskItem
+        let task: ITaskItem
 
         this.parallelList = []
         this.parallelSuccessNumber = 0
@@ -187,8 +204,7 @@ export class TaskProcessor implements ITaskProcessor {
 
 
     protected fillParallelTask(): void {
-
-        let task: TaskItem
+        let task: ITaskItem
         const parallelList = this.parallelList
 
         // 完成一个任务
@@ -201,24 +217,15 @@ export class TaskProcessor implements ITaskProcessor {
 
         if (parallelList.length) {
 
-            if (!this._running) return
+            if (!this.running) return
 
             if (nextIndex < this.total) {
 
                 task = this.list[nextIndex]
 
                 if (task.parallel) {
-
                     parallelList.push(task)
-
-                    task.run().then(() => {
-
-                        this.onTask(task)
-                        this.fillParallelTask()
-                    }).catch(error => {
-                        this.onParallelError(error)
-                    })
-
+                    this.runParallelTask(task)
                 }
 
             }
@@ -232,26 +239,19 @@ export class TaskProcessor implements ITaskProcessor {
         }
     }
 
-    private nextTask(): void {
-        if (this.total === this.finishedIndex) {
-            this.onComplete()
-        } else {
-            this._timer = setTimeout(() => this.run(), 0)
-        }
-    }
+    // event
 
-    private onComplete(): void {
+    protected onComplete(): void {
         this.stop()
         if (this.config.onComplete) this.config.onComplete()
     }
 
-    private onTask(task: TaskItem): void {
+    protected onTask(task: ITaskItem): void {
         task.complete()
         if (this.config.onTask) this.config.onTask()
     }
 
-    private onParallelError(error: unknown): void {
-
+    protected onParallelError(error: unknown): void {
         // 并行变串行, 以便下次重试
         this.parallelList.forEach(task => {
             task.parallel = false
@@ -262,7 +262,7 @@ export class TaskProcessor implements ITaskProcessor {
         this.onError(error)
     }
 
-    private onError(error: unknown): void {
+    protected onError(error: unknown): void {
         this.pause()
         if (this.config.onError) this.config.onError(error)
     }

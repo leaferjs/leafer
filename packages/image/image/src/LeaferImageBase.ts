@@ -44,7 +44,7 @@ export class LeaferImageBase implements ILeaferImage {
     public load(onSuccess: IFunction, onError: IFunction): number {
         if (!this.loading) {
             this.loading = true
-            ImageManager.tasker.addParallel(async () => await Platform.origin.loadImage(this.config.url).then((img) => {
+            ImageManager.tasker.add(async () => await Platform.origin.loadImage(this.config.url).then((img) => {
                 this.ready = true
                 this.width = img.naturalWidth || img.width
                 this.height = img.naturalHeight || img.height
@@ -53,7 +53,7 @@ export class LeaferImageBase implements ILeaferImage {
             }).catch((e) => {
                 this.error = e
                 this.onComplete(false)
-            }), null, true)
+            }))
         }
         this.waitComplete.push(onSuccess, onError)
         return this.waitComplete.length - 2

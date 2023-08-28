@@ -26,7 +26,7 @@ export { ICanvasManager } from './canvas/ICanvasManager'
 export { IHitCanvasManager } from './canvas/IHitCanvasManager'
 export { IImageManager } from './image/IImageManager'
 
-export { ITaskProcessor, ITaskProcessorConfig } from './task/ITaskProcessor'
+export { ITaskProcessor, ITaskProcessorConfig, ITaskItem, ITaskOptions } from './task/ITaskProcessor'
 
 
 export { IControl } from './control/IControl'
