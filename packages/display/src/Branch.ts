@@ -104,13 +104,15 @@ export class Branch extends Leaf {
 
     public removeAll(destroy?: boolean): void {
         const { children } = this
-        this.children = []
-        this.__preRemove()
-        this.__.__childBranchNumber = 0
-        children.forEach(child => {
-            this.__realRemoveChild(child)
-            if (destroy) child.destroy()
-        })
+        if (children.length) {
+            this.__preRemove()
+            this.__.__childBranchNumber = 0
+            children.forEach(child => {
+                this.__realRemoveChild(child)
+                if (destroy) child.destroy()
+            })
+            this.children = []
+        }
     }
 
     protected __preRemove(): void {
