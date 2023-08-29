@@ -105,13 +105,13 @@ export class Branch extends Leaf {
     public removeAll(destroy?: boolean): void {
         const { children } = this
         if (children.length) {
+            this.children = []
             this.__preRemove()
             this.__.__childBranchNumber = 0
             children.forEach(child => {
                 this.__realRemoveChild(child)
                 if (destroy) child.destroy()
             })
-            this.children = []
         }
     }
 
@@ -127,6 +127,7 @@ export class Branch extends Leaf {
         if (this.leafer) {
             child.__bindLeafer(null)
             if (this.leafer.ready) this.__emitChildEvent(ChildEvent.REMOVE, child)
+            this.leafer.hitCanvasManager.clear()
         }
     }
 

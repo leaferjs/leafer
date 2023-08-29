@@ -129,19 +129,17 @@ export class Selector implements ISelector {
 
     protected __removeListenEvents(): void {
         this.target.off_(this.__eventIds)
+        this.__eventIds.length = 0
     }
 
     public destroy(): void {
-        if (this.target) {
+        if (this.__eventIds.length) {
             this.__removeListenEvents()
             this.findPath.destroy()
-
-            this.target = null
-            this.findPath = null
-            this.innerIdList = null
-            this.idList = null
-            this.classNameList = null
-            this.tagNameList = null
+            this.innerIdList = {}
+            this.idList = {}
+            this.classNameList = {}
+            this.tagNameList = {}
         }
     }
 

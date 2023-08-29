@@ -137,8 +137,7 @@ export class FindPath {
     }
 
     public destroy(): void {
-        this.target = null
-        this.selector = null
+        this.clear()
     }
 
 }

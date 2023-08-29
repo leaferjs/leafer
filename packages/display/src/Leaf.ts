@@ -77,6 +77,10 @@ export class Leaf implements ILeaf {
     // branch 
     public children?: ILeaf[]
 
+
+    public destroyed: boolean
+
+
     constructor(data?: ILeafInputData) {
 
         this.innerId = create(LEAF)
@@ -103,12 +107,16 @@ export class Leaf implements ILeaf {
 
 
     public __bindLeafer(leafer: ILeafer | null): void {
-        if (this.isLeafer) leafer = this as unknown as ILeafer
+        if (this.isLeafer) {
+            if (leafer !== null) leafer = this as unknown as ILeafer
+        }
 
         this.leafer = leafer
-        this.__level = this.parent ? this.parent.__level + 1 : 1
 
-        if (this.__leaferWait && leafer) WaitHelper.run(this.__leaferWait)
+        if (leafer) {
+            this.__level = this.parent ? this.parent.__level + 1 : 1
+            if (this.__leaferWait) WaitHelper.run(this.__leaferWait)
+        }
 
         if (this.isBranch) {
             const { children } = this
@@ -318,18 +326,15 @@ export class Leaf implements ILeaf {
     // ---
 
     public destroy(): void {
-        if (this.__) {
-
-            if (this.children && this.children.length) (this as unknown as IBranch).removeAll(true)
+        if (!this.destroyed) {
             if (this.parent) this.remove()
-
-            if (this.__hitCanvas) this.__hitCanvas.destroy()
+            if (this.children) (this as unknown as IBranch).removeAll(true)
 
             this.__.destroy()
             this.__layout.destroy()
 
-            this.leafer = this.parent = this.__hitCanvas = this.__ = this.__layout = this.__captureMap = this.__bubbleMap = null
-
+            this.__captureMap = this.__bubbleMap = this.__parentWait = this.__leaferWait = null
+            this.destroyed = true
         }
     }
 

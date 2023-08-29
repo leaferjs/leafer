@@ -266,8 +266,6 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public destroy(): void {
-        this.leaf = null
-    }
+    public destroy(): void { }
 
 }

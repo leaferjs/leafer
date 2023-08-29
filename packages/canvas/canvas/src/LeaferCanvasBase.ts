@@ -346,10 +346,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public unrealCanvas(): void { }
 
     public destroy(): void {
-        this.manager = null
-        this.view = null
-        this.parentView = null
-        this.context = null
-        this.config = null
+        this.manager = this.view = this.parentView = null
     }
 }

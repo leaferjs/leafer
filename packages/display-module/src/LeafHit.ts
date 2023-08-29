@@ -8,7 +8,7 @@ const inner = {} as IRadiusPointData
 export const LeafHit: ILeafHitModule = {
 
     __hitWorld(point: IRadiusPointData): boolean {
-        if (this.__layout.hitCanvasChanged) {
+        if (this.__layout.hitCanvasChanged || !this.__hitCanvas) {
             this.__updateHitCanvas()
             this.__layout.hitCanvasChanged = false
         }

@@ -126,8 +126,8 @@ export class Dragger {
         const { dragEnterPath } = this
         const { path } = data
 
-        interaction.emit(DragEvent.ENTER, data, path, dragEnterPath)
         interaction.emit(DragEvent.LEAVE, data, dragEnterPath, path)
+        interaction.emit(DragEvent.ENTER, data, path, dragEnterPath)
         this.dragEnterPath = path
     }
 
@@ -225,7 +225,6 @@ export class Dragger {
     }
 
     public destroy(): void {
-        this.interaction = null
-        this.dragableList = null
+        this.dragReset()
     }
 }

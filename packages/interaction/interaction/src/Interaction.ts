@@ -337,6 +337,7 @@ export class InteractionBase implements IInteraction {
 
     protected __removeListenEvents(): void {
         this.target.off_(this.__eventIds)
+        this.__eventIds.length = 0
     }
 
 
@@ -346,20 +347,12 @@ export class InteractionBase implements IInteraction {
 
 
     public destroy(): void {
-        if (this.target) {
-
+        if (this.__eventIds.length) {
             this.stop()
             this.__removeListenEvents()
             this.dragger.destroy()
             this.transformer.destroy()
-
-            this.config = null
-            this.target = null
-            this.selector = null
-            this.canvas = null
-
-            this.dragger = null
-            this.transformer = null
+            this.downData = this.overPath = this.enterPath = null
         }
     }
 

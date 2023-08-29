@@ -79,6 +79,6 @@ export class LeafData implements ILeafData {
     }
 
     public destroy(): void {
-        this.__leaf = null
+        this.__input = this.__middle = null
     }
 }

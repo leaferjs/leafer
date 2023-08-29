@@ -102,8 +102,6 @@ export class Transformer {
     }
 
     public destroy(): void {
-        clearTimeout(this.transformTimer)
-        this.transformEnd()
-        this.interaction = null
+        this.zoomData = this.moveData = this.rotateData = null
     }
 }

@@ -1,4 +1,4 @@
-import { IScreenSizeData, IHitCanvasManager, ILeaf, IHitCanvas, ILeaferCanvas, ILeafList } from '@leafer/interface'
+import { IScreenSizeData, IHitCanvasManager, ILeaf, IHitCanvas, ILeafList } from '@leafer/interface'
 import { LeafList } from '@leafer/list'
 import { Creator } from '@leafer/platform'
 
@@ -9,8 +9,6 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
 
     protected pathTypeList: ILeafList = new LeafList()
     protected imageTypeList: ILeafList = new LeafList()
-
-    public get(_size: IScreenSizeData): ILeaferCanvas { return undefined }
 
     public getImageType(leaf: ILeaf, size: IScreenSizeData): IHitCanvas {
         this.imageTypeList.push(leaf)
@@ -31,13 +29,15 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
     }
 
     protected __clearLeafList(leafList: ILeafList): void {
-        leafList.forEach(leaf => {
-            if (leaf.__hitCanvas) {
-                leaf.__hitCanvas.destroy()
-                leaf.__hitCanvas = null
-            }
-        })
-        leafList.reset()
+        if (leafList.length) {
+            leafList.forEach(leaf => {
+                if (leaf.__hitCanvas) {
+                    leaf.__hitCanvas.destroy()
+                    leaf.__hitCanvas = null
+                }
+            })
+            leafList.reset()
+        }
     }
 
     public clear(): void {

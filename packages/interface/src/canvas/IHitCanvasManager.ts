@@ -6,5 +6,4 @@ import { IHitCanvas } from './ILeaferCanvas'
 export interface IHitCanvasManager extends ICanvasManager {
     getPathType(leaf: ILeaf): IHitCanvas
     getImageType(leaf: ILeaf, size: IScreenSizeData): IHitCanvas
-    destroy(): void
 }

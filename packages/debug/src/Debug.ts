@@ -46,12 +46,12 @@ export class Debug {
     }
 
     warn(...messages: unknown[]): void {
-        console.warn(this.name, ...messages)
+        if (D.enable) console.warn(this.name, ...messages)
     }
 
     repeat(name: string, ...messages: unknown[]) {
         if (!this.repeatMap[name]) {
-            console.warn(this.name, 'repeat:' + name, ...messages)
+            this.warn('repeat:' + name, ...messages)
             this.repeatMap[name] = true
         }
     }

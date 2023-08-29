@@ -43,7 +43,7 @@ function emitAppChildren(leaf: ILeaf, type: string, data: IUIEvent, capture?: bo
 }
 
 function emitEvent(leaf: ILeaf, type: string, data: IUIEvent, capture?: boolean, excludePath?: ILeafList): boolean {
-    if (!leaf.__) return true // leaf is destroy
+    if (leaf.destroyed) return true
     if (leaf.__.hitSelf && leaf.hasEvent(type, capture) && !exclude(leaf, excludePath)) {
         data.phase = capture ? 1 : ((leaf === data.target) ? 2 : 3)
         const event = EventCreator.get(type, data)
