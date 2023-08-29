@@ -36,24 +36,19 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         },
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
-                if (src.startsWith('data:')) {
-
-                } else {
-                    src += src.includes("?") ? "&xhr" : "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
-                    let req = new XMLHttpRequest()
-                    req.open('GET', src, true)
-                    req.responseType = "blob"
-                    req.onload = () => {
-                        createImageBitmap(req.response).then(img => {
-                            console.log(img)
-                            resolve(img)
-                        }).catch(e => {
-                            reject(e)
-                        })
-                    }
-                    req.onerror = (e) => reject(e)
-                    req.send()
+                if (!src.startsWith('data:')) src += src.includes("?") ? "&xhr" : "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
+                let req = new XMLHttpRequest()
+                req.open('GET', src, true)
+                req.responseType = "blob"
+                req.onload = () => {
+                    createImageBitmap(req.response).then(img => {
+                        resolve(img)
+                    }).catch(e => {
+                        reject(e)
+                    })
                 }
+                req.onerror = (e) => reject(e)
+                req.send()
             })
         }
     }
