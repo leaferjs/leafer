@@ -73,11 +73,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
 
     public startAutoLayout(_autoBounds: IAutoBounds, listener: IResizeEventListener): void {
-        if (!this.offscreen) {
-            this.resizeListener = listener
-            this.checkSize = this.checkSize.bind(this)
-            Platform.miniapp.onWindowResize(this.checkSize)
-        }
+        this.resizeListener = listener
+        this.checkSize = this.checkSize.bind(this)
+        Platform.miniapp.onWindowResize(this.checkSize)
     }
 
     public checkSize(): void {
