@@ -33,7 +33,7 @@ export interface ILeaferImage {
     config: ILeaferImageConfig
 
     load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError): number
-    unload(index: number): void
+    unload(index: number, stopEvent?: boolean): void
     getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): unknown
     destroy(): void
 }

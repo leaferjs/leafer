@@ -9,7 +9,7 @@ const { IMAGE, create } = IncrementId
 export class LeaferImageBase implements ILeaferImage {
 
     public readonly innerId: InnerId
-    public get url() { return this.config && this.config.url }
+    public get url() { return this.config.url }
 
     public view: any
 
@@ -32,7 +32,7 @@ export class LeaferImageBase implements ILeaferImage {
 
     constructor(config: ILeaferImageConfig) {
         this.innerId = create(IMAGE)
-        this.config = config
+        this.config = config || { url: '' }
         const { url } = config
         if (url.startsWith('data:')) {
             if (url.startsWith('data:image/svg')) this.isSVG = true
@@ -44,7 +44,7 @@ export class LeaferImageBase implements ILeaferImage {
     public load(onSuccess: IFunction, onError: IFunction): number {
         if (!this.loading) {
             this.loading = true
-            ImageManager.tasker.add(async () => await Platform.origin.loadImage(this.config.url).then((img) => {
+            ImageManager.tasker.add(async () => await Platform.origin.loadImage(this.url).then((img) => {
                 this.ready = true
                 this.width = img.naturalWidth || img.width
                 this.height = img.naturalHeight || img.height
@@ -59,10 +59,12 @@ export class LeaferImageBase implements ILeaferImage {
         return this.waitComplete.length - 2
     }
 
-    public unload(index: number): void {
+    public unload(index: number, stopEvent?: boolean): void {
         const l = this.waitComplete
-        const error = l[index + 1]
-        if (error) error({ type: 'stop' })
+        if (stopEvent) {
+            const error = l[index + 1]
+            if (error) error({ type: 'stop' })
+        }
         l[index] = l[index + 1] = undefined
     }
 
@@ -93,8 +95,7 @@ export class LeaferImageBase implements ILeaferImage {
     }
 
     public destroy(): void {
-        this.view = null
-        this.config = null
+        this.config = { url: '' }
         this.waitComplete.length = 0
     }
 
