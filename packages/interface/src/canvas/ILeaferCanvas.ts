@@ -165,7 +165,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     init(): void
 
     toBlob(type?: string, quality?: number): Promise<IBlob>
-    toDataURL(type?: string, quality?: number): string
+    toDataURL(type?: string, quality?: number): string | Promise<string>
     saveAs(filename: string, quality?: number): Promise<boolean>
 
     startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void

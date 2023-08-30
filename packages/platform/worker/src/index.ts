@@ -27,13 +27,20 @@ Object.assign(Creator, {
 export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
     Platform.origin = {
         createCanvas: (width: number, height: number): OffscreenCanvas => new OffscreenCanvas(width, height),
-        canvasToDataURL: (_canvas: OffscreenCanvas, _type?: IExportImageType, _quality?: number) => '',
-        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => canvas.convertToBlob({ type: mineType(type), quality }),
-        canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => {
-            return new Promise((resolve) => {
-                resolve()
+        canvasToDataURL: (canvas: OffscreenCanvas, type?: IExportImageType, quality?: number) => {
+            return new Promise((resolve, reject) => {
+                canvas.convertToBlob({ type: mineType(type), quality }).then(blob => {
+                    var reader = new FileReader()
+                    reader.onload = (e) => resolve(e.target.result as string)
+                    reader.onerror = (e) => reject(e)
+                    reader.readAsDataURL(blob)
+                }).catch(e => {
+                    reject(e)
+                })
             })
         },
+        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => canvas.convertToBlob({ type: mineType(type), quality }),
+        canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
                 if (!src.startsWith('data:')) src += src.includes("?") ? "&xhr" : "?xhr" // 需要带上xhr区分image标签的缓存，否则导致浏览器跨域问题
@@ -62,6 +69,9 @@ Platform.isWorker = true
 Platform.requestRender = function (render: IFunction): void { requestAnimationFrame(render) }
 Platform.devicePixelRatio = 1
 Platform.realtimeLayout = true
+
+
+// same as web
 
 const { userAgent } = navigator
 

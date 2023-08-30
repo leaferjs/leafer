@@ -6,7 +6,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public view: IObject
 
-    public get allowBackgroundColor(): boolean { return false }
+    public get allowBackgroundColor(): boolean { return true }
 
     public init(): void {
 

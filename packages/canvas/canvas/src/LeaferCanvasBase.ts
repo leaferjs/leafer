@@ -83,7 +83,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         })
     }
 
-    public toDataURL(type?: IExportImageType, quality?: number): string {
+    public toDataURL(type?: IExportImageType, quality?: number): string | Promise<string> {
         const canvas = this.getSaveCanvas(type)
         const data = Platform.origin.canvasToDataURL(canvas.view, type, quality)
         canvas.recycle()

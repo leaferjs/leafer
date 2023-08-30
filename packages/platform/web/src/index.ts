@@ -68,6 +68,9 @@ Platform.requestRender = function (render: IFunction): void { window.requestAnim
 Platform.devicePixelRatio = devicePixelRatio
 Platform.realtimeLayout = true
 
+
+// same as worker
+
 const { userAgent } = navigator
 
 if (userAgent.indexOf("Firefox") > -1) {

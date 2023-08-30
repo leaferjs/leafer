@@ -20,7 +20,7 @@ export interface IPlatform {
     realtimeLayout?: boolean
     origin?: {
         createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
-        canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string
+        canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>
         canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
         loadImage(url: string): Promise<any>
