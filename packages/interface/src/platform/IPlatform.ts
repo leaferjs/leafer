@@ -27,6 +27,7 @@ export interface IPlatform {
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
     },
     miniapp?: IMiniapp
+    imageSuffix?: string // 需要带上后缀区分dom中image标签的缓存，否则会导致浏览器缓存跨域问题
 }
 
 
