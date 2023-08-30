@@ -29,17 +29,17 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         createCanvas: (width: number, height: number): OffscreenCanvas => new OffscreenCanvas(width, height),
         canvasToDataURL: (canvas: OffscreenCanvas, type?: IExportImageType, quality?: number) => {
             return new Promise((resolve, reject) => {
-                canvas.convertToBlob({ type: mineType(type), quality }).then(blob => {
+                (canvas as any).convertToBlob({ type: mineType(type), quality }).then((blob: Blob) => {
                     var reader = new FileReader()
                     reader.onload = (e) => resolve(e.target.result as string)
                     reader.onerror = (e) => reject(e)
                     reader.readAsDataURL(blob)
-                }).catch(e => {
+                }).catch((e: any) => {
                     reject(e)
                 })
             })
         },
-        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => canvas.convertToBlob({ type: mineType(type), quality }),
+        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => (canvas as any).convertToBlob({ type: mineType(type), quality }),
         canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
