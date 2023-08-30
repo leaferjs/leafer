@@ -1,6 +1,6 @@
 {
   "name": "@leafer/interaction-web",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "description": "@leafer/interaction-web",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,11 +17,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/interaction": "1.0.0-beta.11",
-    "@leafer/event-ui": "1.0.0-beta.11",
-    "@leafer/math": "1.0.0-beta.11"
+    "@leafer/interaction": "1.0.0-beta.12",
+    "@leafer/event-ui": "1.0.0-beta.12",
+    "@leafer/math": "1.0.0-beta.12"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.11"
+     "@leafer/interface": "1.0.0-beta.12"
   }
 }

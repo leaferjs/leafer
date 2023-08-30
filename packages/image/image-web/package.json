@@ -1,6 +1,6 @@
 {
   "name": "@leafer/image-web",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "description": "@leafer/image-web",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,6 +17,6 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/image": "1.0.0-beta.11"
+    "@leafer/image": "1.0.0-beta.12"
   }
 }
