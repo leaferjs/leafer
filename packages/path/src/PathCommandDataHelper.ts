@@ -92,6 +92,17 @@ export const PathCommandDataHelper = {
 
     arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number): void {
         data.push(U, x1, y1, x2, y2, radius)
+    },
+
+    // new
+    points(data: IPathCommandData, point: number[], _curve: number): void {
+        for (let i = 0, len = point.length; i < len; i += 2) {
+            if (i === 0) {
+                data.push(M, point[i], point[i + 1])
+            } else {
+                data.push(L, point[i], point[i + 1])
+            }
+        }
     }
 }
 
