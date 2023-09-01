@@ -33,4 +33,9 @@ export interface IPathCreator {
 
     rect(x: number, y: number, width: number, height: number): IPathCreator
     roundRect(x: number, y: number, width: number, height: number, radius?: number | number[]): IPathCreator
+
+    // new
+    drawEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
+    drawArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
+    drawPoints(points: number[], curve?: boolean | number, close?: boolean): IPathCreator
 }
