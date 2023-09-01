@@ -80,7 +80,7 @@ export const PathCommandDataHelper = {
 
     // new
 
-    moveToEllipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
+    drawEllipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
         if (rotation === undefined) rotation = 0
         if (startAngle === undefined) startAngle = 0
         if (endAngle === undefined) endAngle = 360
@@ -89,7 +89,7 @@ export const PathCommandDataHelper = {
         ellipse(data, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
     },
 
-    moveToArc(data: IPathCommandData, x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
+    drawArc(data: IPathCommandData, x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
         if (startAngle === undefined) startAngle = 0
         if (endAngle === undefined) endAngle = 360
         BezierHelper.arc(null, x, y, radius, startAngle, endAngle, anticlockwise, null, null, startPoint)
@@ -97,12 +97,12 @@ export const PathCommandDataHelper = {
         arc(data, x, y, radius, startAngle, endAngle, anticlockwise)
     },
 
-    points(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
+    drawPoints(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
+        data.push(M, points[0], points[1])
+
         if (curve && points.length > 5) {
 
             let ba: number, cb: number, d: number, len = points.length, t = curve === true ? 0.5 : curve as number
-
-            data.push(M, points[0], points[1])
 
             if (close) {
                 points = [points[len - 2], points[len - 1], ...points, points[0], points[1], points[2], points[3]]
@@ -146,12 +146,8 @@ export const PathCommandDataHelper = {
 
         } else {
 
-            for (let i = 0, len = points.length; i < len; i += 2) {
-                if (i === 0) {
-                    data.push(M, points[i], points[i + 1])
-                } else {
-                    data.push(L, points[i], points[i + 1])
-                }
+            for (let i = 2, len = points.length; i < len; i += 2) {
+                data.push(L, points[i], points[i + 1])
             }
 
         }

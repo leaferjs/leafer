@@ -3,7 +3,7 @@ import { PathCommandDataHelper } from './PathCommandDataHelper'
 import { PathHelper } from './PathHelper'
 
 
-const { moveTo, lineTo, quadraticCurveTo, bezierCurveTo, closePath, beginPath, rect, roundRect, ellipse, arc, arcTo, moveToEllipse, moveToArc } = PathCommandDataHelper
+const { moveTo, lineTo, quadraticCurveTo, bezierCurveTo, closePath, beginPath, rect, roundRect, ellipse, arc, arcTo, drawEllipse, drawArc, drawPoints } = PathCommandDataHelper
 
 export class PathCreator implements IPathDrawer {
 
@@ -78,13 +78,18 @@ export class PathCreator implements IPathDrawer {
 
     // moveTo, then draw
 
-    public moveToEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
-        moveToEllipse(this.path, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
+    public drawEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        drawEllipse(this.path, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
         return this
     }
 
-    public moveToArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
-        moveToArc(this.path, x, y, radius, startAngle, endAngle, anticlockwise)
+    public drawArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): PathCreator {
+        drawArc(this.path, x, y, radius, startAngle, endAngle, anticlockwise)
+        return this
+    }
+
+    public drawPoints(points: number[], curve?: boolean | number, close?: boolean): PathCreator {
+        drawPoints(this.path, points, curve, close)
         return this
     }
 
