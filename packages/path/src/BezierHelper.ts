@@ -5,12 +5,73 @@ import { PathCommandMap } from './PathCommandMap'
 import { RectHelper } from './RectHelper'
 import { PathHelper } from './PathHelper'
 
-const { sin, cos, atan2, ceil, abs, PI } = Math
+const { sin, cos, atan2, ceil, abs, PI, sqrt, pow } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
 const { set } = PointHelper
+const { M, L, C, Q, Z } = PathCommandMap
 const tempPoint = {} as IPointData
 
 export const BezierHelper = {
+
+    points(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
+        data.push(M, points[0], points[1])
+
+        if (curve && points.length > 5) {
+
+            let aX: number, aY: number, bX: number, bY: number, cX: number, cY: number, c1X: number, c1Y: number, c2X: number, c2Y: number
+            let ba: number, cb: number, d: number, len = points.length
+            const t = curve === true ? 0.5 : curve as number
+
+            if (close) {
+                points = [points[len - 2], points[len - 1], ...points, points[0], points[1], points[2], points[3]]
+                len = points.length
+            }
+
+            for (let i = 2; i < len - 2; i += 2) {
+                aX = points[i - 2]
+                aY = points[i - 1]
+
+                bX = points[i]
+                bY = points[i + 1]
+
+                cX = points[i + 2]
+                cY = points[i + 3]
+
+                ba = sqrt(pow(bX - aX, 2) + pow(bY - aY, 2))
+                cb = sqrt(pow(cX - bX, 2) + pow(cY - bY, 2))
+
+                d = ba + cb
+                ba = (t * ba) / d
+                cb = (t * cb) / d
+
+                cX -= aX
+                cY -= aY
+
+                c1X = bX - ba * cX
+                c1Y = bY - ba * cY
+
+                if (i === 2) {
+                    if (!close) data.push(Q, c1X, c1Y, bX, bY)
+                } else {
+                    data.push(C, c2X, c2Y, c1X, c1Y, bX, bY)
+                }
+
+                c2X = bX + cb * cX
+                c2Y = bY + cb * cY
+            }
+
+            if (!close) data.push(Q, c2X, c2Y, points[len - 2], points[len - 1])
+
+        } else {
+
+            for (let i = 2, len = points.length; i < len; i += 2) {
+                data.push(L, points[i], points[i + 1])
+            }
+
+        }
+
+        if (close) data.push(Z)
+    },
 
     rect(data: IPathCommandData, x: number, y: number, width: number, height: number) {
         PathHelper.creator.path = data
@@ -35,7 +96,7 @@ export const BezierHelper = {
         if (totalRadian < 0) totalRadian += PI2
 
         if (totalRadian === PI || (abs(BAx + BAy) < 1.e-12) || (abs(CBx + CBy) < 1.e-12)) { // invalid
-            if (data) data.push(PathCommandMap.L, x1, y1)
+            if (data) data.push(L, x1, y1)
             if (setPointBounds) {
                 setPoint(setPointBounds, fromX, fromY)
                 addPoint(setPointBounds, x1, y1)
@@ -97,7 +158,7 @@ export const BezierHelper = {
 
         let fromX = cx + x, fromY = cy + y
 
-        if (data) data.push(PathCommandMap.L, fromX, fromY)
+        if (data) data.push(L, fromX, fromY)
         if (setPointBounds) setPoint(setPointBounds, fromX, fromY)
         if (setStartPoint) set(setStartPoint, fromX, fromY)
 
@@ -113,7 +174,7 @@ export const BezierHelper = {
             x2 = cx + x + control * (rotationCos * radiusX * endSin + rotationSin * radiusY * endCos)
             y2 = cy + y + control * (rotationSin * radiusX * endSin - rotationCos * radiusY * endCos)
 
-            if (data) data.push(PathCommandMap.C, x1, y1, x2, y2, cx + x, cy + y)
+            if (data) data.push(C, x1, y1, x2, y2, cx + x, cy + y)
             if (setPointBounds) toTwoPointBounds(cx + startX, cy + startY, x1, y1, x2, y2, cx + x, cy + y, setPointBounds, true)
 
             startX = x
@@ -129,7 +190,7 @@ export const BezierHelper = {
     },
 
     quadraticCurveTo(data: IPathCommandData, fromX: number, fromY: number, x1: number, y1: number, toX: number, toY: number): void {
-        data.push(PathCommandMap.C, (fromX + 2 * x1) / 3, (fromY + 2 * y1) / 3, (toX + 2 * x1) / 3, (toY + 2 * y1) / 3, toX, toY)
+        data.push(C, (fromX + 2 * x1) / 3, (fromY + 2 * y1) / 3, (toX + 2 * x1) / 3, (toY + 2 * y1) / 3, toX, toY)
     },
 
     toTwoPointBoundsByQuadraticCurve(fromX: number, fromY: number, x1: number, y1: number, toX: number, toY: number, pointBounds: ITwoPointBoundsData, addMode?: boolean): void {

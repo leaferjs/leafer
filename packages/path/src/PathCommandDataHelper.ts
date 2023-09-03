@@ -4,9 +4,8 @@ import { BezierHelper } from './BezierHelper'
 import { MathHelper } from '@leafer/math'
 
 
-const { sqrt, pow } = Math
 const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = PathCommandMap
-const startPoint = {} as IPointData, a = {} as IPointData, b = {} as IPointData, c = {} as IPointData, c1 = {} as IPointData, c2 = {} as IPointData
+const startPoint = {} as IPointData
 
 export const PathCommandDataHelper = {
 
@@ -98,61 +97,7 @@ export const PathCommandDataHelper = {
     },
 
     drawPoints(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
-        data.push(M, points[0], points[1])
-
-        if (curve && points.length > 5) {
-
-            let ba: number, cb: number, d: number, len = points.length, t = curve === true ? 0.5 : curve as number
-
-            if (close) {
-                points = [points[len - 2], points[len - 1], ...points, points[0], points[1], points[2], points[3]]
-                len = points.length
-            }
-
-            for (let i = 2; i < len - 2; i += 2) {
-                a.x = points[i - 2]
-                a.y = points[i - 1]
-
-                b.x = points[i]
-                b.y = points[i + 1]
-
-                c.x = points[i + 2]
-                c.y = points[i + 3]
-
-                ba = sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2))
-                cb = sqrt(pow(c.x - b.x, 2) + pow(c.y - b.y, 2))
-
-                d = ba + cb
-                ba = (t * ba) / d
-                cb = (t * cb) / d
-
-                c.x -= a.x
-                c.y -= a.y
-
-                c1.x = b.x - ba * c.x
-                c1.y = b.y - ba * c.y
-
-                if (i === 2) {
-                    if (!close) data.push(Q, c1.x, c1.y, b.x, b.y)
-                } else {
-                    data.push(C, c2.x, c2.y, c1.x, c1.y, b.x, b.y)
-                }
-
-                c2.x = b.x + cb * c.x
-                c2.y = b.y + cb * c.y
-            }
-
-            if (!close) data.push(Q, c2.x, c2.y, points[len - 2], points[len - 1])
-
-        } else {
-
-            for (let i = 2, len = points.length; i < len; i += 2) {
-                data.push(L, points[i], points[i + 1])
-            }
-
-        }
-
-        if (close) data.push(Z)
+        BezierHelper.points(data, points, curve, close)
     }
 
 }
