@@ -1,9 +1,10 @@
-import { ILeafMatrixModule } from '@leafer/interface'
+import { ILeafMatrixModule, IPointData } from '@leafer/interface'
 import { OneRadian, MatrixHelper } from '@leafer/math'
 
 
 const { sin, cos } = Math
 const defaultWorld = { ...MatrixHelper.defaultMatrix, scaleX: 1, scaleY: 1 }
+const defaultCenter: IPointData = { x: 0.5, y: 0.5 }
 
 export const LeafMatrix: ILeafMatrixModule = {
 
@@ -94,6 +95,13 @@ export const LeafMatrix: ILeafMatrixModule = {
         if (layout.positionChanged) {
             r.e = this.__.x
             r.f = this.__.y
+            if (this.__.byCenter) {
+                const { width, height, byCenter } = this.__
+                const center = (byCenter === true) ? defaultCenter : byCenter
+                const offsetX = width * center.x, offsetY = height * center.y
+                r.e -= offsetX * r.a + offsetY * r.c
+                r.f -= offsetX * r.b + offsetY * r.d
+            }
             layout.positionChanged = false
         }
 
