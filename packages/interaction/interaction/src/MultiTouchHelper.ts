@@ -15,19 +15,8 @@ export const MultiTouchHelper = {
         const distance = PointHelper.getDistance(a.to, b.to)
         const scale = distance / lastDistance
 
-        const lastAngle = PointHelper.getAngle(a.from, b.from)
-        const currentAngle = PointHelper.getAngle(a.to, b.to)
-        const angle = this.getChangedAngle(lastAngle, currentAngle)
+        const angle = PointHelper.getChangeAngle(a.from, b.from, a.to, b.to)
 
         return { move, scale, angle, center }
-    },
-
-    getChangedAngle(from: number, to: number): number {
-        from = from <= -90 ? (360 + from) : from
-        to = to <= -90 ? (360 + to) : to
-
-        const angle = to - from
-        return angle < 0 ? angle + 360 : angle
     }
-
 }

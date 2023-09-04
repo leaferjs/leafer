@@ -111,8 +111,6 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateBoxBounds(): void {
         const b = this.__layout.boxBounds
-        b.x = 0
-        b.y = 0
         b.width = this.__.width
         b.height = this.__.height
     },

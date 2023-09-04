@@ -87,6 +87,10 @@ export class Branch extends Leaf {
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
+    public addList(list: ILeaf[]): void {
+        list.forEach(child => this.add(child))
+    }
+
     public remove(child?: Leaf, destroy?: boolean): void {
         if (child) {
             const index = this.children.indexOf(child)

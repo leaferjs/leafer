@@ -92,6 +92,19 @@ export const PointHelper = {
         return P.getAtan2(t, to) / OneRadian
     },
 
+    getChangeAngle(t: IPointData, orign: IPointData, to: IPointData, toOrigin?: IPointData): number {
+        if (!toOrigin) toOrigin = orign
+
+        let fromAngle = P.getAngle(t, orign)
+        let toAngle = P.getAngle(to, toOrigin)
+
+        fromAngle = fromAngle <= -90 ? (360 + fromAngle) : fromAngle
+        toAngle = toAngle <= -90 ? (360 + toAngle) : toAngle
+
+        const angle = toAngle - fromAngle
+        return angle < 0 ? angle + 360 : angle
+    },
+
     getAtan2(t: IPointData, to: IPointData): number {
         return atan2(to.y - t.y, to.x - t.x)
     },
