@@ -175,6 +175,8 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     updateViewSize(): void
     updateClientBounds(): void
 
+    setCursor(cursor: string): void
+
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean
     getSameCanvas(useSameWorldTransform?: boolean): ILeaferCanvas

@@ -146,6 +146,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public startAutoLayout(_autoBounds: IAutoBounds, _listener: IResizeEventListener): void { }
     public stopAutoLayout(): void { }
 
+    public setCursor(_cursor: string): void { }
+
     public setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData, onlyTranslate?: boolean): void {
         const { pixelRatio } = this
         const w = this.worldTransform

@@ -10,7 +10,7 @@ const debug = Debug.get('LeaferCanvas')
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
-    public view: HTMLCanvasElement | OffscreenCanvas
+    public view: HTMLCanvasElement
     public parentView: HTMLElement
 
     protected resizeObserver: ResizeObserver
@@ -38,6 +38,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     protected __createView(): void {
         this.view = document.createElement('canvas')
+    }
+
+    public setCursor(cursor: string): void {
+        this.view.style.cursor = cursor
     }
 
     protected __createViewFrom(inputView: string | object): void {

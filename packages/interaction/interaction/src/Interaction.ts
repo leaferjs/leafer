@@ -226,6 +226,22 @@ export class InteractionBase implements IInteraction {
         this.emit(PointerEvent.LEAVE, data, this.enterPath, path)
         this.emit(PointerEvent.ENTER, data, path, this.enterPath)
         this.enterPath = path
+        this.setCursor(path)
+    }
+
+    protected setCursor(path: ILeafList): void {
+        if (this.dragger.dragging) return
+
+        let leaf: ILeaf
+        for (let i = 0, len = path.length; i < len; i++) {
+            leaf = path.list[i]
+            if (leaf.cursor && leaf.cursor !== 'default') {
+                this.canvas.setCursor(leaf.cursor)
+                return
+            }
+        }
+
+        this.canvas.setCursor('default')
     }
 
     protected touchLeave(data: IPointerEvent): void {

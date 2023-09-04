@@ -58,6 +58,8 @@ export interface ILeafAttrData {
     hitStroke: IHitType
     hitChildren: __Boolean
     hitSelf: __Boolean
+
+    cursor: ICursorType
 }
 
 export type IHitType =
@@ -93,6 +95,44 @@ export type IBlendMode =
     | 'destination-out'
     | 'destination-atop'
 
+export type ICursorType =
+    | 'auto'
+    | 'default'
+    | 'none'
+    | 'context-menu'
+    | 'help'
+    | 'pointer'
+    | 'progress'
+    | 'wait'
+    | 'cell'
+    | 'crosshair'
+    | 'text'
+    | 'vertical-text'
+    | 'alias'
+    | 'copy'
+    | 'move'
+    | 'no-drop'
+    | 'not-allowed'
+    | 'grab'
+    | 'grabbing'
+    | 'e-resize'
+    | 'n-resize'
+    | 'ne-resize'
+    | 'nw-resize'
+    | 's-resize'
+    | 'se-resize'
+    | 'sw-resize'
+    | 'w-resize'
+    | 'ew-resize'
+    | 'ns-resize'
+    | 'nesw-resize'
+    | 'nwse-resize'
+    | 'col-resize'
+    | 'row-resize'
+    | 'all-scroll'
+    | 'zoom -in'
+    | 'zoom-out'
+
 export interface ILeafInputData {
     // layer data
     id?: __String
@@ -126,6 +166,8 @@ export interface ILeafInputData {
     hitStroke?: IHitType
     hitChildren?: __Boolean
     hitSelf?: __Boolean
+
+    cursor?: ICursorType
 }
 export interface ILeafComputedData {
     // layer data
@@ -160,6 +202,8 @@ export interface ILeafComputedData {
     hitStroke?: IHitType
     hitChildren?: boolean
     hitSelf?: boolean
+
+    cursor?: ICursorType
 
     // other
     __childBranchNumber?: number // 存在子分支的个数
