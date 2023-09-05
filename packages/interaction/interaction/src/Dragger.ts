@@ -66,8 +66,8 @@ export class Dragger {
         if (this.moving) {
             interaction.emit(MoveEvent.MOVE, this.dragData)
         } else if (this.dragging) {
-            interaction.emit(DragEvent.DRAG, this.dragData)
             this.dragDragableList()
+            interaction.emit(DragEvent.DRAG, this.dragData)
         }
 
     }
