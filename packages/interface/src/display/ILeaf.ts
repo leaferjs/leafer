@@ -49,6 +49,7 @@ export interface ILeafAttrData {
     skewX: __Number
     skewY: __Number
 
+    scale: __Number | IPointData // helper
     byCenter: __Boolean | IPointData
 
     draggable: __Boolean
@@ -158,6 +159,7 @@ export interface ILeafInputData {
     skewX?: __Number
     skewY?: __Number
 
+    scale?: __Number | IPointData // helper
     byCenter?: __Boolean | IPointData
 
     draggable?: __Boolean

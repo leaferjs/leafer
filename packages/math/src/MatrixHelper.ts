@@ -142,7 +142,7 @@ export const MatrixHelper = {
     },
 
     divide(t: IMatrixData, matrix: IMatrixData): void {
-        M.multiply(t, M.tempInvert(matrix))
+        M.preMultiply(t, M.tempInvert(matrix))
     },
 
     tempInvert(t: IMatrixData): IMatrixData {
