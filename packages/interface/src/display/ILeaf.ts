@@ -58,6 +58,7 @@ export interface ILeafAttrData {
     hitStroke: IHitType
     hitChildren: __Boolean
     hitSelf: __Boolean
+    hitRadius: __Number
 
     cursor: ICursorType
 }
@@ -166,6 +167,7 @@ export interface ILeafInputData {
     hitStroke?: IHitType
     hitChildren?: __Boolean
     hitSelf?: __Boolean
+    hitRadius?: __Number
 
     cursor?: ICursorType
 }
@@ -202,6 +204,7 @@ export interface ILeafComputedData {
     hitStroke?: IHitType
     hitChildren?: boolean
     hitSelf?: boolean
+    hitRadius?: number
 
     cursor?: ICursorType
 

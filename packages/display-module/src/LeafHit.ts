@@ -2,7 +2,7 @@ import { ILeafHitModule, IRadiusPointData, ILeaferCanvas } from '@leafer/interfa
 import { PointHelper } from '@leafer/math'
 
 
-const { toInnerRadiusPointOf } = PointHelper
+const { toInnerRadiusPointOf, copy, setRadius } = PointHelper
 const inner = {} as IRadiusPointData
 
 export const LeafHit: ILeafHitModule = {
@@ -12,6 +12,12 @@ export const LeafHit: ILeafHitModule = {
             this.__updateHitCanvas()
             this.__layout.hitCanvasChanged = false
         }
+
+        if (this.__.hitRadius) {
+            copy(inner, point), point = inner
+            setRadius(point, this.__.hitRadius)
+        }
+
         toInnerRadiusPointOf(point, this.__world, inner)
         return this.__hit(inner)
     },

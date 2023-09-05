@@ -19,6 +19,11 @@ export const PointHelper = {
         t.y = y
     },
 
+    setRadius(t: IRadiusPointData, x: number, y?: number): void {
+        t.radiusX = x
+        t.radiusY = y === undefined ? x : y
+    },
+
     copy(t: IPointData, point: IPointData): void {
         t.x = point.x
         t.y = point.y
