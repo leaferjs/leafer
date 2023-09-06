@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IMatrixData, IBranch } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IMatrixData, IBranch, IMatrixWithLayoutData } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -42,7 +42,7 @@ export class Leaf implements ILeaf {
     public __layout: ILeafLayout
 
     public __local: IMatrixWithBoundsData
-    public __world: IMatrixWithBoundsData
+    public __world: IMatrixWithLayoutData
     public __worldOpacity: number
 
     // now transform
@@ -86,7 +86,7 @@ export class Leaf implements ILeaf {
         this.innerId = create(LEAF)
 
         this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
-        this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1 }
+        this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
 
         this.__worldOpacity = 1
 
@@ -200,7 +200,10 @@ export class Leaf implements ILeaf {
     // convert
 
     public getWorld(attrName: IMatrixDecompositionAttr): number {
-        return this.__layout.decomposeTransform('world')[attrName]
+        this.__layout.checkUpdate()
+        if (attrName === 'x') return this.__world.e
+        if (attrName === 'y') return this.__world.f
+        return this.__world[attrName]
     }
 
     public getBounds(type: ILayoutBoundsType, locationType: ILayoutLocationType = 'world'): IBoundsData {

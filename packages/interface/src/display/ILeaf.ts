@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IMatrixData, IRadiusPointData, IMatrixDecompositionAttr } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IMatrixData, IRadiusPointData, IMatrixDecompositionAttr, IMatrixWithLayoutData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -237,7 +237,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __layout: ILeafLayout
 
     __local: IMatrixWithBoundsData
-    __world: IMatrixWithBoundsData
+    __world: IMatrixWithLayoutData
     __worldOpacity: number
 
     readonly worldTransform: IMatrixData

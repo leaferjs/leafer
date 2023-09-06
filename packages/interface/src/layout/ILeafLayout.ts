@@ -65,7 +65,6 @@ export interface ILeafLayout {
     checkUpdate(force?: boolean): void
 
     getTransform(locationType: ILayoutLocationType): IMatrixData
-    decomposeTransform(locationType: ILayoutLocationType): IMatrixDecompositionData
     getBounds(type: ILayoutBoundsType, locationType: ILayoutLocationType): IBoundsData
 
     // 独立 / 引用 boxBounds

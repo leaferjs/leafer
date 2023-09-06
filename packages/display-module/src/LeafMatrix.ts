@@ -3,7 +3,7 @@ import { OneRadian, MatrixHelper } from '@leafer/math'
 
 
 const { sin, cos } = Math
-const defaultWorld = { ...MatrixHelper.defaultMatrix, scaleX: 1, scaleY: 1 }
+const defaultWorld = { ...MatrixHelper.defaultMatrix, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
 const defaultCenter: IPointData = { x: 0.5, y: 0.5 }
 
 export const LeafMatrix: ILeafMatrixModule = {
@@ -24,8 +24,13 @@ export const LeafMatrix: ILeafMatrixModule = {
             w.e = r.e * pw.a + r.f * pw.c + pw.e
             w.f = r.e * pw.b + r.f * pw.d + pw.f
 
-            w.scaleX = pw.scaleX * this.__.scaleX
-            w.scaleY = pw.scaleY * this.__.scaleY
+            const data = this.__
+            w.scaleX = pw.scaleX * data.scaleX
+            w.scaleY = pw.scaleY * data.scaleY
+
+            w.rotation = pw.rotation + data.rotation
+            w.skewX = pw.skewX + data.skewX
+            w.skewY = pw.skewY + data.skewY
         } else {
             w.a = pw.a
             w.b = pw.b
@@ -36,6 +41,10 @@ export const LeafMatrix: ILeafMatrixModule = {
 
             w.scaleX = pw.scaleX
             w.scaleY = pw.scaleY
+
+            w.rotation = pw.rotation
+            w.skewX = pw.skewX
+            w.skewY = pw.skewY
         }
     },
 

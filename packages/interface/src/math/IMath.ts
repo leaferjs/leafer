@@ -176,8 +176,6 @@ export interface IMatrix extends IMatrixData {
     reset(): void
 }
 
+export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData { }
 
-export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData {
-    scaleX?: number
-    scaleY?: number
-}
+export interface IMatrixWithLayoutData extends IMatrixData, IMatrixDecompositionData, IBoundsData { }
