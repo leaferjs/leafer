@@ -122,7 +122,6 @@ export class InteractionBase implements IInteraction {
             this.pointerMoveReal(data)
             this.dragger.checkDragOut(data)
         }
-        this.hoverData = data
     }
 
     public pointerMoveReal(data: IPointerEvent): void {
@@ -137,8 +136,7 @@ export class InteractionBase implements IInteraction {
 
         if (this.dragger.moving || this.config.pointer.ignoreMove) return
 
-        const find = this.selector.getByPoint(data, this.hitRadius, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
-        data.path = find.path
+        this.updateHoverData(data)
         this.emit(PointerEvent.MOVE, data)
 
         this.pointerOverOrOut(data)
@@ -147,6 +145,8 @@ export class InteractionBase implements IInteraction {
             this.dragger.dragOverOrOut(data)
             this.dragger.dragEnterOrLeave(data)
         }
+
+        this.updateCursor()
     }
 
     public pointerUp(data: IPointerEvent): void {
@@ -244,12 +244,21 @@ export class InteractionBase implements IInteraction {
         this.emit(PointerEvent.LEAVE, data, this.enterPath, path)
         this.emit(PointerEvent.ENTER, data, path, this.enterPath)
         this.enterPath = path
-        this.updateCursor()
+    }
+
+
+    public updateHoverData(data?: IPointerEvent): void {
+        if (!data) data = this.hoverData
+        if (data) {
+            const find = this.selector.getByPoint(data, this.hitRadius, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
+            data.path = find.path
+        }
+        this.hoverData = data
     }
 
     public updateCursor(): void {
-        const path = this.enterPath
-        if (!path || this.dragger.dragging) return
+        if (!this.hoverData || this.dragger.dragging) return
+        const path = this.hoverData.path
 
         let leaf: ILeaf
         for (let i = 0, len = path.length; i < len; i++) {
@@ -262,6 +271,7 @@ export class InteractionBase implements IInteraction {
 
         this.canvas.setCursor('default')
     }
+
 
     protected touchLeave(data: IPointerEvent): void {
         if (data.pointerType === 'touch') {
