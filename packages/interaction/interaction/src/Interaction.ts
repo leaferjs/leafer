@@ -146,7 +146,7 @@ export class InteractionBase implements IInteraction {
             this.dragger.dragEnterOrLeave(data)
         }
 
-        this.updateCursor()
+        this.updateCursor(data)
     }
 
     public pointerUp(data: IPointerEvent): void {
@@ -247,18 +247,18 @@ export class InteractionBase implements IInteraction {
     }
 
 
-    public updateHoverData(data?: IPointerEvent): void {
-        if (!data) data = this.hoverData
+    public updateHoverData(data: IPointerEvent): void {
         if (data) {
             const find = this.selector.getByPoint(data, this.hitRadius, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
             data.path = find.path
+            this.hoverData = data
         }
-        this.hoverData = data
     }
 
-    public updateCursor(): void {
-        if (!this.hoverData || this.dragger.dragging) return
-        const path = this.hoverData.path
+    public updateCursor(hoverData?: IPointerEvent): void {
+        hoverData ? this.updateHoverData(this.hoverData) : hoverData = this.hoverData
+        if (!hoverData || this.dragger.dragging) return
+        const path = hoverData.path
 
         let leaf: ILeaf
         for (let i = 0, len = path.length; i < len; i++) {

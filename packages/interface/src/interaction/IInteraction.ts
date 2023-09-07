@@ -45,8 +45,7 @@ export interface IInteraction extends IControl {
     keyUp(data: IKeyEvent): void
     keyPress(data: IKeyEvent): void
 
-    updateHoverData(data?: IPointerEvent): void
-    updateCursor(): void
+    updateCursor(hoverData?: IPointerEvent): void
 
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
 }
