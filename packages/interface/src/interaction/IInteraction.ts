@@ -1,5 +1,5 @@
 import { INumberFunction, IPointDataFunction } from '../function/IFunction'
-import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent } from '../event/IUIEvent'
+import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEvent } from '../event/IUIEvent'
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
@@ -24,6 +24,7 @@ export interface IInteraction extends IControl {
     shrinkCanvasBounds: IBounds
 
     downData: IPointerEvent
+    hoverData: IPointerEvent
     downTime: number
 
     receive(event: any): void
@@ -39,6 +40,12 @@ export interface IInteraction extends IControl {
     move(data: IMoveEvent): void
     zoom(data: IZoomEvent): void
     rotate(data: IRotateEvent): void
+
+    keyDown(data: IKeyEvent): void
+    keyUp(data: IKeyEvent): void
+    keyPress(data: IKeyEvent): void
+
+    updateCursor(): void
 
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
 }

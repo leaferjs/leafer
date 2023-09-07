@@ -74,7 +74,8 @@ export interface ISwipeEvent extends IDragEvent {
 }
 
 export interface IKeyEvent extends IUIEvent {
-
+    code?: string
+    key?: string
 }
 
 export interface IImageEvent extends IEvent {

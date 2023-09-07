@@ -8,7 +8,11 @@ import { UIEvent } from './UIEvent'
 export class KeyEvent extends UIEvent implements IKeyEvent {
 
     static DOWN = 'key.down'
+    static HOLD = 'key.hold'
     static PRESS = 'key.press'
     static UP = 'key.up'
+
+    public readonly code: string
+    public readonly key: string
 
 }

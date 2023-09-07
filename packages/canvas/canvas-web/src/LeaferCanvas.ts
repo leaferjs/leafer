@@ -1,4 +1,4 @@
-import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener } from '@leafer/interface'
+import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, ICursorType } from '@leafer/interface'
 import { LeaferCanvasBase, canvasSizeAttrs } from '@leafer/canvas'
 import { ResizeEvent } from '@leafer/event'
 import { DataHelper } from '@leafer/data'
@@ -40,8 +40,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.view = document.createElement('canvas')
     }
 
-    public setCursor(cursor: string): void {
-        this.view.style.cursor = cursor
+    public setCursor(cursor: ICursorType | ICursorType[]): void {
+        if (!(cursor instanceof Array)) cursor = [cursor]
+        this.view.style.cursor = cursor.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(', ')
     }
 
     protected __createViewFrom(inputView: string | object): void {

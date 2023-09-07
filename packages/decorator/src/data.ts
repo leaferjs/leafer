@@ -170,6 +170,18 @@ export function hitType(defaultValue?: __Value) {
             set(value: __Value) {
                 this.__setAttr(key, value)
                 if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
+                if (this.leafer) this.leafer.updateCursor()
+            }
+        })
+    }
+}
+
+export function cursorType(defaultValue?: __Value) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: __Value) {
+                this.__setAttr(key, value)
+                if (this.leafer) this.leafer.updateCursor()
             }
         })
     }

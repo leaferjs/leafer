@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType } from '@leafer/interface'
 import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -146,7 +146,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public startAutoLayout(_autoBounds: IAutoBounds, _listener: IResizeEventListener): void { }
     public stopAutoLayout(): void { }
 
-    public setCursor(_cursor: string): void { }
+    public setCursor(_cursor: ICursorType | ICursorType[]): void { }
 
     public setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData, onlyTranslate?: boolean): void {
         const { pixelRatio } = this

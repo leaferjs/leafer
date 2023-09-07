@@ -1,8 +1,8 @@
 import { IBranch, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
-import { MatrixHelper, PointHelper } from '@leafer/math'
+import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
-const { copy, translate, toInnerPoint, scaleOfOuter, rotateOfOuter } = MatrixHelper
+const { copy, translate, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter } = MatrixHelper
 const matrix = {} as IMatrixData
 
 export const LeafHelper = {
@@ -97,7 +97,25 @@ export const LeafHelper = {
         if (!moveLayer) moveLayer = t
         moveLayer.x += matrix.e - t.__local.e
         moveLayer.y += matrix.f - t.__local.f
-        t.rotation += angle
+        t.rotation = MathHelper.formatRotation(t.rotation + angle)
+
+    },
+
+    skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, moveLayer?: ILeaf): void {
+        t.__layout.checkUpdate()
+        const local = t.parent ? PointHelper.tempToInnerOf(origin, t.parent.__world) : origin
+        this.skewOfLocal(t, local, skewX, skewY, moveLayer)
+    },
+
+    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number, moveLayer?: ILeaf): void {
+        copy(matrix, t.__local)
+        if (moveLayer) translate(matrix, moveLayer.x, moveLayer.y)
+        skewOfOuter(matrix, origin, skewX, skewY)
+        if (!moveLayer) moveLayer = t
+        moveLayer.x = matrix.e - t.__local.e
+        moveLayer.y = matrix.f - t.__local.f
+        t.skewX = MathHelper.formatSkew(t.skewX + skewX)
+        t.skewY = MathHelper.formatSkew(t.skewY + skewY)
     },
 
     drop(t: ILeaf, parent: IBranch): void {

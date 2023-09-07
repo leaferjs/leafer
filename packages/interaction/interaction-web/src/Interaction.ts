@@ -5,6 +5,7 @@ import { Keyboard } from '@leafer/event-ui'
 
 import { PointerEventHelper } from './PointerEventHelper'
 import { WheelEventHelper } from './WheelEventHelper'
+import { KeyEventHelper } from './KeyEventHelper'
 
 
 interface IClientPoint {
@@ -69,6 +70,7 @@ export class Interaction extends InteractionBase {
 
             'keydown': this.onKeyDown,
             'keyup': this.onKeyUp,
+            'keypress': this.onKeyPress,
 
             'scroll': this.onScroll
         }
@@ -133,11 +135,17 @@ export class Interaction extends InteractionBase {
 
     // key
     protected onKeyDown(e: KeyboardEvent): void {
+        this.keyDown(KeyEventHelper.convert(e))
         Keyboard.setDownCode(e.code)
     }
 
     protected onKeyUp(e: KeyboardEvent): void {
+        this.keyUp(KeyEventHelper.convert(e))
         Keyboard.setUpCode(e.code)
+    }
+
+    protected onKeyPress(e: KeyboardEvent): void {
+        this.keyPress(KeyEventHelper.convert(e))
     }
 
     protected onScroll(): void {

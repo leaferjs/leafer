@@ -31,7 +31,7 @@ export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath
 
 }
 
-const allowTypes = ['move', 'zoom', 'rotate']
+const allowTypes = ['move', 'zoom', 'rotate', 'key']
 function emitAppChildren(leaf: ILeaf, type: string, data: IUIEvent, capture?: boolean, excludePath?: ILeafList): void {
     if (allowTypes.some(name => type.startsWith(name)) && leaf.__.hitChildren && !exclude(leaf, excludePath)) {
         let child: ILeaf

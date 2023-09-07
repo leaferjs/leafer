@@ -61,7 +61,7 @@ export interface ILeafAttrData {
     hitSelf: __Boolean
     hitRadius: __Number
 
-    cursor: ICursorType
+    cursor: ICursorType | ICursorType[]
 }
 
 export type IHitType =
@@ -97,7 +97,14 @@ export type IBlendMode =
     | 'destination-out'
     | 'destination-atop'
 
+export interface IImageCursor {
+    url: string
+    x?: number
+    y?: number
+}
+
 export type ICursorType =
+    | IImageCursor
     | 'auto'
     | 'default'
     | 'none'
@@ -171,7 +178,7 @@ export interface ILeafInputData {
     hitSelf?: __Boolean
     hitRadius?: __Number
 
-    cursor?: ICursorType
+    cursor?: ICursorType | ICursorType[]
 }
 export interface ILeafComputedData {
     // layer data
@@ -208,7 +215,7 @@ export interface ILeafComputedData {
     hitSelf?: boolean
     hitRadius?: number
 
-    cursor?: ICursorType
+    cursor?: ICursorType | ICursorType[]
 
     // other
     __childBranchNumber?: number // 存在子分支的个数
@@ -318,6 +325,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     move(x: number, y?: number): void
     scaleOf(origin: IPointData, x: number, y?: number): void
     rotateOf(origin: IPointData, rotation: number): void
+    skewOf(origin: IPointData, x: number, y: number): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean

@@ -29,6 +29,16 @@ export const MathHelper = {
             }
         }
         return one === undefined ? [num as number, num as number, num as number, num as number] : [one, two, three, four]
+    },
+
+    formatRotation(rotation: number): number {
+        rotation %= 360
+        if (rotation < 0) rotation += 360
+        return rotation
+    },
+
+    formatSkew(skew: number): number {
+        return MathHelper.within(skew, -90, 90)
     }
 
 }
