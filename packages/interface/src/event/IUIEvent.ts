@@ -50,6 +50,8 @@ export interface IDragEvent extends IPointerEvent {
 
     getInnerMove?(target?: ILeaf): IPointData
     getLocalMove?(target?: ILeaf): IPointData
+    getInnerTotal?(target?: ILeaf): IPointData
+    getLocalTotal?(target?: ILeaf): IPointData
 }
 
 export interface IDropEvent extends IPointerEvent {

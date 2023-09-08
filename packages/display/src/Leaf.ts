@@ -239,7 +239,6 @@ export class Leaf implements ILeaf {
             world = to ? to : world
         }
         toInnerPoint(this.worldTransform, world, to, distance)
-
     }
 
     public innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
