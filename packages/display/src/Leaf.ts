@@ -217,28 +217,48 @@ export class Leaf implements ILeaf {
     }
 
 
-    public worldToLocal(world: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+    public worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
         if (this.parent) {
-            toInnerPoint(this.parent.worldTransform, world, to, isMovePoint)
+            this.parent.worldToInner(world, to, distance, relative)
         } else {
             if (to) copy(to, world)
         }
     }
 
-    public localToWorld(local: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+    public localToWorld(local: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
         if (this.parent) {
-            toOuterPoint(this.parent.worldTransform, local, to, isMovePoint)
+            this.parent.innerToWorld(local, to, distance, relative)
         } else {
             if (to) copy(to, local)
         }
     }
 
-    public worldToInner(world: IPointData, to?: IPointData, isMovePoint?: boolean): void {
-        toInnerPoint(this.worldTransform, world, to, isMovePoint)
+    public worldToInner(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
+        if (relative) {
+            relative.innerToWorld(world, to, distance)
+            world = to ? to : world
+        }
+        toInnerPoint(this.worldTransform, world, to, distance)
+
     }
 
-    public innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void {
-        toOuterPoint(this.worldTransform, inner, to, isMovePoint)
+    public innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
+        toOuterPoint(this.worldTransform, inner, to, distance)
+        if (relative) relative.worldToInner(to ? to : inner, null, distance)
+    }
+
+    // simple
+
+    public getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean): IPointData {
+        const point = {} as IPointData
+        this.worldToInner(world, point, distance, relative)
+        return point
+    }
+
+    public getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean): IPointData {
+        const point = {} as IPointData
+        this.innerToWorld(inner, point, distance, relative)
+        return point
     }
 
 

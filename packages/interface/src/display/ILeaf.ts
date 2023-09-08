@@ -321,10 +321,13 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     getWorld(attrName: IMatrixDecompositionAttr): number
     getBounds(type: ILayoutBoundsType, locationType?: ILayoutLocationType): IBoundsData
 
-    worldToLocal(world: IPointData, to?: IPointData, isMovePoint?: boolean): void
-    localToWorld(local: IPointData, to?: IPointData, isMovePoint?: boolean): void
-    worldToInner(world: IPointData, to?: IPointData, isMovePoint?: boolean): void
-    innerToWorld(inner: IPointData, to?: IPointData, isMovePoint?: boolean): void
+    worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
+    localToWorld(local: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
+    worldToInner(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
+    innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
+
+    getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean): IPointData
+    getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean): IPointData
 
     move(x: number, y?: number): void
     scaleOf(origin: IPointData, x: number, y?: number): void
