@@ -6,8 +6,6 @@ import { Keyboard } from './Keyboard'
 import { PointerButton as B } from './PointerButton'
 
 
-const point = {} as IPointData
-
 export class UIEvent extends Event implements IUIEvent {
 
     readonly x: number
@@ -40,14 +38,12 @@ export class UIEvent extends Event implements IUIEvent {
 
     public getInner(target?: ILeaf): IPointData {
         if (!target) target = this.current
-        target.worldToInner(this, point)
-        return { ...point }
+        return target.getInnerPoint(this)
     }
 
     public getLocal(target?: ILeaf): IPointData {
         if (!target) target = this.current
-        target.worldToLocal(this, point)
-        return { ...point }
+        return target.getLocalPoint(this)
     }
 
     static changeName(oldName: string, newName: string): void {
