@@ -50,7 +50,7 @@ export interface ILeafAttrData {
     skewY: __Number
 
     scale: __Number | IPointData // helper
-    byCenter: __Boolean | IPointData
+    fromCenter: __Boolean | IPointData
 
     draggable: __Boolean
 
@@ -143,6 +143,8 @@ export type ICursorType =
     | 'zoom-out'
 
 export interface ILeafInputData {
+    tag?: string
+
     // layer data
     id?: __String
     name?: __String
@@ -167,7 +169,7 @@ export interface ILeafInputData {
     skewY?: __Number
 
     scale?: __Number | IPointData // helper
-    byCenter?: __Boolean | IPointData
+    fromCenter?: __Boolean | IPointData
 
     draggable?: __Boolean
 
@@ -179,6 +181,8 @@ export interface ILeafInputData {
     hitRadius?: __Number
 
     cursor?: ICursorType | ICursorType[]
+
+    children?: ILeafInputData[]
 }
 export interface ILeafComputedData {
     // layer data
@@ -204,7 +208,7 @@ export interface ILeafComputedData {
     skewX?: number
     skewY?: number
 
-    byCenter?: boolean | IPointData
+    fromCenter?: boolean | IPointData
 
     draggable?: boolean
 
@@ -355,4 +359,6 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __updateSortChildren(): void
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf, destroy?: boolean): void
+
+    json(data?: ILeafInputData): IObject
 }

@@ -104,10 +104,10 @@ export const LeafMatrix: ILeafMatrixModule = {
         if (layout.positionChanged) {
             r.e = this.__.x
             r.f = this.__.y
-            if (this.__.byCenter) {
-                const { width, height, byCenter } = this.__
-                const center = (byCenter === true) ? defaultCenter : byCenter
-                const offsetX = width * center.x, offsetY = height * center.y
+            if (this.__.fromCenter) {
+                const { width, height, fromCenter } = this.__
+                const origin = (fromCenter === true) ? defaultCenter : fromCenter
+                const offsetX = width * origin.x, offsetY = height * origin.y
                 r.e -= offsetX * r.a + offsetY * r.c
                 r.f -= offsetX * r.b + offsetY * r.d
             }

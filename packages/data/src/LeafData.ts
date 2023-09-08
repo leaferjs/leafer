@@ -44,7 +44,7 @@ export class LeafData implements ILeafData {
     }
 
     public __getInputData(): IObject {
-        const data: IObject = {}, { __input } = this
+        const data: IObject = { tag: this.__leaf.tag }, { __input } = this
         let realKey: string, value: __Value
 
         for (let key in this) {

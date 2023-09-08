@@ -93,7 +93,13 @@ export class Leaf implements ILeaf {
         this.__ = new this.__DataProcessor(this)
         this.__layout = new this.__LayoutProcessor(this)
 
-        if (data) Object.assign(this, data)
+        if (data) {
+            if (data.children) {
+                this.json(data)
+            } else {
+                Object.assign(this, data)
+            }
+        }
     }
 
 
@@ -329,6 +335,17 @@ export class Leaf implements ILeaf {
     public hasEvent(_type: string, _capture?: boolean): boolean { return false }
 
     // ---
+
+
+    public json(data?: ILeafInputData): IObject {
+        if (data) {
+            Object.assign(this, data)
+            return undefined
+        } else {
+            return this.__.__getInputData()
+        }
+    }
+
 
     public destroy(): void {
         if (!this.destroyed) {

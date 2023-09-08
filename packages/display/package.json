@@ -23,7 +23,8 @@
     "@leafer/display-module": "1.0.0-beta.12",
     "@leafer/event": "1.0.0-beta.12",
     "@leafer/decorator": "1.0.0-beta.12",
-    "@leafer/helper": "1.0.0-beta.12"
+    "@leafer/helper": "1.0.0-beta.12",
+    "@leafer/platform": "1.0.0-beta.12"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-beta.12"

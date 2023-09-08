@@ -1,4 +1,4 @@
-import { IBoundsData, IMatrixData, IMatrixDecompositionData } from '../math/IMath'
+import { IBoundsData, IMatrixData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 
 export type ILayoutLocationType = 'world' | 'local' | 'inner'

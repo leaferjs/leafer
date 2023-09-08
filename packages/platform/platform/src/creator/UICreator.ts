@@ -17,7 +17,7 @@ export const UICreator = {
         }
     },
 
-    get(tag: string, data: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
+    get(tag: string, data?: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
         const ui = new list[tag](data)
         if (x !== undefined) {
             ui.x = x
