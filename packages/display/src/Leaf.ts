@@ -248,15 +248,27 @@ export class Leaf implements ILeaf {
 
     // simple
 
-    public getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean): IPointData {
-        const point = {} as IPointData
+    public getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        const point = change ? world : {} as IPointData
         this.worldToInner(world, point, distance, relative)
         return point
     }
 
-    public getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean): IPointData {
-        const point = {} as IPointData
+    public getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        const point = change ? world : {} as IPointData
+        this.worldToLocal(world, point, distance, relative)
+        return point
+    }
+
+    public getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        const point = change ? inner : {} as IPointData
         this.innerToWorld(inner, point, distance, relative)
+        return point
+    }
+
+    public getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        const point = change ? local : {} as IPointData
+        this.localToWorld(local, point, distance, relative)
         return point
     }
 

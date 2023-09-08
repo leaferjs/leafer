@@ -326,8 +326,10 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     worldToInner(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
     innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
 
-    getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean): IPointData
-    getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean): IPointData
+    getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
     move(x: number, y?: number): void
     scaleOf(origin: IPointData, x: number, y?: number): void
