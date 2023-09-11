@@ -106,12 +106,12 @@ export class Matrix implements IMatrix {
     }
 
 
-    public toOuterPoint(inner: IPointData, to?: IPointData): void {
-        M.toOuterPoint(this, inner, to)
+    public toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void {
+        M.toOuterPoint(this, inner, to, distance)
     }
 
-    public toInnerPoint(outer: IPointData, to?: IPointData): void {
-        M.toInnerPoint(this, outer, to)
+    public toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void {
+        M.toInnerPoint(this, outer, to, distance)
     }
 
     public decompose(): IMatrixDecompositionData {

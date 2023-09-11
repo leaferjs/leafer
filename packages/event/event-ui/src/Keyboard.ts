@@ -8,10 +8,10 @@ export const Keyboard = {
     hold: 0,
 
     isHoldSpaceKey(): boolean {
-        return Keyboard.hasDownCode('Space')
+        return Keyboard.isHold('Space')
     },
 
-    hasDownCode(code: string): boolean {
+    isHold(code: string): boolean {
         return downKeyMap[code]
     },
 

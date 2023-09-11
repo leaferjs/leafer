@@ -70,7 +70,6 @@ export class Interaction extends InteractionBase {
 
             'keydown': this.onKeyDown,
             'keyup': this.onKeyUp,
-            'keypress': this.onKeyPress,
 
             'scroll': this.onScroll
         }
@@ -142,10 +141,6 @@ export class Interaction extends InteractionBase {
     protected onKeyUp(e: KeyboardEvent): void {
         this.keyUp(KeyEventHelper.convert(e))
         Keyboard.setUpCode(e.code)
-    }
-
-    protected onKeyPress(e: KeyboardEvent): void {
-        this.keyPress(KeyEventHelper.convert(e))
     }
 
     protected onScroll(): void {

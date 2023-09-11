@@ -168,8 +168,8 @@ export interface IMatrix extends IMatrixData {
     preMultiply(matrix: IMatrixData): IMatrix
     invert(): IMatrix
 
-    toOuterPoint(inner: IPointData, to?: IPointData): void
-    toInnerPoint(outer: IPointData, to?: IPointData): void
+    toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void
+    toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void
 
     decompose(): IMatrixDecompositionData
 

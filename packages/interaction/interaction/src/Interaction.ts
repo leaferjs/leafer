@@ -206,16 +206,12 @@ export class InteractionBase implements IInteraction {
     // key
 
     public keyDown(data: IKeyEvent): void {
-        if (!Keyboard.hasDownCode(data.code)) this.emit(KeyEvent.HOLD, data, this.defaultPath)
+        if (!Keyboard.isHold(data.code)) this.emit(KeyEvent.HOLD, data, this.defaultPath)
         this.emit(KeyEvent.DOWN, data, this.defaultPath)
     }
 
     public keyUp(data: IKeyEvent): void {
         this.emit(KeyEvent.UP, data, this.defaultPath)
-    }
-
-    public keyPress(data: IKeyEvent): void {
-        this.emit(KeyEvent.PRESS, data, this.defaultPath)
     }
 
 

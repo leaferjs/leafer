@@ -11,6 +11,7 @@ export interface IPlatform {
     requestRender?(render: IFunction): void
     canvas?: ILeaferCanvas
     isWorker?: boolean
+    isMobile?: boolean
     devicePixelRatio?: number
     intWheelDeltaY?: boolean // firxfox / Windows need
     conicGradientSupport?: boolean

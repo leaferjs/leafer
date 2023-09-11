@@ -42,7 +42,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public setCursor(cursor: ICursorType | ICursorType[]): void {
         if (!(cursor instanceof Array)) cursor = [cursor]
-        this.view.style.cursor = cursor.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(', ')
+        if (typeof cursor[cursor.length - 1] === 'object') cursor.push('default')
+        this.view.style.cursor = cursor.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(',')
     }
 
     protected __createViewFrom(inputView: string | object): void {
