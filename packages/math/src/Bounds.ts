@@ -27,8 +27,8 @@ export class Bounds implements IBounds {
     }
 
 
-    public scale(scale: number): IBounds {
-        B.scale(this, scale)
+    public scale(scaleX: number, scaleY?: number): IBounds {
+        B.scale(this, scaleX, scaleY)
         return this
     }
 
@@ -48,6 +48,11 @@ export class Bounds implements IBounds {
 
     public ceil(): IBounds {
         B.ceil(this)
+        return this
+    }
+
+    public unsign(): IBounds {
+        B.unsign(this)
         return this
     }
 

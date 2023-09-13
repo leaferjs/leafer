@@ -103,11 +103,8 @@ export const PointHelper = {
         let fromAngle = P.getAngle(t, orign)
         let toAngle = P.getAngle(to, toOrigin)
 
-        fromAngle = fromAngle <= -90 ? (360 + fromAngle) : fromAngle
-        toAngle = toAngle <= -90 ? (360 + toAngle) : toAngle
-
         const angle = toAngle - fromAngle
-        return angle < 0 ? angle + 360 : angle
+        return angle < -180 ? angle + 360 : angle
     },
 
     getAtan2(t: IPointData, to: IPointData): number {

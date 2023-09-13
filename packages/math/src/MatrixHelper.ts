@@ -1,4 +1,4 @@
-import { IMatrix, IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
+import { IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
 import { OneRadian } from './MathHelper'
 
 
@@ -164,7 +164,7 @@ export const MatrixHelper = {
     },
 
 
-    toOuterPoint(t: IMatrixData, inner: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+    toOuterPoint(t: IMatrixData, inner: IPointData, to?: IPointData, distance?: boolean): void {
         const { x, y } = inner
 
         // outer
@@ -172,13 +172,13 @@ export const MatrixHelper = {
         to.x = (x * t.a) + (y * t.c)
         to.y = (x * t.b) + (y * t.d)
 
-        if (!isMovePoint) {
+        if (!distance) {
             to.x += t.e
             to.y += t.f
         }
     },
 
-    toInnerPoint(t: IMatrixData, outer: IPointData, to?: IPointData, isMovePoint?: boolean): void {
+    toInnerPoint(t: IMatrixData, outer: IPointData, to?: IPointData, distance?: boolean): void {
         const { x, y } = outer
         const { a, b, c, d } = t
         const s = 1 / (a * d - b * c)
@@ -188,7 +188,7 @@ export const MatrixHelper = {
         to.x = (x * d - y * c) * s
         to.y = (y * a - x * b) * s
 
-        if (!isMovePoint) {
+        if (!distance) {
             const { e, f } = t
             to.x -= (e * d - f * c) * s
             to.y -= (f * a - e * b) * s
@@ -228,7 +228,7 @@ export const MatrixHelper = {
         return { x: t.e, y: t.f, scaleX, scaleY, rotation, skewX, skewY }
     },
 
-    reset(t: IMatrix): void {
+    reset(t: IMatrixData): void {
         M.set(t)
     }
 }

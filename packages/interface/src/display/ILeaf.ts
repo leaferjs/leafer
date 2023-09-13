@@ -51,6 +51,7 @@ export interface ILeafAttrData {
 
     scale: __Number | IPointData // helper
     fromCenter: __Boolean | IPointData
+    resizeMode?: IResizeMode
 
     draggable: __Boolean
 
@@ -97,6 +98,7 @@ export type IBlendMode =
     | 'destination-out'
     | 'destination-atop'
 
+export type IResizeMode = 'size' | 'scale'
 export interface IImageCursor {
     url: string
     x?: number
@@ -170,6 +172,7 @@ export interface ILeafInputData {
 
     scale?: __Number | IPointData // helper
     fromCenter?: __Boolean | IPointData
+    resizeMode?: IResizeMode
 
     draggable?: __Boolean
 
@@ -209,6 +212,7 @@ export interface ILeafComputedData {
     skewY?: number
 
     fromCenter?: boolean | IPointData
+    resizeMode?: IResizeMode
 
     draggable?: boolean
 
@@ -283,7 +287,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __bindLeafer(leafer: ILeafer | null): void
 
     set(data: IObject): void
-    get(attrNames?: string[]): IObject
+    json(): IObject
 
     // ILeafData ->
     __setAttr(attrName: string, newValue: __Value): void
@@ -364,6 +368,4 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __updateSortChildren(): void
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf, destroy?: boolean): void
-
-    json(data?: ILeafInputData): IObject
 }

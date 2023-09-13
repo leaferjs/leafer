@@ -69,11 +69,12 @@ export const BoundsHelper = {
         B.move(to, -to.offsetX, -to.offsetY)
     },
 
-    scale(t: IBoundsData, scale: number): void {
-        t.x *= scale
-        t.y *= scale
-        t.width *= scale
-        t.height *= scale
+    scale(t: IBoundsData, scaleX: number, scaleY?: number): void {
+        if (!scaleY) scaleY = scaleX
+        t.x *= scaleX
+        t.y *= scaleY
+        t.width *= scaleX
+        t.height *= scaleY
     },
 
     tempToOuterOf(t: IBoundsData, matrix: IMatrixData): IBoundsData {
@@ -158,6 +159,17 @@ export const BoundsHelper = {
         t.y = Math.floor(t.y)
         t.width = Math.ceil(t.width)
         t.height = Math.ceil(t.height)
+    },
+
+    unsign(t: IBoundsData): void {
+        if (t.width < 0) {
+            t.x += t.width
+            t.width = -t.width
+        }
+        if (t.height < 0) {
+            t.y += t.height
+            t.height = -t.height
+        }
     },
 
     add(t: IBoundsData, bounds: IBoundsData): void {

@@ -95,7 +95,9 @@ export class Leaf implements ILeaf {
 
         if (data) {
             if (data.children) {
-                this.json(data)
+                setTimeout(() => {
+                    this.set(data)
+                })
             } else {
                 Object.assign(this, data)
             }
@@ -132,10 +134,13 @@ export class Leaf implements ILeaf {
         }
     }
 
+    // data
+
     public set(_data: IObject): void { }
 
-    public get(_attrNames?: string[]): IObject { return undefined }
-
+    public json(): IObject {
+        return this.__.__getInputData()
+    }
 
     // LeafDataProxy rewrite
 
@@ -366,16 +371,6 @@ export class Leaf implements ILeaf {
     public hasEvent(_type: string, _capture?: boolean): boolean { return false }
 
     // ---
-
-
-    public json(data?: ILeafInputData): IObject {
-        if (data) {
-            Object.assign(this, data)
-            return undefined
-        } else {
-            return this.__.__getInputData()
-        }
-    }
 
 
     public destroy(): void {

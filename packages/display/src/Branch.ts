@@ -1,4 +1,4 @@
-import { ILeaf, ILeafInputData, IObject } from '@leafer/interface'
+import { ILeaf } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper, WaitHelper } from '@leafer/helper'
@@ -6,7 +6,6 @@ import { useModule } from '@leafer/decorator'
 import { BranchRender, LeafMask } from '@leafer/display-module'
 
 import { Leaf } from './Leaf'
-import { UICreator } from '@leafer/platform'
 
 
 const { setByListWithHandle } = BoundsHelper
@@ -143,27 +142,4 @@ export class Branch extends Leaf {
         this.leafer.emitEvent(event)
     }
 
-    public json(data?: ILeafInputData): IObject {
-        if (data) {
-            let child: ILeaf
-            const { children } = data
-            delete data.children
-
-            super.json()
-
-            children.forEach(childData => {
-                child = UICreator.get(childData.tag, childData)
-                this.children = []
-                this.add(child)
-            })
-
-            data.children = children
-            return undefined
-        } else {
-            data = super.json()
-            data.children = this.children.map(child => child.json())
-            return data
-        }
-
-    }
 }

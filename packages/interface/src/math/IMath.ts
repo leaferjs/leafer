@@ -56,12 +56,13 @@ export interface IBounds extends IBoundsData {
     copy(bounds: IBoundsData): IBounds
     clone(): IBounds
 
-    scale(scale: number): IBounds
+    scale(scaleX: number, scaleY?: number): IBounds
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
 
     spread(size: number): IBounds
     ceil(): IBounds
+    unsign(): IBounds
 
     add(bounds: IBoundsData): IBounds
     addList(boundsList: IBounds[]): IBounds

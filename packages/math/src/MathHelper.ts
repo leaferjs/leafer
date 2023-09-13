@@ -31,9 +31,14 @@ export const MathHelper = {
         return one === undefined ? [num as number, num as number, num as number, num as number] : [one, two, three, four]
     },
 
-    formatRotation(rotation: number): number {
+    formatRotation(rotation: number, unsign?: boolean): number {
         rotation %= 360
-        if (rotation < 0) rotation += 360
+        if (unsign) {
+            if (rotation < 0) rotation += 360
+        } else {
+            if (rotation > 180) rotation -= 360
+            if (rotation < -180) rotation += 360
+        }
         return rotation
     },
 
