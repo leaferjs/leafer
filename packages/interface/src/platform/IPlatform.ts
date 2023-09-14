@@ -13,10 +13,11 @@ export interface IPlatform {
     isWorker?: boolean
     isMobile?: boolean
     devicePixelRatio?: number
-    intWheelDeltaY?: boolean // firxfox / Windows need
+    intWheelDeltaY?: boolean // firefox / Windows need
     conicGradientSupport?: boolean
-    conicGradientRotate90?: boolean // fixfox need rotate
+    conicGradientRotate90?: boolean // firefox need rotate
     fullImageShadow?: boolean // safari need 
+    syncDomFont?: boolean // firefox need
     layout?(target: ILeaf): void
     realtimeLayout?: boolean
     origin?: {

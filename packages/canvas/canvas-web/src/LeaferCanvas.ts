@@ -25,6 +25,11 @@ export class LeaferCanvas extends LeaferCanvasBase {
         style.display || (style.display = 'block')
         this.parentView = (this.view as HTMLCanvasElement).parentElement
 
+        if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
+            this.view.style.display = 'none'
+            document.body.appendChild(this.view)
+        }
+
         this.__createContext()
 
         if (!this.autoLayout) this.resize(this.config as IScreenSizeData)
