@@ -50,6 +50,7 @@ export class Leaf implements ILeaf {
     public get localTransform(): IMatrixData { return this.__layout.getTransform('local') }
 
     // now bounds
+    public get boxBounds(): IBoundsData { return this.getBounds('box', 'inner') }
     public get worldBoxBounds(): IBoundsData { return this.getBounds('box') }
     public get worldStrokeBounds(): IBoundsData { return this.getBounds('stroke') }
     public get worldRenderBounds(): IBoundsData { return this.getBounds('render') }

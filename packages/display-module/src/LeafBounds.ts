@@ -2,7 +2,7 @@ import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 
 
-const { toOuterOf, copyAndSpread, unsign } = BoundsHelper
+const { toOuterOf, copyAndSpread } = BoundsHelper
 
 export const LeafBounds: ILeafBoundsModule = {
 
@@ -116,7 +116,6 @@ export const LeafBounds: ILeafBoundsModule = {
         b.y = 0
         b.width = width
         b.height = height
-        if (width < 0 || height < 0) unsign(b)
     },
 
     __updateStrokeBounds(): void {

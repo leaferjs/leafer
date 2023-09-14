@@ -71,8 +71,8 @@ export const BoundsHelper = {
 
     scale(t: IBoundsData, scaleX: number, scaleY?: number): void {
         if (!scaleY) scaleY = scaleX
-        t.x *= scaleX
-        t.y *= scaleY
+        if (t.x) t.x *= scaleX
+        if (t.y) t.y *= scaleY
         t.width *= scaleX
         t.height *= scaleY
     },
