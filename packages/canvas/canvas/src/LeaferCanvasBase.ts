@@ -65,7 +65,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public init(): void { }
 
-    protected __createContext(): void {
+    public __createContext(): void {
         this.context = this.view.getContext('2d')
         this.__bindContext()
     }
@@ -344,6 +344,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.restore()
         this.manager ? this.manager.recycle(this) : this.destroy()
     }
+
+    public updateRender(): void { }
 
     public unrealCanvas(): void { }
 

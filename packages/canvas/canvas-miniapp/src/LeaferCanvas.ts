@@ -8,8 +8,11 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public get allowBackgroundColor(): boolean { return false }
 
-    protected viewSelect: IMiniappSelect
-    protected resizeListener: IResizeEventListener
+    public viewSelect: IMiniappSelect
+    public resizeListener: IResizeEventListener
+
+    public testView: any
+    public testContext: any
 
     public init(): void {
         let { view } = this.config

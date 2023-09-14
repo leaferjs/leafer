@@ -184,6 +184,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     getBiggerCanvas(addWidth: number, addHeight: number): ILeaferCanvas
     recycle(): void
 
+    updateRender(): void
     unrealCanvas(): void
     destroy(): void
 }

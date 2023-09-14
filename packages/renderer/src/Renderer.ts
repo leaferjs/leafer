@@ -192,6 +192,7 @@ export class Renderer implements IRenderer {
 
         if (Debug.showHitView) this.renderHitView(options)
         if (Debug.showBoundsView) this.renderBoundsView(options)
+        this.canvas.updateRender()
     }
 
     public renderHitView(_options: IRenderOptions): void { }
