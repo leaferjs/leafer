@@ -24,7 +24,7 @@ export class TaskProcessor implements ITaskProcessor {
 
     public index = 0
 
-    public delayNumber = 0
+    public delayNumber = 0 // 延迟执行任务
 
     public get finishedIndex(): number {
         return this.isComplete ? 0 : this.index + this.parallelSuccessNumber
@@ -157,6 +157,10 @@ export class TaskProcessor implements ITaskProcessor {
 
     protected runTask(): void {
         const task = this.list[this.index]
+        if (!task) {
+            this.nextTask() // 存在延时任务
+            return
+        }
         task.run().then(() => {
 
             this.onTask(task)
@@ -232,7 +236,7 @@ export class TaskProcessor implements ITaskProcessor {
 
                 task = this.list[nextIndex]
 
-                if (task.parallel) {
+                if (task && task.parallel) {
                     parallelList.push(task)
                     this.runParallelTask(task)
                 }
