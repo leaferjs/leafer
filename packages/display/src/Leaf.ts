@@ -139,8 +139,12 @@ export class Leaf implements ILeaf {
 
     public set(_data: IObject): void { }
 
-    public json(): IObject {
+    public toJSON(): IObject {
         return this.__.__getInputData()
+    }
+
+    public toString(): string {
+        return JSON.stringify(this.toJSON())
     }
 
     // LeafDataProxy rewrite

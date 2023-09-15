@@ -35,7 +35,7 @@ export interface ILeafAttrData {
     opacity: __Number
     visible: __Boolean
     isMask: __Boolean
-    isEraser?: __Boolean
+    isEraser: __Boolean
     zIndex: __Number
 
     // layout data
@@ -50,8 +50,8 @@ export interface ILeafAttrData {
     skewY: __Number
 
     scale: __Number | IPointData // helper
-    fromCenter: __Boolean | IPointData
-    resizeMode?: IResizeMode
+    around: 'center' | IPointData
+    resizeMode: IResizeMode
 
     draggable: __Boolean
 
@@ -105,6 +105,8 @@ export interface IImageCursor {
     y?: number
 }
 
+export type IAround = 'center' | IPointData
+
 export type ICursorType =
     | IImageCursor
     | 'auto'
@@ -144,7 +146,7 @@ export type ICursorType =
     | 'zoom -in'
     | 'zoom-out'
 
-export interface ILeafInputData {
+export interface ILeafInputData extends IObject {
     tag?: string
 
     // layer data
@@ -171,7 +173,7 @@ export interface ILeafInputData {
     skewY?: __Number
 
     scale?: __Number | IPointData // helper
-    fromCenter?: __Boolean | IPointData
+    around?: IAround
     resizeMode?: IResizeMode
 
     draggable?: __Boolean
@@ -211,7 +213,7 @@ export interface ILeafComputedData {
     skewX?: number
     skewY?: number
 
-    fromCenter?: boolean | IPointData
+    around?: IAround
     resizeMode?: IResizeMode
 
     draggable?: boolean
@@ -288,7 +290,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __bindLeafer(leafer: ILeafer | null): void
 
     set(data: IObject): void
-    json(): IObject
+    toJSON(): IObject
+    toString(): string
 
     // ILeafData ->
     __setAttr(attrName: string, newValue: __Value): void

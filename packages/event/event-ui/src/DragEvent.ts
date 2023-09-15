@@ -34,15 +34,15 @@ export class DragEvent extends PointerEvent implements IDragEvent {
     public getLocalMove(target?: ILeaf, total?: boolean): IPointData {
         if (!target) target = this.current
         this.assignMove(total)
-        return target.parent.getLocalPoint(move, null, true)
+        return target.getLocalPoint(move, null, true)
     }
 
     public getInnerTotal(target?: ILeaf): IPointData {
-        return this.getInnerMove(target)
+        return this.getInnerMove(target, true)
     }
 
     public getLocalTotal(target?: ILeaf): IPointData {
-        return this.getLocalMove(target)
+        return this.getLocalMove(target, true)
     }
 
     protected assignMove(total: boolean): void {

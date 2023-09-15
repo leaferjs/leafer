@@ -120,7 +120,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
                 this.checkAutoBounds(parent.getBoundingClientRect())
             }
 
-        } catch (e) {
+        } catch {
 
             this.imitateResizeObserver()
 
