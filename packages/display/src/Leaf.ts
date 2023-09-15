@@ -96,9 +96,7 @@ export class Leaf implements ILeaf {
 
         if (data) {
             if (data.children) {
-                setTimeout(() => {
-                    this.set(data)
-                })
+                this.set(data)
             } else {
                 Object.assign(this, data)
             }
