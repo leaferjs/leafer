@@ -1,9 +1,11 @@
 import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
+import { IExportFileType } from '../file/IFileType'
 
 export interface ILeaferImageConfig {
     url: string
     thumb?: string
+    format?: IExportFileType
 }
 
 export interface ILeaferImageOnLoaded {

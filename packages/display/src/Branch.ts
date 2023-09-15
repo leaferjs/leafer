@@ -130,8 +130,10 @@ export class Branch extends Leaf {
         child.parent = null
         if (this.leafer) {
             child.__bindLeafer(null)
-            if (this.leafer.ready) this.__emitChildEvent(ChildEvent.REMOVE, child)
-            this.leafer.hitCanvasManager.clear()
+            if (this.leafer.ready) {
+                this.__emitChildEvent(ChildEvent.REMOVE, child)
+                if (this.leafer.hitCanvasManager) this.leafer.hitCanvasManager.clear()
+            }
         }
     }
 

@@ -39,6 +39,7 @@ export class LeaferImageBase implements ILeaferImage {
         } else {
             if (url.includes('.svg')) this.isSVG = true
         }
+        if (this.config.format === 'svg') this.isSVG = true
     }
 
     public load(onSuccess: IFunction, onError: IFunction): number {

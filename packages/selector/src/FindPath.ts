@@ -1,11 +1,10 @@
 import { ILeaf, ILeafList, IPointData, IRadiusPointData, ISelectPathResult, ISelectPathOptions, ISelector } from '@leafer/interface'
-import { BoundsHelper, PointHelper } from '@leafer/math'
+import { BoundsHelper } from '@leafer/math'
 import { LeafList } from '@leafer/list'
 import { LeafHelper } from '@leafer/helper'
 
 
 const { hitRadiusPoint } = BoundsHelper
-const { setRadius } = PointHelper
 
 export class FindPath {
 
@@ -54,12 +53,10 @@ export class FindPath {
             const point = { x, y, radiusX: 0, radiusY: 0 }
             for (let i = 0, len = targets.length; i < len; i++) {
                 find = targets[i]
-                if (find.__.hitRadius) setRadius(point, find.__.hitRadius)
                 if (LeafHelper.worldHittable(find)) {
                     this.hitChild(find, point)
                     if (this.findList.length) return this.findList[0]
                 }
-                if (find.__.hitRadius) setRadius(point, 0)
             }
         }
         return targets[0]
