@@ -81,6 +81,7 @@ export class Renderer implements IRenderer {
 
             ImageManager.clearRecycled()
         } catch (e) {
+            this.rendering = false
             debug.error(e)
         }
 
