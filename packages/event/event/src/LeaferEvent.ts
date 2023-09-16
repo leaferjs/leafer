@@ -13,6 +13,8 @@ export class LeaferEvent extends Event implements ILeaferEvent {
 
     static VIEW_READY = 'leafer.view_ready'
 
+    static VIEW_COMPLETED = 'leafer.view_completed'
+
     static STOP = 'leafer.stop'
     static RESTART = 'leafer.restart'
 

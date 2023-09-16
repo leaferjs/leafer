@@ -51,7 +51,7 @@ export interface ILeafAttrData {
 
     scale: __Number | IPointData // helper
     around: 'center' | IPointData
-    resizeMode: IResizeMode
+    resizeType: IResizeType
 
     draggable: __Boolean
 
@@ -98,7 +98,7 @@ export type IBlendMode =
     | 'destination-out'
     | 'destination-atop'
 
-export type IResizeMode = 'size' | 'scale'
+export type IResizeType = 'size' | 'scale'
 export interface IImageCursor {
     url: string
     x?: number
@@ -174,7 +174,7 @@ export interface ILeafInputData extends IObject {
 
     scale?: __Number | IPointData // helper
     around?: IAround
-    resizeMode?: IResizeMode
+    resizeType?: IResizeType
 
     draggable?: __Boolean
 
@@ -214,7 +214,7 @@ export interface ILeafComputedData {
     skewY?: number
 
     around?: IAround
-    resizeMode?: IResizeMode
+    resizeType?: IResizeType
 
     draggable?: boolean
 

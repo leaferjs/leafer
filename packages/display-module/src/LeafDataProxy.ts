@@ -5,7 +5,7 @@ import { PropertyEvent } from '@leafer/event'
 export const LeafDataProxy: ILeafDataProxyModule = {
 
     __setAttr(name: string, newValue: unknown): void {
-        if (this.leafer && this.leafer.ready) {
+        if (this.leafer && this.leafer.created) {
             this.__[name] = newValue
             const { CHANGE } = PropertyEvent
             const event = new PropertyEvent(CHANGE, this, name, this.__.__get(name), newValue)

@@ -81,7 +81,7 @@ export class Branch extends Leaf {
 
         if (this.leafer) {
             child.__bindLeafer(this.leafer)
-            if (this.leafer.ready) this.__emitChildEvent(ChildEvent.ADD, child)
+            if (this.leafer.created) this.__emitChildEvent(ChildEvent.ADD, child)
         }
 
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
@@ -130,7 +130,7 @@ export class Branch extends Leaf {
         child.parent = null
         if (this.leafer) {
             child.__bindLeafer(null)
-            if (this.leafer.ready) {
+            if (this.leafer.created) {
                 this.__emitChildEvent(ChildEvent.REMOVE, child)
                 if (this.leafer.hitCanvasManager) this.leafer.hitCanvasManager.clear()
             }

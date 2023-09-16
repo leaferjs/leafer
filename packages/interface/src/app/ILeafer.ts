@@ -30,9 +30,10 @@ export interface ILeafer extends IZoomView, IControl {
     parent?: IApp
 
     running: boolean
+    created: boolean
     ready: boolean
     viewReady: boolean
-    readonly viewLoaded: boolean
+    viewCompleted: boolean
 
     pixelRatio: number
 
@@ -61,7 +62,10 @@ export interface ILeafer extends IZoomView, IControl {
     forceFullRender(): void
     updateCursor(): void
     resize(size: IScreenSizeData): void
-    waitViewLoaded(fun: IFunction): void
+
+    waitReady(item: IFunction): void
+    waitViewReady(item: IFunction): void
+    waitViewCompleted(item: IFunction): void
 }
 
 export interface ILeaferTypeCreator {
