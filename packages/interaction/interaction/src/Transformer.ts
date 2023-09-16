@@ -28,6 +28,7 @@ export class Transformer {
         }
 
         data.path = this.moveData.path
+        interaction.emit(MoveEvent.BEFORE_MOVE, data)
         interaction.emit(MoveEvent.MOVE, data)
 
         this.transformEndWait()
@@ -44,6 +45,7 @@ export class Transformer {
         }
 
         data.path = this.zoomData.path
+        interaction.emit(ZoomEvent.BEFORE_ZOOM, data)
         interaction.emit(ZoomEvent.ZOOM, data)
 
         this.transformEndWait()
@@ -60,6 +62,7 @@ export class Transformer {
         }
 
         data.path = this.rotateData.path
+        interaction.emit(RotateEvent.BEFORE_ROTATE, data)
         interaction.emit(RotateEvent.ROTATE, data)
 
         this.transformEndWait()

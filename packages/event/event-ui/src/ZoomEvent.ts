@@ -6,9 +6,10 @@ import { UIEvent } from './UIEvent'
 @registerUIEvent()
 export class ZoomEvent extends UIEvent implements IZoomEvent {
 
-    static ZOOM = 'zoom'
+    static BEFORE_ZOOM = 'zoom.before_zoom'
 
     static START = 'zoom.start'
+    static ZOOM = 'zoom'
     static END = 'zoom.end'
 
     readonly scale: number

@@ -7,9 +7,10 @@ import { UIEvent } from './UIEvent'
 @registerUIEvent()
 export class RotateEvent extends UIEvent implements IRotateEvent {
 
-    static ROTATE = 'rotate'
+    static BEFORE_ROTATE = 'rotate.before_rotate'
 
     static START = 'rotate.start'
+    static ROTATE = 'rotate'
     static END = 'rotate.end'
 
     readonly rotation: number

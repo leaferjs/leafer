@@ -1,12 +1,12 @@
 import { IUIEvent } from '@leafer/interface'
 
 
-export class PointerButton {
+export const PointerButton = {
 
-    static left(event: IUIEvent): boolean { return event.buttons === 1 }
+    left(event: IUIEvent): boolean { return event.buttons === 1 },
 
-    static right(event: IUIEvent): boolean { return event.buttons === 2 }
+    right(event: IUIEvent): boolean { return event.buttons === 2 },
 
-    static middle(event: IUIEvent): boolean { return event.buttons === 4 }
+    middle(event: IUIEvent): boolean { return event.buttons === 4 }
 
 }

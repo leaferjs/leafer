@@ -9,9 +9,10 @@ const move = {} as IPointData
 @registerUIEvent()
 export class DragEvent extends PointerEvent implements IDragEvent {
 
-    static DRAG = 'drag'
+    static BEFORE_DRAG = 'drag.before_drag'
 
     static START = 'drag.start'
+    static DRAG = 'drag'
     static END = 'drag.end'
 
     static OVER = 'drag.over'

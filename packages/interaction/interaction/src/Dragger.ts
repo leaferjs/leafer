@@ -64,9 +64,11 @@ export class Dragger {
         this.dragData.path = path
 
         if (this.moving) {
+            interaction.emit(MoveEvent.BEFORE_MOVE, this.dragData)
             interaction.emit(MoveEvent.MOVE, this.dragData)
         } else if (this.dragging) {
             this.dragDragableList()
+            interaction.emit(DragEvent.BEFORE_DRAG, this.dragData)
             interaction.emit(DragEvent.DRAG, this.dragData)
         }
 
