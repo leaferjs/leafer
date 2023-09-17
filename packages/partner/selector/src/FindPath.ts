@@ -1,7 +1,5 @@
 import { ILeaf, ILeafList, IPointData, IRadiusPointData, ISelectPathResult, ISelectPathOptions, ISelector } from '@leafer/interface'
-import { BoundsHelper } from '@leafer/math'
-import { LeafList } from '@leafer/list'
-import { LeafHelper } from '@leafer/helper'
+import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 
 const { hitRadiusPoint } = BoundsHelper

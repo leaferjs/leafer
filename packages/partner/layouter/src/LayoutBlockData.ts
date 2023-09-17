@@ -1,7 +1,5 @@
 import { IBounds, ILayoutBlockData, ILeafList, ILeaf } from '@leafer/interface'
-import { Bounds, BoundsHelper } from '@leafer/math'
-import { LeafBoundsHelper } from '@leafer/helper'
-import { LeafList } from '@leafer/list'
+import { Bounds, BoundsHelper, LeafBoundsHelper, LeafList } from '@leafer/core'
 
 
 const { worldBounds } = LeafBoundsHelper

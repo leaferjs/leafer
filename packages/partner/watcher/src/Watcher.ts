@@ -1,7 +1,5 @@
 import { ILeaf, IWatcher, IEventListenerId, ILeafList, IWatcherConfig } from '@leafer/interface'
-import { PropertyEvent, ChildEvent, RenderEvent, WatchEvent } from '@leafer/event'
-import { LeafList } from '@leafer/list'
-import { DataHelper } from '@leafer/data'
+import { PropertyEvent, ChildEvent, RenderEvent, WatchEvent, LeafList, DataHelper } from '@leafer/core'
 
 
 export class Watcher implements IWatcher {

@@ -1,10 +1,5 @@
 import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
-import { AnimateEvent, LayoutEvent, RenderEvent, ResizeEvent } from '@leafer/event'
-import { ImageManager } from '@leafer/image'
-import { Bounds } from '@leafer/math'
-import { DataHelper } from '@leafer/data'
-import { Platform } from '@leafer/platform'
-import { Debug, Run } from '@leafer/debug'
+import { AnimateEvent, LayoutEvent, RenderEvent, ResizeEvent, ImageManager, Bounds, DataHelper, Platform, Debug, Run } from '@leafer/core'
 
 
 const debug = Debug.get('Renderer')

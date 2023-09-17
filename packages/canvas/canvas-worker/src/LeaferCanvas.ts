@@ -1,6 +1,5 @@
 import { IObject, IScreenSizeData } from '@leafer/interface'
-import { LeaferCanvasBase } from '@leafer/canvas'
-import { Platform } from '@leafer/platform'
+import { LeaferCanvasBase, Platform } from '@leafer/core'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 

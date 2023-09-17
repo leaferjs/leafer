@@ -1,8 +1,6 @@
 import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject } from '@leafer/interface'
-import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs } from '@leafer/canvas'
-import { Platform } from '@leafer/platform'
-import { DataHelper } from '@leafer/data'
-import { ResizeEvent } from '@leafer/event'
+import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent } from '@leafer/core'
+
 
 export class LeaferCanvas extends LeaferCanvasBase {
 

@@ -1,6 +1,7 @@
 import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { IncrementId } from '@leafer/math'
+
 import { ImageManager } from './ImageManager'
 
 

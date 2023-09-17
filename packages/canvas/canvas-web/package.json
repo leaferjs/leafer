@@ -17,12 +17,7 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/canvas": "1.0.0-beta.12",
-    "@leafer/math": "1.0.0-beta.12",
-    "@leafer/data": "1.0.0-beta.12",
-    "@leafer/event": "1.0.0-beta.12",
-    "@leafer/platform": "1.0.0-beta.12",
-    "@leafer/debug": "1.0.0-beta.12"
+    "@leafer/core": "1.0.0-beta.12"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-beta.12"

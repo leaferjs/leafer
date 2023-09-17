@@ -1,4 +1,6 @@
 export * from '@leafer/canvas'
+export * from '@leafer/image'
+export * from '@leafer/interaction'
 
 export * from '@leafer/data'
 export * from '@leafer/debug'
@@ -9,8 +11,9 @@ export * from '@leafer/display-module'
 export * from '@leafer/event'
 export * from '@leafer/event-ui'
 
+export * from '@leafer/file'
 export * from '@leafer/helper'
-export * from '@leafer/image'
+export * from '@leafer/layout'
 export * from '@leafer/list'
 export * from '@leafer/math'
 
@@ -19,4 +22,3 @@ export * from '@leafer/platform'
 export * from '@leafer/plugin'
 
 export * from '@leafer/task'
-export * from '@leafer/file'

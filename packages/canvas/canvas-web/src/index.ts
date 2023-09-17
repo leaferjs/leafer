@@ -1,4 +1,4 @@
-import { canvasPatch } from '@leafer/canvas'
+import { canvasPatch } from '@leafer/core'
 
 export { LeaferCanvas } from './LeaferCanvas'
 

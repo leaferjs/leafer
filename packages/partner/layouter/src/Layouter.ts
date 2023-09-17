@@ -1,9 +1,5 @@
 import { ILayouter, ILeaf, ILayoutBlockData, IEventListenerId, ILayouterConfig, ILeafList } from '@leafer/interface'
-import { LayoutEvent, WatchEvent } from '@leafer/event'
-import { LeafLevelList, LeafList } from '@leafer/list'
-import { BranchHelper, LeafHelper } from '@leafer/helper'
-import { DataHelper } from '@leafer/data'
-import { Run, Debug } from '@leafer/debug'
+import { LayoutEvent, WatchEvent, LeafLevelList, LeafList, BranchHelper, LeafHelper, DataHelper, Run, Debug } from '@leafer/core'
 
 import { updateBounds, updateMatrix, updateChange } from './LayouterHelper'
 import { LayoutBlockData } from './LayoutBlockData'

@@ -1,5 +1,5 @@
 import { ILeaf, ILeafLayout, ILeafLevelList, ILeafList } from '@leafer/interface'
-import { BranchHelper, LeafHelper } from '@leafer/helper'
+import { BranchHelper, LeafHelper } from '@leafer/core'
 
 
 const { updateAllWorldMatrix, updateAllWorldOpacity } = LeafHelper

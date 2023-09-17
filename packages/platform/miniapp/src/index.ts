@@ -3,6 +3,7 @@ export * from '@leafer/partner'
 
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
+export * from '@leafer/interaction-miniapp'
 
 import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData } from '@leafer/interface'
 import { Platform, Creator, FileHelper } from '@leafer/core'

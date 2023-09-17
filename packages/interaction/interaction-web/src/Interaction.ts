@@ -1,7 +1,5 @@
 import { IObject, IPointData, ITimer, IKeepTouchData } from '@leafer/interface'
-import { InteractionBase, InteractionHelper } from '@leafer/interaction'
-import { MathHelper } from '@leafer/math'
-import { Keyboard } from '@leafer/event-ui'
+import { InteractionBase, InteractionHelper, MathHelper, Keyboard } from '@leafer/core'
 
 import { PointerEventHelper } from './PointerEventHelper'
 import { WheelEventHelper } from './WheelEventHelper'

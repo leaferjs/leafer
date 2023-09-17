@@ -4,8 +4,9 @@
   "description": "@leafer/core",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
-  "main": "src/index.ts",
-  "files": ["src"],
+  "main": "src/core.esm.js",
+  "types": "src/index.ts",
+  "files": ["src","dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
@@ -17,22 +18,31 @@
     "leaferjs"
   ],
   "dependencies": {
+    "@leafer/interaction": "1.0.0-beta.12",
     "@leafer/canvas": "1.0.0-beta.12",
+    "@leafer/image": "1.0.0-beta.12",
+
     "@leafer/data": "1.0.0-beta.12",
     "@leafer/debug": "1.0.0-beta.12",
     "@leafer/decorator": "1.0.0-beta.12",
     "@leafer/display": "1.0.0-beta.12",
     "@leafer/display-module": "1.0.0-beta.12",
+
     "@leafer/event": "1.0.0-beta.12",
     "@leafer/event-ui": "1.0.0-beta.12",
+
+    "@leafer/file": "1.0.0-beta.12",
     "@leafer/helper": "1.0.0-beta.12",
-    "@leafer/image": "1.0.0-beta.12",
+    "@leafer/layout": "1.0.0-beta.12",
     "@leafer/list": "1.0.0-beta.12",
     "@leafer/math": "1.0.0-beta.12",
+
     "@leafer/path": "1.0.0-beta.12",
     "@leafer/platform": "1.0.0-beta.12",
     "@leafer/plugin": "1.0.0-beta.12",
+
     "@leafer/task": "1.0.0-beta.12",
-    "@leafer/file": "1.0.0-beta.12"
+
+    "@leafer/interface": "1.0.0-beta.12"
   }
 }

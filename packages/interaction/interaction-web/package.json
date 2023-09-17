@@ -17,9 +17,7 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/interaction": "1.0.0-beta.12",
-    "@leafer/event-ui": "1.0.0-beta.12",
-    "@leafer/math": "1.0.0-beta.12"
+    "@leafer/core": "1.0.0-beta.12"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-beta.12"

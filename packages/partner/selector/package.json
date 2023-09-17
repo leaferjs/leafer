@@ -1,7 +1,7 @@
 {
-  "name": "@leafer/partner",
+  "name": "@leafer/selector",
   "version": "1.0.0-beta.12",
-  "description": "@leafer/partner",
+  "description": "@leafer/selector",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "main": "src/index.ts",
@@ -10,18 +10,16 @@
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
   },
-  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/partner",
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/selector",
   "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/platform": "1.0.0-beta.12",
-    "@leafer/watcher": "1.0.0-beta.12",
-    "@leafer/layouter": "1.0.0-beta.12",
-    "@leafer/renderer": "1.0.0-beta.12",
-    "@leafer/selector": "1.0.0-beta.12"
+    "@leafer/core": "1.0.0-beta.12"
+  },
+  "devDependencies": {
+     "@leafer/interface": "1.0.0-beta.12"
   }
 }
-

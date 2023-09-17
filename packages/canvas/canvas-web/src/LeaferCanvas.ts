@@ -1,9 +1,5 @@
 import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, ICursorType } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs } from '@leafer/canvas'
-import { ResizeEvent } from '@leafer/event'
-import { DataHelper } from '@leafer/data'
-import { Platform } from '@leafer/platform'
-import { Debug } from '@leafer/debug'
+import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug } from '@leafer/core'
 
 
 const debug = Debug.get('LeaferCanvas')
