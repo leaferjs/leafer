@@ -6,11 +6,10 @@ export * from '@leafer/canvas-node'
 export * from '@leafer/image-web'
 
 import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas } from '@leafer/interface'
-import { Platform, Creator } from '@leafer/core'
+import { Platform, Creator, InteractionBase } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
 import { LeaferImage } from '@leafer/image-node'
-import { InteractionBase } from '@leafer/interaction'
 
 
 Object.assign(Creator, {

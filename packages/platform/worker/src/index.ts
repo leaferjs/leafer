@@ -5,12 +5,10 @@ export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
 import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
-import { Platform, Creator, FileHelper } from '@leafer/core'
+import { Platform, Creator, FileHelper, InteractionBase } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
 import { LeaferImage } from '@leafer/image-worker'
-import { InteractionBase } from '@leafer/interaction'
-
 
 const { mineType } = FileHelper
 
