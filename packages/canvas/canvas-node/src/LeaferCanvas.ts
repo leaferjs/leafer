@@ -3,7 +3,7 @@ import { LeaferCanvasBase, Platform } from '@leafer/core'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
-    public view: IObject
+    declare public view: IObject
 
     public get allowBackgroundColor(): boolean { return true }
 

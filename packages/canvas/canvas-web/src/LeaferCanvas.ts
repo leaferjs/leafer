@@ -6,8 +6,8 @@ const debug = Debug.get('LeaferCanvas')
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
-    public view: HTMLCanvasElement
-    public parentView: HTMLElement
+    declare public view: HTMLCanvasElement
+    declare public parentView: HTMLElement
 
     protected resizeObserver: ResizeObserver
     protected autoBounds: IAutoBounds
@@ -17,9 +17,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const { view } = this.config
 
         view ? this.__createViewFrom(view) : this.__createView()
-        const { style } = this.view as HTMLCanvasElement
+        const { style } = this.view
         style.display || (style.display = 'block')
-        this.parentView = (this.view as HTMLCanvasElement).parentElement
+        this.parentView = this.view.parentElement
 
         if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
             this.view.style.display = 'none'
@@ -31,11 +31,11 @@ export class LeaferCanvas extends LeaferCanvasBase {
         if (!this.autoLayout) this.resize(this.config as IScreenSizeData)
     }
 
-    public set backgroundColor(color: string) { (this.view as HTMLElement).style.backgroundColor = color }
-    public get backgroundColor(): string { return (this.view as HTMLElement).style.backgroundColor }
+    public set backgroundColor(color: string) { this.view.style.backgroundColor = color }
+    public get backgroundColor(): string { return this.view.style.backgroundColor }
 
-    public set hittable(hittable: boolean) { (this.view as HTMLElement).style.pointerEvents = hittable ? 'auto' : 'none' }
-    public get hittable() { return (this.view as HTMLElement).style.pointerEvents !== 'none' }
+    public set hittable(hittable: boolean) { this.view.style.pointerEvents = hittable ? 'auto' : 'none' }
+    public get hittable() { return this.view.style.pointerEvents !== 'none' }
 
     protected __createView(): void {
         this.view = document.createElement('canvas')
@@ -67,7 +67,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
                 }
 
                 this.__createView()
-                const view = this.view as HTMLCanvasElement
+                const view = this.view
 
                 if (parent.hasChildNodes()) {
                     const { style } = view
@@ -87,7 +87,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public updateViewSize(): void {
         const { width, height, pixelRatio } = this
 
-        const { style } = this.view as HTMLCanvasElement
+        const { style } = this.view
         style.width = width + 'px'
         style.height = height + 'px'
 
@@ -97,7 +97,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public updateClientBounds(): void {
-        this.clientBounds = (this.view as HTMLCanvasElement).getBoundingClientRect()
+        this.clientBounds = this.view.getBoundingClientRect()
     }
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
@@ -131,7 +131,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     protected checkAutoBounds(parentSize: ISizeData): void {
-        const view = this.view as HTMLCanvasElement
+        const view = this.view
         const { x, y, width, height } = this.autoBounds.getBoundsFrom(parentSize)
         if (width !== this.width || height !== this.height) {
             const { style } = view
@@ -157,7 +157,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public unrealCanvas(): void { // App needs to use
         if (!this.unreal && this.parentView) {
-            const view = this.view as HTMLCanvasElement
+            const view = this.view
             if (view) view.remove()
 
             this.view = this.parentView as HTMLCanvasElement
@@ -169,7 +169,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         if (this.view) {
             this.stopAutoLayout()
             if (!this.unreal) {
-                const view = this.view as HTMLCanvasElement
+                const view = this.view
                 if (view.parentElement) view.remove()
             }
             super.destroy()

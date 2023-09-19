@@ -1,9 +1,9 @@
-import { IObject, IScreenSizeData } from '@leafer/interface'
+import { IScreenSizeData } from '@leafer/interface'
 import { LeaferCanvasBase, Platform } from '@leafer/core'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
-    public view: IObject
+    declare public view: OffscreenCanvas
 
     public get allowBackgroundColor(): boolean { return true }
 

@@ -16,7 +16,7 @@ export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
 
 export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
-    public readonly innerId: InnerId
+    declare public readonly innerId: InnerId
 
     public name: string
 

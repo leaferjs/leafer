@@ -25,8 +25,8 @@ export class UIEvent extends Event implements IUIEvent {
     public get middle(): boolean { return B.middle(this) }
     readonly buttons: number
 
-    readonly target: ILeaf
-    readonly current: ILeaf
+    declare readonly target: ILeaf
+    declare readonly current: ILeaf
     readonly bubbles: boolean = true
 
     readonly origin: IObject
