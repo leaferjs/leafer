@@ -61,6 +61,7 @@ export class Leaf implements ILeaf {
     public __level: number // layer level  0 -> branch -> branch -> deep
     public __tempNumber: number // temp sort
 
+    public get hasSize(): boolean { return true }
     public __hasMask?: boolean
     public __hasEraser?: boolean
     public __hitCanvas?: IHitCanvas
