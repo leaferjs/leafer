@@ -1,2 +1,2 @@
-export { LeaferImageBase } from './LeaferImageBase'
+export { LeaferImage } from './LeaferImage'
 export { ImageManager } from './ImageManager'

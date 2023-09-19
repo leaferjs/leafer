@@ -1,1 +1,1 @@
-export { LeaferImageBase as LeaferImage } from '@leafer/core'
+export { LeaferImage } from '@leafer/core'

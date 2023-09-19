@@ -7,7 +7,7 @@ import { ImageManager } from './ImageManager'
 
 const { IMAGE, create } = IncrementId
 
-export class LeaferImageBase implements ILeaferImage {
+export class LeaferImage implements ILeaferImage {
 
     public readonly innerId: InnerId
     public get url() { return this.config.url }
