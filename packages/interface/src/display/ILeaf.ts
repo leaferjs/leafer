@@ -250,12 +250,13 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __: ILeafData
     __layout: ILeafLayout
 
-    __local: IMatrixWithBoundsData
     __world: IMatrixWithLayoutData
+    __local: IMatrixWithBoundsData
+
     __worldOpacity: number
 
-    readonly worldTransform: IMatrixData
-    readonly localTransform: IMatrixData
+    readonly worldTransform: IMatrixWithLayoutData
+    readonly localTransform: IMatrixWithBoundsData
 
     readonly boxBounds: IBoundsData
     readonly worldBoxBounds: IBoundsData

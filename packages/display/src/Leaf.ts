@@ -41,13 +41,14 @@ export class Leaf implements ILeaf {
     public __: ILeafData
     public __layout: ILeafLayout
 
-    public __local: IMatrixWithBoundsData
     public __world: IMatrixWithLayoutData
+    public __local: IMatrixWithBoundsData
+
     public __worldOpacity: number
 
     // now transform
-    public get worldTransform(): IMatrixData { return this.__layout.getTransform('world') }
-    public get localTransform(): IMatrixData { return this.__layout.getTransform('local') }
+    public get worldTransform(): IMatrixWithLayoutData { return this.__layout.getTransform('world') as IMatrixWithLayoutData }
+    public get localTransform(): IMatrixWithBoundsData { return this.__layout.getTransform('local') as IMatrixWithBoundsData }
 
     // now bounds
     public get boxBounds(): IBoundsData { return this.getBounds('box', 'inner') }
@@ -87,8 +88,8 @@ export class Leaf implements ILeaf {
 
         this.innerId = create(LEAF)
 
-        this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
         this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
+        this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
 
         this.__worldOpacity = 1
 
