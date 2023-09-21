@@ -13,7 +13,7 @@ export class LeafList implements ILeafList {
     }
 
     public has(leaf: ILeaf): boolean {
-        return this.keys[leaf.innerId] !== undefined
+        return leaf && this.keys[leaf.innerId] !== undefined
     }
 
     public indexAt(index: number): ILeaf {

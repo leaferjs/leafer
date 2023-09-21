@@ -27,6 +27,7 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
 export interface ILeafer extends IZoomView, IControl {
 
     readonly isApp: boolean
+    readonly app: ILeafer
     parent?: IApp
 
     running: boolean

@@ -19,6 +19,8 @@ export function usePlugin(plugin: IPlugin, config?: IObject) {
     const realParams: IObject = {}
     const { power, list } = PluginManager
 
+    if (!power) debug.error('need add PluginManager.power = LeaferUI')
+
     if (list.includes(plugin)) {
         debug.warn('repeat run', plugin.name)
         return
