@@ -63,6 +63,9 @@ export class Leaf implements ILeaf {
     public __tempNumber: number // temp sort
 
     public get hasSize(): boolean { return true }
+
+    public get __hasMirror(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
+
     public __hasMask?: boolean
     public __hasEraser?: boolean
     public __hitCanvas?: IHitCanvas
@@ -114,6 +117,9 @@ export class Leaf implements ILeaf {
         this.leafer ? item() : (this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item])
     }
 
+    public waitRender(item: IFunction): void {
+        this.leafer ? this.leafer.waitRender(item) : this.waitLeafer(() => this.leafer.waitRender(item))
+    }
 
     public __bindLeafer(leafer: ILeafer | null): void {
         if (this.isLeafer) {
@@ -264,7 +270,7 @@ export class Leaf implements ILeaf {
         return point
     }
 
-    public getInnerPointByLocal(local: IPointData, distance?: boolean, change?: boolean): IPointData {
+    public getInnerPointByLocal(local: IPointData, _relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         return this.getInnerPoint(local, this.parent, distance, change)
     }
 
@@ -274,7 +280,7 @@ export class Leaf implements ILeaf {
         return point
     }
 
-    public getLocalPointByInner(inner: IPointData, distance?: boolean, change?: boolean): IPointData {
+    public getLocalPointByInner(inner: IPointData, _relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         return this.getWorldPoint(inner, this.parent, distance, change)
     }
 

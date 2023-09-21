@@ -18,7 +18,11 @@ export interface IWatcher extends IControl {
     disabled: boolean
     running: boolean
     changed: boolean
-    hasRemoved: boolean
+
+    hasVisible: boolean
+    hasAdd: boolean
+    hasRemove: boolean
+    readonly childrenChanged: boolean
 
     config: IWatcherConfig
 

@@ -190,7 +190,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public useWorldTransform(worldTransform?: IMatrixData): void {
         if (worldTransform) this.worldTransform = worldTransform
         const w = this.worldTransform
-        this.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
+        if (w) this.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
     }
 
     public setStroke(color: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void {
@@ -264,6 +264,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
             this.drawImage(canvas.view as HTMLCanvasElement, fromWorld.x * pixelRatio, fromWorld.y * pixelRatio, fromWorld.width * pixelRatio, fromWorld.height * pixelRatio, toInnerBounds.x, toInnerBounds.y, toInnerBounds.width, toInnerBounds.height)
         }
         if (blendMode) this.blendMode = 'source-over'
+    }
+
+    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode): void {
+        this.resetTransform()
+        this.copyWorld(canvas, from, to, blendMode)
+        this.useWorldTransform()
     }
 
     public useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void {

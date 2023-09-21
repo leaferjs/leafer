@@ -29,10 +29,10 @@ export interface IInteraction extends IControl {
 
     receive(event: any): void
 
-    pointerDown(data: IPointerEvent, defaultPath?: boolean): void
-    pointerMove(data: IPointerEvent): void
+    pointerDown(data?: IPointerEvent, defaultPath?: boolean): void
+    pointerMove(data?: IPointerEvent): void
     pointerMoveReal(data: IPointerEvent): void
-    pointerUp(data: IPointerEvent): void
+    pointerUp(data?: IPointerEvent): void
     pointerCancel(): void
 
     multiTouch(data: IUIEvent, list: IKeepTouchData[]): void

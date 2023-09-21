@@ -95,7 +95,10 @@ export class InteractionBase implements IInteraction {
     public receive(_event: any): void { }
 
 
-    public pointerDown(data: IPointerEvent, defaultPath?: boolean): void {
+    public pointerDown(data?: IPointerEvent, defaultPath?: boolean): void {
+        if (!data) data = this.hoverData
+        if (!data) return
+
         this.emit(PointerEvent.BEFORE_DOWN, data, this.defaultPath)
 
         const { hitRadius, through } = this.config.pointer
@@ -115,7 +118,10 @@ export class InteractionBase implements IInteraction {
         }
     }
 
-    public pointerMove(data: IPointerEvent): void {
+    public pointerMove(data?: IPointerEvent): void {
+        if (!data) data = this.hoverData
+        if (!data) return
+
         const hit = this.canvas.bounds.hitPoint(data)
         if (hit || this.downData) {
             if (hit && !this.downData && PointerButton.left(data)) this.pointerDown(data, true) // 从外部拖拽内容进入，需要先模拟down事件
@@ -149,7 +155,8 @@ export class InteractionBase implements IInteraction {
         this.updateCursor(data)
     }
 
-    public pointerUp(data: IPointerEvent): void {
+    public pointerUp(data?: IPointerEvent): void {
+        if (!data) data = this.downData
         if (!this.downData) return
 
         this.emit(PointerEvent.BEFORE_UP, data, this.defaultPath)

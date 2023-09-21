@@ -272,6 +272,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     readonly hasSize: boolean
 
+    readonly __hasMirror: boolean
+
     __hasMask?: boolean
     __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
@@ -286,6 +288,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     waitParent(item: IFunction): void
     waitLeafer(item: IFunction): void
+    waitRender(item: IFunction): void
 
     __bindLeafer(leafer: ILeafer | null): void
 
@@ -335,9 +338,9 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
 
     getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-    getInnerPointByLocal(local: IPointData, distance?: boolean, change?: boolean): IPointData
+    getInnerPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-    getLocalPointByInner(inner: IPointData, distance?: boolean, change?: boolean): IPointData
+    getLocalPointByInner(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 

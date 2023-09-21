@@ -11,12 +11,16 @@ export class Watcher implements IWatcher {
     public disabled: boolean
     public running: boolean
     public changed: boolean
-    public hasRemoved: boolean
+
+    public hasVisible: boolean
+    public hasAdd: boolean
+    public hasRemove: boolean
+    public get childrenChanged() { return this.hasAdd || this.hasRemove || this.hasVisible }
 
     public config: IWatcherConfig = {}
 
     public get updatedList(): ILeafList {
-        if (this.hasRemoved) {
+        if (this.hasRemove) {
             const updatedList = new LeafList()
             this.__updatedList.list.forEach(item => { if (item.leafer) updatedList.push(item) })
             return updatedList
@@ -61,9 +65,10 @@ export class Watcher implements IWatcher {
 
     protected __onChildEvent(event: ChildEvent): void {
         if (event.type === ChildEvent.ADD) {
+            this.hasAdd = true
             this.__pushChild(event.child)
         } else {
-            this.hasRemoved || (this.hasRemoved = true)
+            this.hasRemove = true
             this.__updatedList.push(event.parent)
         }
         this.update()
@@ -84,7 +89,9 @@ export class Watcher implements IWatcher {
         this.__updatedList = new LeafList()
         this.totalTimes++
         this.changed = false
-        this.hasRemoved = false
+        this.hasVisible = false
+        this.hasRemove = false
+        this.hasAdd = false
     }
 
     protected __listenEvents(): void {
