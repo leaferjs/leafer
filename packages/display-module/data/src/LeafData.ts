@@ -16,13 +16,12 @@ export class LeafData implements ILeafData {
         this.__leaf = leaf
     }
 
-    public __get(name: string): unknown {
+    public __get(name: string): any {
         if (this.__input) {
             const value = this.__input[name]
-            return value === undefined ? (this as IObject)[name] : value
-        } else {
-            return (this as IObject)[name]
+            if (value !== undefined) return value
         }
+        return (this as IObject)[name]
     }
 
     public __setInput(name: string, value: any): void {
@@ -30,13 +29,12 @@ export class LeafData implements ILeafData {
         this.__input[name] = value
     }
 
-    public __getInput(name: string): unknown {
+    public __getInput(name: string): any {
         if (this.__input) {
             const value = this.__input[name]
-            return value === undefined ? (this as IObject)['_' + name] : value
-        } else {
-            return (this as IObject)['_' + name]
+            if (value !== undefined) return value
         }
+        return (this as IObject)['_' + name]
     }
 
     public __removeInput(name: string): void {

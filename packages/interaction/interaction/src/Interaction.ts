@@ -1,4 +1,4 @@
-import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent } from '@leafer/interface'
+import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions } from '@leafer/interface'
 import { PointerEvent, DropEvent, KeyEvent, PointerButton, Keyboard } from '@leafer/event-ui'
 import { LeaferEvent, ResizeEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
@@ -95,19 +95,17 @@ export class InteractionBase implements IInteraction {
     public receive(_event: any): void { }
 
 
-    public pointerDown(data?: IPointerEvent, defaultPath?: boolean): void {
+    public pointerDown(data?: IPointerEvent, useDefaultPath?: boolean): void {
         if (!data) data = this.hoverData
         if (!data) return
 
         this.emit(PointerEvent.BEFORE_DOWN, data, this.defaultPath)
 
-        const { hitRadius, through } = this.config.pointer
-        const find = this.selector.getByPoint(data, hitRadius, { through })
-        if (find.throughPath) data.throughPath = find.throughPath
-        data.path = defaultPath ? this.defaultPath : find.path
+        this.updateDownData(data)
+        if (useDefaultPath) data.path = this.defaultPath
+
         this.emit(PointerEvent.DOWN, data)
 
-        this.downData = data
         this.downTime = Date.now()
 
         this.dragger.setDragData(data)
@@ -161,10 +159,7 @@ export class InteractionBase implements IInteraction {
 
         this.emit(PointerEvent.BEFORE_UP, data, this.defaultPath)
 
-        const { through } = this.config.pointer
-        const find = this.selector.getByPoint(data, this.hitRadius, { through })
-        if (find.throughPath) data.throughPath = find.throughPath
-        data.path = find.path
+        this.findPath(data)
 
         this.emit(PointerEvent.UP, data)
         this.emit(PointerEvent.UP, this.downData, undefined, data.path) // downPath必须触发up
@@ -249,33 +244,6 @@ export class InteractionBase implements IInteraction {
         this.enterPath = path
     }
 
-
-    public updateHoverData(data: IPointerEvent): void {
-        if (data) {
-            const find = this.selector.getByPoint(data, this.hitRadius, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
-            data.path = find.path
-            this.hoverData = data
-        }
-    }
-
-    public updateCursor(hoverData?: IPointerEvent): void {
-        hoverData ? this.updateHoverData(this.hoverData) : hoverData = this.hoverData
-        if (!hoverData || this.dragger.dragging) return
-        const path = hoverData.path
-
-        let leaf: ILeaf
-        for (let i = 0, len = path.length; i < len; i++) {
-            leaf = path.list[i]
-            if (leaf.cursor && leaf.cursor !== 'default') {
-                this.canvas.setCursor(leaf.cursor)
-                return
-            }
-        }
-
-        this.canvas.setCursor('default')
-    }
-
-
     protected touchLeave(data: IPointerEvent): void {
         if (data.pointerType === 'touch') {
             if (this.enterPath) {
@@ -321,6 +289,47 @@ export class InteractionBase implements IInteraction {
                 this.emitTap(data)
             }
         }
+    }
+
+
+    // update
+    public findPath(data: IPointerEvent, options?: ISelectPathOptions): ILeafList {
+        const { hitRadius, through } = this.config.pointer
+        const find = this.selector.getByPoint(data, hitRadius, options || { through })
+        if (find.throughPath) data.throughPath = find.throughPath
+        data.path = find.path
+        return find.path
+    }
+
+    public updateDownData(data?: IPointerEvent): void {
+        if (!data) data = this.downData
+        if (!data) return
+        this.findPath(data)
+        this.downData = data
+    }
+
+    public updateHoverData(data?: IPointerEvent): void {
+        if (!data) data = this.hoverData
+        if (!data) return
+        this.findPath(data, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
+        this.hoverData = data
+    }
+
+    public updateCursor(hoverData?: IPointerEvent): void {
+        hoverData ? this.updateHoverData(this.hoverData) : hoverData = this.hoverData
+        if (!hoverData || this.dragger.dragging) return
+        const path = hoverData.path
+
+        let leaf: ILeaf
+        for (let i = 0, len = path.length; i < len; i++) {
+            leaf = path.list[i]
+            if (leaf.cursor && leaf.cursor !== 'default') {
+                this.canvas.setCursor(leaf.cursor)
+                return
+            }
+        }
+
+        this.canvas.setCursor('default')
     }
 
     protected emitTap(data: IPointerEvent) {
