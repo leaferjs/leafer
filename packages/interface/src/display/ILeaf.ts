@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IMatrixData, IRadiusPointData, IMatrixDecompositionAttr, IMatrixWithLayoutData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, IMatrixDecompositionAttr, IMatrixWithLayoutData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -335,7 +335,9 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
 
     getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getInnerPointByLocal(local: IPointData, distance?: boolean, change?: boolean): IPointData
     getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getLocalPointByInner(inner: IPointData, distance?: boolean, change?: boolean): IPointData
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 

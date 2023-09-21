@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IBoundsDataHandle, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IBoundsDataHandle, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -30,8 +30,9 @@ export const BoundsHelper = {
         t.height = bounds.height
     },
 
-    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: number): void {
-        B.set(t, bounds.x - spread, bounds.y - spread, bounds.width + spread * 2, bounds.height + spread * 2)
+    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spreadX: number, spreadY?: number): void {
+        if (!spreadY) spreadY = spreadX
+        B.set(t, bounds.x - spreadX, bounds.y - spreadY, bounds.width + spreadX * 2, bounds.height + spreadY * 2)
     },
 
     right(t: IBoundsData): number {
@@ -144,14 +145,14 @@ export const BoundsHelper = {
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
 
-    getSpread(t: IBoundsData, size: number): IBoundsData {
+    getSpread(t: IBoundsData, spreadX: number, spreadY?: number): IBoundsData {
         const n = {} as IBoundsData
-        B.copyAndSpread(n, t, size)
+        B.copyAndSpread(n, t, spreadX, spreadY)
         return n
     },
 
-    spread(t: IBoundsData, size: number): void {
-        B.copyAndSpread(t, t, size)
+    spread(t: IBoundsData, spreadX: number, spreadY?: number): void {
+        B.copyAndSpread(t, t, spreadX, spreadY)
     },
 
     ceil(t: IBoundsData): void {
@@ -223,7 +224,7 @@ export const BoundsHelper = {
         toBounds(tempPointBounds, t)
     },
 
-    hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixData): boolean {
+    hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean {
         if (pointMatrix) point = P.tempToInnerRadiusPointOf(point, pointMatrix)
         return (point.x >= t.x - point.radiusX && point.x <= t.x + t.width + point.radiusX) && (point.y >= t.y - point.radiusY && point.y <= t.y + t.height + point.radiusY)
     },

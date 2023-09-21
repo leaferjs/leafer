@@ -42,6 +42,14 @@ export const MathHelper = {
         return rotation
     },
 
+    getGapRotation(rotation: number, gap: number): number {
+        if (gap > 1) {
+            const r = Math.abs(rotation % gap)
+            if (r < 1 || r > gap - 1) rotation = Math.round(rotation / gap) * gap
+        }
+        return rotation
+    },
+
     formatSkew(skew: number): number {
         return MathHelper.within(skew, -90, 90)
     }

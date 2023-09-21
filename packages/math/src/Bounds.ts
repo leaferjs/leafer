@@ -1,4 +1,4 @@
-import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataHandle, IObject, IMatrix, IRadiusPointData } from '@leafer/interface'
+import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataHandle, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
 import { BoundsHelper as B } from './BoundsHelper'
 
 
@@ -94,7 +94,7 @@ export class Bounds implements IBounds {
         return B.hitPoint(this, point, pointMatrix)
     }
 
-    public hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixData): boolean {
+    public hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean {
         return B.hitRadiusPoint(this, point, pointMatrix)
     }
 

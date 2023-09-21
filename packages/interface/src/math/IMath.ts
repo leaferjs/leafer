@@ -72,7 +72,7 @@ export interface IBounds extends IBoundsData {
     setByPoints(points: IPointData[]): IBounds
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean
-    hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixData): boolean
+    hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean
     hit(bounds: IBoundsData, boundsMatrix?: IMatrixData): boolean
     includes(bounds: IBoundsData, boundsMatrix?: IMatrixData): boolean
 

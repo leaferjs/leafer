@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IMatrixData, IBranch, IMatrixWithLayoutData } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -264,10 +264,18 @@ export class Leaf implements ILeaf {
         return point
     }
 
+    public getInnerPointByLocal(local: IPointData, distance?: boolean, change?: boolean): IPointData {
+        return this.getInnerPoint(local, this.parent, distance, change)
+    }
+
     public getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         const point = change ? world : {} as IPointData
         this.worldToLocal(world, point, distance, relative)
         return point
+    }
+
+    public getLocalPointByInner(inner: IPointData, distance?: boolean, change?: boolean): IPointData {
+        return this.getWorldPoint(inner, this.parent, distance, change)
     }
 
     public getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {

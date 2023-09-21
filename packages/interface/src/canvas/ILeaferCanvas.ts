@@ -110,6 +110,7 @@ interface ICanvasMethod {
     setStrokeOptions(options: ICanvasStrokeOptions): void
 
     setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void
+    useWorldTransform(worldTransform?: IMatrixData): void
 
     setWorldShadow(x: number, y: number, blur: number, color?: string): void
     setWorldBlur(blur: number): void

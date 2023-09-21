@@ -187,6 +187,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
     }
 
+    public useWorldTransform(worldTransform?: IMatrixData): void {
+        if (worldTransform) this.worldTransform = worldTransform
+        const w = this.worldTransform
+        this.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
+    }
+
     public setStroke(color: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void {
         if (strokeWidth) this.strokeWidth = strokeWidth
         if (color) this.strokeStyle = color
@@ -320,10 +326,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
         canvas.save()
 
-        if (useSameWorldTransform) {
-            const w = this.worldTransform
-            canvas.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
-        }
+        if (useSameWorldTransform) canvas.useWorldTransform({ ...this.worldTransform })
 
         return canvas
     }
@@ -341,8 +344,10 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public recycle(): void {
-        this.restore()
-        this.manager ? this.manager.recycle(this) : this.destroy()
+        if (!this.recycled) {
+            this.restore()
+            this.manager ? this.manager.recycle(this) : this.destroy()
+        }
     }
 
     public updateRender(): void { }

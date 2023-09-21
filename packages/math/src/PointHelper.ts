@@ -1,4 +1,4 @@
-import { IPointData, IMatrixData, IRadiusPointData } from '@leafer/interface'
+import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
 import { OneRadian } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
@@ -59,18 +59,18 @@ export const PointHelper = {
         return temp
     },
 
-    tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixData): IRadiusPointData {
+    tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithLayoutData): IRadiusPointData {
         const { tempRadiusPoint: temp } = P
         P.copy(temp, t)
         P.toInnerRadiusPointOf(t, matrix, temp)
         return temp
     },
 
-    toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixData, to?: IRadiusPointData): void {
+    toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithLayoutData, to?: IRadiusPointData): void {
         to || (to = t)
         toInnerPoint(matrix, t, to)
-        to.radiusX = t.radiusX / matrix.a
-        to.radiusY = t.radiusY / matrix.d
+        to.radiusX = Math.abs(t.radiusX / matrix.scaleX)
+        to.radiusY = Math.abs(t.radiusY / matrix.scaleY)
     },
 
 

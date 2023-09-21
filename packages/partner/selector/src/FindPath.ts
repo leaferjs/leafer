@@ -110,7 +110,7 @@ export class FindPath {
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
             if (!child.__.visible || (hitMask && !child.__.isMask)) continue
-            hit = hitRadiusPoint(child.__world, point)
+            hit = child.__.hitRadius ? true : hitRadiusPoint(child.__world, point)
 
             if (child.isBranch) {
                 if (hit || child.__ignoreHitWorld) {
