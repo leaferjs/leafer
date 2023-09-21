@@ -315,10 +315,14 @@ export class InteractionBase implements IInteraction {
         this.hoverData = data
     }
 
-    public updateCursor(hoverData?: IPointerEvent): void {
-        hoverData ? this.updateHoverData(this.hoverData) : hoverData = this.hoverData
-        if (!hoverData || this.dragger.dragging) return
-        const path = hoverData.path
+    public updateCursor(data?: IPointerEvent): void {
+        if (!data) {
+            this.updateHoverData()
+            data = this.hoverData
+        }
+
+        if (!data || this.dragger.dragging) return
+        const path = data.path
 
         let leaf: ILeaf
         for (let i = 0, len = path.length; i < len; i++) {
