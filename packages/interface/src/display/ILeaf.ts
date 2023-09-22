@@ -146,7 +146,7 @@ export type ICursorType =
     | 'zoom-out'
 
 export interface ICursorTypeMap {
-    [name: string]: ICursorType
+    [name: string]: ICursorType | ICursorType[]
 }
 export interface ILeafInputData extends IObject {
     tag?: string

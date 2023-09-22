@@ -42,17 +42,23 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public setCursor(cursor: ICursorType | ICursorType[]): void {
-        if (!(cursor instanceof Array)) cursor = [cursor]
-        if (typeof cursor[cursor.length - 1] === 'object') cursor.push('default')
-        this.view.style.cursor = cursor.map(item => this.stringCursor(item)).join(',')
+        const list: ICursorType[] = []
+        this.eachCursor(cursor, list)
+        if (typeof list[list.length - 1] === 'object') list.push('default')
+        this.view.style.cursor = list.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(',')
     }
 
-    protected stringCursor(cursor: ICursorType): string {
-        if (typeof cursor === 'object') {
-            return `url(${cursor.url}) ${cursor.x || 0} ${cursor.y || 0}`
+    protected eachCursor(cursor: ICursorType | ICursorType[], list: ICursorType[], level = 0): void {
+        level++
+        if (cursor instanceof Array) {
+            cursor.forEach(item => this.eachCursor(item, list, level))
         } else {
-            const system = Cursor.system[cursor]
-            return system ? this.stringCursor(system) : cursor
+            const custom = typeof cursor === 'string' && Cursor.get(cursor)
+            if (custom && level < 2) {
+                this.eachCursor(custom, list, level)
+            } else {
+                list.push(cursor)
+            }
         }
     }
 
