@@ -5,8 +5,6 @@ const downKeyMap: IBooleanMap = {}
 
 export const Keyboard = {
 
-    hold: 0,
-
     isHoldSpaceKey(): boolean {
         return Keyboard.isHold('Space')
     },
@@ -16,14 +14,10 @@ export const Keyboard = {
     },
 
     setDownCode(code: string): void {
-        if (!downKeyMap[code]) {
-            this.hold++
-            downKeyMap[code] = true
-        }
+        if (!downKeyMap[code]) downKeyMap[code] = true
     },
 
     setUpCode(code: string): void {
-        this.hold--
         downKeyMap[code] = false
     }
 

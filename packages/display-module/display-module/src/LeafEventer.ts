@@ -61,9 +61,7 @@ export const LeafEventer: ILeafEventerModule = {
     off_(id: IEventListenerId | IEventListenerId[]): void {
         if (!id) return
         const list = id instanceof Array ? id : [id]
-        list.forEach(item => {
-            this.off(item.type, item.listener, item.options)
-        })
+        list.forEach(item => this.off(item.type, item.listener, item.options))
         list.length = 0
     },
 

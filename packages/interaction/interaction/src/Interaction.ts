@@ -1,4 +1,4 @@
-import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions, ICursorType } from '@leafer/interface'
+import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions, ICursorType, IBooleanMap } from '@leafer/interface'
 import { PointerEvent, DropEvent, KeyEvent, PointerButton, Keyboard } from '@leafer/event-ui'
 import { LeaferEvent, ResizeEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
@@ -70,6 +70,8 @@ export class InteractionBase implements IInteraction {
 
     protected __eventIds: IEventListenerId[]
     protected defaultPath: ILeafList
+
+    protected downKeyMap: IBooleanMap = {}
 
     constructor(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, userConfig?: IInteractionConfig) {
         this.target = target
@@ -214,19 +216,23 @@ export class InteractionBase implements IInteraction {
     // key
 
     public keyDown(data: IKeyEvent): void {
-        if (!Keyboard.isHold(data.code)) {
-            Keyboard.setDownCode(data.code)
-            this.emit(KeyEvent.HOLD, data, this.defaultPath)
+        const { code } = data
+        if (!this.downKeyMap[code]) {
+            this.downKeyMap[code] = true
+            Keyboard.setDownCode(code)
 
+            this.emit(KeyEvent.HOLD, data, this.defaultPath)
             if (this.moveMode) this.updateCursor()
         }
         this.emit(KeyEvent.DOWN, data, this.defaultPath)
     }
 
     public keyUp(data: IKeyEvent): void {
-        Keyboard.setUpCode(data.code)
-        this.emit(KeyEvent.UP, data, this.defaultPath)
+        const { code } = data
+        this.downKeyMap[code] = false
+        Keyboard.setUpCode(code)
 
+        this.emit(KeyEvent.UP, data, this.defaultPath)
         if (this.cursor === 'grab') this.updateCursor()
     }
 
