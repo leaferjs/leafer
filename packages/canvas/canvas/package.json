@@ -1,12 +1,12 @@
 {
   "name": "@leafer/canvas",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-rc.2",
   "description": "@leafer/canvas",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "main": "src/index.ts",
   "types": "types/index.d.ts",
-  "files": ["types","dist"],
+  "files": ["src","types","dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
@@ -18,15 +18,15 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/file": "1.0.0-beta.12",
-    "@leafer/list": "1.0.0-beta.12",
-    "@leafer/math": "1.0.0-beta.12",
-    "@leafer/data": "1.0.0-beta.12",
-    "@leafer/path": "1.0.0-beta.12",
-    "@leafer/debug": "1.0.0-beta.12",
-    "@leafer/platform": "1.0.0-beta.12"
+    "@leafer/file": "1.0.0-rc.2",
+    "@leafer/list": "1.0.0-rc.2",
+    "@leafer/math": "1.0.0-rc.2",
+    "@leafer/data": "1.0.0-rc.2",
+    "@leafer/path": "1.0.0-rc.2",
+    "@leafer/debug": "1.0.0-rc.2",
+    "@leafer/platform": "1.0.0-rc.2"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-beta.12"
+     "@leafer/interface": "1.0.0-rc.2"
   }
 }

@@ -291,7 +291,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     waitParent(item: IFunction): void
     waitLeafer(item: IFunction): void
-    waitRender(item: IFunction): void
+    nextRender(item: IFunction): void
 
     __bindLeafer(leafer: ILeafer | null): void
 

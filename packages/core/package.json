@@ -1,6 +1,6 @@
 {
   "name": "@leafer/core",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-rc.2",
   "description": "@leafer/core",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "require": "./dist/core.cjs"
   },
   "types": "types/index.d.ts",
-  "files": ["types","dist"],
+  "files": ["src","types","dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
@@ -24,31 +24,31 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/interaction": "1.0.0-beta.12",
-    "@leafer/canvas": "1.0.0-beta.12",
-    "@leafer/image": "1.0.0-beta.12",
+    "@leafer/interaction": "1.0.0-rc.2",
+    "@leafer/canvas": "1.0.0-rc.2",
+    "@leafer/image": "1.0.0-rc.2",
 
-    "@leafer/data": "1.0.0-beta.12",
-    "@leafer/debug": "1.0.0-beta.12",
-    "@leafer/decorator": "1.0.0-beta.12",
-    "@leafer/display": "1.0.0-beta.12",
-    "@leafer/display-module": "1.0.0-beta.12",
+    "@leafer/data": "1.0.0-rc.2",
+    "@leafer/debug": "1.0.0-rc.2",
+    "@leafer/decorator": "1.0.0-rc.2",
+    "@leafer/display": "1.0.0-rc.2",
+    "@leafer/display-module": "1.0.0-rc.2",
 
-    "@leafer/event": "1.0.0-beta.12",
-    "@leafer/event-ui": "1.0.0-beta.12",
+    "@leafer/event": "1.0.0-rc.2",
+    "@leafer/event-ui": "1.0.0-rc.2",
 
-    "@leafer/file": "1.0.0-beta.12",
-    "@leafer/helper": "1.0.0-beta.12",
-    "@leafer/layout": "1.0.0-beta.12",
-    "@leafer/list": "1.0.0-beta.12",
-    "@leafer/math": "1.0.0-beta.12",
+    "@leafer/file": "1.0.0-rc.2",
+    "@leafer/helper": "1.0.0-rc.2",
+    "@leafer/layout": "1.0.0-rc.2",
+    "@leafer/list": "1.0.0-rc.2",
+    "@leafer/math": "1.0.0-rc.2",
 
-    "@leafer/path": "1.0.0-beta.12",
-    "@leafer/platform": "1.0.0-beta.12",
-    "@leafer/plugin": "1.0.0-beta.12",
+    "@leafer/path": "1.0.0-rc.2",
+    "@leafer/platform": "1.0.0-rc.2",
+    "@leafer/plugin": "1.0.0-rc.2",
 
-    "@leafer/task": "1.0.0-beta.12",
+    "@leafer/task": "1.0.0-rc.2",
 
-    "@leafer/interface": "1.0.0-beta.12"
+    "@leafer/interface": "1.0.0-rc.2"
   }
 }
