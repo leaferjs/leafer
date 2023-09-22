@@ -62,7 +62,7 @@ export class Leaf implements ILeaf {
     public __level: number // layer level  0 -> branch -> branch -> deep
     public __tempNumber: number // temp sort
 
-    public get hasSize(): boolean { return true }
+    public get resizeable(): boolean { return true }
 
     public get __hasMirror(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
 
@@ -196,6 +196,9 @@ export class Leaf implements ILeaf {
     public __updateStrokeBounds(): void { }
 
     public __updateRenderBounds(): void { }
+
+
+    public __updateNaturalSize(): void { }
 
 
     public __updateStrokeSpread(): number { return 0 }

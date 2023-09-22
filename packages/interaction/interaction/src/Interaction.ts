@@ -102,6 +102,7 @@ export class InteractionBase implements IInteraction {
     public pointerDown(data?: IPointerEvent, useDefaultPath?: boolean): void {
         if (!data) data = this.hoverData
         if (!data) return
+        PointerButton.defaultLeft(data)
 
         this.emit(PointerEvent.BEFORE_DOWN, data, this.defaultPath)
 
@@ -125,6 +126,7 @@ export class InteractionBase implements IInteraction {
     public pointerMove(data?: IPointerEvent): void {
         if (!data) data = this.hoverData
         if (!data) return
+        if (this.downData) PointerButton.defaultLeft(data)
 
         const hit = this.canvas.bounds.hitPoint(data)
         if (hit || this.downData) {
@@ -162,6 +164,7 @@ export class InteractionBase implements IInteraction {
     public pointerUp(data?: IPointerEvent): void {
         if (!data) data = this.downData
         if (!this.downData) return
+        PointerButton.defaultLeft(data)
 
         this.emit(PointerEvent.BEFORE_UP, data, this.defaultPath)
 

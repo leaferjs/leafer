@@ -118,6 +118,17 @@ export const LeafBounds: ILeafBoundsModule = {
         b.height = height
     },
 
+    __updateNaturalSize(): void {
+        const { __: data, __layout: layout } = this
+        data.__naturalWidth = layout.boxBounds.width
+        data.__naturalHeight = layout.boxBounds.height
+
+        if (this.around) {
+            layout.positionChanged = layout.matrixChanged = true
+            this.__updateWorldMatrix()
+        }
+    },
+
     __updateStrokeBounds(): void {
         copyAndSpread(this.__layout.strokeBounds, this.__layout.boxBounds, this.__layout.strokeSpread)
     },

@@ -13,6 +13,8 @@ export interface ILeafBounds {
     __updateStrokeBounds?(): void
     __updateRenderBounds?(): void
 
+    __updateNaturalSize?(): void
+
     __updateStrokeSpread?(): number
     __updateRenderSpread?(): number
 

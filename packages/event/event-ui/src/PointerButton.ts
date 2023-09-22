@@ -9,7 +9,9 @@ export const PointerButton = {
 
     MIDDLE: 4,
 
-    left(event: IUIEvent): boolean { return event.buttons === 1 || !event.buttons },
+    defaultLeft(event: IUIEvent): void { if (!event.buttons) event.buttons = 1 },
+
+    left(event: IUIEvent): boolean { return event.buttons === 1 },
 
     right(event: IUIEvent): boolean { return event.buttons === 2 },
 
