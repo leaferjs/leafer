@@ -45,8 +45,8 @@ export type PointerType = 'mouse' | 'pen' | 'touch'
 export interface IDragEvent extends IPointerEvent {
     moveX: number
     moveY: number
-    totalX: number
-    totalY: number
+    totalX?: number
+    totalY?: number
 
     getInnerMove?(target?: ILeaf): IPointData
     getLocalMove?(target?: ILeaf): IPointData
