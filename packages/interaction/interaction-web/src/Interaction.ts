@@ -133,12 +133,10 @@ export class Interaction extends InteractionBase {
     // key
     protected onKeyDown(e: KeyboardEvent): void {
         this.keyDown(KeyEventHelper.convert(e))
-        Keyboard.setDownCode(e.code)
     }
 
     protected onKeyUp(e: KeyboardEvent): void {
         this.keyUp(KeyEventHelper.convert(e))
-        Keyboard.setUpCode(e.code)
     }
 
     protected onScroll(): void {

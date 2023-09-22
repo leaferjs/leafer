@@ -1,4 +1,4 @@
-import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions } from '@leafer/interface'
+import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions, ICursorType } from '@leafer/interface'
 import { PointerEvent, DropEvent, KeyEvent, PointerButton, Keyboard } from '@leafer/event-ui'
 import { LeaferEvent, ResizeEvent } from '@leafer/event'
 import { LeafList } from '@leafer/list'
@@ -23,6 +23,7 @@ export class InteractionBase implements IInteraction {
 
     public running: boolean
     public get dragging(): boolean { return this.dragger.dragging }
+    public get moveMode(): boolean { return (Keyboard.isHoldSpaceKey() && this.config.move.holdSpaceKey) || (this.downData && PointerButton.middle(this.downData)) }
 
     public config: IInteractionConfig = {
         wheel: {
@@ -46,6 +47,7 @@ export class InteractionBase implements IInteraction {
         }
     }
 
+    public cursor: ICursorType | ICursorType[]
     public get hitRadius(): number { return this.config.pointer.hitRadius }
 
     public shrinkCanvasBounds: IBounds
@@ -114,6 +116,8 @@ export class InteractionBase implements IInteraction {
             this.tapWait()
             this.longPressWait(data)
         }
+
+        this.updateCursor(data)
     }
 
     public pointerMove(data?: IPointerEvent): void {
@@ -171,6 +175,8 @@ export class InteractionBase implements IInteraction {
         this.dragger.dragEnd(data)
 
         this.downData = null
+
+        this.updateCursor(data)
     }
 
     public pointerCancel(): void {
@@ -208,12 +214,20 @@ export class InteractionBase implements IInteraction {
     // key
 
     public keyDown(data: IKeyEvent): void {
-        if (!Keyboard.isHold(data.code)) this.emit(KeyEvent.HOLD, data, this.defaultPath)
+        if (!Keyboard.isHold(data.code)) {
+            Keyboard.setDownCode(data.code)
+            this.emit(KeyEvent.HOLD, data, this.defaultPath)
+
+            if (this.moveMode) this.updateCursor()
+        }
         this.emit(KeyEvent.DOWN, data, this.defaultPath)
     }
 
     public keyUp(data: IKeyEvent): void {
+        Keyboard.setUpCode(data.code)
         this.emit(KeyEvent.UP, data, this.defaultPath)
+
+        if (this.cursor === 'grab') this.updateCursor()
     }
 
 
@@ -321,19 +335,30 @@ export class InteractionBase implements IInteraction {
             data = this.hoverData
         }
 
-        if (!data || this.dragger.dragging) return
+        if (this.dragger.moving) {
+            return this.setCursor('grabbing')
+        } else if (this.moveMode) {
+            return this.setCursor(this.downData ? 'grabbing' : 'grab')
+        } else if (!data || this.dragger.dragging) return
+
         const path = data.path
 
         let leaf: ILeaf
         for (let i = 0, len = path.length; i < len; i++) {
             leaf = path.list[i]
-            if (leaf.cursor && leaf.cursor !== 'default') {
-                this.canvas.setCursor(leaf.cursor)
+            if (leaf.cursor) {
+                const { cursor } = leaf
+                this.setCursor(cursor === 'grab' ? (this.downData ? 'grabbing' : cursor) : cursor)
                 return
             }
         }
 
-        this.canvas.setCursor('default')
+        this.setCursor('default')
+    }
+
+    protected setCursor(cursor: ICursorType | ICursorType[]): void {
+        this.cursor = cursor
+        this.canvas.setCursor(cursor)
     }
 
     protected emitTap(data: IPointerEvent) {

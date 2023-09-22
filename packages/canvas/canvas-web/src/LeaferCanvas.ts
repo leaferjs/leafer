@@ -1,5 +1,5 @@
 import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, ICursorType } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug } from '@leafer/core'
+import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug, Cursor } from '@leafer/core'
 
 
 const debug = Debug.get('LeaferCanvas')
@@ -44,7 +44,16 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public setCursor(cursor: ICursorType | ICursorType[]): void {
         if (!(cursor instanceof Array)) cursor = [cursor]
         if (typeof cursor[cursor.length - 1] === 'object') cursor.push('default')
-        this.view.style.cursor = cursor.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(',')
+        this.view.style.cursor = cursor.map(item => this.stringCursor(item)).join(',')
+    }
+
+    protected stringCursor(cursor: ICursorType): string {
+        if (typeof cursor === 'object') {
+            return `url(${cursor.url}) ${cursor.x || 0} ${cursor.y || 0}`
+        } else {
+            const system = Cursor.system[cursor]
+            return system ? this.stringCursor(system) : cursor
+        }
     }
 
     protected __createViewFrom(inputView: string | object): void {

@@ -1,6 +1,6 @@
 import { INumberFunction, IPointDataFunction } from '../function/IFunction'
 import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEvent } from '../event/IUIEvent'
-import { ILeaf } from '../display/ILeaf'
+import { ILeaf, ICursorType } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
 import { ISelector, ISelectPathOptions } from '../selector/ISelector'
@@ -17,10 +17,13 @@ export interface IInteraction extends IControl {
 
     running: boolean
     readonly dragging: boolean
+    readonly moveMode: boolean
 
     config: IInteractionConfig
 
+    cursor: ICursorType | ICursorType[]
     readonly hitRadius: number
+
     shrinkCanvasBounds: IBounds
 
     downData: IPointerEvent
@@ -71,6 +74,7 @@ export interface IZoomConfig {
 }
 
 export interface IMoveConfig {
+    holdSpaceKey?: boolean
     dragEmpty?: boolean
     dragOut?: boolean
     autoDistance?: number

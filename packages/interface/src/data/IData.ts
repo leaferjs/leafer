@@ -26,4 +26,3 @@ export interface IStringMap {
 export interface IDataTypeHandle {
     (target: any): void
 }
-

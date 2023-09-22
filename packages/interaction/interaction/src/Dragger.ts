@@ -49,8 +49,8 @@ export class Dragger {
         const { dragData } = this
 
         if (!this.moving) {
-            const moveOnDragEmpty = (downData.target as ILeaf).isLeafer && interaction.config.move.dragEmpty
-            this.moving = (PointerButton.middle(data) || Keyboard.isHoldSpaceKey() || moveOnDragEmpty) && canDrag
+            const moveOnDragEmpty = interaction.config.move.dragEmpty && (downData.target as ILeaf).isLeafer
+            this.moving = (PointerButton.middle(data) || interaction.moveMode || moveOnDragEmpty) && canDrag
             if (this.moving) interaction.emit(MoveEvent.START, dragData)
         }
 
