@@ -27,6 +27,10 @@ export const EventCreator = {
         }
     },
 
+    has(type: string): boolean {
+        return !!this.nameList[type]
+    },
+
     get(type: string, ...params: unknown[]): IEvent {
         return new nameList[type](...params)
     }

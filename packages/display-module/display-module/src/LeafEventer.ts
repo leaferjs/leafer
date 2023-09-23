@@ -1,4 +1,5 @@
 import { IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, ILeafEventerModule } from '@leafer/interface'
+import { EventCreator } from '@leafer/platform'
 
 const empty = {}
 
@@ -70,6 +71,8 @@ export const LeafEventer: ILeafEventerModule = {
     },
 
     emit(type: string, event?: IEvent | IObject, capture?: boolean): void {
+        if (!event && EventCreator.has(type)) event = EventCreator.get(type, { type, target: this, current: this } as IEvent)
+
         const map = __getListenerMap(this, capture)
         const list = map[type]
         if (list) {
