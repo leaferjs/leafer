@@ -108,6 +108,7 @@ export type IAround = 'center' | IPointData
 
 export type ICursorType =
     | IImageCursor
+    | ''
     | 'auto'
     | 'default'
     | 'none'

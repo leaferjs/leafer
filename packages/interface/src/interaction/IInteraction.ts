@@ -63,6 +63,7 @@ export interface IInteractionCanvas extends ILeaferCanvas {
 export interface IInteractionConfig {
     wheel?: IWheelConfig
     pointer?: IPointerConfig
+    cursor?: ICursorConfig
     zoom?: IZoomConfig
     move?: IMoveConfig
     eventer?: IObject
@@ -103,4 +104,8 @@ export interface IPointerConfig {
     swipeDistance?: number
     ignoreMove?: boolean // 性能优化字段, 控制move事件触发次数
     preventDefault?: boolean
+}
+
+export interface ICursorConfig {
+    stop?: boolean
 }

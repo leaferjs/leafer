@@ -44,7 +44,8 @@ export class InteractionBase implements IInteraction {
             dragDistance: 2,
             swipeDistance: 20,
             ignoreMove: false
-        }
+        },
+        cursor: {}
     }
 
     public cursor: ICursorType | ICursorType[]
@@ -339,6 +340,9 @@ export class InteractionBase implements IInteraction {
     }
 
     public updateCursor(data?: IPointerEvent): void {
+
+        if (this.config.cursor.stop) return
+
         if (!data) {
             this.updateHoverData()
             data = this.hoverData
@@ -350,19 +354,18 @@ export class InteractionBase implements IInteraction {
             return this.setCursor(this.downData ? 'grabbing' : 'grab')
         } else if (!data || this.dragger.dragging) return
 
-        const path = data.path
-
         let leaf: ILeaf
+        let cursor: ICursorType | ICursorType[]
+
+        const { path } = data
         for (let i = 0, len = path.length; i < len; i++) {
             leaf = path.list[i]
-            if (leaf.cursor) {
-                const { cursor } = leaf
-                this.setCursor(cursor === 'grab' ? (this.downData ? 'grabbing' : cursor) : cursor)
-                return
-            }
+            cursor = leaf.cursor
+            if (cursor) break
         }
 
-        this.setCursor('default')
+        this.setCursor(cursor)
+
     }
 
     protected setCursor(cursor: ICursorType | ICursorType[]): void {
