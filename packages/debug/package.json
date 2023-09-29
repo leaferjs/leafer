@@ -1,6 +1,6 @@
 {
   "name": "@leafer/debug",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "@leafer/debug",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,9 +18,9 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/math": "1.0.0-rc.3"
+    "@leafer/math": "1.0.0-rc.4"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-rc.3"
+     "@leafer/interface": "1.0.0-rc.4"
   }
 }

@@ -108,7 +108,6 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         this.view.width = width * pixelRatio
         this.view.height = height * pixelRatio
-
     }
 
     public updateClientBounds(): void {
