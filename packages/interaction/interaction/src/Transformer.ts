@@ -1,4 +1,4 @@
-import { IMoveEvent, IZoomEvent, IRotateEvent, TransformMode, ITimer } from '@leafer/interface'
+import { IMoveEvent, IZoomEvent, IRotateEvent, ITimer } from '@leafer/interface'
 import { MoveEvent, ZoomEvent, RotateEvent } from '@leafer/event-ui'
 
 import { InteractionBase } from './Interaction'
@@ -10,7 +10,6 @@ export class Transformer {
     protected moveData: IMoveEvent
     protected zoomData: IZoomEvent
     protected rotateData: IRotateEvent
-    protected transformMode: TransformMode
     protected transformTimer: ITimer
 
     constructor(interaction: InteractionBase) {
@@ -80,7 +79,6 @@ export class Transformer {
         this.moveEnd()
         this.zoomEnd()
         this.rotateEnd()
-        this.transformMode = null
     }
 
     protected moveEnd(): void {
