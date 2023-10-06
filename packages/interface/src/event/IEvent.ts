@@ -75,29 +75,6 @@ export interface IWatchEvent extends IEvent {
     readonly data: IWatchEventData
 }
 
-export interface ITransformEventData {
-    x: number
-    y: number
-    scaleX: number
-    scaleY: number
-    rotation: number
-
-    readonly zooming: boolean
-    readonly moving: boolean
-    readonly rotating: boolean
-    readonly changing: boolean
-}
-
-export interface ITransformEvent extends IEvent, ITransformEventData {
-    readonly x: number
-    readonly y: number
-    readonly scaleX: number
-    readonly scaleY: number
-    readonly rotation: number
-}
-export type TransformMode = 'move' | 'zoom' | 'rotate'
-
-
 export interface IMultiTouchData {
     move: IPointData,
     scale: number,

@@ -11,7 +11,7 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
     let layout: ILeafLayout
     updateList.list.forEach(leaf => {  // 更新矩阵, 所有子元素，和父元素都需要更新bounds
         layout = leaf.__layout
-        if (levelList.without(leaf) && !layout.useZoomProxy) { // 防止重复， 子元素可能已经被父元素更新过
+        if (levelList.without(leaf) && !layout.proxyZoom) { // 防止重复， 子元素可能已经被父元素更新过
 
             if (layout.matrixChanged) {
 

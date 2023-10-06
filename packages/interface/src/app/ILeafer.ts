@@ -5,7 +5,7 @@ import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
 import { ISelector, ISelectorConfig } from '../selector/ISelector'
 import { IInteraction, IInteractionCanvas, IInteractionConfig } from '../interaction/IInteraction'
 import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
-import { IAutoBounds, IScreenSizeData } from '../math/IMath'
+import { IAutoBounds, IPointData, IScreenSizeData } from '../math/IMath'
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
@@ -55,6 +55,8 @@ export interface ILeafer extends IZoomView, IControl {
     autoLayout?: IAutoBounds
 
     config: ILeaferConfig
+
+    readonly cursorPoint: IPointData
 
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]

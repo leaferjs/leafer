@@ -9,7 +9,7 @@ export class LeafLayout implements ILeafLayout {
 
     public leaf: ILeaf
 
-    public useZoomProxy: boolean
+    public proxyZoom: boolean
 
     // local
 

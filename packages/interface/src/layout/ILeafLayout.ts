@@ -8,7 +8,7 @@ export interface ILeafLayout {
 
     leaf: ILeaf
 
-    useZoomProxy: boolean
+    proxyZoom: boolean
 
     // inner
 

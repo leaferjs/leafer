@@ -142,7 +142,7 @@ export const BoundsHelper = {
 
     getFitMatrix(t: IBoundsData, put: IBoundsData): IMatrix {
         const scale = Math.min(1, Math.min(t.width / put.width, t.height / put.height))
-        return new Matrix(scale, 0, 0, scale, -Math.ceil(put.x * scale), -Math.ceil(put.y * scale))
+        return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
 
     getSpread(t: IBoundsData, spreadX: number, spreadY?: number): IBoundsData {

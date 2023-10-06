@@ -6,10 +6,11 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
     __setAttr(name: string, newValue: unknown): void {
         if (this.leafer && this.leafer.created) {
-            if (typeof newValue === 'object' || this.__.__getInput(name) !== newValue) {
+            const oldValue = this.__.__getInput(name)
+            if (typeof newValue === 'object' || oldValue !== newValue) {
                 this.__[name] = newValue
                 const { CHANGE } = PropertyEvent
-                const event = new PropertyEvent(CHANGE, this, name, this.__.__get(name), newValue)
+                const event = new PropertyEvent(CHANGE, this, name, oldValue, newValue)
                 if (this.hasEvent(CHANGE) && !this.isLeafer) this.emitEvent(event)
                 this.leafer.emitEvent(event)
             }
