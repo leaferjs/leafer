@@ -126,9 +126,12 @@ export class Leaf implements ILeaf {
             if (leafer !== null) leafer = this as unknown as ILeafer
         }
 
+        if (this.leafer && !leafer) this.leafer.leafs--
+
         this.leafer = leafer
 
         if (leafer) {
+            leafer.leafs++
             this.__level = this.parent ? this.parent.__level + 1 : 1
             if (this.__leaferWait) WaitHelper.run(this.__leaferWait)
         }

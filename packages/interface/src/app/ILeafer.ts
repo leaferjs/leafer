@@ -57,6 +57,7 @@ export interface ILeafer extends IZoomView, IControl {
     config: ILeaferConfig
 
     readonly cursorPoint: IPointData
+    leafs: number
 
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]

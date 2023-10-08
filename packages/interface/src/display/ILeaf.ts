@@ -269,8 +269,6 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     readonly worldOpacity: number
 
-    __renderTime?: number // μs 1000微秒 = 1毫秒
-
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态
 
