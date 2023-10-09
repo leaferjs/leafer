@@ -151,7 +151,7 @@ export const BoundsHelper = {
         return n
     },
 
-    spread(t: IBoundsData, spreadX: number, spreadY?: number): void {
+    spread(t: IBoundsData, spreadX: number, spreadY = spreadX): void {
         B.copyAndSpread(t, t, spreadX, spreadY)
     },
 

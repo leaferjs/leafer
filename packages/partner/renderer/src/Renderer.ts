@@ -134,7 +134,7 @@ export class Renderer implements IRenderer {
         const { canvas, updateBlocks: list } = this
         if (!list) return debug.warn('PartRender: need update attr')
 
-        if (list.some(block => block.includes(this.target.__world))) this.mergeBlocks()
+        this.mergeBlocks()
         list.forEach(block => { if (canvas.bounds.hit(block) && !block.isEmpty()) this.clipRender(block) })
     }
 

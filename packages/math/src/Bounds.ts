@@ -41,8 +41,8 @@ export class Bounds implements IBounds {
         return B.getFitMatrix(this, put)
     }
 
-    public spread(size: number): IBounds {
-        B.spread(this, size)
+    public spread(spreadX: number, spreadY?: number): IBounds {
+        B.spread(this, spreadX, spreadY)
         return this
     }
 

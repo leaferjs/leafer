@@ -60,7 +60,7 @@ export interface IBounds extends IBoundsData {
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
 
-    spread(size: number): IBounds
+    spread(spreadX: number, spreadY?: number): IBounds
     ceil(): IBounds
     unsign(): IBounds
 
