@@ -75,7 +75,7 @@ export class Branch extends Leaf {
 
         index === undefined ? this.children.push(child) : this.children.splice(index, 0, child)
         if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
-        child.__layout.boundsChanged || child.__layout.positionChange() // layouted(removed), need update
+        child.__layout.boundsChanged || child.__layout.matrixChange() // layouted(removed), need update
 
         if (child.__parentWait) WaitHelper.run(child.__parentWait)
 

@@ -35,7 +35,6 @@ export class LeafLayout implements ILeafLayout {
 
     // matrix changed
     public matrixChanged: boolean
-    public positionChanged: boolean
     public scaleChanged: boolean
     public rotationChanged: boolean
 
@@ -72,7 +71,7 @@ export class LeafLayout implements ILeafLayout {
         this.renderBounds = this.strokeBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
         this.localRenderBounds = this.localStrokeBounds = leaf.__local
         this.boxChange()
-        this.positionChange()
+        this.matrixChange()
     }
 
 
@@ -219,12 +218,6 @@ export class LeafLayout implements ILeafLayout {
 
     // matrix
 
-    public positionChange(): void {
-        this.positionChanged = true
-        this.matrixChanged = true
-        this.localBoxChanged || this.localBoxChange()
-    }
-
     public scaleChange(): void {
         this.scaleChanged = true
         this._scaleOrRotationChange()
@@ -238,6 +231,10 @@ export class LeafLayout implements ILeafLayout {
 
     protected _scaleOrRotationChange() {
         this.affectScaleOrRotation = true
+        this.matrixChange()
+    }
+
+    public matrixChange(): void {
         this.matrixChanged = true
         this.localBoxChanged || this.localBoxChange()
     }

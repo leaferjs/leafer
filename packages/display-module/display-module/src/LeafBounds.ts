@@ -124,7 +124,7 @@ export const LeafBounds: ILeafBoundsModule = {
         data.__naturalHeight = layout.boxBounds.height
 
         if (this.around) {
-            layout.positionChanged = layout.matrixChanged = true
+            layout.matrixChanged = true
             this.__updateWorldMatrix()
         }
     },

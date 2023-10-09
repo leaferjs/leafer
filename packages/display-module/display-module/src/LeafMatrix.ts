@@ -101,17 +101,19 @@ export const LeafMatrix: ILeafMatrixModule = {
 
         }
 
-        if (layout.positionChanged) {
-            r.e = this.__.x
-            r.f = this.__.y
-            const { width, height, around } = this.__
-            if (around && width && height) {
+        const { x, y, around } = this.__
+
+        r.e = x
+        r.f = y
+
+        if (around) {
+            const { width, height } = this.__
+            if (width && height) {
                 const origin = (around === 'center') ? defaultCenter : around
                 const offsetX = width * origin.x, offsetY = height * origin.y
                 r.e -= offsetX * r.a + offsetY * r.c
                 r.f -= offsetX * r.b + offsetY * r.d
             }
-            layout.positionChanged = false
         }
 
         this.__layout.matrixChanged = false

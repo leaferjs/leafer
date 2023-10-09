@@ -38,7 +38,7 @@ export function positionType(defaultValue?: __Value) {
         defineLeafAttr(target, key, defaultValue, {
             set(value: __Value) {
                 this.__setAttr(key, value)
-                this.__layout.positionChanged || this.__layout.positionChange()
+                this.__layout.matrixChanged || this.__layout.matrixChange()
             }
         })
     }
@@ -74,7 +74,7 @@ export function boundsType(defaultValue?: __Value) {
             set(value: __Value) {
                 this.__setAttr(key, value)
                 this.__layout.boxChanged || this.__layout.boxChange()
-                if (this.__.around) this.__layout.positionChanged || this.__layout.positionChange()
+                if (this.__.around) this.__layout.matrixChanged || this.__layout.matrixChange()
             }
         })
     }

@@ -5,6 +5,7 @@ import { IFunction } from '../function/IFunction'
 import { IControl } from '../control/IControl'
 
 export interface IRenderOptions {
+    includes?: boolean,
     bounds?: IBounds,
     hideBounds?: IBounds,
     matrix?: IMatrix,
