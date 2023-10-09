@@ -63,7 +63,7 @@ export interface ILeafer extends IZoomView, IControl {
     __nextRenderWait: IFunction[]
 
     init(userConfig?: ILeaferConfig, parentApp?: IApp): void
-    setZoomLayer(zoomLayer: ILeaf, moveLayer?: ILeaf): void
+    setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
     updateCursor(): void
     resize(size: IScreenSizeData): void
