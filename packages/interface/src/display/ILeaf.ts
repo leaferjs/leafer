@@ -288,6 +288,9 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     destroyed: boolean
 
+    reset(data?: ILeafInputData): void
+    resetCustom(): void
+
     waitParent(item: IFunction): void
     waitLeafer(item: IFunction): void
     nextRender(item: IFunction): void

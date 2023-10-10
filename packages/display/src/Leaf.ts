@@ -88,8 +88,12 @@ export class Leaf implements ILeaf {
 
 
     constructor(data?: ILeafInputData) {
-
         this.innerId = create(LEAF)
+        this.reset(data)
+    }
+
+
+    public reset(data?: ILeafInputData): void {
 
         this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
         this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
@@ -99,6 +103,8 @@ export class Leaf implements ILeaf {
         this.__ = new this.__DataProcessor(this)
         this.__layout = new this.__LayoutProcessor(this)
 
+        if (this.__level) this.resetCustom()
+
         if (data) {
             if (data.children) {
                 this.set(data)
@@ -106,6 +112,11 @@ export class Leaf implements ILeaf {
                 Object.assign(this, data)
             }
         }
+    }
+
+    public resetCustom(): void {
+        this.__hasMask = this.__hasEraser = null
+        this.forceUpdate()
     }
 
 

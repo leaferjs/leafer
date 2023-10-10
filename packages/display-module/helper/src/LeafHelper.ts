@@ -57,7 +57,7 @@ export const LeafHelper = {
 
     moveWorld(t: ILeaf, x: number, y: number): void {
         const local = { x, y }
-        if (t.parent && !t.isLeafer) toInnerPoint(t.parent.worldTransform, local, local, true)
+        if (t.parent) toInnerPoint(t.parent.worldTransform, local, local, true)
         L.moveLocal(t, local.x, local.y)
     },
 
@@ -120,6 +120,6 @@ function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
 }
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {
-    if (t.isLeafer) t.__updateWorldMatrix()
-    return (t.parent && !t.isLeafer) ? PointHelper.tempToInnerOf(world, t.parent.worldTransform) : world
+    t.__layout.checkUpdate()
+    return t.parent ? PointHelper.tempToInnerOf(world, t.parent.__world) : world
 }
