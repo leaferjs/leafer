@@ -1,6 +1,8 @@
-import { IImageManager, ILeaferImageConfig, ILeaferImage } from '@leafer/interface'
+import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType } from '@leafer/interface'
 import { Creator } from '@leafer/platform'
+import { FileHelper } from '@leafer/file'
 import { TaskProcessor } from '@leafer/task'
+
 
 export const ImageManager: IImageManager = {
 
@@ -40,6 +42,21 @@ export const ImageManager: IImageManager = {
             })
             list.length = 0
         }
+    },
+
+    isPixel(config: ILeaferImageConfig): boolean {
+        return FileHelper.opacityTypes.some(item => I.isFormat(item, config))
+    },
+
+    isFormat(format: IExportFileType, config: ILeaferImageConfig): boolean {
+        if (config.format === format) return true
+        const { url } = config
+        if (url.startsWith('data:')) {
+            if (url.startsWith('data:' + FileHelper.mineType(format))) return true
+        } else {
+            if (url.includes('.' + format) || url.includes('.' + FileHelper.upperCaseTypeMap[format])) return true
+        }
+        return false
     },
 
     destroy(): void {

@@ -19,6 +19,7 @@
   ],
   "dependencies": {
     "@leafer/task": "1.0.0-rc.4",
+    "@leafer/file": "1.0.0-rc.4",
     "@leafer/platform": "1.0.0-rc.4"
   },
   "devDependencies": {

@@ -96,6 +96,7 @@ export type IBlendMode =
     | 'destination-in'
     | 'destination-out'
     | 'destination-atop'
+    | 'xor'
 
 export type IResizeType = 'size' | 'scale'
 export interface IImageCursor {
