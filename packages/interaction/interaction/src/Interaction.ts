@@ -332,6 +332,10 @@ export class InteractionBase implements IInteraction {
         return find.path
     }
 
+    public isDrag(leaf: ILeaf): boolean {
+        return this.dragger.getList().has(leaf)
+    }
+
     public updateDownData(data?: IPointerEvent): void {
         if (!data) data = this.downData
         if (!data) return
@@ -342,7 +346,7 @@ export class InteractionBase implements IInteraction {
     public updateHoverData(data?: IPointerEvent): void {
         if (!data) data = this.hoverData
         if (!data) return
-        this.findPath(data, { exclude: this.dragger.getDragList(), name: PointerEvent.MOVE })
+        this.findPath(data, { exclude: this.dragger.getList(), name: PointerEvent.MOVE })
         this.hoverData = data
     }
 

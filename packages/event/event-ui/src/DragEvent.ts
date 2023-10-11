@@ -1,5 +1,6 @@
-import { IDragEvent, IPointData, ILeaf } from '@leafer/interface'
+import { IDragEvent, IPointData, ILeaf, ILeafList, IObject } from '@leafer/interface'
 import { registerUIEvent } from '@leafer/decorator'
+import { LeafList } from '@leafer/list'
 
 import { PointerEvent } from './PointerEvent'
 
@@ -25,6 +26,17 @@ export class DragEvent extends PointerEvent implements IDragEvent {
     readonly moveY: number
     readonly totalX: number
     readonly totalY: number
+
+    static list: ILeafList
+    static data: IObject
+
+    static setList(data: ILeaf | ILeaf[] | ILeafList): void {
+        this.list = data instanceof LeafList ? data : new LeafList(data as ILeaf[])
+    }
+
+    static setData(data: IObject): void {
+        this.data = data
+    }
 
     public getInnerMove(relative?: ILeaf, total?: boolean): IPointData {
         if (!relative) relative = this.current

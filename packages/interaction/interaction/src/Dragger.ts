@@ -2,12 +2,14 @@ import { IPointerEvent, IDragEvent, ILeaf, ILeafList, ITimer } from '@leafer/int
 import { MoveEvent, DragEvent, DropEvent, PointerButton } from '@leafer/event-ui'
 import { BoundsHelper, PointHelper } from '@leafer/math'
 import { LeafHelper } from '@leafer/helper'
+import { LeafList } from '@leafer/list'
 
 import { InteractionHelper } from './InteractionHelper'
 import { InteractionBase } from './Interaction'
 
 
-const { getDragEventData, getDropEventData, getSwipeEventData, filterPathByEventType } = InteractionHelper
+const emptyList = new LeafList()
+const { getDragEventData, getDropEventData, getSwipeEventData } = InteractionHelper
 
 export class Dragger {
 
@@ -18,8 +20,7 @@ export class Dragger {
 
     public dragData: IDragEvent
 
-    protected dragList: ILeafList
-    protected dragableList: ILeaf[]
+    public dragableList: ILeafList
     protected dragOverPath: ILeafList
     protected dragEnterPath: ILeafList
 
@@ -33,8 +34,8 @@ export class Dragger {
         this.dragData = getDragEventData(data, data, data)
     }
 
-    public getDragList(): ILeafList {
-        return this.dragging ? DropEvent.dragList || this.dragList : null
+    public getList(): ILeafList {
+        return this.dragging ? (DragEvent.list || this.interaction.selector.list || this.dragableList || emptyList) : emptyList
     }
 
     public checkDrag(data: IPointerEvent, canDrag: boolean): void {
@@ -67,7 +68,7 @@ export class Dragger {
             interaction.emit(MoveEvent.BEFORE_MOVE, this.dragData)
             interaction.emit(MoveEvent.MOVE, this.dragData)
         } else if (this.dragging) {
-            this.dragDragableList()
+            this.realDrag()
             interaction.emit(DragEvent.BEFORE_DRAG, this.dragData)
             interaction.emit(DragEvent.DRAG, this.dragData)
         }
@@ -80,8 +81,6 @@ export class Dragger {
             if (this.dragging) {
                 this.interaction.emit(DragEvent.START, this.dragData)
                 this.getDragableList(this.dragData.path)
-                this.dragList = filterPathByEventType(this.dragData.path, DragEvent.DRAG)
-                if (!this.dragList.length && this.dragableList) this.dragList.pushList(this.dragableList)
             }
         }
     }
@@ -91,17 +90,18 @@ export class Dragger {
         for (let i = 0, len = path.length; i < len; i++) {
             leaf = path.list[i]
             if (leaf.__.draggable && leaf.__.hitSelf) {
-                this.dragableList = [leaf]
+                this.dragableList = new LeafList(leaf)
                 break
             }
         }
     }
 
-    protected dragDragableList(): void {
+    protected realDrag(): void {
         const { running } = this.interaction
-        if (this.dragableList && running) {
+        const list = this.getList()
+        if (list.length && running) {
             const { moveX, moveY } = this.dragData
-            this.dragableList.forEach(leaf => {
+            list.forEach(leaf => {
                 LeafHelper.moveWorld(leaf, moveX, moveY)
             })
         }
@@ -167,21 +167,15 @@ export class Dragger {
     }
 
     protected drop(data: IPointerEvent): void {
-        const dropData = getDropEventData(data, this.getDragList(), DropEvent.dragData)
+        const dropData = getDropEventData(data, this.getList(), DragEvent.data)
         dropData.path = this.dragEnterPath
         this.interaction.emit(DropEvent.DROP, dropData)
         this.interaction.emit(DragEvent.LEAVE, data, this.dragEnterPath)
     }
 
     protected dragReset(): void {
-        DropEvent.dragList = null
-        this.dragList = null
-        this.dragableList = null
-        this.dragData = null
-        this.dragOverPath = null
-        this.dragEnterPath = null
-        this.dragging = null
-        this.moving = null
+        DragEvent.list = DragEvent.data = this.dragableList = this.dragData = this.dragOverPath = this.dragEnterPath = null
+        this.dragging = this.moving = false
     }
 
 

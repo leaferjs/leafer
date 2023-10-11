@@ -48,6 +48,7 @@ export interface IInteraction extends IControl {
     keyUp(data: IKeyEvent): void
 
     findPath(data: IPointerEvent, options?: ISelectPathOptions): ILeafList
+    isDrag(leaf: ILeaf): boolean
 
     updateDownData(data?: IPointerEvent): void
     updateHoverData(data: IPointerEvent): void

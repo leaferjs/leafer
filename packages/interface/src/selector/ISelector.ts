@@ -22,6 +22,8 @@ export interface ISelectorConfig {
 export interface ISelector {
     target: ILeaf
 
+    list: ILeafList
+
     config: ISelectorConfig
 
     getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult

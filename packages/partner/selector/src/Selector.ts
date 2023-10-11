@@ -1,8 +1,7 @@
-import { ILeaf, ILeafArrayMap, ILeafMap, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig } from '@leafer/interface'
+import { ILeaf, ILeafArrayMap, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform } from '@leafer/core'
 
 import { FindPath } from './FindPath'
-
 
 interface IFind {
     (leaf: ILeaf): boolean
@@ -12,6 +11,8 @@ interface IFind {
 export class Selector implements ISelector {
 
     public target: ILeaf
+
+    public list: ILeafList
 
     public config: ISelectorConfig = {}
 
