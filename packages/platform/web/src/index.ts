@@ -59,6 +59,12 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         }
     }
 
+    Platform.event = {
+        stopDefault(origin: Event): void { origin.preventDefault() },
+        stopNow(origin: Event): void { origin.stopImmediatePropagation() },
+        stop(origin: Event): void { origin.stopPropagation() }
+    }
+
     Platform.canvas = Creator.canvas()
     Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
 }

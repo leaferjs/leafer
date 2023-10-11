@@ -18,7 +18,8 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/decorator": "1.0.0-rc.4"
+    "@leafer/decorator": "1.0.0-rc.4",
+    "@leafer/platform": "1.0.0-rc.4"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-rc.4"

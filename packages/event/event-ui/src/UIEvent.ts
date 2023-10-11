@@ -1,4 +1,4 @@
-import { ILeaf, ILeafList, IObject, IPointData, IUIEvent } from '@leafer/interface'
+import { ILeaf, ILeafList, IPointData, IUIEvent } from '@leafer/interface'
 import { Event } from '@leafer/event'
 import { EventCreator } from '@leafer/platform'
 
@@ -29,21 +29,19 @@ export class UIEvent extends Event implements IUIEvent {
     declare readonly current: ILeaf
     readonly bubbles: boolean = true
 
-    readonly origin: IObject
-
     constructor(params: IUIEvent) {
         super(params.type)
         Object.assign(this, params)
     }
 
-    public getInner(target?: ILeaf): IPointData {
-        if (!target) target = this.current
-        return target.getInnerPoint(this)
+    public getInner(relative?: ILeaf): IPointData {
+        if (!relative) relative = this.current
+        return relative.getInnerPoint(this)
     }
 
-    public getLocal(target?: ILeaf): IPointData {
-        if (!target) target = this.current
-        return target.getLocalPoint(this)
+    public getLocal(relative?: ILeaf): IPointData {
+        if (!relative) relative = this.current
+        return relative.getLocalPoint(this)
     }
 
     static changeName(oldName: string, newName: string): void {

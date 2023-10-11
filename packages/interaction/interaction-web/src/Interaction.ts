@@ -47,6 +47,8 @@ export class Interaction extends InteractionBase {
             'mousedown': this.onMouseDown,
             'touchstart': this.onTouchStart,
 
+            'contextmenu': this.onContextMenu,
+
             'wheel': this.onWheel,
             'gesturestart': this.onGesturestart,
             'gesturechange': this.onGesturechange,
@@ -137,6 +139,12 @@ export class Interaction extends InteractionBase {
 
     protected onKeyUp(e: KeyboardEvent): void {
         this.keyUp(KeyEventHelper.convert(e))
+    }
+
+    // context menu
+
+    protected onContextMenu(e: PointerEvent): void {
+        this.menu(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 
     protected onScroll(): void {

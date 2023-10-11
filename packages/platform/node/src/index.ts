@@ -33,6 +33,13 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 loadImage
             }
         }
+
+        Platform.event = {
+            stopDefault(_origin: IObject): void { },
+            stopNow(_origin: IObject): void { },
+            stop(_origin: IObject): void { }
+        }
+
         Platform.canvas = Creator.canvas()
     }
 }

@@ -3,8 +3,11 @@ import { IWatchEventData } from '../watcher/IWatcher'
 import { ILayoutBlockData } from '../layouter/ILayouter'
 import { ILeaf } from '../display/ILeaf'
 import { IScreenSizeData, IPointData } from '../math/IMath'
+import { IObject } from '../data/IData'
 
 export interface IEvent {
+    origin?: IObject
+
     type?: string
     target?: IEventTarget
     current?: IEventTarget

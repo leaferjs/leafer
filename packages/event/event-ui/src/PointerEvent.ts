@@ -32,6 +32,8 @@ export class PointerEvent extends UIEvent implements IPointerEvent {
     static LONG_PRESS = 'long_press'
     static LONG_TAP = 'long_tap'
 
+    static MENU = 'pointer.menu'
+
     public readonly width: number
     public readonly height: number
     public readonly pointerType: PointerType

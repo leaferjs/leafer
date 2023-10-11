@@ -197,6 +197,13 @@ export class InteractionBase implements IInteraction {
         this.move(getMoveEventData(center, move, data))
     }
 
+    // context menu
+
+    public menu(data: IPointerEvent): void {
+        this.findPath(data)
+        this.emit(PointerEvent.MENU, data)
+    }
+
 
     // window transform
 

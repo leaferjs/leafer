@@ -123,6 +123,12 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
             }
         }
 
+        Platform.event = {
+            stopDefault(_origin: IObject): void { },
+            stopNow(_origin: IObject): void { },
+            stop(_origin: IObject): void { }
+        }
+
         Platform.canvas = Creator.canvas()
         Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient
     }
