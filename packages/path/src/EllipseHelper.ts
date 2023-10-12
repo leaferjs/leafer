@@ -1,8 +1,10 @@
 import { IPathCommandData } from '@leafer/interface'
 import { OneRadian, PI2 } from '@leafer/math'
+import { Platform } from '@leafer/platform'
 
 import { PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
+
 
 const { sin, cos, sqrt, atan2 } = Math
 const { ellipse } = BezierHelper
@@ -56,7 +58,7 @@ export const EllipseHelper = {
 
         const anticlockwise = totalRadian < 0 ? 1 : 0
 
-        if (curveMode) {
+        if (curveMode || Platform.name === 'node') {
             ellipse(data, centerX, centerY, radiusX, radiusY, rotation, startRadian / OneRadian, endRadian / OneRadian, anticlockwise as unknown as boolean)
         } else {
             if (radiusX === radiusY && !rotation) {

@@ -1,5 +1,5 @@
 import { IObject, IScreenSizeData } from '@leafer/interface'
-import { LeaferCanvasBase, Platform } from '@leafer/core'
+import { LeaferCanvasBase, Platform, canvasPatch } from '@leafer/core'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
@@ -12,7 +12,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.__createView()
         this.__createContext()
 
-        this.resize(this.config as IScreenSizeData)
+        this.resize(this.config as IScreenSizeData);
+
+        (this.context as IObject).__proto__.roundRect = null
+        canvasPatch((this.context as IObject).__proto__)
     }
 
     protected __createView(): void {
