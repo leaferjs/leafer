@@ -12,10 +12,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.__createView()
         this.__createContext()
 
-        this.resize(this.config as IScreenSizeData);
+        this.resize(this.config as IScreenSizeData)
 
-        (this.context as IObject).__proto__.roundRect = null
-        canvasPatch((this.context as IObject).__proto__)
+        if (Platform.roundRectPatch) {
+            (this.context as IObject).__proto__.roundRect = null
+            canvasPatch((this.context as IObject).__proto__)
+        }
     }
 
     protected __createView(): void {

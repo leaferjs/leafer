@@ -30,7 +30,8 @@ export interface IPlatform {
         loadImage(url: string): Promise<any>
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
     },
-    ellipseToCurve?: boolean, // fix: skia-canvas 绘制圆环和椭圆弧
+    roundRectPatch?: boolean //  fix: skia-canvas roundRect
+    ellipseToCurve?: boolean, // fix: skia 绘制圆环和椭圆弧
     event?: {
         stopDefault(origin: IObject): void
         stopNow(origin: IObject): void

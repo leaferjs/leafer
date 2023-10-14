@@ -10,7 +10,9 @@ import { Platform, Creator, InteractionBase, FileHelper } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
 import { LeaferImage } from '@leafer/image-node'
+
 import { writeFileSync } from 'fs'
+
 
 const { mineType, fileType } = FileHelper
 
@@ -39,6 +41,8 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
                 loadImage
             }
+
+            Platform.roundRectPatch = true
 
         } else if (canvasType === 'skia-napi') {
 
