@@ -5,11 +5,14 @@ export * from '@leafer/partner'
 export * from '@leafer/canvas-node'
 export * from '@leafer/image-web'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas } from '@leafer/interface'
-import { Platform, Creator, InteractionBase } from '@leafer/core'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas } from '@leafer/interface'
+import { Platform, Creator, InteractionBase, FileHelper } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
 import { LeaferImage } from '@leafer/image-node'
+import { writeFileSync } from 'fs'
+
+const { mineType, fileType } = FileHelper
 
 
 Object.assign(Creator, {
@@ -22,17 +25,35 @@ Object.assign(Creator, {
 
 
 export function useCanvas(canvasType: ICanvasType, power: IObject): void {
+
+    Platform.canvasType = canvasType
+
     if (!Platform.origin) {
         if (canvasType === 'skia') {
+
             const { Canvas, loadImage } = power
             Platform.origin = {
                 createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
                 canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURLSync(type, { quality }),
                 canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
-                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: any) => canvas.saveAs(filename, { quality }),
+                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
                 loadImage
             }
+
+        } else if (canvasType === 'skia-napi') {
+
+            const { Canvas, loadImage } = power
+            Platform.origin = {
+                createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
+                canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
+                canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(mineType(type), quality),
+                canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(mineType(fileType(filename)), quality)),
+                loadImage
+            }
+
         }
+
+        Platform.ellipseToCurve = true
 
         Platform.event = {
             stopDefault(_origin: IObject): void { },

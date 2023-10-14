@@ -18,9 +18,7 @@ export class TaskProcessor implements ITaskProcessor {
 
     protected timer: any
 
-    public get total(): number {
-        return this.list.length + this.delayNumber
-    }
+    public get total(): number { return this.list.length + this.delayNumber }
 
     public index = 0
 
@@ -81,8 +79,10 @@ export class TaskProcessor implements ITaskProcessor {
         } else {
             this.delayNumber++
             setTimeout(() => {
-                this.delayNumber--
-                this.push(task, start)
+                if (this.delayNumber) {
+                    this.delayNumber--
+                    this.push(task, start)
+                }
             }, delay)
         }
 
@@ -103,6 +103,7 @@ export class TaskProcessor implements ITaskProcessor {
         this.parallelSuccessNumber = 0
         this.list = []
         this.parallelList = []
+        this.delayNumber = 0
     }
 
     // control

@@ -58,7 +58,7 @@ export const EllipseHelper = {
 
         const anticlockwise = totalRadian < 0 ? 1 : 0
 
-        if (curveMode || Platform.name === 'node') {
+        if (curveMode || Platform.ellipseToCurve) {
             ellipse(data, centerX, centerY, radiusX, radiusY, rotation, startRadian / OneRadian, endRadian / OneRadian, anticlockwise as unknown as boolean)
         } else {
             if (radiusX === radiusY && !rotation) {
