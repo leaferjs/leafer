@@ -104,7 +104,7 @@ export class FindPath {
     }
 
 
-    protected eachFind(children: Array<ILeaf>, hitMask: boolean): void {
+    protected eachFind(children: ILeaf[], hitMask: boolean): void {
         let child: ILeaf, hit: boolean
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {

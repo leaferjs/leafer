@@ -20,7 +20,7 @@ export { IBranchRender, IBranchRenderModule } from './display/module/IBranchRend
 export { IRenderer, IRendererConfig, IRenderOptions } from './renderer/IRenderer'
 export { IWatcher, IWatchEventData, IWatcherConfig } from './watcher/IWatcher'
 export { ILayouter, ILayoutChangedData, ILayoutBlockData, ILayouterConfig, IPartLayoutConfig } from './layouter/ILayouter'
-export { ISelector, ISelectorConfig, ISelectPathResult, ISelectPathOptions } from './selector/ISelector'
+export { ISelector, ISelectorConfig, IFindFunction, ISelectPathResult, ISelectPathOptions } from './selector/ISelector'
 
 export { ICanvasManager } from './canvas/ICanvasManager'
 export { IHitCanvasManager } from './canvas/IHitCanvasManager'

@@ -1,11 +1,7 @@
-import { ILeaf, ILeafArrayMap, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig } from '@leafer/interface'
+import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFunction, IFindFunction } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform } from '@leafer/core'
 
 import { FindPath } from './FindPath'
-
-interface IFind {
-    (leaf: ILeaf): boolean
-}
 
 
 export class Selector implements ISelector {
@@ -17,13 +13,38 @@ export class Selector implements ISelector {
     public config: ISelectorConfig = {}
 
     protected findPath: FindPath
-
-    protected innerIdList: ILeafMap = {}
-    protected idList: ILeafMap = {}
-    protected classNameList: ILeafArrayMap = {}
-    protected tagNameList: ILeafArrayMap = {}
+    protected findLeaf: ILeaf
 
     protected __eventIds: IEventListenerId[]
+
+    protected innerIdMap: ILeafMap = {}
+    protected idMap: ILeafMap = {}
+
+    protected findFunctions = {
+        id: (leaf: ILeaf, name: string) => {
+            if (leaf.id === name) {
+                this.idMap[name] = leaf
+                return true
+            }
+            return false
+        },
+        innerId: (leaf: ILeaf, innerId: number) => {
+            if (leaf.innerId === innerId) {
+                this.innerIdMap[innerId] = leaf
+                return true
+            }
+            return false
+        },
+        class: (leaf: ILeaf, name: string) => {
+            if (leaf.className === name) return true
+            return false
+        },
+        tag: (leaf: ILeaf, name: string) => {
+            if (leaf.__tag === name) return true
+            return false
+        }
+    }
+
 
     constructor(target: ILeaf, userConfig?: ISelectorConfig) {
         this.target = target
@@ -37,86 +58,97 @@ export class Selector implements ISelector {
         return this.findPath.getByPoint(hitPoint, hitRadius, options)
     }
 
-    public find(name: number | string, branch?: ILeaf): ILeaf | ILeaf[] {
-        if (typeof name === 'number') {
-            return this.getByInnerId(name, branch)
-        } else if (name.startsWith('#')) {
-            return this.getById(name.substring(1), branch)
-        } else if (name.startsWith('.')) {
-            return this.getByClassName(name.substring(1), branch)
-        } else {
-            return this.getByTagName(name, branch)
+    public getBy(condition: number | string | IFindFunction, branch?: ILeaf, multiple?: boolean): ILeaf | ILeaf[] {
+        let leaf: ILeaf, list: ILeaf[]
+        switch (typeof condition) {
+            case 'number':
+                leaf = this.getByInnerId(condition, branch)
+                break
+            case 'string':
+                switch (condition[0]) {
+                    case '#':
+                        leaf = this.getById(condition.substring(1), branch)
+                        break
+                    case '.':
+                        list = this.getByClassName(condition.substring(1), branch, !multiple)
+                        break
+                    default:
+                        list = this.getByTagName(condition, branch, !multiple)
+                }
+                break
+            case 'function':
+                list = this.getByFunction(condition, branch, !multiple)
         }
+        return multiple ? (list || (leaf ? [leaf] : [])) : (list ? list[0] : leaf)
     }
 
     public getByInnerId(name: number, branch?: ILeaf): ILeaf {
-        let cache = this.innerIdList[name]
+        const cache = this.innerIdMap[name]
         if (cache) return cache
-        if (!branch) branch = this.target
-        let find: ILeaf
-        this.loopFind(branch, (leaf) => {
-            if (leaf.innerId === name) {
-                find = leaf
-                this.innerIdList[name] = find
-                return true
-            } else {
-                return false
-            }
-        })
-        return find
+        this.eachFind(this.toChildren(branch), this.findFunctions.innerId, name)
+        return this.findLeaf
     }
 
     public getById(name: string, branch?: ILeaf): ILeaf {
-        let cache = this.idList[name]
-        if (cache) return cache
-        if (!branch) branch = this.target
-        let find: ILeaf
-        this.loopFind(branch, (leaf) => {
-            if (leaf.id === name) {
-                find = leaf
-                this.idList[name] = find
-                return true
-            } else {
-                return false
-            }
-        })
-        return find
+        const cache = this.idMap[name]
+        if (cache) {
+            if (branch) {
+                let parent = branch
+                while (parent) {
+                    if (parent === branch) return cache
+                    parent = parent.parent
+                }
+            } else return cache
+        }
+        this.eachFind(this.toChildren(branch), this.findFunctions.id, name)
+        return this.findLeaf
     }
 
-    public getByClassName(name: string, branch?: ILeaf): ILeaf[] {
-        if (!branch) branch = this.target
-        let find: Array<ILeaf | ILeaf> = []
-        this.loopFind(branch, (leaf) => {
-            if (leaf.className === name) find.push(leaf)
-            return false
-        })
-        return find
+    public getByClassName(name: string, branch?: ILeaf, one?: boolean): ILeaf[] {
+        const list: ILeaf[] = one ? null : []
+        this.eachFind(this.toChildren(branch), this.findFunctions.class, name, list)
+        return list || [this.findLeaf]
     }
 
-    public getByTagName(name: string, branch?: ILeaf): ILeaf[] {
-        if (!branch) branch = this.target
-        let find: Array<ILeaf | ILeaf> = []
-        this.loopFind(branch, (leaf) => {
-            if (leaf.__tag === name) find.push(leaf)
-            return false
-        })
-        return find
+    public getByTagName(name: string, branch?: ILeaf, one?: boolean): ILeaf[] {
+        const list: ILeaf[] = one ? null : []
+        this.eachFind(this.toChildren(branch), this.findFunctions.tag, name, list)
+        return list || [this.findLeaf]
     }
 
-    protected loopFind(branch: ILeaf, find: IFind): void {
-        if (find(branch)) return
-        const { children } = branch
+    public getByFunction(condition: IFindFunction, branch?: ILeaf, one?: boolean): ILeaf[] {
+        const list: ILeaf[] = one ? null : []
+        this.eachFind(this.toChildren(branch), condition, null, list)
+        return list || [this.findLeaf]
+    }
+
+    protected eachFind(children: ILeaf[], find: IFindFunction, options?: any, list?: ILeaf[]): void {
+        let child: ILeaf
         for (let i = 0, len = children.length; i < len; i++) {
-            branch = children[i] as ILeaf
-            if (find(branch)) return
-            if (branch.isBranch) this.loopFind(branch, find)
+            child = children[i]
+            if (find(child, options)) {
+                if (list) {
+                    list.push(child)
+                } else {
+                    this.findLeaf = child
+                    return
+                }
+            }
+            if (child.isBranch) this.eachFind(child.children, find, options, list)
         }
     }
 
+    protected toChildren(branch: ILeaf): ILeaf[] {
+        if (!branch) branch = this.target
+        this.findLeaf = null
+        return [branch]
+    }
+
+
     protected __onRemoveChild(event: ChildEvent): void {
-        const target = event.target as ILeaf
-        if (this.idList[target.id]) this.idList[target.id] = null
-        if (this.innerIdList[target.id]) this.innerIdList[target.innerId] = null
+        const { id, innerId } = event.child as ILeaf
+        if (this.idMap[id]) this.idMap[id] = null
+        if (this.innerIdMap[innerId]) this.innerIdMap[innerId] = null
     }
 
 
@@ -135,10 +167,8 @@ export class Selector implements ISelector {
         if (this.__eventIds.length) {
             this.__removeListenEvents()
             this.findPath.destroy()
-            this.innerIdList = {}
-            this.idList = {}
-            this.classNameList = {}
-            this.tagNameList = {}
+            this.innerIdMap = {}
+            this.idMap = {}
         }
     }
 
