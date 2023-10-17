@@ -1,7 +1,7 @@
 import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindFunction } from '@leafer/interface'
-import { ChildEvent, LayoutEvent, DataHelper, Platform } from '@leafer/core'
+import { ChildEvent, LayoutEvent, DataHelper, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
-import { FindPath } from './FindPath'
+import { Pather } from './Pather'
 
 
 export class Selector implements ISelector {
@@ -12,15 +12,16 @@ export class Selector implements ISelector {
 
     public config: ISelectorConfig = {}
 
-    protected findPath: FindPath
-    protected findLeaf: ILeaf
+    protected pather: Pather
 
-    protected __eventIds: IEventListenerId[]
 
     protected innerIdMap: ILeafMap = {}
     protected idMap: ILeafMap = {}
 
-    protected findFunctions = {
+    protected findLeaf: ILeaf
+    protected rootChildren: ILeaf[]
+
+    protected conditions = {
         id: (leaf: ILeaf, name: string) => {
             if (leaf.id === name) {
                 this.idMap[name] = leaf
@@ -45,20 +46,22 @@ export class Selector implements ISelector {
         }
     }
 
+    protected __eventIds: IEventListenerId[]
+
 
     constructor(target: ILeaf, userConfig?: ISelectorConfig) {
         this.target = target
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
-        this.findPath = new FindPath(target, this)
+        this.pather = new Pather(target, this)
         this.__listenEvents()
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
         if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
-        return this.findPath.getByPoint(hitPoint, hitRadius, options)
+        return this.pather.getByPoint(hitPoint, hitRadius, options)
     }
 
-    public getBy(condition: number | string | IFindFunction, branch?: ILeaf, multiple?: boolean): ILeaf | ILeaf[] {
+    public getBy(condition: number | string | IFindFunction, branch?: ILeaf, one?: boolean): ILeaf | ILeaf[] {
         let leaf: ILeaf, list: ILeaf[]
         switch (typeof condition) {
             case 'number':
@@ -70,56 +73,48 @@ export class Selector implements ISelector {
                         leaf = this.getById(condition.substring(1), branch)
                         break
                     case '.':
-                        list = this.getByClassName(condition.substring(1), branch, !multiple)
+                        list = this.getByClassName(condition.substring(1), branch, one)
                         break
                     default:
-                        list = this.getByTagName(condition, branch, !multiple)
+                        list = this.getByTagName(condition, branch, one)
                 }
                 break
             case 'function':
-                list = this.getByFunction(condition, branch, !multiple)
+                list = this.getByFunction(condition, branch, one)
         }
-        return multiple ? (list || (leaf ? [leaf] : [])) : (list ? list[0] : leaf)
+        return one ? (list ? list[0] : leaf) : (list || (leaf ? [leaf] : []))
     }
 
     public getByInnerId(name: number, branch?: ILeaf): ILeaf {
         const cache = this.innerIdMap[name]
         if (cache) return cache
-        this.eachFind(this.toChildren(branch), this.findFunctions.innerId, name)
+        this.eachFind(this.toChildren(branch), this.conditions.innerId, name)
         return this.findLeaf
     }
 
     public getById(name: string, branch?: ILeaf): ILeaf {
         const cache = this.idMap[name]
-        if (cache) {
-            if (branch) {
-                let parent = branch
-                while (parent) {
-                    if (parent === branch) return cache
-                    parent = parent.parent
-                }
-            } else return cache
-        }
-        this.eachFind(this.toChildren(branch), this.findFunctions.id, name)
+        if (cache && LeafHelper.hasParent(cache, branch || this.target)) return cache
+        this.eachFind(this.toChildren(branch), this.conditions.id, name)
         return this.findLeaf
     }
 
     public getByClassName(name: string, branch?: ILeaf, one?: boolean): ILeaf[] {
         const list: ILeaf[] = one ? null : []
-        this.eachFind(this.toChildren(branch), this.findFunctions.class, name, list)
-        return list || [this.findLeaf]
+        this.eachFind(this.toChildren(branch), this.conditions.class, name, list)
+        return list || this.toFindList()
     }
 
     public getByTagName(name: string, branch?: ILeaf, one?: boolean): ILeaf[] {
         const list: ILeaf[] = one ? null : []
-        this.eachFind(this.toChildren(branch), this.findFunctions.tag, name, list)
-        return list || [this.findLeaf]
+        this.eachFind(this.toChildren(branch), this.conditions.tag, name, list)
+        return list || this.toFindList()
     }
 
     public getByFunction(condition: IFindFunction, branch?: ILeaf, one?: boolean): ILeaf[] {
         const list: ILeaf[] = one ? null : []
         this.eachFind(this.toChildren(branch), condition, null, list)
-        return list || [this.findLeaf]
+        return list || this.toFindList()
     }
 
     protected eachFind(children: ILeaf[], find: IFindFunction, options?: any, list?: ILeaf[]): void {
@@ -141,20 +136,33 @@ export class Selector implements ISelector {
     protected toChildren(branch: ILeaf): ILeaf[] {
         if (!branch) branch = this.target
         this.findLeaf = null
-        return [branch]
+        this.rootChildren[0] = branch
+        return this.rootChildren
+    }
+
+    protected toFindList(): ILeaf[] {
+        return this.findLeaf ? [this.findLeaf] : []
     }
 
 
     protected __onRemoveChild(event: ChildEvent): void {
-        const { id, innerId } = event.child as ILeaf
-        if (this.idMap[id]) this.idMap[id] = null
-        if (this.innerIdMap[innerId]) this.innerIdMap[innerId] = null
+        const { id, innerId } = event.child
+        if (this.idMap[id]) delete this.idMap[id]
+        if (this.innerIdMap[innerId]) delete this.innerIdMap[innerId]
+    }
+
+    protected __checkIdChange(event: PropertyEvent): void {
+        if (event.attrName === 'id') {
+            const { id } = event.target as ILeaf
+            if (this.idMap[id]) delete this.idMap[id]
+        }
     }
 
 
     protected __listenEvents(): void {
         this.__eventIds = [
-            this.target.on_(ChildEvent.REMOVE, this.__onRemoveChild, this)
+            this.target.on_(ChildEvent.REMOVE, this.__onRemoveChild, this),
+            this.target.on_(PropertyEvent.CHANGE, this.__checkIdChange, this)
         ]
     }
 
@@ -166,7 +174,9 @@ export class Selector implements ISelector {
     public destroy(): void {
         if (this.__eventIds.length) {
             this.__removeListenEvents()
-            this.findPath.destroy()
+            this.pather.destroy()
+            this.findLeaf = null
+            this.rootChildren.length = 0
             this.innerIdMap = {}
             this.idMap = {}
         }

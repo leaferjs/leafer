@@ -4,7 +4,7 @@ import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 const { hitRadiusPoint } = BoundsHelper
 
-export class FindPath {
+export class Pather {
 
     protected target: ILeaf
     protected selector: ISelector

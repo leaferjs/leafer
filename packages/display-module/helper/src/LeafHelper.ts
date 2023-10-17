@@ -107,6 +107,16 @@ export const LeafHelper = {
         parent.worldToInner(position)
         t.set(position)
         parent.add(t)
+    },
+
+    hasParent(t: ILeaf, parent: ILeaf): boolean {
+        if (!parent) return false
+        let p = t
+        while (p) {
+            if (parent === p) return true
+            p = p.parent
+        }
+        return false
     }
 
 }
