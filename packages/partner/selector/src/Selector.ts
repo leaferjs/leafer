@@ -1,4 +1,4 @@
-import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFunction, IFindFunction } from '@leafer/interface'
+import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindFunction } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform } from '@leafer/core'
 
 import { FindPath } from './FindPath'

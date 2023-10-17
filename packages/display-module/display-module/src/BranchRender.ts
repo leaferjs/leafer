@@ -49,8 +49,8 @@ export const BranchRender: IBranchRenderModule = {
         if (this.__hasMask && children.length > 1) {
 
             let mask: boolean
-            let maskCanvas = canvas.getSameCanvas()
-            let contentCanvas = canvas.getSameCanvas()
+            const maskCanvas = canvas.getSameCanvas()
+            const contentCanvas = canvas.getSameCanvas()
 
             for (let i = 0, len = children.length; i < len; i++) {
                 child = children[i]
@@ -58,8 +58,6 @@ export const BranchRender: IBranchRenderModule = {
                 if (child.isMask) {
                     if (mask) {
                         this.__renderMask(canvas, contentCanvas, maskCanvas)
-                        maskCanvas.clear()
-                        contentCanvas.clear()
                     } else {
                         mask = true
                     }
@@ -68,12 +66,10 @@ export const BranchRender: IBranchRenderModule = {
                     continue
                 }
 
-                child.__render(contentCanvas, options)
+                child.__render(mask ? contentCanvas : canvas, options)
             }
 
-            this.__renderMask(canvas, contentCanvas, maskCanvas)
-            maskCanvas.recycle()
-            contentCanvas.recycle()
+            this.__renderMask(canvas, contentCanvas, maskCanvas, true)
 
         } else {
 

@@ -11,12 +11,22 @@ export const LeafMask: ILeafMaskModule = {
         this.__hasMask = value ? true : this.children.some(item => item.__.isMask)
     },
 
-    __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas): void {
+    __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void {
+        content.opacity = 1
         content.resetTransform()
         content.useMask(mask)
-        canvas.resetTransform()
+
         canvas.opacity = this.__worldOpacity
+        canvas.resetTransform()
         canvas.copyWorld(content)
+
+        if (recycle) {
+            content.recycle()
+            mask.recycle()
+        } else {
+            content.clear()
+            mask.clear()
+        }
     },
 
     __removeMask(child?: ILeaf): void {
