@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindFunction } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -178,12 +178,12 @@ export class Leaf implements ILeaf {
 
     // find
 
-    public find(condition: number | string | IFindFunction): ILeaf[] {
-        return this.leafer ? this.leafer.selector.getBy(condition, this, true) as ILeaf[] : []
+    public find(condition: number | string | IFindMethod): ILeaf[] {
+        return this.leafer ? this.leafer.selector.getBy(condition, this) as ILeaf[] : []
     }
 
-    public findOne(condition: number | string | IFindFunction): ILeaf {
-        return this.leafer ? this.leafer.selector.getBy(condition, this) as ILeaf : null
+    public findOne(condition: number | string | IFindMethod): ILeaf {
+        return this.leafer ? this.leafer.selector.getBy(condition, this, true) as ILeaf : null
     }
 
     // ---

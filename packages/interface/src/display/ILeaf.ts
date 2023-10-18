@@ -16,7 +16,7 @@ import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
 import { ILeafMask } from './module/ILeafMask'
 import { ILeafData } from '../data/ILeafData'
-import { IFindFunction } from '../selector/ISelector'
+import { IFindMethod } from '../selector/ISelector'
 
 
 export interface ICachedLeaf {
@@ -308,8 +308,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __getAttr(attrName: string): __Value
 
     // find
-    find(condition: number | string | IFindFunction): ILeaf[]
-    findOne(condition: number | string | IFindFunction): ILeaf
+    find(condition: number | string | IFindMethod): ILeaf[]
+    findOne(condition: number | string | IFindMethod): ILeaf
 
     forceUpdate(attrName?: string): void
 

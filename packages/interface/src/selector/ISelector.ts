@@ -19,8 +19,8 @@ export interface ISelectorConfig {
 
 }
 
-export interface IFindFunction {
-    (leaf: ILeaf, options?: any): boolean
+export interface IFindMethod {
+    (leaf: ILeaf, options?: any): any
 }
 
 export interface ISelector {
@@ -32,11 +32,11 @@ export interface ISelector {
 
     getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult
 
-    getBy(condition: number | string | IFindFunction, branch?: ILeaf, multiple?: boolean): ILeaf | ILeaf[]
-    getByInnerId(name: number, branch?: ILeaf): ILeaf
-    getById(name: string, branch?: ILeaf): ILeaf
-    getByClassName(name: string, branch?: ILeaf, one?: boolean): ILeaf[]
-    getByTagName(name: string, branch?: ILeaf, one?: boolean): ILeaf[]
-    getByFunction(condition: IFindFunction, branch?: ILeaf, one?: boolean): ILeaf[]
+    getBy(condition: number | string | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
+    getByInnerId(innerId: number, branch?: ILeaf): ILeaf
+    getById(id: string, branch?: ILeaf): ILeaf
+    getByClassName(className: string, branch?: ILeaf): ILeaf[]
+    getByTag(tag: string, branch?: ILeaf): ILeaf[]
+    getByMethod(method: IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
     destroy(): void
 }
