@@ -44,7 +44,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
 
             Platform.roundRectPatch = true
 
-        } else if (canvasType === 'skia-napi') {
+        } else if (canvasType === 'napi') {
 
             const { Canvas, loadImage } = power
             Platform.origin = {
