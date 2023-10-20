@@ -23,7 +23,8 @@ export interface IDataProcessor extends IObject {
 }
 
 export interface ILeafDataOptions {
-    all?: boolean
+    attrs?: 'all' | string[]
+    children?: boolean
 }
 
 export interface ILeafData extends IDataProcessor, ILeafComputedData {

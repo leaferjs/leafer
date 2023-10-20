@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod } from '@leafer/interface'
+import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -158,6 +158,7 @@ export class Leaf implements ILeaf {
     // data
 
     public set(_data: IObject): void { }
+    get(_options?: ILeafDataOptions): ILeafInputData { return undefined }
 
     public toJSON(): IObject {
         return this.__.__getInputData()
