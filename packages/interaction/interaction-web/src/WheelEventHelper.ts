@@ -27,7 +27,7 @@ export const WheelEventHelper = {
         if (zoomMode) {
             // mac 触摸板滚动手势的deltaY是整数, 鼠标滚动/触摸板缩放的deltaY有小数点， firfox鼠标滚动为整数，为18或19的倍数
             // windows 始终是整数
-            zoom = !e.deltaX && (Platform.intWheelDeltaY ? Math.abs(delta) > 17 : Math.ceil(delta) !== delta)
+            zoom = (zoomMode === 'mouse') ? true : (!e.deltaX && (Platform.intWheelDeltaY ? Math.abs(delta) > 17 : Math.ceil(delta) !== delta))
             if (e.shiftKey || e.metaKey || e.ctrlKey) zoom = true
         } else {
             zoom = !e.shiftKey && (e.metaKey || e.ctrlKey)
