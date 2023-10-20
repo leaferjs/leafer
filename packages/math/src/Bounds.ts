@@ -32,6 +32,11 @@ export class Bounds implements IBounds {
         return this
     }
 
+    public scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IBounds {
+        B.scaleOf(this, origin, scaleX, scaleY)
+        return this
+    }
+
     public toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds {
         B.toOuterOf(this, matrix, to)
         return this

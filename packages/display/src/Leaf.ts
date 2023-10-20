@@ -173,6 +173,10 @@ export class Leaf implements ILeaf {
 
     public __getAttr(_attrName: string): __Value { return undefined }
 
+    public setProxyAttr(_attrName: string, _newValue: __Value): void { }
+
+    public getProxyAttr(_attrName: string): __Value { return undefined }
+
     // ---
 
 

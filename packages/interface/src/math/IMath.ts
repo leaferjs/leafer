@@ -57,6 +57,7 @@ export interface IBounds extends IBoundsData {
     clone(): IBounds
 
     scale(scaleX: number, scaleY?: number): IBounds
+    scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IBounds
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData): IMatrix
 

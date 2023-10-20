@@ -5,7 +5,7 @@ export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
 
-export { ILeafData, IDataProcessor } from './data/ILeafData'
+export { ILeafData, IDataProcessor, ILeafDataOptions } from './data/ILeafData'
 export { ILeafLayout, ILayoutLocationType, ILayoutBoundsType } from './layout/ILeafLayout'
 
 export { ILeafDataProxy, ILeafDataProxyModule } from './display/module/ILeafDataProxy'

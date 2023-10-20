@@ -254,6 +254,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     isBranchLeaf?: boolean
 
     __: ILeafData
+    proxyData?: ILeafInputData
+
     __layout: ILeafLayout
 
     __world: IMatrixWithLayoutData
@@ -306,6 +308,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     // ILeafData ->
     __setAttr(attrName: string, newValue: __Value): void
     __getAttr(attrName: string): __Value
+    setProxyAttr(name: string, newValue: __Value): void
+    getProxyAttr(name: string): __Value
 
     // find
     find(condition: number | string | IFindMethod): ILeaf[]

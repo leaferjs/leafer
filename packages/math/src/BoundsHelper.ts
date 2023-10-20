@@ -70,10 +70,16 @@ export const BoundsHelper = {
         B.move(to, -to.offsetX, -to.offsetY)
     },
 
-    scale(t: IBoundsData, scaleX: number, scaleY?: number): void {
-        if (!scaleY) scaleY = scaleX
+    scale(t: IBoundsData, scaleX: number, scaleY: number = scaleX): void {
         if (t.x) t.x *= scaleX
         if (t.y) t.y *= scaleY
+        t.width *= scaleX
+        t.height *= scaleY
+    },
+
+    scaleOf(t: IBoundsData, origin: IPointData, scaleX: number, scaleY?: number): void {
+        t.x += (t.x - origin.x) * (scaleX - 1)
+        t.y += (t.y - origin.y) * (scaleY - 1)
         t.width *= scaleX
         t.height *= scaleY
     },

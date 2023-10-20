@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject, __Value } from '@leafer/interface'
+import { ILeafData, ILeafDataOptions, ILeaf, IObject, __Value } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -41,15 +41,20 @@ export class LeafData implements ILeafData {
         if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
     }
 
-    public __getInputData(): IObject {
+    public __getInputData(options?: ILeafDataOptions): IObject {
         const data: IObject = { tag: this.__leaf.tag }, { __input } = this
-        let realKey: string, value: __Value
-
-        for (let key in this) {
-            realKey = key.substring(1)
-            if ((this as any)[realKey] !== undefined) {
-                value = __input ? __input[realKey] : undefined
-                data[realKey] = value === undefined ? this[key] : value
+        if (options) {
+            for (let key in this) {
+                if (key[0] !== '_') data[key] = this[key]
+            }
+        } else {
+            let realKey: string, value: __Value
+            for (let key in this) {
+                realKey = key.substring(1)
+                if ((this as any)[realKey] !== undefined) {
+                    value = __input ? __input[realKey] : undefined
+                    data[realKey] = value === undefined ? this[key] : value
+                }
             }
         }
         return data
