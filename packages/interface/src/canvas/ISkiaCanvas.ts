@@ -4,8 +4,8 @@ export type ICanvasType = 'skia' | 'napi' | 'canvas' | 'wx'
 
 // skia
 export interface ISkiaCanvas {
-    toBuffer(format: IExportFileType, config: ISkiaCanvasExportConfig): Promise<Buffer>
-    toBufferSync(format: IExportFileType, config: ISkiaCanvasExportConfig): Buffer
+    toBuffer(format: IExportFileType, config: ISkiaCanvasExportConfig): Promise<any>
+    toBufferSync(format: IExportFileType, config: ISkiaCanvasExportConfig): any
     toDataURL(format: IExportImageType, config: ISkiaCanvasExportConfig): Promise<string>
     toDataURLSync(format: IExportImageType, config: ISkiaCanvasExportConfig): string
     saveAs(filename: string, config: ISkiaCanvasExportConfig): Promise<void>
@@ -22,14 +22,14 @@ export interface ISkiaCanvasExportConfig {
 
 // skia-napi
 export interface ISkiaNAPICanvas {
-    encodeSync(format: 'webp' | 'jpeg', quality?: number): Buffer
-    encodeSync(format: 'png'): Buffer
+    encodeSync(format: 'webp' | 'jpeg', quality?: number): any
+    encodeSync(format: 'png'): any
 
-    encode(format: 'webp' | 'jpeg' | string, quality?: number): Promise<Buffer>
-    encode(format: 'png'): Promise<Buffer>
+    encode(format: 'webp' | 'jpeg' | string, quality?: number): Promise<any>
+    encode(format: 'png'): Promise<any>
 
-    toBuffer(mime: 'image/png'): Buffer
-    toBuffer(mime: 'image/jpeg' | 'image/webp' | string, quality?: number): Buffer
+    toBuffer(mime: 'image/png'): any
+    toBuffer(mime: 'image/jpeg' | 'image/webp' | string, quality?: number): any
 
     toDataURL(mime?: 'image/png'): string
     toDataURL(mime: 'image/jpeg' | 'image/webp' | string, quality?: number): string
