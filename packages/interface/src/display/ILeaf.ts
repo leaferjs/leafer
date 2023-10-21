@@ -58,6 +58,7 @@ export interface ILeafAttrData {
     hittable: __Boolean
     hitFill: IHitType
     hitStroke: IHitType
+    hitBox: __Boolean
     hitChildren: __Boolean
     hitSelf: __Boolean
     hitRadius: __Number
@@ -185,6 +186,7 @@ export interface ILeafInputData extends IObject {
     hittable?: __Boolean
     hitFill?: IHitType
     hitStroke?: IHitType
+    hitBox?: __Boolean
     hitChildren?: __Boolean
     hitSelf?: __Boolean
     hitRadius?: __Number
@@ -224,6 +226,7 @@ export interface ILeafComputedData {
     hittable?: boolean
     hitFill?: IHitType
     hitStroke?: IHitType
+    hitBox?: boolean
     hitChildren?: boolean
     hitSelf?: boolean
     hitRadius?: number
