@@ -121,7 +121,7 @@ export class Selector implements ISelector {
 
     protected __checkIdChange(event: PropertyEvent): void {
         if (event.attrName === 'id') {
-            const { id } = event.target as ILeaf
+            const id = event.oldValue as string
             if (this.idMap[id]) delete this.idMap[id]
         }
     }

@@ -183,13 +183,9 @@ export class Leaf implements ILeaf {
 
     // find
 
-    public find(condition: number | string | IFindMethod): ILeaf[] {
-        return this.leafer ? this.leafer.selector.getBy(condition, this) as ILeaf[] : []
-    }
+    public find(_condition: number | string | IFindMethod): ILeaf[] { return undefined }
 
-    public findOne(condition: number | string | IFindMethod): ILeaf {
-        return this.leafer ? this.leafer.selector.getBy(condition, this, true) as ILeaf : null
-    }
+    public findOne(_condition: number | string | IFindMethod): ILeaf { return undefined }
 
     // ---
 
