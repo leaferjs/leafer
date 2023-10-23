@@ -85,7 +85,7 @@ export class LeafLayout implements ILeafLayout {
             }
         } else {
             let root = this.leaf
-            while (root.parent) { root = root.parent }
+            while (root.parent && !root.parent.leafer) { root = root.parent }
             Platform.layout(root)
         }
     }
