@@ -1,9 +1,8 @@
 import { ILeafMatrixModule, IPointData } from '@leafer/interface'
-import { OneRadian, MatrixHelper } from '@leafer/math'
+import { MatrixHelper } from '@leafer/math'
 
 
-const { sin, cos } = Math
-const defaultWorld = { ...MatrixHelper.defaultMatrix, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
+const { scale, rotate, skew, defaultWorld } = MatrixHelper
 const defaultCenter: IPointData = { x: 0.5, y: 0.5 }
 
 export const LeafMatrix: ILeafMatrixModule = {
@@ -63,22 +62,21 @@ export const LeafMatrix: ILeafMatrixModule = {
 
                     let { rotation, skewX, skewY } = this.__
 
+                    r.b = 0
+                    r.c = 0
+
                     if (rotation || skewX || skewY) {
 
-                        rotation *= OneRadian
-                        if (skewX) skewX *= OneRadian
-                        if (skewY) skewY *= OneRadian
+                        r.a = 1
+                        r.d = 1
 
-                        r.a = scaleX * cos(rotation + skewY)
-                        r.b = scaleX * sin(rotation + skewY)
-                        r.c = scaleY * -sin(rotation - skewX)
-                        r.d = scaleY * cos(rotation - skewX)
+                        if (rotation) rotate(r, rotation)
+                        if (skewX || skewY) skew(r, skewX, skewY)
+                        scale(r, scaleX, scaleY)
 
                     } else {
 
                         r.a = scaleX
-                        r.b = 0
-                        r.c = 0
                         r.d = scaleY
 
                         layout.affectRotation = false

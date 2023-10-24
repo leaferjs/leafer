@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
+import { IMatrixData, IPointData, IMatrixDecompositionData, IMatrixWithLayoutData } from '@leafer/interface'
 import { OneRadian } from './MathHelper'
 
 
@@ -9,9 +9,15 @@ function get(): IMatrixData {
     return { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
 }
 
+function getWorld(): IMatrixWithLayoutData {
+    return { ...get(), x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
+}
+
 export const MatrixHelper = {
 
     defaultMatrix: get(),
+
+    defaultWorld: getWorld(),
 
     tempMatrix: {} as IMatrixData,
 
@@ -25,6 +31,8 @@ export const MatrixHelper = {
     },
 
     get,
+
+    getWorld,
 
     copy(t: IMatrixData, matrix: IMatrixData): void {
         t.a = matrix.a
