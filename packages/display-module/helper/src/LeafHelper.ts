@@ -97,8 +97,8 @@ export const LeafHelper = {
         copy(matrix, t.__local)
         skewOfOuter(matrix, origin, skewX, skewY)
         moveByMatrix(t, matrix)
-        t.skewX = MathHelper.formatSkew(t.skewX + skewX)
-        t.skewY = MathHelper.formatSkew(t.skewY + skewY)
+        t.skewX += skewX
+        t.skewY += skewY
     },
 
     drop(t: ILeaf, parent: IBranch): void {
