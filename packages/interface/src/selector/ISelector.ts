@@ -19,8 +19,15 @@ export interface ISelectorConfig {
 
 }
 
+export enum AnswerType {
+    No = 0,
+    Yes = 1,
+    NoAndSkip = 2,
+    YesAndSkip = 3
+}
+
 export interface IFindMethod {
-    (leaf: ILeaf, options?: any): any
+    (leaf: ILeaf, options?: any): AnswerType
 }
 
 export interface ISelector {

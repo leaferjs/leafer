@@ -1,8 +1,10 @@
-import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod } from '@leafer/interface'
+import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
 import { Pather } from './Pather'
 
+
+const { Yes, NoAndSkip, YesAndSkip } = AnswerType
 
 export class Selector implements ISelector {
 
@@ -21,8 +23,8 @@ export class Selector implements ISelector {
     protected findLeaf: ILeaf
 
     protected methods = {
-        id: (leaf: ILeaf, name: string) => leaf.id === name ? this.idMap[name] = leaf : 0,
-        innerId: (leaf: ILeaf, innerId: number) => leaf.innerId === innerId ? this.innerIdMap[innerId] = leaf : 0,
+        id: (leaf: ILeaf, name: string) => leaf.id === name ? (this.idMap[name] = leaf, 1) : 0,
+        innerId: (leaf: ILeaf, innerId: number) => leaf.innerId === innerId ? (this.innerIdMap[innerId] = leaf, 1) : 0,
         className: (leaf: ILeaf, name: string) => leaf.className === name ? 1 : 0,
         tag: (leaf: ILeaf, name: string) => leaf.__tag === name ? 1 : 0
     }
@@ -35,11 +37,6 @@ export class Selector implements ISelector {
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
         this.pather = new Pather(target, this)
         this.__listenEvents()
-    }
-
-    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
-        if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
-        return this.pather.getByPoint(hitPoint, hitRadius, options)
     }
 
     public getBy(condition: number | string | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[] {
@@ -60,6 +57,11 @@ export class Selector implements ISelector {
             case 'function':
                 return this.getByMethod(condition as IFindMethod, branch, one, options)
         }
+    }
+
+    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
+        if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
+        return this.pather.getByPoint(hitPoint, hitRadius, options)
     }
 
     public getByInnerId(innerId: number, branch?: ILeaf): ILeaf {
@@ -91,11 +93,12 @@ export class Selector implements ISelector {
     }
 
 
-    protected eachFind(children: ILeaf[], method: IFindMethod, list?: ILeaf[], options?: any,): void {
-        let child: ILeaf
+    protected eachFind(children: ILeaf[], method: IFindMethod, list?: ILeaf[], options?: any): void {
+        let child: ILeaf, result: AnswerType
         for (let i = 0, len = children.length; i < len; i++) {
             child = children[i]
-            if (method(child, options)) {
+            result = method(child, options)
+            if (result === Yes || result === YesAndSkip) {
                 if (list) {
                     list.push(child)
                 } else {
@@ -103,7 +106,7 @@ export class Selector implements ISelector {
                     return
                 }
             }
-            if (child.isBranch) this.eachFind(child.children, method, list, options)
+            if (child.isBranch && result < NoAndSkip) this.eachFind(child.children, method, list, options)
         }
     }
 

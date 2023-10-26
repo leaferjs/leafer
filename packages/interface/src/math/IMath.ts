@@ -7,6 +7,7 @@ export interface IPointData {
 
 export interface IPoint extends IPointData {
     set(x?: number, y?: number): void
+    get(): IPointData
     copy(point: IPointData): IPoint
     clone(): IPoint
 
@@ -53,6 +54,7 @@ export interface IBoundsDataHandle {
 
 export interface IBounds extends IBoundsData {
     set(x?: number, y?: number, width?: number, height?: number): void
+    get(): IBoundsData
     copy(bounds: IBoundsData): IBounds
     clone(): IBounds
 
@@ -147,6 +149,7 @@ export type IMatrixDecompositionAttr =
 
 export interface IMatrix extends IMatrixData {
     set(a: number, b: number, c: number, d: number, e: number, f: number): void
+    get(): IMatrixData
     copy(matrix: IMatrixData): IMatrix
     clone(): IMatrix
 

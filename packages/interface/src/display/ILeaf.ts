@@ -37,6 +37,7 @@ export interface ILeafAttrData {
     visible: __Boolean
     isMask: __Boolean
     isEraser: __Boolean
+    locked: __Boolean
     zIndex: __Number
 
     // layout data
@@ -53,6 +54,7 @@ export interface ILeafAttrData {
     scale: __Number | IPointData // helper
     around: 'center' | IPointData
 
+    editable: __Boolean
     draggable: __Boolean
 
     hittable: __Boolean
@@ -165,6 +167,7 @@ export interface ILeafInputData extends IObject {
     visible?: __Boolean
     isMask?: __Boolean
     isEraser?: __Boolean
+    locked?: __Boolean
     zIndex?: __Number
 
     // layout data
@@ -181,6 +184,7 @@ export interface ILeafInputData extends IObject {
     scale?: __Number | IPointData // helper
     around?: IAround
 
+    editable?: __Boolean
     draggable?: __Boolean
 
     hittable?: __Boolean
@@ -206,6 +210,7 @@ export interface ILeafComputedData {
     visible?: boolean
     isMask?: boolean
     isEraser?: boolean
+    locked?: boolean
     zIndex?: number
 
     // layout data
@@ -221,6 +226,7 @@ export interface ILeafComputedData {
 
     around?: IAround
 
+    editable?: boolean
     draggable?: boolean
 
     hittable?: boolean

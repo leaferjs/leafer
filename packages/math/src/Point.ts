@@ -14,6 +14,11 @@ export class Point implements IPoint {
         P.set(this, x, y)
     }
 
+    public get(): IPointData {
+        const { x, y } = this
+        return { x, y }
+    }
+
     public copy(point: IPointData): IPoint {
         P.copy(this, point)
         return this

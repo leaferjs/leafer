@@ -19,6 +19,11 @@ export class Matrix implements IMatrix {
         M.set(this, a, b, c, d, e, f)
     }
 
+    public get(): IMatrixData {
+        const { a, b, c, d, e, f } = this
+        return { a, b, c, d, e, f }
+    }
+
     public copy(matrix: IMatrixData): IMatrix {
         M.copy(this, matrix)
         return this

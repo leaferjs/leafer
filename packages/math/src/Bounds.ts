@@ -17,6 +17,11 @@ export class Bounds implements IBounds {
         B.set(this, x, y, width, height)
     }
 
+    public get(): IBoundsData {
+        const { x, y, width, height } = this
+        return { x, y, width, height }
+    }
+
     public copy(bounds: IBoundsData): IBounds {
         B.copy(this, bounds)
         return this
