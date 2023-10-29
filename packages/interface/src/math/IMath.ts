@@ -71,7 +71,7 @@ export interface IBounds extends IBoundsData {
     addList(boundsList: IBounds[]): IBounds
     setByList(boundsList: IBounds[], addMode?: boolean): IBounds
     addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
-    setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode: boolean): IBounds
+    setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds
     setByPoints(points: IPointData[]): IBounds
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean

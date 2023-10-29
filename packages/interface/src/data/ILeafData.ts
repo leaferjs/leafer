@@ -1,7 +1,7 @@
 import { ILeaf, ILeafComputedData } from '../display/ILeaf'
 import { IObject } from './IData'
 
-export interface IDataProcessor extends IObject {
+export interface IDataProcessor {
     __leaf: ILeaf
     __input: IObject
     __middle: IObject

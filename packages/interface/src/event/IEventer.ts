@@ -1,5 +1,9 @@
-import { IEvent, IFunction, IObject } from '@leafer/interface'
 import { ILeafEventer } from '../display/module/ILeafEventer'
+import { ILeaf } from '../display/ILeaf'
+import { IFunction } from '../function/IFunction'
+import { IEvent } from './IEvent'
+import { IObject } from '../data/IData'
+
 
 export type IEventListener = IFunction
 
@@ -18,6 +22,7 @@ export interface IEventListenerMap {
 
 export interface IEventListenerId {
     type: string | string[]
+    current: ILeaf
     listener: IEventListener
     options?: IEventListenerOptions | boolean
 }

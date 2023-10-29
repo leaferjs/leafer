@@ -83,6 +83,8 @@ export class Leaf implements ILeaf {
     // branch 
     public children?: ILeaf[]
 
+    // other
+    public noBounds?: boolean
 
     public destroyed: boolean
 
@@ -183,17 +185,17 @@ export class Leaf implements ILeaf {
 
     // find
 
-    public find(_condition: number | string | IFindMethod): ILeaf[] { return undefined }
+    public find(_condition: number | string | IFindMethod, _options?: any): ILeaf[] { return undefined }
 
-    public findOne(_condition: number | string | IFindMethod): ILeaf { return undefined }
+    public findOne(_condition: number | string | IFindMethod, _options?: any): ILeaf { return undefined }
 
     // ---
 
     public forceUpdate(attrName?: string): void {
         if (attrName === undefined) attrName = 'width'
         else if (attrName === 'surface') attrName = 'blendMode'
-        const value = this.__.__getInput(attrName)
-        this.__[attrName] = value === undefined ? null : undefined;
+        const value = this.__.__getInput(attrName);
+        (this.__ as any)[attrName] = value === undefined ? null : undefined;
         (this as any)[attrName] = value
     }
 

@@ -77,9 +77,7 @@ export class LeafList implements ILeafList {
     }
 
     public clone(): ILeafList {
-        const list = new LeafList()
-        this.list.forEach(item => { list.push(item) })
-        return list
+        return new LeafList(this.list)
     }
 
     public reset(): void {

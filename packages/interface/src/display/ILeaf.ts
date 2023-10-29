@@ -154,7 +154,7 @@ export type ICursorType =
 export interface ICursorTypeMap {
     [name: string]: ICursorType | ICursorType[]
 }
-export interface ILeafInputData extends IObject {
+export interface ILeafInputData {
     tag?: string
 
     // layer data
@@ -198,6 +198,9 @@ export interface ILeafInputData extends IObject {
     cursor?: ICursorType | ICursorType[]
 
     children?: ILeafInputData[]
+
+    // other
+    noBounds?: boolean
 }
 export interface ILeafComputedData {
     // layer data
@@ -322,8 +325,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     getProxyAttr(name: string): __Value
 
     // find
-    find(condition: number | string | IFindMethod): ILeaf[]
-    findOne(condition: number | string | IFindMethod): ILeaf
+    find(condition: number | string | IFindMethod, options?: any): ILeaf[]
+    findOne(condition: number | string | IFindMethod, options?: any): ILeaf
 
     forceUpdate(attrName?: string): void
 

@@ -56,13 +56,13 @@ export const LeafEventer: ILeafEventerModule = {
     on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId {
         if (bind) listener = listener.bind(bind)
         this.on(type, listener, options)
-        return { type, listener, options }
+        return { type, current: this, listener, options }
     },
 
     off_(id: IEventListenerId | IEventListenerId[]): void {
         if (!id) return
         const list = id instanceof Array ? id : [id]
-        list.forEach(item => this.off(item.type, item.listener, item.options))
+        list.forEach(item => item.current.off(item.type, item.listener, item.options))
         list.length = 0
     },
 

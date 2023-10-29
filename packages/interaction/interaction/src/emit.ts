@@ -1,6 +1,8 @@
 import { IUIEvent, ILeaf, ILeafList } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
+import { Debug } from '@leafer/debug'
 
+const debug = Debug.get('emit')
 
 export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void {
     if (!path && !data.path) return
@@ -15,20 +17,25 @@ export function emit(type: string, data: IUIEvent, path?: ILeafList, excludePath
 
     data.target = path.indexAt(0)
 
-    // capture
-    for (let i = path.length - 1; i > -1; i--) {
-        leaf = path.list[i]
-        if (emitEvent(leaf, type, data, true, excludePath)) return
-        if (leaf.isApp) emitAppChildren(leaf, type, data, true, excludePath) //  other leafer
-    }
+    try {
 
-    // bubble
-    for (let i = 0, len = path.length; i < len; i++) {
-        leaf = path.list[i]
-        if (leaf.isApp) emitAppChildren(leaf, type, data, false, excludePath) //  other leafer
-        if (emitEvent(leaf, type, data, false, excludePath)) return
-    }
+        // capture
+        for (let i = path.length - 1; i > -1; i--) {
+            leaf = path.list[i]
+            if (emitEvent(leaf, type, data, true, excludePath)) return
+            if (leaf.isApp) emitAppChildren(leaf, type, data, true, excludePath) //  other leafer
+        }
 
+        // bubble
+        for (let i = 0, len = path.length; i < len; i++) {
+            leaf = path.list[i]
+            if (leaf.isApp) emitAppChildren(leaf, type, data, false, excludePath) //  other leafer
+            if (emitEvent(leaf, type, data, false, excludePath)) return
+        }
+
+    } catch (e) {
+        debug.error(e)
+    }
 }
 
 const allowTypes = ['move', 'zoom', 'rotate', 'key']

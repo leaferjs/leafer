@@ -45,8 +45,12 @@ export class Debug {
         }
     }
 
-    warn(...messages: unknown[]): void {
+    tip(...messages: unknown[]): void {
         if (D.enable) console.warn(this.name, ...messages)
+    }
+
+    warn(...messages: unknown[]): void {
+        console.warn(this.name, ...messages)
     }
 
     repeat(name: string, ...messages: unknown[]) {

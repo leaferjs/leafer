@@ -4,6 +4,7 @@ import { Bounds, BoundsHelper, LeafBoundsHelper, LeafList } from '@leafer/core'
 
 const { worldBounds } = LeafBoundsHelper
 const { setByListWithHandle } = BoundsHelper
+const bigBounds = { x: 0, y: 0, width: 100000, height: 100000 }
 
 export class LayoutBlockData implements ILayoutBlockData {
 
@@ -23,7 +24,13 @@ export class LayoutBlockData implements ILayoutBlockData {
     }
 
     public setAfter(): void {
-        setByListWithHandle(this.afterBounds, this.updatedList.list, worldBounds)
+        const { list } = this.updatedList
+        if (list.some(leaf => leaf.noBounds)) {
+            this.afterBounds.copy(bigBounds)
+        } else {
+            setByListWithHandle(this.afterBounds, list, worldBounds)
+        }
+
         this.updatedBounds.setByList([this.beforeBounds, this.afterBounds])
     }
 
