@@ -1,4 +1,4 @@
-import { IMatrix, IMatrixData, IPointData, IMatrixDecompositionData } from '@leafer/interface'
+import { IMatrix, IMatrixData, IPointData, IOrientData } from '@leafer/interface'
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -119,7 +119,7 @@ export class Matrix implements IMatrix {
         M.toInnerPoint(this, outer, to, distance)
     }
 
-    public decompose(): IMatrixDecompositionData {
+    public decompose(): IOrientData {
         return M.decompose(this)
     }
 

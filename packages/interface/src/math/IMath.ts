@@ -128,7 +128,12 @@ export interface IMatrixData {
     f: number
 }
 
-export interface IMatrixDecompositionData {
+export interface IOrientBoundsData extends IBoundsData {
+    rotation: number
+    skewX: number
+    skewY: number
+}
+export interface IOrientData {
     x: number
     y: number
     scaleX: number
@@ -138,7 +143,7 @@ export interface IMatrixDecompositionData {
     skewY: number
 }
 
-export type IMatrixDecompositionAttr =
+export type IOrientAttr =
     | 'x'
     | 'y'
     | 'scaleX'
@@ -176,11 +181,11 @@ export interface IMatrix extends IMatrixData {
     toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void
     toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void
 
-    decompose(): IMatrixDecompositionData
+    decompose(): IOrientData
 
     reset(): void
 }
 
 export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData { }
 
-export interface IMatrixWithLayoutData extends IMatrixData, IMatrixDecompositionData, IBoundsData { }
+export interface IMatrixWithLayoutData extends IMatrixData, IOrientData, IBoundsData { }

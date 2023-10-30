@@ -1,4 +1,4 @@
-import { ILeaf, ILeafLayout, ILayoutLocationType, ILayoutBoundsType, IBoundsData, IMatrixData } from '@leafer/interface'
+import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
@@ -90,12 +90,12 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getTransform(locationType: ILayoutLocationType): IMatrixData {
+    public getTransform(locationType: ILocationType): IMatrixData {
         this.checkUpdate()
         return locationType === 'world' ? this.leaf.__world : this.leaf.__local
     }
 
-    public getBounds(type: ILayoutBoundsType, locationType: ILayoutLocationType): IBoundsData {
+    public getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData {
 
         this.checkUpdate()
 

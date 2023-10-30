@@ -1,8 +1,8 @@
 import { IBoundsData, IMatrixData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 
-export type ILayoutLocationType = 'world' | 'local' | 'inner'
-export type ILayoutBoundsType = 'content' | 'box' | 'stroke' | 'margin' | 'render'
+export type ILocationType = 'world' | 'local' | 'inner'
+export type IBoundsType = 'content' | 'box' | 'stroke' | 'margin' | 'render'
 
 export interface ILeafLayout {
 
@@ -62,8 +62,8 @@ export interface ILeafLayout {
 
     checkUpdate(force?: boolean): void
 
-    getTransform(locationType: ILayoutLocationType): IMatrixData
-    getBounds(type: ILayoutBoundsType, locationType: ILayoutLocationType): IBoundsData
+    getTransform(locationType: ILocationType): IMatrixData
+    getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData
 
     // 独立 / 引用 boxBounds
     spreadStroke(): void

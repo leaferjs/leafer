@@ -6,7 +6,7 @@ export { IZoomView } from './display/IView'
 
 
 export { ILeafData, IDataProcessor, ILeafDataOptions } from './data/ILeafData'
-export { ILeafLayout, ILayoutLocationType, ILayoutBoundsType } from './layout/ILeafLayout'
+export { ILeafLayout, ILocationType, IBoundsType } from './layout/ILeafLayout'
 
 export { ILeafDataProxy, ILeafDataProxyModule } from './display/module/ILeafDataProxy'
 export { ILeafMatrix, ILeafMatrixModule } from './display/module/ILeafMatrix'
@@ -51,5 +51,5 @@ export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPo
 
 export { __Number, __Boolean, __String, __Object, __Value, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IDataTypeHandle } from './data/IData'
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
-export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataHandle, IOffsetBoundsData, ITwoPointBounds, ITwoPointBoundsData, IAutoBounds, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithLayoutData, IMatrixDecompositionData, IMatrixDecompositionAttr } from './math/IMath'
+export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataHandle, IOffsetBoundsData, ITwoPointBounds, ITwoPointBoundsData, IAutoBounds, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithLayoutData, IOrientBoundsData, IOrientData, IOrientAttr } from './math/IMath'
 export { IFunction } from './function/IFunction'
