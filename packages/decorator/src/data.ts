@@ -220,17 +220,17 @@ export function setDefaultValue(target: IObject, key: string, defaultValue: __Va
 // define leaf.__[key] getter/setter
 export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: __Value): void {
 
-    const data = target.__DataProcessor.prototype as ILeafData
+    const data = target.__DataProcessor.prototype
     const computedKey = '_' + key
     const setMethodName = getSetMethodName(key)
 
     const property: IObject & ThisType<ILeafData> = {
         get() {
-            const v = this[computedKey]
+            const v = (this as IObject)[computedKey]
             return v === undefined ? defaultValue : v
         },
         set(value: __Value) {
-            this[computedKey] = value
+            (this as IObject)[computedKey] = value
         },
         configurable: true,
         enumerable: true

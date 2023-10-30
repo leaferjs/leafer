@@ -9,8 +9,8 @@ import { Transformer } from './Transformer'
 import { Dragger } from './Dragger'
 import { emit } from './emit'
 import { InteractionHelper } from './InteractionHelper'
-import { Platform } from '@leafer/platform'
 import { MultiTouchHelper } from './MultiTouchHelper'
+import { config } from './config'
 
 
 const { pathHasEventType, getMoveEventData, getZoomEventData, getRotateEventData } = InteractionHelper
@@ -25,28 +25,7 @@ export class InteractionBase implements IInteraction {
     public get dragging(): boolean { return this.dragger.dragging }
     public get moveMode(): boolean { return (Keyboard.isHoldSpaceKey() && this.config.move.holdSpaceKey) || (this.downData && PointerButton.middle(this.downData)) }
 
-    public config: IInteractionConfig = {
-        wheel: {
-            zoomMode: false,
-            zoomSpeed: 0.5,
-            moveSpeed: 0.5,
-            rotateSpeed: 0.5,
-            delta: Platform.os === 'Windows' ? { x: 150 / 4, y: 150 / 4 } : { x: 80 / 4, y: 8.0 },
-            preventDefault: true
-        },
-        pointer: {
-            hitRadius: 5,
-            through: false,
-            tapTime: 120,
-            longPressTime: 800,
-            transformTime: 500,
-            dragHover: true,
-            dragDistance: 2,
-            swipeDistance: 20,
-            ignoreMove: false
-        },
-        cursor: {}
-    }
+    public config: IInteractionConfig = config
 
     public cursor: ICursorType | ICursorType[]
     public get hitRadius(): number { return this.config.pointer.hitRadius }
@@ -105,11 +84,10 @@ export class InteractionBase implements IInteraction {
         if (!data) return
         PointerButton.defaultLeft(data)
 
-        this.emit(PointerEvent.BEFORE_DOWN, data, this.defaultPath)
-
         this.updateDownData(data)
         if (useDefaultPath) data.path = this.defaultPath
 
+        this.emit(PointerEvent.BEFORE_DOWN, data)
         this.emit(PointerEvent.DOWN, data)
 
         this.downTime = Date.now()
@@ -167,10 +145,9 @@ export class InteractionBase implements IInteraction {
         if (!this.downData) return
         PointerButton.defaultLeft(data)
 
-        this.emit(PointerEvent.BEFORE_UP, data, this.defaultPath)
-
         this.findPath(data)
 
+        this.emit(PointerEvent.BEFORE_UP, data)
         this.emit(PointerEvent.UP, data)
         this.emit(PointerEvent.UP, this.downData, undefined, data.path) // downPath必须触发up
 

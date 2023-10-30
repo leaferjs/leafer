@@ -77,7 +77,10 @@ export class LeafList implements ILeafList {
     }
 
     public clone(): ILeafList {
-        return new LeafList(this.list)
+        const list = new LeafList()
+        list.list = [...this.list]
+        list.keys = { ...this.keys }
+        return list
     }
 
     public reset(): void {
@@ -86,6 +89,6 @@ export class LeafList implements ILeafList {
     }
 
     public destroy(): void {
-        this.list = null
+        this.reset()
     }
 }

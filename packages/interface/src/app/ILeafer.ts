@@ -11,7 +11,7 @@ import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
 import { IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
-import { IApp } from './IApp'
+import { IAppBase } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
 import { IControl } from '../control/IControl'
 import { IFunction } from '../function/IFunction'
@@ -24,12 +24,7 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
     realCanvas?: boolean
 }
 
-export interface ILeafer extends IZoomView, IControl {
-
-    readonly isApp: boolean
-    readonly app: ILeafer
-    parent?: IApp
-
+export interface ILeaferAttrData {
     running: boolean
     created: boolean
     ready: boolean
@@ -62,7 +57,7 @@ export interface ILeafer extends IZoomView, IControl {
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]
 
-    init(userConfig?: ILeaferConfig, parentApp?: IApp): void
+    init(userConfig?: ILeaferConfig, parentApp?: IAppBase): void
     setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
     updateCursor(): void
@@ -73,14 +68,20 @@ export interface ILeafer extends IZoomView, IControl {
     waitViewCompleted(item: IFunction): void
 }
 
+export interface ILeaferBase extends IZoomView, IControl, ILeaferAttrData {
+    readonly isApp: boolean
+    readonly app: ILeaferBase
+    parent?: IAppBase
+}
+
 export interface ILeaferTypeCreator {
     list: ILeaferTypeList
     register(name: string, fn: ILeaferTypeFunction): void
-    run(name: string, leafer: ILeafer): void
+    run(name: string, leafer: ILeaferBase): void
 }
 
 export interface ILeaferTypeFunction {
-    (leafer: ILeafer): void
+    (leafer: ILeaferBase): void
 }
 
 export interface ILeaferTypeList {

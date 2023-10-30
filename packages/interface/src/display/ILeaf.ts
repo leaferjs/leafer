@@ -1,4 +1,4 @@
-import { ILeafer } from '../app/ILeafer'
+import { ILeaferBase } from '../app/ILeafer'
 import { IEventer } from '../event/IEventer'
 
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
@@ -257,7 +257,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     readonly __DataProcessor: IObject // IDataProcessor
     readonly __LayoutProcessor: IObject // ILeafLayout
 
-    leafer?: ILeafer
+    leafer?: ILeaferBase
     parent?: ILeaf
 
     readonly isApp?: boolean
@@ -311,7 +311,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     waitLeafer(item: IFunction): void
     nextRender(item: IFunction): void
 
-    __bindLeafer(leafer: ILeafer | null): void
+    __bindLeafer(leafer: ILeaferBase | null): void
 
     set(data: IObject): void
     get(options?: ILeafDataOptions): ILeafInputData
@@ -329,6 +329,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     findOne(condition: number | string | IFindMethod, options?: any): ILeaf
 
     forceUpdate(attrName?: string): void
+    updateLayout(force?: boolean): void
 
     // ILeafMatrix ->
     __updateWorldMatrix(): void

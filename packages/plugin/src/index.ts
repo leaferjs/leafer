@@ -1,4 +1,4 @@
-import { IPlugin, IObject, ILeafer } from '@leafer/interface'
+import { IPlugin, IObject, ILeaferBase } from '@leafer/interface'
 import { Debug } from '@leafer/debug'
 
 
@@ -7,7 +7,7 @@ const debug = Debug.get('plugin')
 export const PluginManager = {
     power: {} as IObject,
     list: [] as IPlugin[],
-    onLeafer(leafer: ILeafer): void {
+    onLeafer(leafer: ILeaferBase): void {
         PluginManager.list.forEach(plugin => {
             if (plugin.onLeafer) plugin.onLeafer(leafer)
         })

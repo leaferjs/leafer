@@ -1,6 +1,6 @@
-import { ILeafer } from './ILeafer'
+import { ILeaferBase } from './ILeafer'
 
-export interface IApp extends ILeafer {
-    children: ILeafer[]
+export interface IAppBase extends ILeaferBase {
+    children: ILeaferBase[]
     realCanvas: boolean
 }

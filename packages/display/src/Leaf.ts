@@ -1,4 +1,4 @@
-import { ILeafer, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IMatrixWithBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IMatrixDecompositionAttr, ILayoutBoundsType, ILayoutLocationType, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -31,7 +31,7 @@ export class Leaf implements ILeaf {
     public get __DataProcessor() { return LeafData }
     public get __LayoutProcessor() { return LeafLayout }
 
-    public leafer?: ILeafer
+    public leafer?: ILeaferBase
     public parent?: ILeaf
 
     public isLeafer: boolean
@@ -134,9 +134,9 @@ export class Leaf implements ILeaf {
         this.leafer ? this.leafer.nextRender(item) : this.waitLeafer(() => this.leafer.nextRender(item))
     }
 
-    public __bindLeafer(leafer: ILeafer | null): void {
+    public __bindLeafer(leafer: ILeaferBase | null): void {
         if (this.isLeafer) {
-            if (leafer !== null) leafer = this as unknown as ILeafer
+            if (leafer !== null) leafer = this as unknown as ILeaferBase
         }
 
         if (this.leafer && !leafer) this.leafer.leafs--
@@ -197,6 +197,10 @@ export class Leaf implements ILeaf {
         const value = this.__.__getInput(attrName);
         (this.__ as any)[attrName] = value === undefined ? null : undefined;
         (this as any)[attrName] = value
+    }
+
+    public updateLayout(force?: boolean): void {
+        this.__layout.checkUpdate(force)
     }
 
 
