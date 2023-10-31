@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, IOrientPointAttr, IMatrixWithLayoutData, IOrientPointData, IOrientBoundsData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, IOrientPointAttr, IMatrixWithLayoutData, IOrientBoundsData, IMatrixData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -376,10 +376,14 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
+
+    // set
     move(x: number, y?: number): void
     scaleOf(origin: IPointData, x: number, y?: number): void
     rotateOf(origin: IPointData, rotation: number): void
     skewOf(origin: IPointData, x: number, y: number): void
+    transform(transform?: IMatrixData): void
+    setTransform(transform?: IMatrixData): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean

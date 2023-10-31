@@ -1,3 +1,5 @@
+const { round, pow, PI } = Math
+
 export const MathHelper = {
 
     within(value: number, min: number, max: number): number {
@@ -48,10 +50,15 @@ export const MathHelper = {
             if (r < 1 || r > gap - 1) rotation = Math.round(rotation / gap) * gap
         }
         return rotation
+    },
+
+    float(num: number, maxLength: number): number {
+        const a = pow(10, maxLength)
+        return round(num * a) / a
     }
 
 }
 
-export const OneRadian = Math.PI / 180
-export const PI2 = Math.PI * 2
-export const PI_2 = Math.PI / 2
+export const OneRadian = PI / 180
+export const PI2 = PI * 2
+export const PI_2 = PI / 2

@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, IOrientPointData, IOrientBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, IOrientPointAttr } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, IOrientBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, IOrientPointAttr, IMatrixData } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -8,7 +8,7 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint } = MatrixHelper
+const { toInnerPoint, toOuterPoint, decompose, preMultiply } = MatrixHelper
 const { tempToOuterOf, copy } = PointHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal } = LeafHelper
 
@@ -356,6 +356,14 @@ export class Leaf implements ILeaf {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y)
     }
 
+    public transform(transform: IMatrixData): void {
+        preMultiply(this.localTransform, transform)
+        this.setTransform(this.__local)
+    }
+
+    public setTransform(transform: IMatrixData): void {
+        this.set(decompose(transform))
+    }
 
     // LeafHit rewrite
 

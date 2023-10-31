@@ -1,8 +1,9 @@
 import { IMatrixData, IPointData, IOrientPointData, IMatrixWithLayoutData } from '@leafer/interface'
-import { OneRadian } from './MathHelper'
+import { MathHelper, OneRadian, PI_2 } from './MathHelper'
 
 
-const { sin, cos, acos, atan, sqrt, PI } = Math
+const { sin, cos, acos, atan, sqrt } = Math
+const { float } = MathHelper
 const tempPoint = {} as IPointData
 
 function get(): IMatrixData {
@@ -219,18 +220,18 @@ export const MatrixHelper = {
 
                 const r = a / scaleX
                 rotation = b > 0 ? acos(r) : -acos(r)
-                skewX = atan(k / ab) / OneRadian
+                skewX = float(atan(k / ab) / OneRadian, 6)
             } else {
                 const cd = c * c + d * d
                 scaleY = sqrt(cd)
                 scaleX = s / scaleY
 
                 const r = c / scaleY
-                rotation = PI / 2 - (d > 0 ? acos(-r) : -acos(r))
-                skewY = atan(k / cd) / OneRadian
+                rotation = PI_2 - (d > 0 ? acos(-r) : -acos(r))
+                skewY = float(atan(k / cd) / OneRadian, 6)
             }
 
-            rotation /= OneRadian
+            rotation = float(rotation / OneRadian, 6)
         }
 
         return { x: t.e, y: t.f, scaleX, scaleY, rotation, skewX, skewY }
