@@ -1,5 +1,5 @@
-import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData } from '@leafer/interface'
-import { BoundsHelper } from '@leafer/math'
+import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, IOrientBoundsData, IOrientPointData, IPointData } from '@leafer/interface'
+import { BoundsHelper, MatrixHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
 
@@ -116,17 +116,7 @@ export class LeafLayout implements ILeafLayout {
 
         } else if (locationType === 'inner') {
 
-            switch (type) {
-                case 'render':
-                    return this.renderBounds
-                case 'content':
-                    if (this.contentBounds) return this.contentBounds
-                case 'margin':
-                case 'box':
-                    return this.boxBounds
-                case 'stroke':
-                    return this.strokeBounds
-            }
+            return this.getInnerBounds(type)
 
         } else {
 
@@ -143,6 +133,60 @@ export class LeafLayout implements ILeafLayout {
 
         }
 
+    }
+
+    public getInnerBounds(type: IBoundsType): IBoundsData {
+        switch (type) {
+            case 'render':
+                return this.renderBounds
+            case 'content':
+                if (this.contentBounds) return this.contentBounds
+            case 'margin':
+            case 'box':
+                return this.boxBounds
+            case 'stroke':
+                return this.strokeBounds
+        }
+    }
+
+    public getOrientBounds(type: IBoundsType, locationType: ILocationType, relative?: ILeaf, unscale?: boolean): IOrientBoundsData {
+        const { leaf } = this
+        let point: IPointData, orient: IOrientPointData
+        let bounds: IBoundsData = this.getInnerBounds(type)
+
+        if (locationType === 'world') {
+            point = leaf.getWorldPoint(bounds, relative)
+            orient = leaf.__world
+        } else if (locationType === 'local') {
+            point = leaf.getLocalPointByInner(bounds, relative)
+            orient = leaf.__ as IOrientPointData
+        } else {
+            point = bounds
+            orient = MatrixHelper.defaultWorld
+        }
+
+        let { width, height } = bounds
+        let { scaleX, scaleY, rotation, skewX, skewY } = orient
+
+        if (relative) {
+            const r = relative.__world
+            scaleX /= r.scaleX
+            scaleY /= r.scaleY
+            rotation -= r.rotation
+            skewX -= r.skewX
+            skewY -= r.skewY
+        }
+
+        if (unscale) {
+            const uScaleX = scaleX < 0 ? -scaleX : scaleX
+            const uScaleY = scaleY < 0 ? -scaleY : scaleY
+            scaleX /= uScaleX
+            scaleY /= uScaleY
+            width *= uScaleX
+            height *= uScaleY
+        }
+
+        return { x: point.x, y: point.y, scaleX, scaleY, rotation, skewX, skewY, width, height }
     }
 
     protected getWorldContentBounds(): IBoundsData {

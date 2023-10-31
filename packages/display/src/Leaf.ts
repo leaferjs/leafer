@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, IOrientData, IOrientBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, IOrientAttr } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, IOrientPointData, IOrientBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, IOrientPointAttr } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -259,7 +259,7 @@ export class Leaf implements ILeaf {
 
     // convert
 
-    public getWorld(attrName: IOrientAttr): number {
+    public getWorld(attrName: IOrientPointAttr): number {
         this.__layout.checkUpdate()
         if (attrName === 'x') return this.__world.e
         if (attrName === 'y') return this.__world.f
@@ -270,14 +270,9 @@ export class Leaf implements ILeaf {
         return this.__layout.getBounds(type, locationType)
     }
 
-    public getOrientBounds(_type: IBoundsType, locationType: ILocationType = 'world', relative?: ILeaf): IOrientBoundsData {
-        return undefined
+    public getOrientBounds(type: IBoundsType = 'box', locationType: ILocationType = 'world', relative?: ILeaf, unscale?: boolean): IOrientBoundsData {
+        return this.__layout.getOrientBounds(type, locationType, relative, unscale)
     }
-
-    public getOrient(locationType: ILocationType = 'world', relative?: ILeaf): IOrientData {
-        return undefined
-    }
-
 
     public worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
         if (this.parent) {

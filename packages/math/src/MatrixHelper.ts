@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, IOrientData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IMatrixData, IPointData, IOrientPointData, IMatrixWithLayoutData } from '@leafer/interface'
 import { OneRadian } from './MathHelper'
 
 
@@ -204,7 +204,7 @@ export const MatrixHelper = {
     },
 
 
-    decompose(t: IMatrixData): IOrientData {
+    decompose(t: IMatrixData): IOrientPointData {
         const { a, b, c, d } = t
         let scaleX = a, scaleY = d, rotation = 0, skewX = 0, skewY = 0
         if (b || c) {
