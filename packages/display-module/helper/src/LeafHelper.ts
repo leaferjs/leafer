@@ -66,16 +66,24 @@ export const LeafHelper = {
         t.y += y
     },
 
-    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number): void {
-        this.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY)
+    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
+        this.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize)
     },
 
-    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX): void {
+    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, resize?: boolean): void {
         copy(matrix, t.__local)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         moveByMatrix(t, matrix)
-        t.scaleX *= scaleX
-        t.scaleY *= scaleY
+        if (resize) {
+            if (scaleX < 0) t.scaleX *= -1, scaleX = -scaleX
+            if (scaleY < 0) t.scaleY *= -1, scaleY = - scaleY
+            if (scaleX !== 1) t.width *= scaleX
+            if (scaleY !== 1) t.height *= scaleY // Text auto height
+
+        } else {
+            t.scaleX *= scaleX
+            t.scaleY *= scaleY
+        }
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
@@ -130,6 +138,6 @@ function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
 }
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {
-    t.__layout.checkUpdate()
+    t.__layout.update()
     return t.parent ? PointHelper.tempToInnerOf(world, t.parent.__world) : world
 }

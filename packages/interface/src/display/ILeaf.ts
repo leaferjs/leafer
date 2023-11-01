@@ -290,7 +290,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     readonly resizeable: boolean
 
-    readonly __hasMirror: boolean
+    readonly __worldFliped: boolean
 
     __hasMask?: boolean
     __hasEraser?: boolean
@@ -379,7 +379,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     // set
     move(x: number, y?: number): void
-    scaleOf(origin: IPointData, x: number, y?: number): void
+    scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void
     rotateOf(origin: IPointData, rotation: number): void
     skewOf(origin: IPointData, x: number, y: number): void
     transform(transform?: IMatrixData): void

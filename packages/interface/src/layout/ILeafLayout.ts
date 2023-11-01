@@ -60,7 +60,7 @@ export interface ILeafLayout {
     strokeBoxSpread: number
     renderShapeSpread: number
 
-    checkUpdate(force?: boolean): void
+    update(force?: boolean): void
 
     getTransform(locationType: ILocationType): IMatrixData
     getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData

@@ -27,7 +27,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 const blendMode = this.__.isEraser ? 'destination-out' : this.__.blendMode
 
-                if (this.__hasMirror || options.matrix) {
+                if (this.__worldFliped || options.matrix) {
                     canvas.copyWorld(tempCanvas, null, null, blendMode)
                 } else {
                     canvas.copyWorld(tempCanvas, this.__world, this.__world, blendMode)

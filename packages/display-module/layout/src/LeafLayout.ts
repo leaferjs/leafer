@@ -75,7 +75,7 @@ export class LeafLayout implements ILeafLayout {
     }
 
 
-    public checkUpdate(force?: boolean): void {
+    public update(force?: boolean): void {
         const { leafer } = this.leaf
         if (leafer) {
             if (leafer.ready) {
@@ -91,13 +91,13 @@ export class LeafLayout implements ILeafLayout {
     }
 
     public getTransform(locationType: ILocationType): IMatrixData {
-        this.checkUpdate()
+        this.update()
         return locationType === 'world' ? this.leaf.__world : this.leaf.__local
     }
 
     public getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData {
 
-        this.checkUpdate()
+        this.update()
 
         if (locationType === 'world') {
 

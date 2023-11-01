@@ -57,14 +57,14 @@ export class Leaf implements ILeaf {
     public get worldRenderBounds(): IBoundsData { return this.getBounds('render') }
 
     // now opacity
-    public get worldOpacity(): number { this.__layout.checkUpdate(); return this.__worldOpacity }
+    public get worldOpacity(): number { this.__layout.update(); return this.__worldOpacity }
 
     public __level: number // layer level  0 -> branch -> branch -> deep
     public __tempNumber: number // temp sort
 
     public get resizeable(): boolean { return true }
 
-    public get __hasMirror(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
+    public get __worldFliped(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
 
     public __hasMask?: boolean
     public __hasEraser?: boolean
@@ -200,7 +200,7 @@ export class Leaf implements ILeaf {
     }
 
     public updateLayout(force?: boolean): void {
-        this.__layout.checkUpdate(force)
+        this.__layout.update(force)
     }
 
 
@@ -260,7 +260,7 @@ export class Leaf implements ILeaf {
     // convert
 
     public getWorld(attrName: IOrientPointAttr): number {
-        this.__layout.checkUpdate()
+        this.__layout.update()
         if (attrName === 'x') return this.__world.e
         if (attrName === 'y') return this.__world.f
         return this.__world[attrName]
@@ -344,8 +344,8 @@ export class Leaf implements ILeaf {
         moveLocal(this, x, y)
     }
 
-    public scaleOf(origin: IPointData, x: number, y?: number): void {
-        zoomOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y)
+    public scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void {
+        zoomOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y, resize)
     }
 
     public rotateOf(origin: IPointData, angle: number): void {
