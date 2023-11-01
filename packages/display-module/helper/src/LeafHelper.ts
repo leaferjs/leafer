@@ -79,7 +79,6 @@ export const LeafHelper = {
             if (scaleY < 0) t.scaleY *= -1, scaleY = - scaleY
             if (scaleX !== 1) t.width *= scaleX
             if (scaleY !== 1) t.height *= scaleY // Text auto height
-
         } else {
             t.scaleX *= scaleX
             t.scaleY *= scaleY

@@ -1,9 +1,8 @@
-import { ILeafMatrixModule, IPointData } from '@leafer/interface'
-import { MatrixHelper } from '@leafer/math'
+import { ILeafMatrixModule } from '@leafer/interface'
+import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
 const { scale, rotate, skew, defaultWorld } = MatrixHelper
-const defaultCenter: IPointData = { x: 0.5, y: 0.5 }
 
 export const LeafMatrix: ILeafMatrixModule = {
 
@@ -107,7 +106,7 @@ export const LeafMatrix: ILeafMatrixModule = {
         if (around) {
             const { width, height } = this.__
             if (width && height) {
-                const origin = (around === 'center') ? defaultCenter : around
+                const origin = AroundHelper.read(around)
                 const offsetX = width * origin.x, offsetY = height * origin.y
                 r.e -= offsetX * r.a + offsetY * r.c
                 r.f -= offsetX * r.b + offsetY * r.d

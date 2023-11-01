@@ -7,6 +7,7 @@ export { TwoPointBounds } from './TwoPointBounds'
 export { Matrix } from './Matrix'
 
 export { PointHelper } from './PointHelper'
+export { AroundHelper } from './AroundHelper'
 export { BoundsHelper } from './BoundsHelper'
 export { TwoPointBoundsHelper } from './TwoPointBoundsHelper'
 export { MatrixHelper } from './MatrixHelper'
