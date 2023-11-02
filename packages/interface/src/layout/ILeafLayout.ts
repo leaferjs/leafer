@@ -62,9 +62,9 @@ export interface ILeafLayout {
 
     update(force?: boolean): void
 
-    getTransform(locationType: ILocationType): IMatrixData
-    getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData
-    getOrientBounds(type: IBoundsType, locationType?: ILocationType, relative?: ILeaf, unscale?: boolean): IOrientBoundsData
+    getTransform(relative?: ILocationType | ILeaf): IMatrixData
+    getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
+    getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData
 
     // 独立 / 引用 boxBounds
     spreadStroke(): void

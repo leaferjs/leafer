@@ -125,33 +125,37 @@ export const MatrixHelper = {
     },
 
 
-    multiply(t: IMatrixData, matrix: IMatrixData): void {
+    multiply(t: IMatrixData, child: IMatrixData): void {
         const { a, b, c, d, e, f } = t
 
-        t.a = matrix.a * a + matrix.b * c
-        t.b = matrix.a * b + matrix.b * d
-        t.c = matrix.c * a + matrix.d * c
-        t.d = matrix.c * b + matrix.d * d
-        t.e = matrix.e * a + matrix.f * c + e
-        t.f = matrix.e * b + matrix.f * d + f
+        t.a = child.a * a + child.b * c
+        t.b = child.a * b + child.b * d
+        t.c = child.c * a + child.d * c
+        t.d = child.c * b + child.d * d
+        t.e = child.e * a + child.f * c + e
+        t.f = child.e * b + child.f * d + f
     },
 
-    preMultiply(t: IMatrixData, matrix: IMatrixData): void {
+    multiplyParent(t: IMatrixData, parent: IMatrixData): void {
         const { a, b, c, d, e, f } = t
 
-        if (matrix.a !== 1 || matrix.b !== 0 || matrix.c !== 0 || matrix.d !== 1) {
-            t.a = (a * matrix.a) + (b * matrix.c)
-            t.b = (a * matrix.b) + (b * matrix.d)
-            t.c = (c * matrix.a) + (d * matrix.c)
-            t.d = (c * matrix.b) + (d * matrix.d)
+        if (parent.a !== 1 || parent.b !== 0 || parent.c !== 0 || parent.d !== 1) {
+            t.a = (a * parent.a) + (b * parent.c)
+            t.b = (a * parent.b) + (b * parent.d)
+            t.c = (c * parent.a) + (d * parent.c)
+            t.d = (c * parent.b) + (d * parent.d)
         }
 
-        t.e = (e * matrix.a) + (f * matrix.c) + matrix.e
-        t.f = (e * matrix.b) + (f * matrix.d) + matrix.f
+        t.e = (e * parent.a) + (f * parent.c) + parent.e
+        t.f = (e * parent.b) + (f * parent.d) + parent.f
     },
 
-    divide(t: IMatrixData, matrix: IMatrixData): void {
-        M.preMultiply(t, M.tempInvert(matrix))
+    divide(t: IMatrixData, child: IMatrixData): void {
+        M.multiply(t, M.tempInvert(child))
+    },
+
+    divideParent(t: IMatrixData, parent: IMatrixData): void {
+        M.multiplyParent(t, M.tempInvert(parent))
     },
 
     tempInvert(t: IMatrixData): IMatrixData {

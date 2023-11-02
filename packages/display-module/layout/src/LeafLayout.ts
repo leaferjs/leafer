@@ -1,5 +1,5 @@
 import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, IOrientBoundsData, IOrientPointData, IPointData } from '@leafer/interface'
-import { BoundsHelper, MatrixHelper } from '@leafer/math'
+import { Bounds, BoundsHelper, Matrix, MatrixHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
 
@@ -90,52 +90,35 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getTransform(locationType: ILocationType): IMatrixData {
+    public getTransform(relative: ILocationType | ILeaf = 'world'): IMatrixData {
         this.update()
-        return locationType === 'world' ? this.leaf.__world : this.leaf.__local
-    }
-
-    public getBounds(type: IBoundsType, locationType: ILocationType): IBoundsData {
-
-        this.update()
-
-        if (locationType === 'world') {
-
-            switch (type) {
-                case 'render':
-                    return this.leaf.__world
-                case 'content':
-                    if (this.contentBounds) return this.getWorldContentBounds()
-                case 'margin':
-                case 'box':
-                    return this.getWorldBoxBounds()
-                case 'margin':
-                case 'stroke':
-                    return this.getWorldStrokeBounds()
-            }
-
-        } else if (locationType === 'inner') {
-
-            return this.getInnerBounds(type)
-
-        } else {
-
-            switch (type) {
-                case 'render':
-                    return this.localRenderBounds
-                case 'margin':
-                case 'content':
-                case 'box':
-                    return this.leaf.__local
-                case 'stroke':
-                    return this.localStrokeBounds
-            }
-
+        switch (relative) {
+            case 'world':
+                return this.leaf.__world
+            case 'local':
+                return this.leaf.__local
+            case 'inner':
+                return MatrixHelper.defaultMatrix
+            default:
+                return new Matrix(this.leaf.__world).divideParent(relative.__world)
         }
-
     }
 
-    public getInnerBounds(type: IBoundsType): IBoundsData {
+    public getBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world'): IBoundsData {
+        this.update()
+        switch (relative) {
+            case 'world':
+                return this.getWorldBounds(type)
+            case 'local':
+                return this.getLocalBounds(type)
+            case 'inner':
+                return this.getInnerBounds(type)
+            default:
+                return new Bounds(this.getInnerBounds(type)).toOuterOf(this.getTransform(relative))
+        }
+    }
+
+    public getInnerBounds(type: IBoundsType = 'box'): IBoundsData {
         switch (type) {
             case 'render':
                 return this.renderBounds
@@ -149,26 +132,61 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getOrientBounds(type: IBoundsType, locationType: ILocationType, relative?: ILeaf, unscale?: boolean): IOrientBoundsData {
+    public getLocalBounds(type: IBoundsType = 'box'): IBoundsData {
+        switch (type) {
+            case 'render':
+                return this.localRenderBounds
+            case 'margin':
+            case 'content':
+            case 'box':
+                return this.leaf.__local
+            case 'stroke':
+                return this.localStrokeBounds
+        }
+    }
+
+    public getWorldBounds(type: IBoundsType = 'box'): IBoundsData {
+        switch (type) {
+            case 'render':
+                return this.leaf.__world
+            case 'content':
+                if (this.contentBounds) return this.getWorldContentBounds()
+            case 'margin':
+            case 'box':
+                return this.getWorldBoxBounds()
+            case 'margin':
+            case 'stroke':
+                return this.getWorldStrokeBounds()
+        }
+    }
+
+    public getOrientBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): IOrientBoundsData {
         const { leaf } = this
         let point: IPointData, orient: IOrientPointData
         let bounds: IBoundsData = this.getInnerBounds(type)
 
-        if (locationType === 'world') {
-            point = leaf.getWorldPoint(bounds, relative)
-            orient = leaf.__world
-        } else if (locationType === 'local') {
-            point = leaf.getLocalPointByInner(bounds, relative)
-            orient = leaf.__ as IOrientPointData
-        } else {
-            point = bounds
-            orient = MatrixHelper.defaultWorld
+        switch (relative) {
+            case 'world':
+                point = leaf.getWorldPoint(bounds)
+                orient = leaf.__world
+                break
+            case 'local':
+                point = leaf.getLocalPointByInner(bounds)
+                orient = leaf.__ as IOrientPointData
+                break
+            case 'inner':
+                point = bounds
+                orient = MatrixHelper.defaultWorld
+                break
+            default:
+                point = leaf.getWorldPoint(bounds, relative)
+                orient = leaf.__world
         }
 
-        let { width, height } = bounds
         let { scaleX, scaleY, rotation, skewX, skewY } = orient
+        let { width, height } = bounds
 
-        if (relative) {
+        if (typeof relative === 'object') {
             const r = relative.__world
             scaleX /= r.scaleX
             scaleY /= r.scaleY

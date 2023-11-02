@@ -73,6 +73,7 @@ export interface IBounds extends IBoundsData {
     addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
     setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds
     setByPoints(points: IPointData[]): IBounds
+    getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean
     hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean
@@ -169,9 +170,10 @@ export interface IMatrix extends IMatrixData {
     skewOfOuter(origin: IPointData, x: number, y?: number): IMatrix
     skewOfInner(origin: IPointData, x: number, y?: number): IMatrix
 
-    multiply(matrix: IMatrixData): IMatrix
-    divide(matrix: IMatrixData): IMatrix
-    preMultiply(matrix: IMatrixData): IMatrix
+    multiply(child: IMatrixData): IMatrix
+    multiplyParent(parent: IMatrixData): IMatrix
+    divide(child: IMatrixData): IMatrix
+    divideParent(parent: IMatrixData): IMatrix
     invert(): IMatrix
 
     toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void

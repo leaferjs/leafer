@@ -90,18 +90,23 @@ export class Matrix implements IMatrix {
     }
 
 
-    public multiply(matrix: IMatrixData): IMatrix {
-        M.multiply(this, matrix)
+    public multiply(child: IMatrixData): IMatrix {
+        M.multiply(this, child)
         return this
     }
 
-    public preMultiply(matrix: IMatrixData): IMatrix {
-        M.preMultiply(this, matrix)
+    public multiplyParent(parent: IMatrixData): IMatrix {
+        M.multiplyParent(this, parent)
         return this
     }
 
-    public divide(matrix: IMatrixData): IMatrix {
-        M.divide(this, matrix)
+    public divide(child: IMatrixData): IMatrix {
+        M.divide(this, child)
+        return this
+    }
+
+    public divideParent(parent: IMatrixData): IMatrix {
+        M.divideParent(this, parent)
         return this
     }
 

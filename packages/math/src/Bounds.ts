@@ -98,6 +98,10 @@ export class Bounds implements IBounds {
         return this
     }
 
+    public getPoints(): IPointData[] {
+        return B.getPoints(this)
+    }
+
 
 
     public hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean {

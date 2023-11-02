@@ -8,7 +8,7 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint, decompose, preMultiply } = MatrixHelper
+const { toInnerPoint, toOuterPoint, decompose, multiplyParent } = MatrixHelper
 const { tempToOuterOf, copy } = PointHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal } = LeafHelper
 
@@ -266,13 +266,14 @@ export class Leaf implements ILeaf {
         return this.__world[attrName]
     }
 
-    public getBounds(type: IBoundsType, locationType: ILocationType = 'world'): IBoundsData {
-        return this.__layout.getBounds(type, locationType)
+    public getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData {
+        return this.__layout.getBounds(type, relative)
     }
 
-    public getOrientBounds(type: IBoundsType = 'box', locationType: ILocationType = 'world', relative?: ILeaf, unscale?: boolean): IOrientBoundsData {
-        return this.__layout.getOrientBounds(type, locationType, relative, unscale)
+    public getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData {
+        return this.__layout.getOrientBounds(type, relative, unscale)
     }
+
 
     public worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
         if (this.parent) {
@@ -357,7 +358,7 @@ export class Leaf implements ILeaf {
     }
 
     public transform(transform: IMatrixData): void {
-        preMultiply(this.localTransform, transform)
+        multiplyParent(this.localTransform, transform)
         this.setTransform(this.__local)
     }
 

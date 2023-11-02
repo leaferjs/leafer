@@ -361,8 +361,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     // convert
     getWorld(attrName: IOrientPointAttr): number
-    getBounds(type: IBoundsType, locationType?: ILocationType): IBoundsData
-    getOrientBounds(type: IBoundsType, locationType?: ILocationType, relative?: ILeaf, unscale?: boolean): IOrientBoundsData
+    getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
+    getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData
 
     worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
     localToWorld(local: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
@@ -375,7 +375,6 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     getLocalPointByInner(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-
 
     // set
     move(x: number, y?: number): void

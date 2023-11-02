@@ -224,9 +224,7 @@ export const BoundsHelper = {
     },
 
     setByPoints(t: IBoundsData, points: IPointData[]): void {
-        points.forEach((point, index) => {
-            index === 0 ? setPoint(tempPointBounds, point.x, point.y) : addPoint(tempPointBounds, point.x, point.y)
-        })
+        points.forEach((point, index) => index === 0 ? setPoint(tempPointBounds, point.x, point.y) : addPoint(tempPointBounds, point.x, point.y))
         toBounds(tempPointBounds, t)
     },
 
@@ -273,6 +271,16 @@ export const BoundsHelper = {
 
     intersect(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): void {
         B.copy(t, B.getIntersectData(t, other, otherMatrix))
+    },
+
+    getPoints(t: IBoundsData): IPointData[] {
+        const { x, y, width, height } = t
+        return [
+            { x, y }, // topLeft
+            { x: x + width, y }, // topRight
+            { x: x + width, y: y + height }, // bottomRight
+            { x, y: y + height } // bottomLeft
+        ]
     },
 
     isSame(t: IBoundsData, bounds: IBoundsData): boolean {
