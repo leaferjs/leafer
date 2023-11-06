@@ -100,7 +100,7 @@ export const LeafHelper = {
         this.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY)
     },
 
-    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number): void {
+    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0): void {
         copy(matrix, t.__local)
         skewOfOuter(matrix, origin, skewX, skewY)
         moveByMatrix(t, matrix)

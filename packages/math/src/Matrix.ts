@@ -12,11 +12,12 @@ export class Matrix implements IMatrix {
     public f: number
 
     constructor(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number) {
-        typeof a === 'object' ? M.copy(this, a) : M.set(this, a, b, c, d, e, f)
+        this.set(a, b, c, d, e, f)
     }
 
-    public set(a?: number, b?: number, c?: number, d?: number, e?: number, f?: number): void {
-        M.set(this, a, b, c, d, e, f)
+    public set(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): IMatrix {
+        typeof a === 'object' ? M.copy(this, a) : M.set(this, a, b, c, d, e, f)
+        return this
     }
 
     public get(): IMatrixData {
@@ -100,6 +101,7 @@ export class Matrix implements IMatrix {
         return this
     }
 
+
     public divide(child: IMatrixData): IMatrix {
         M.divide(this, child)
         return this
@@ -124,8 +126,14 @@ export class Matrix implements IMatrix {
         M.toInnerPoint(this, outer, to, distance)
     }
 
-    public decompose(): IOrientPointData {
-        return M.decompose(this)
+
+    public setLayout(data: IOrientPointData, origin?: IPointData): IMatrix {
+        M.setLayout(this, data, origin)
+        return this
+    }
+
+    public getLayout(origin?: IPointData, firstSkewY?: boolean): IOrientPointData {
+        return M.getLayout(this, origin, firstSkewY)
     }
 
 

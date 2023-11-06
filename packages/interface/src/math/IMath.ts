@@ -6,7 +6,7 @@ export interface IPointData {
 }
 
 export interface IPoint extends IPointData {
-    set(x?: number, y?: number): void
+    set(x?: number | IPointData, y?: number): IPointData
     get(): IPointData
     copy(point: IPointData): IPoint
     clone(): IPoint
@@ -53,7 +53,7 @@ export interface IBoundsDataHandle {
 }
 
 export interface IBounds extends IBoundsData {
-    set(x?: number, y?: number, width?: number, height?: number): void
+    set(x?: number | IBoundsData, y?: number, width?: number, height?: number): IBounds
     get(): IBoundsData
     copy(bounds: IBoundsData): IBounds
     clone(): IBounds
@@ -72,6 +72,7 @@ export interface IBounds extends IBoundsData {
     setByList(boundsList: IBounds[], addMode?: boolean): IBounds
     addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
     setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds
+
     setByPoints(points: IPointData[]): IBounds
     getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
 
@@ -129,12 +130,18 @@ export interface IMatrixData {
     f: number
 }
 
-export interface IOrientPointData extends IPointData {
+export interface IScaleRotationData {
     scaleX: number
     scaleY: number
     rotation: number
+}
+
+export interface ISkewData {
     skewX: number
     skewY: number
+}
+
+export interface IOrientPointData extends IScaleRotationData, ISkewData, IPointData {
 }
 
 export type IOrientPointAttr =
@@ -150,7 +157,7 @@ export type IOrientPointAttr =
 export interface IOrientBoundsData extends IOrientPointData, IBoundsData {
 }
 export interface IMatrix extends IMatrixData {
-    set(a: number, b: number, c: number, d: number, e: number, f: number): void
+    set(a: number | IMatrixData, b: number, c: number, d: number, e: number, f: number): IMatrix
     get(): IMatrixData
     copy(matrix: IMatrixData): IMatrix
     clone(): IMatrix
@@ -172,6 +179,7 @@ export interface IMatrix extends IMatrixData {
 
     multiply(child: IMatrixData): IMatrix
     multiplyParent(parent: IMatrixData): IMatrix
+
     divide(child: IMatrixData): IMatrix
     divideParent(parent: IMatrixData): IMatrix
     invert(): IMatrix
@@ -179,7 +187,8 @@ export interface IMatrix extends IMatrixData {
     toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void
     toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void
 
-    decompose(): IOrientPointData
+    setLayout(data: IOrientPointData, origin?: IPointData): IMatrix
+    getLayout(origin?: IPointData, firstSkewY?: boolean): IOrientPointData
 
     reset(): void
 }

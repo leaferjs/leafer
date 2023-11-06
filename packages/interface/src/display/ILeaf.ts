@@ -109,7 +109,9 @@ export interface IImageCursor {
     y?: number
 }
 
-export type IAround = 'center' | IPointData
+export type IAround =
+    | 'center'
+    | IPointData
 
 export type ICursorType =
     | IImageCursor
@@ -380,7 +382,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     move(x: number, y?: number): void
     scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void
     rotateOf(origin: IPointData, rotation: number): void
-    skewOf(origin: IPointData, x: number, y: number): void
+    skewOf(origin: IPointData, x: number, y?: number): void
     transform(transform?: IMatrixData): void
     setTransform(transform?: IMatrixData): void
 

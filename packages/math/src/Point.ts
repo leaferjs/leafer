@@ -7,11 +7,12 @@ export class Point implements IPoint {
     public y: number
 
     constructor(x?: number | IPointData, y?: number) {
-        typeof x === 'object' ? P.copy(this, x) : P.set(this, x, y)
+        this.set(x, y)
     }
 
-    public set(x?: number, y?: number): void {
-        P.set(this, x, y)
+    public set(x?: number | IPointData, y?: number): IPointData {
+        typeof x === 'object' ? P.copy(this, x) : P.set(this, x, y)
+        return this
     }
 
     public get(): IPointData {

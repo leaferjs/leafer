@@ -10,11 +10,12 @@ export class Bounds implements IBounds {
     public height: number
 
     constructor(x?: number | IBoundsData, y?: number, width?: number, height?: number) {
-        typeof x === 'object' ? B.copy(this, x) : B.set(this, x, y, width, height)
+        this.set(x, y, width, height)
     }
 
-    public set(x?: number, y?: number, width?: number, height?: number): void {
-        B.set(this, x, y, width, height)
+    public set(x?: number | IBoundsData, y?: number, width?: number, height?: number): IBounds {
+        typeof x === 'object' ? B.copy(this, x) : B.set(this, x, y, width, height)
+        return this
     }
 
     public get(): IBoundsData {
@@ -92,6 +93,7 @@ export class Bounds implements IBounds {
         B.setByListWithHandle(this, list, boundsDataHandle, addMode)
         return this
     }
+
 
     public setByPoints(points: IPointData[]): IBounds {
         B.setByPoints(this, points)

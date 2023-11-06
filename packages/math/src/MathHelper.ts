@@ -44,17 +44,19 @@ export const MathHelper = {
         return rotation
     },
 
-    getGapRotation(rotation: number, gap: number): number {
+    getGapRotation(addRotation: number, gap: number, oldRotation: number = 0): number {
+        let rotation = addRotation + oldRotation
         if (gap > 1) {
             const r = Math.abs(rotation % gap)
             if (r < 1 || r > gap - 1) rotation = Math.round(rotation / gap) * gap
         }
-        return rotation
+        return rotation - oldRotation
     },
 
-    float(num: number, maxLength: number): number {
-        const a = pow(10, maxLength)
-        return round(num * a) / a
+    float(num: number, maxLength?: number): number {
+        const a = maxLength ? pow(10, maxLength) : 1000000000000 // default
+        num = round(num * a) / a
+        return num === -0 ? 0 : num
     }
 
 }

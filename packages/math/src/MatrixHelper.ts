@@ -2,7 +2,7 @@ import { IMatrixData, IPointData, IOrientPointData, IMatrixWithLayoutData } from
 import { MathHelper, OneRadian, PI_2 } from './MathHelper'
 
 
-const { sin, cos, acos, atan, sqrt } = Math
+const { sin, cos, acos, sqrt, abs } = Math
 const { float } = MathHelper
 const tempPoint = {} as IPointData
 
@@ -56,71 +56,74 @@ export const MatrixHelper = {
     },
 
 
-    scale(t: IMatrixData, x: number, y: number = x): void {
-        t.a *= x
-        t.b *= x
-        t.c *= y
-        t.d *= y
+    scale(t: IMatrixData, scaleX: number, scaleY: number = scaleX): void {
+        t.a *= scaleX
+        t.b *= scaleX
+        t.c *= scaleY
+        t.d *= scaleY
     },
 
-    scaleOfOuter(t: IMatrixData, origin: IPointData, x: number, y: number = x): void {
+    scaleOfOuter(t: IMatrixData, origin: IPointData, scaleX: number, scaleY?: number): void {
         M.toInnerPoint(t, origin, tempPoint)
-        M.scaleOfInner(t, tempPoint, x, y)
+        M.scaleOfInner(t, tempPoint, scaleX, scaleY)
     },
 
-    scaleOfInner(t: IMatrixData, origin: IPointData, x: number, y: number = x): void {
+    scaleOfInner(t: IMatrixData, origin: IPointData, scaleX: number, scaleY: number = scaleX): void {
         M.translateInner(t, origin.x, origin.y)
-        M.scale(t, x, y)
+        M.scale(t, scaleX, scaleY)
         M.translateInner(t, -origin.x, -origin.y)
     },
 
 
-    rotate(t: IMatrixData, angle: number): void {
-        angle *= OneRadian
-        const cosR = cos(angle)
-        const sinR = sin(angle)
-
+    rotate(t: IMatrixData, rotation: number): void {
         const { a, b, c, d } = t
-        t.a = (a * cosR) - (b * sinR)
-        t.b = (a * sinR) + (b * cosR)
-        t.c = (c * cosR) - (d * sinR)
-        t.d = (c * sinR) + (d * cosR)
+
+        rotation *= OneRadian
+        const cosR = cos(rotation)
+        const sinR = sin(rotation)
+
+        t.a = a * cosR - b * sinR
+        t.b = a * sinR + b * cosR
+        t.c = c * cosR - d * sinR
+        t.d = c * sinR + d * cosR
     },
 
-    rotateOfOuter(t: IMatrixData, origin: IPointData, angle: number): void {
+    rotateOfOuter(t: IMatrixData, origin: IPointData, rotation: number): void {
         M.toInnerPoint(t, origin, tempPoint)
-        M.rotateOfInner(t, tempPoint, angle)
+        M.rotateOfInner(t, tempPoint, rotation)
     },
 
-    rotateOfInner(t: IMatrixData, origin: IPointData, angle: number): void {
+    rotateOfInner(t: IMatrixData, origin: IPointData, rotation: number): void {
         M.translateInner(t, origin.x, origin.y)
-        M.rotate(t, angle)
+        M.rotate(t, rotation)
         M.translateInner(t, -origin.x, -origin.y)
     },
 
 
-    skew(t: IMatrixData, x: number, y?: number): void {
+    skew(t: IMatrixData, skewX: number, skewY?: number): void {
         const { a, b, c, d } = t
-        if (y) {
-            y *= OneRadian
-            t.a = a + c * y
-            t.b = b + d * y
+
+        if (skewY) {
+            skewY *= OneRadian
+            t.a = a + c * skewY
+            t.b = b + d * skewY
         }
-        if (x) {
-            x *= OneRadian
-            t.c = c + a * x
-            t.d = d + b * x
+
+        if (skewX) {
+            skewX *= OneRadian
+            t.c = c + a * skewX
+            t.d = d + b * skewX
         }
     },
 
-    skewOfOuter(t: IMatrixData, origin: IPointData, x: number, y?: number): void {
+    skewOfOuter(t: IMatrixData, origin: IPointData, skewX: number, skewY?: number): void {
         M.toInnerPoint(t, origin, tempPoint)
-        M.skewOfInner(t, tempPoint, x, y)
+        M.skewOfInner(t, tempPoint, skewX, skewY)
     },
 
-    skewOfInner(t: IMatrixData, origin: IPointData, x: number, y?: number): void {
+    skewOfInner(t: IMatrixData, origin: IPointData, skewX: number, skewY: number = 0): void {
         M.translateInner(t, origin.x, origin.y)
-        M.skew(t, x, y)
+        M.skew(t, skewX, skewY)
         M.translateInner(t, -origin.x, -origin.y)
     },
 
@@ -136,18 +139,25 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixData, parent: IMatrixData): void {
+    multiplyParent(t: IMatrixData, parent: IMatrixData, abcdChanged?: boolean | number): void { // = transform
         const { a, b, c, d, e, f } = t
 
-        if (parent.a !== 1 || parent.b !== 0 || parent.c !== 0 || parent.d !== 1) {
-            t.a = (a * parent.a) + (b * parent.c)
-            t.b = (a * parent.b) + (b * parent.d)
-            t.c = (c * parent.a) + (d * parent.c)
-            t.d = (c * parent.b) + (d * parent.d)
+        if (abcdChanged === undefined) abcdChanged = a !== 1 || b || c || d !== 1
+
+        if (abcdChanged) {
+            t.a = a * parent.a + b * parent.c
+            t.b = a * parent.b + b * parent.d
+            t.c = c * parent.a + d * parent.c
+            t.d = c * parent.b + d * parent.d
+        } else {
+            t.a = parent.a
+            t.b = parent.b
+            t.c = parent.c
+            t.d = parent.d
         }
 
-        t.e = (e * parent.a) + (f * parent.c) + parent.e
-        t.f = (e * parent.b) + (f * parent.d) + parent.f
+        t.e = e * parent.a + f * parent.c + parent.e
+        t.f = e * parent.b + f * parent.d + parent.f
     },
 
     divide(t: IMatrixData, child: IMatrixData): void {
@@ -159,10 +169,10 @@ export const MatrixHelper = {
     },
 
     tempInvert(t: IMatrixData): IMatrixData {
-        const { tempMatrix: temp } = M
-        M.copy(temp, t)
-        M.invert(temp)
-        return temp
+        const { tempMatrix } = M
+        M.copy(tempMatrix, t)
+        M.invert(tempMatrix)
+        return tempMatrix
     },
 
     invert(t: IMatrixData): void {
@@ -182,8 +192,8 @@ export const MatrixHelper = {
 
         // outer
         to || (to = inner)
-        to.x = (x * t.a) + (y * t.c)
-        to.y = (x * t.b) + (y * t.d)
+        to.x = x * t.a + y * t.c
+        to.y = x * t.b + y * t.d
 
         if (!distance) {
             to.x += t.e
@@ -192,9 +202,10 @@ export const MatrixHelper = {
     },
 
     toInnerPoint(t: IMatrixData, outer: IPointData, to?: IPointData, distance?: boolean): void {
-        const { x, y } = outer
         const { a, b, c, d } = t
         const s = 1 / (a * d - b * c)
+
+        const { x, y } = outer
 
         // inner
         to || (to = outer)
@@ -208,37 +219,100 @@ export const MatrixHelper = {
         }
     },
 
+    setLayout(t: IMatrixData, data: IOrientPointData, origin?: IPointData, bcChanged?: boolean | number): void {
+        const { x, y, scaleX, scaleY, rotation, skewX, skewY } = data
 
-    decompose(t: IMatrixData): IOrientPointData {
-        const { a, b, c, d } = t
-        let scaleX = a, scaleY = d, rotation = 0, skewX = 0, skewY = 0
+        if (bcChanged === undefined) bcChanged = rotation || skewX || skewY
+
+        if (bcChanged) {
+
+            const r = rotation * OneRadian
+            const cosR = cos(r)
+            const sinR = sin(r)
+
+            if (skewX || skewY) {
+
+                // rotate -> skew -> scale
+                const sx = skewX * OneRadian
+                const sy = skewY * OneRadian
+
+                t.a = (cosR + sy * -sinR) * scaleX
+                t.b = (sinR + sy * cosR) * scaleX
+                t.c = (-sinR + sx * cosR) * scaleY
+                t.d = (cosR + sx * sinR) * scaleY
+
+            } else {
+
+                // rotate -> scale
+                t.a = cosR * scaleX
+                t.b = sinR * scaleX
+                t.c = -sinR * scaleY
+                t.d = cosR * scaleY
+
+            }
+
+        } else {
+            t.a = scaleX
+            t.b = 0
+            t.c = 0
+            t.d = scaleY
+        }
+
+        t.e = x
+        t.f = y
+
+        if (origin) {
+            t.e -= origin.x * t.a + origin.y * t.c
+            t.f -= origin.x * t.b + origin.y * t.d
+        }
+    },
+
+    getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): IOrientPointData {
+        const { a, b, c, d, e, f } = t
+
+        let x = e, y = f, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number
+
         if (b || c) {
 
             const s = a * d - b * c
-            const k = a * c + b * d
 
-            if (b) {
-                const ab = a * a + b * b
-                scaleX = sqrt(ab)
+            if (c && !firstSkewY) {
+                scaleX = sqrt(a * a + b * b)
                 scaleY = s / scaleX
 
-                const r = a / scaleX
-                rotation = b > 0 ? acos(r) : -acos(r)
-                skewX = float(atan(k / ab) / OneRadian, 6)
+                const cosR = a / scaleX
+                rotation = b > 0 ? acos(cosR) : -acos(cosR)
+
             } else {
-                const cd = c * c + d * d
-                scaleY = sqrt(cd)
+                scaleY = sqrt(c * c + d * d)
                 scaleX = s / scaleY
 
-                const r = c / scaleY
-                rotation = PI_2 - (d > 0 ? acos(-r) : -acos(r))
-                skewY = float(atan(k / cd) / OneRadian, 6)
+                const cosR = c / scaleY
+                rotation = PI_2 - (d > 0 ? acos(-cosR) : -acos(cosR))
             }
 
-            rotation = float(rotation / OneRadian, 6)
+            if (abs(scaleX) > 0.1) scaleX = float(scaleX)
+            if (abs(scaleY) > 0.1) scaleY = float(scaleY)
+
+            const cosR = cos(rotation)
+            const sinR = sin(rotation)
+
+            skewX = float((c / scaleY + sinR) / cosR / OneRadian)
+            skewY = float((b / scaleX - sinR) / cosR / OneRadian)
+            rotation = float(rotation / OneRadian)
+
+        } else {
+            scaleX = a
+            scaleY = d
+            rotation = skewX = skewY = 0
         }
 
-        return { x: t.e, y: t.f, scaleX, scaleY, rotation, skewX, skewY }
+        if (origin) {
+            x += origin.x * a + origin.y * c
+            y += origin.x * b + origin.y * d
+        }
+
+        return { x, y, scaleX, scaleY, rotation, skewX, skewY }
     },
 
     reset(t: IMatrixData): void {

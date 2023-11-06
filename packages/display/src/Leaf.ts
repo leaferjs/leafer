@@ -8,7 +8,7 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint, decompose, multiplyParent } = MatrixHelper
+const { toInnerPoint, toOuterPoint, getLayout, multiplyParent } = MatrixHelper
 const { tempToOuterOf, copy } = PointHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal } = LeafHelper
 
@@ -353,7 +353,7 @@ export class Leaf implements ILeaf {
         rotateOfLocal(this, tempToOuterOf(origin, this.localTransform), angle)
     }
 
-    public skewOf(origin: IPointData, x: number, y: number): void {
+    public skewOf(origin: IPointData, x: number, y?: number): void {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y)
     }
 
@@ -363,7 +363,7 @@ export class Leaf implements ILeaf {
     }
 
     public setTransform(transform: IMatrixData): void {
-        this.set(decompose(transform))
+        this.set(getLayout(transform))
     }
 
     // LeafHit rewrite
