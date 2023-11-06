@@ -72,7 +72,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
 Platform.name = 'web'
 Platform.isMobile = 'ontouchstart' in window
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
-Platform.devicePixelRatio = devicePixelRatio
+Platform.devicePixelRatio = Math.max(1, devicePixelRatio)
 Platform.realtimeLayout = true
 
 

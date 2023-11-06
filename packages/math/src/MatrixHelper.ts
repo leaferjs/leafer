@@ -2,7 +2,7 @@ import { IMatrixData, IPointData, IOrientPointData, IMatrixWithLayoutData } from
 import { MathHelper, OneRadian, PI_2 } from './MathHelper'
 
 
-const { sin, cos, acos, sqrt, abs } = Math
+const { sin, cos, acos, sqrt } = Math
 const { float } = MathHelper
 const tempPoint = {} as IPointData
 
@@ -44,7 +44,6 @@ export const MatrixHelper = {
         t.f = matrix.f
     },
 
-
     translate(t: IMatrixData, x: number, y: number): void {
         t.e += x
         t.f += y
@@ -54,7 +53,6 @@ export const MatrixHelper = {
         t.e += t.a * x + t.c * y
         t.f += t.b * x + t.d * y
     },
-
 
     scale(t: IMatrixData, scaleX: number, scaleY: number = scaleX): void {
         t.a *= scaleX
@@ -139,25 +137,50 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixData, parent: IMatrixData, abcdChanged?: boolean | number): void { // = transform
+    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, fromLayout?: IOrientPointData): void { // = transform
         const { a, b, c, d, e, f } = t
+
+        to || (to = t)
 
         if (abcdChanged === undefined) abcdChanged = a !== 1 || b || c || d !== 1
 
         if (abcdChanged) {
-            t.a = a * parent.a + b * parent.c
-            t.b = a * parent.b + b * parent.d
-            t.c = c * parent.a + d * parent.c
-            t.d = c * parent.b + d * parent.d
+            to.a = a * parent.a + b * parent.c
+            to.b = a * parent.b + b * parent.d
+            to.c = c * parent.a + d * parent.c
+            to.d = c * parent.b + d * parent.d
+
+            if (fromLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData, fromLayout)
+
         } else {
-            t.a = parent.a
-            t.b = parent.b
-            t.c = parent.c
-            t.d = parent.d
+            to.a = parent.a
+            to.b = parent.b
+            to.c = parent.c
+            to.d = parent.d
+
+            if (fromLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData)
         }
 
-        t.e = e * parent.a + f * parent.c + parent.e
-        t.f = e * parent.b + f * parent.d + parent.f
+        to.e = e * parent.a + f * parent.c + parent.e
+        to.f = e * parent.b + f * parent.d + parent.f
+    },
+
+    multiplyParentLayout(t: IOrientPointData, parent: IOrientPointData, from?: IOrientPointData): void {
+        if (from) {
+            t.scaleX = parent.scaleX * from.scaleX
+            t.scaleY = parent.scaleY * from.scaleY
+
+            t.rotation = parent.rotation + from.rotation
+            t.skewX = parent.skewX + from.skewX
+            t.skewY = parent.skewY + from.skewY
+        } else {
+            t.scaleX = parent.scaleX
+            t.scaleY = parent.scaleY
+
+            t.rotation = parent.rotation
+            t.skewX = parent.skewX
+            t.skewY = parent.skewY
+        }
     },
 
     divide(t: IMatrixData, child: IMatrixData): void {
@@ -219,13 +242,14 @@ export const MatrixHelper = {
         }
     },
 
-    setLayout(t: IMatrixData, data: IOrientPointData, origin?: IPointData, bcChanged?: boolean | number): void {
-        const { x, y, scaleX, scaleY, rotation, skewX, skewY } = data
+    setLayout(t: IMatrixData, layout: IOrientPointData, origin?: IPointData, bcChanged?: boolean | number): void {
+        const { x, y, scaleX, scaleY } = layout
 
-        if (bcChanged === undefined) bcChanged = rotation || skewX || skewY
+        if (bcChanged === undefined) bcChanged = layout.rotation || layout.skewX || layout.skewY
 
         if (bcChanged) {
 
+            const { rotation, skewX, skewY } = layout
             const r = rotation * OneRadian
             const cosR = cos(r)
             const sinR = sin(r)
@@ -261,10 +285,7 @@ export const MatrixHelper = {
         t.e = x
         t.f = y
 
-        if (origin) {
-            t.e -= origin.x * t.a + origin.y * t.c
-            t.f -= origin.x * t.b + origin.y * t.d
-        }
+        if (origin) M.translateInner(t, -origin.x, -origin.y)
     },
 
     getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): IOrientPointData {
@@ -277,22 +298,19 @@ export const MatrixHelper = {
             const s = a * d - b * c
 
             if (c && !firstSkewY) {
-                scaleX = sqrt(a * a + b * b)
-                scaleY = s / scaleX
+                scaleX = float(sqrt(a * a + b * b))
+                scaleY = float(s / scaleX)
 
                 const cosR = a / scaleX
                 rotation = b > 0 ? acos(cosR) : -acos(cosR)
 
             } else {
-                scaleY = sqrt(c * c + d * d)
-                scaleX = s / scaleY
+                scaleY = float(sqrt(c * c + d * d))
+                scaleX = float(s / scaleY)
 
                 const cosR = c / scaleY
                 rotation = PI_2 - (d > 0 ? acos(-cosR) : -acos(cosR))
             }
-
-            if (abs(scaleX) > 0.1) scaleX = float(scaleX)
-            if (abs(scaleY) > 0.1) scaleY = float(scaleY)
 
             const cosR = cos(rotation)
             const sinR = sin(rotation)
