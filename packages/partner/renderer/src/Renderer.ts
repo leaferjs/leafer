@@ -204,7 +204,7 @@ export class Renderer implements IRenderer {
         const { updateBlocks: list } = this
         if (list) {
             const bounds = new Bounds()
-            bounds.setByList(list)
+            bounds.setList(list)
             list.length = 0
             list.push(bounds)
         }

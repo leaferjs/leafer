@@ -1,5 +1,6 @@
-import { ITwoPointBounds, ITwoPointBoundsData } from '@leafer/interface'
+import { ITwoPointBounds, ITwoPointBoundsData, IBounds } from '@leafer/interface'
 import { TwoPointBoundsHelper as P } from './TwoPointBoundsHelper'
+import { Bounds } from './Bounds'
 
 export class TwoPointBounds implements ITwoPointBounds {
 
@@ -22,6 +23,12 @@ export class TwoPointBounds implements ITwoPointBounds {
 
     add(pb: ITwoPointBoundsData): void {
         P.add(this, pb)
+    }
+
+    getBounds(): IBounds {
+        const bounds = new Bounds()
+        P.toBounds(this, bounds)
+        return bounds
     }
 
 }

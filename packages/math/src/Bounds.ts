@@ -9,6 +9,9 @@ export class Bounds implements IBounds {
     public width: number
     public height: number
 
+    public get right(): number { return B.right(this) }
+    public get bottom(): number { return B.bottom(this) }
+
     constructor(x?: number | IBoundsData, y?: number, width?: number, height?: number) {
         this.set(x, y, width, height)
     }
@@ -21,11 +24,6 @@ export class Bounds implements IBounds {
     public get(): IBoundsData {
         const { x, y, width, height } = this
         return { x, y, width, height }
-    }
-
-    public copy(bounds: IBoundsData): IBounds {
-        B.copy(this, bounds)
-        return this
     }
 
     public clone(): IBounds {
@@ -75,28 +73,28 @@ export class Bounds implements IBounds {
     }
 
     public addList(boundsList: IBounds[]): IBounds {
-        B.setByList(this, boundsList, true)
+        B.setList(this, boundsList, true)
         return this
     }
 
-    public setByList(boundsList: IBounds[], addMode?: boolean): IBounds {
-        B.setByList(this, boundsList, addMode)
+    public setList(boundsList: IBounds[]): IBounds {
+        B.setList(this, boundsList)
         return this
     }
 
     public addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds {
-        B.setByListWithHandle(this, list, boundsDataHandle, true)
+        B.setListWithHandle(this, list, boundsDataHandle, true)
         return this
     }
 
-    public setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds {
-        B.setByListWithHandle(this, list, boundsDataHandle, addMode)
+    public setListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds {
+        B.setListWithHandle(this, list, boundsDataHandle)
         return this
     }
 
 
-    public setByPoints(points: IPointData[]): IBounds {
-        B.setByPoints(this, points)
+    public setPoints(points: IPointData[]): IBounds {
+        B.setPoints(this, points)
         return this
     }
 

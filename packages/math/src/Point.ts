@@ -10,7 +10,7 @@ export class Point implements IPoint {
         this.set(x, y)
     }
 
-    public set(x?: number | IPointData, y?: number): IPointData {
+    public set(x?: number | IPointData, y?: number): IPoint {
         typeof x === 'object' ? P.copy(this, x) : P.set(this, x, y)
         return this
     }
@@ -20,18 +20,24 @@ export class Point implements IPoint {
         return { x, y }
     }
 
-    public copy(point: IPointData): IPoint {
-        P.copy(this, point)
-        return this
-    }
 
     public clone(): IPoint {
         return new Point(this)
     }
 
-    public rotate(angle: number, center?: IPointData): IPoint {
-        P.rotate(this, angle, center)
+
+    public rotate(rotation: number, origin?: IPointData): IPoint {
+        P.rotate(this, rotation, origin)
         return this
+    }
+
+    public rotateOf(origin: IPointData, rotation: number): IPoint {
+        P.rotate(this, rotation, origin)
+        return this
+    }
+
+    public getRotation(origin: IPointData, to: IPointData, toOrigin?: IPointData): number {
+        return P.getRotation(this, origin, to, toOrigin)
     }
 
 
@@ -45,8 +51,9 @@ export class Point implements IPoint {
         return this
     }
 
-    public getCenter(to: IPointData): IPointData {
-        return P.getCenter(this, to)
+
+    public getCenter(to: IPointData): IPoint {
+        return new Point(P.getCenter(this, to))
     }
 
     public getDistance(to: IPointData): number {
@@ -61,8 +68,10 @@ export class Point implements IPoint {
         return P.getAtan2(this, to)
     }
 
-    public reset(): void {
+
+    public reset(): IPoint {
         P.reset(this)
+        return this
     }
 
 }

@@ -6,22 +6,23 @@ export interface IPointData {
 }
 
 export interface IPoint extends IPointData {
-    set(x?: number | IPointData, y?: number): IPointData
+    set(x?: number | IPointData, y?: number): IPoint
     get(): IPointData
-    copy(point: IPointData): IPoint
     clone(): IPoint
 
-    rotate(angle: number, center?: IPointData): IPoint
+    rotate(rotation: number, origin?: IPointData): IPoint
+    rotateOf(origin: IPointData, rotation: number): IPoint
+    getRotation(origin: IPointData, to: IPointData, toOrigin?: IPointData): number
 
     toInnerOf(matrix: IMatrixData, to?: IPointData): IPoint
     toOuterOf(matrix: IMatrixData, to?: IPointData): IPoint
 
-    getCenter(to: IPointData): IPointData
+    getCenter(to: IPointData): IPoint
     getDistance(to: IPointData): number
     getAngle(to: IPointData): number
     getAtan2(to: IPointData): number
 
-    reset(): void
+    reset(): IPoint
 }
 
 export interface IRadiusPointData extends IPointData {
@@ -53,9 +54,11 @@ export interface IBoundsDataHandle {
 }
 
 export interface IBounds extends IBoundsData {
+    readonly right: number
+    readonly bottom: number
+
     set(x?: number | IBoundsData, y?: number, width?: number, height?: number): IBounds
     get(): IBoundsData
-    copy(bounds: IBoundsData): IBounds
     clone(): IBounds
 
     scale(scaleX: number, scaleY?: number): IBounds
@@ -69,11 +72,11 @@ export interface IBounds extends IBoundsData {
 
     add(bounds: IBoundsData): IBounds
     addList(boundsList: IBounds[]): IBounds
-    setByList(boundsList: IBounds[], addMode?: boolean): IBounds
+    setList(boundsList: IBounds[]): IBounds
     addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
-    setByListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode?: boolean): IBounds
+    setListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
 
-    setByPoints(points: IPointData[]): IBounds
+    setPoints(points: IPointData[]): IBounds
     getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean
@@ -100,6 +103,7 @@ export interface ITwoPointBounds extends ITwoPointBoundsData {
     addPoint(x: number, y: number): void
     addBounds(x: number, y: number, width: number, height: number): void
     add(pointBounds: ITwoPointBoundsData): void
+    getBounds(): IBounds
 }
 
 
@@ -159,7 +163,6 @@ export interface IOrientBoundsData extends IOrientPointData, IBoundsData {
 export interface IMatrix extends IMatrixData {
     set(a: number | IMatrixData, b: number, c: number, d: number, e: number, f: number): IMatrix
     get(): IMatrixData
-    copy(matrix: IMatrixData): IMatrix
     clone(): IMatrix
 
     translate(x: number, y: number): IMatrix

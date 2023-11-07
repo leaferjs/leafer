@@ -8,7 +8,7 @@ import { BranchRender, LeafMask } from '@leafer/display-module'
 import { Leaf } from './Leaf'
 
 
-const { setByListWithHandle } = BoundsHelper
+const { setListWithHandle } = BoundsHelper
 const { sort } = BranchHelper
 const { localBoxBounds, localEventBounds, localRenderBounds, maskLocalBoxBounds, maskLocalEventBounds, maskLocalRenderBounds } = LeafBoundsHelper
 
@@ -42,15 +42,15 @@ export class Branch extends Leaf {
     }
 
     public __updateBoxBounds(): void {
-        setByListWithHandle(this.__layout.boxBounds, this.children, this.__hasMask ? maskLocalBoxBounds : localBoxBounds)
+        setListWithHandle(this.__layout.boxBounds, this.children, this.__hasMask ? maskLocalBoxBounds : localBoxBounds)
     }
 
     public __updateStrokeBounds(): void {
-        setByListWithHandle(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalEventBounds : localEventBounds)
+        setListWithHandle(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalEventBounds : localEventBounds)
     }
 
     public __updateRenderBounds(): void {
-        setByListWithHandle(this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
+        setListWithHandle(this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
     }
 
 

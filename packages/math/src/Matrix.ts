@@ -25,11 +25,6 @@ export class Matrix implements IMatrix {
         return { a, b, c, d, e, f }
     }
 
-    public copy(matrix: IMatrixData): IMatrix {
-        M.copy(this, matrix)
-        return this
-    }
-
     public clone(): IMatrix {
         return new Matrix(this)
     }

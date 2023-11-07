@@ -34,14 +34,14 @@ export const PointHelper = {
         t.y += y
     },
 
-    rotate(t: IPointData, rotation: number, center?: IPointData): void {
-        if (!center) center = P.defaultPoint
+    rotate(t: IPointData, rotation: number, origin?: IPointData): void {
+        if (!origin) origin = P.defaultPoint
         const cosR = cos(rotation * OneRadian)
         const sinR = sin(rotation * OneRadian)
-        const rx = t.x - center.x
-        const ry = t.y - center.y
-        t.x = center.x + rx * cosR - ry * sinR
-        t.y = center.y + rx * sinR + ry * cosR
+        const rx = t.x - origin.x
+        const ry = t.y - origin.y
+        t.x = origin.x + rx * cosR - ry * sinR
+        t.y = origin.y + rx * sinR + ry * cosR
     },
 
 
@@ -97,10 +97,10 @@ export const PointHelper = {
         return P.getAtan2(t, to) / OneRadian
     },
 
-    getChangeAngle(t: IPointData, orign: IPointData, to: IPointData, toOrigin?: IPointData): number {
-        if (!toOrigin) toOrigin = orign
+    getRotation(t: IPointData, origin: IPointData, to: IPointData, toOrigin?: IPointData): number {
+        if (!toOrigin) toOrigin = origin
 
-        let fromAngle = P.getAngle(t, orign)
+        let fromAngle = P.getAngle(t, origin)
         let toAngle = P.getAngle(to, toOrigin)
 
         const angle = toAngle - fromAngle

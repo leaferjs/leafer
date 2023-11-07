@@ -70,6 +70,7 @@ export const BoundsHelper = {
         B.move(to, -to.offsetX, -to.offsetY)
     },
 
+
     scale(t: IBoundsData, scaleX: number, scaleY: number = scaleX): void {
         if (t.x) t.x *= scaleX
         if (t.y) t.y *= scaleY
@@ -151,6 +152,7 @@ export const BoundsHelper = {
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
 
+
     getSpread(t: IBoundsData, spreadX: number, spreadY?: number): IBoundsData {
         const n = {} as IBoundsData
         B.copyAndSpread(n, t, spreadX, spreadY)
@@ -179,6 +181,7 @@ export const BoundsHelper = {
         }
     },
 
+
     add(t: IBoundsData, bounds: IBoundsData): void {
         right = t.x + t.width
         bottom = t.y + t.height
@@ -195,18 +198,18 @@ export const BoundsHelper = {
     },
 
     addList(t: IBoundsData, list: IBoundsData[]): void {
-        B.setByListWithHandle(t, list, undefined, true)
+        B.setListWithHandle(t, list, undefined, true)
     },
 
-    setByList(t: IBoundsData, list: IBoundsData[], addMode = false): void {
-        B.setByListWithHandle(t, list, undefined, addMode)
+    setList(t: IBoundsData, list: IBoundsData[], addMode = false): void {
+        B.setListWithHandle(t, list, undefined, addMode)
     },
 
     addListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle): void {
-        B.setByListWithHandle(t, list, boundsDataHandle, true)
+        B.setListWithHandle(t, list, boundsDataHandle, true)
     },
 
-    setByListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode = false): void {
+    setListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode = false): void {
         let bounds: IBoundsData, first = true
         for (let i = 0, len = list.length; i < len; i++) {
             bounds = boundsDataHandle ? boundsDataHandle(list[i]) : list[i] as IBoundsData
@@ -223,10 +226,22 @@ export const BoundsHelper = {
         if (first) B.reset(t)
     },
 
-    setByPoints(t: IBoundsData, points: IPointData[]): void {
+
+    setPoints(t: IBoundsData, points: IPointData[]): void {
         points.forEach((point, index) => index === 0 ? setPoint(tempPointBounds, point.x, point.y) : addPoint(tempPointBounds, point.x, point.y))
         toBounds(tempPointBounds, t)
     },
+
+    getPoints(t: IBoundsData): IPointData[] {
+        const { x, y, width, height } = t
+        return [
+            { x, y }, // topLeft
+            { x: x + width, y }, // topRight
+            { x: x + width, y: y + height }, // bottomRight
+            { x, y: y + height } // bottomLeft
+        ]
+    },
+
 
     hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean {
         if (pointMatrix) point = P.tempToInnerRadiusPointOf(point, pointMatrix)
@@ -273,15 +288,6 @@ export const BoundsHelper = {
         B.copy(t, B.getIntersectData(t, other, otherMatrix))
     },
 
-    getPoints(t: IBoundsData): IPointData[] {
-        const { x, y, width, height } = t
-        return [
-            { x, y }, // topLeft
-            { x: x + width, y }, // topRight
-            { x: x + width, y: y + height }, // bottomRight
-            { x, y: y + height } // bottomLeft
-        ]
-    },
 
     isSame(t: IBoundsData, bounds: IBoundsData): boolean {
         return t.x === bounds.x && t.y === bounds.y && t.width === bounds.width && t.height === bounds.height
