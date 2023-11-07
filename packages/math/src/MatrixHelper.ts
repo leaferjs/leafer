@@ -138,13 +138,15 @@ export const MatrixHelper = {
     },
 
     multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, fromLayout?: IOrientPointData): void { // = transform
-        const { a, b, c, d, e, f } = t
+        const { e, f } = t
 
         to || (to = t)
 
-        if (abcdChanged === undefined) abcdChanged = a !== 1 || b || c || d !== 1
+        if (abcdChanged === undefined) abcdChanged = t.a !== 1 || t.b || t.c || t.d !== 1
 
         if (abcdChanged) {
+            const { a, b, c, d } = t
+
             to.a = a * parent.a + b * parent.c
             to.b = a * parent.b + b * parent.d
             to.c = c * parent.a + d * parent.c
@@ -298,15 +300,15 @@ export const MatrixHelper = {
             const s = a * d - b * c
 
             if (c && !firstSkewY) {
-                scaleX = float(sqrt(a * a + b * b))
-                scaleY = float(s / scaleX)
+                scaleX = sqrt(a * a + b * b)
+                scaleY = s / scaleX
 
                 const cosR = a / scaleX
                 rotation = b > 0 ? acos(cosR) : -acos(cosR)
 
             } else {
-                scaleY = float(sqrt(c * c + d * d))
-                scaleX = float(s / scaleY)
+                scaleY = sqrt(c * c + d * d)
+                scaleX = s / scaleY
 
                 const cosR = c / scaleY
                 rotation = PI_2 - (d > 0 ? acos(-cosR) : -acos(cosR))
@@ -315,6 +317,7 @@ export const MatrixHelper = {
             const cosR = cos(rotation)
             const sinR = sin(rotation)
 
+            scaleX = float(scaleX), scaleY = float(scaleY)
             skewX = float((c / scaleY + sinR) / cosR / OneRadian)
             skewY = float((b / scaleX - sinR) / cosR / OneRadian)
             rotation = float(rotation / OneRadian)

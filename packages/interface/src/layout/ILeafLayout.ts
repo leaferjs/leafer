@@ -23,8 +23,8 @@ export interface ILeafLayout {
     // local
 
     //localBoxBounds: IBoundsData = leaf.__local
-    localStrokeBounds: IBoundsData
-    localRenderBounds: IBoundsData
+    localStrokeBounds?: IBoundsData
+    localRenderBounds?: IBoundsData
 
     // state
 
@@ -59,6 +59,14 @@ export interface ILeafLayout {
     renderSpread: number
     strokeBoxSpread: number
     renderShapeSpread: number
+
+    // temp local
+    a: number
+    b: number
+    c: number
+    d: number
+    e: number
+    f: number
 
     update(force?: boolean): void
 

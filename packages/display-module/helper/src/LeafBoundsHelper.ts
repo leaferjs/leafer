@@ -8,7 +8,7 @@ export const LeafBoundsHelper = {
     },
 
     localBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.isEraser ? null : target.__local
+        return target.__.isEraser ? null : (target.__local || target.__ as IBoundsData)
     },
 
     localEventBounds(target: ILeaf): IBoundsData {
@@ -20,7 +20,7 @@ export const LeafBoundsHelper = {
     },
 
     maskLocalBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.isMask ? target.__local : null
+        return target.__.isMask ? target.__localBounds : null
     },
 
     maskLocalEventBounds(target: ILeaf): IBoundsData {

@@ -11,35 +11,37 @@ export const LeafMatrix: ILeafMatrixModule = {
 
         if (this.__layout.matrixChanged) this.__updateLocalMatrix()
 
-        multiplyParent(this.__local, this.parent ? this.parent.__world : defaultWorld, this.__world, this.__layout.affectScaleOrRotation, this.__ as IOrientPointData)
+        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as IOrientPointData)
     },
 
     __updateLocalMatrix(): void {
 
-        const layout = this.__layout, local = this.__local, data = this.__
+        if (this.__local) {
 
-        if (layout.affectScaleOrRotation) {
+            const layout = this.__layout, local = this.__local, data = this.__
 
-            if (layout.scaleChanged || layout.rotationChanged) {
+            if (layout.affectScaleOrRotation) {
 
-                setLayout(local, data as IOrientPointData, null, layout.affectRotation)
-                layout.scaleChanged = layout.rotationChanged = false
+                if (layout.scaleChanged || layout.rotationChanged) {
+                    setLayout(local, data as IOrientPointData, null, layout.affectRotation)
+                    layout.scaleChanged = layout.rotationChanged = false
+                }
 
+            }
+
+            local.e = data.x
+            local.f = data.y
+
+            if (data.around) {
+                toPoint(data.around, data as IBoundsData, tempPoint, true)
+                translateInner(local, -tempPoint.x, -tempPoint.y)
             }
 
         }
 
-        local.e = data.x
-        local.f = data.y
+        this.__layout.matrixChanged = false
 
-        if (data.around) {
-            toPoint(data.around, data as IBoundsData, tempPoint, true)
-            translateInner(local, -tempPoint.x, -tempPoint.y)
-        }
-
-        layout.matrixChanged = false
     }
-
 
 }
 

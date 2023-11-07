@@ -2,7 +2,7 @@ import { IBranch, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
-const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter } = MatrixHelper
+const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent } = MatrixHelper
 const matrix = {} as IMatrixData
 
 export const LeafHelper = {
@@ -71,7 +71,7 @@ export const LeafHelper = {
     },
 
     zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, resize?: boolean): void {
-        copy(matrix, t.__local)
+        copy(matrix, t.__localMatrix)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         moveByMatrix(t, matrix)
         if (resize) {
@@ -90,7 +90,7 @@ export const LeafHelper = {
     },
 
     rotateOfLocal(t: ILeaf, origin: IPointData, angle: number): void {
-        copy(matrix, t.__local)
+        copy(matrix, t.__localMatrix)
         rotateOfOuter(matrix, origin, angle)
         moveByMatrix(t, matrix)
         t.rotation = MathHelper.formatRotation(t.rotation + angle)
@@ -101,12 +101,19 @@ export const LeafHelper = {
     },
 
     skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0): void {
-        copy(matrix, t.__local)
+        copy(matrix, t.__localMatrix)
         skewOfOuter(matrix, origin, skewX, skewY)
         moveByMatrix(t, matrix)
         t.skewX += skewX
         t.skewY += skewY
     },
+
+    transform(t: ILeaf, transform: IMatrixData): void {
+        copy(matrix, t.localTransform)
+        multiplyParent(matrix, transform)
+        t.setTransform(matrix)
+    },
+
 
     drop(t: ILeaf, parent: IBranch): void {
         const position = { x: t.x, y: t.y }
@@ -132,8 +139,9 @@ const L = LeafHelper
 const { updateAllWorldMatrix, updateAllWorldOpacity, updateAllChange } = L
 
 function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
-    t.x += matrix.e - t.__local.e
-    t.y += matrix.f - t.__local.f
+    const { e, f } = t.__localMatrix
+    t.x += matrix.e - e
+    t.y += matrix.f - f
 }
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {

@@ -8,9 +8,9 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint, getLayout, multiplyParent } = MatrixHelper
+const { toInnerPoint, toOuterPoint, getLayout } = MatrixHelper
 const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -42,7 +42,10 @@ export class Leaf implements ILeaf {
     public __layout: ILeafLayout
 
     public __world: IMatrixWithLayoutData
-    public __local: IMatrixWithBoundsData
+    public __local?: IMatrixWithBoundsData // and localStrokeBounds? localRenderBounds?
+
+    public get __localMatrix(): IMatrixData { return this.__local || this.__layout }
+    public get __localBounds(): IBoundsData { return this.__local || this.__ as IBoundsData }
 
     public __worldOpacity: number
 
@@ -98,7 +101,7 @@ export class Leaf implements ILeaf {
     public reset(data?: ILeafInputData): void {
 
         this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
-        this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
+        if (data !== null) this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
 
         this.__worldOpacity = 1
 
@@ -357,13 +360,12 @@ export class Leaf implements ILeaf {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y)
     }
 
-    public transform(transform: IMatrixData): void {
-        multiplyParent(this.localTransform, transform)
-        this.setTransform(this.__local)
+    public transform(matrix: IMatrixData): void {
+        transform(this, matrix)
     }
 
-    public setTransform(transform: IMatrixData): void {
-        this.set(getLayout(transform))
+    public setTransform(matrix: IMatrixData): void {
+        this.set(getLayout(matrix))
     }
 
     // LeafHit rewrite

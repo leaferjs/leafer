@@ -23,8 +23,8 @@ export class LeafLayout implements ILeafLayout {
 
     // local
 
-    public localStrokeBounds: IBoundsData
-    public localRenderBounds: IBoundsData
+    public localStrokeBounds?: IBoundsData
+    public localRenderBounds?: IBoundsData
 
     // world temp
     protected _worldContentBounds: IBoundsData
@@ -65,15 +65,22 @@ export class LeafLayout implements ILeafLayout {
     public strokeBoxSpread: number
     public renderShapeSpread: number
 
+    // temp local
+    public get a() { return 1 }
+    public get b() { return 0 }
+    public get c() { return 0 }
+    public get d() { return 1 }
+    public get e() { return this.leaf.__.x }
+    public get f() { return this.leaf.__.y }
+
 
     constructor(leaf: ILeaf) {
         this.leaf = leaf
         this.renderBounds = this.strokeBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
-        this.localRenderBounds = this.localStrokeBounds = leaf.__local
+        if (leaf.__local) this.localRenderBounds = this.localStrokeBounds = leaf.__local
         this.boxChange()
         this.matrixChange()
     }
-
 
     public update(force?: boolean): void {
         const { leafer } = this.leaf
@@ -96,7 +103,7 @@ export class LeafLayout implements ILeafLayout {
             case 'world':
                 return this.leaf.__world
             case 'local':
-                return this.leaf.__local
+                return this.leaf.__localMatrix
             case 'inner':
                 return MatrixHelper.defaultMatrix
             default:
@@ -135,13 +142,13 @@ export class LeafLayout implements ILeafLayout {
     public getLocalBounds(type: IBoundsType = 'box'): IBoundsData {
         switch (type) {
             case 'render':
-                return this.localRenderBounds
+                if (this.localRenderBounds) return this.localRenderBounds
+            case 'stroke':
+                if (this.localStrokeBounds) return this.localStrokeBounds
             case 'margin':
             case 'content':
             case 'box':
-                return this.leaf.__local
-            case 'stroke':
-                return this.localStrokeBounds
+                return this.leaf.__localBounds
         }
     }
 
@@ -230,7 +237,7 @@ export class LeafLayout implements ILeafLayout {
     public spreadStrokeCancel(): void {
         const same = this.renderBounds === this.strokeBounds
         this.strokeBounds = this.boxBounds
-        this.localStrokeBounds = this.leaf.__local
+        this.localStrokeBounds = this.leaf.__localBounds
         if (same) this.spreadRenderCancel()
     }
     public spreadRenderCancel(): void {

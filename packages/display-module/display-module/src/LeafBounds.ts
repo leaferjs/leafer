@@ -27,12 +27,12 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (layout.localBoxChanged) { // position change
 
-                this.__updateLocalBoxBounds()
+                if (this.__local) this.__updateLocalBoxBounds()
                 layout.localBoxChanged = false
 
                 if (layout.strokeSpread) layout.strokeChanged = true
                 if (layout.renderSpread) layout.renderChanged = true
-                this.parent?.__layout.boxChange()
+                if (this.parent) this.parent.__layout.boxChange()
             }
 
 
@@ -101,11 +101,11 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateLocalStrokeBounds(): void {
-        toOuterOf(this.__layout.strokeBounds, this.__local, this.__layout.localStrokeBounds)
+        toOuterOf(this.__layout.strokeBounds, this.__localMatrix, this.__layout.localStrokeBounds)
     },
 
     __updateLocalRenderBounds(): void {
-        toOuterOf(this.__layout.renderBounds, this.__local, this.__layout.localRenderBounds)
+        toOuterOf(this.__layout.renderBounds, this.__localMatrix, this.__layout.localRenderBounds)
     },
 
 
