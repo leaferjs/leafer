@@ -1,9 +1,5 @@
-import { ILeaf, ILeafList } from '@leafer/interface'
+import { ILeaf, ILeafLevelList, ILeafList } from '@leafer/interface'
 
-
-interface ILeafPushList {
-    push(item: ILeaf): void
-}
 
 
 export const BranchHelper = {
@@ -14,7 +10,7 @@ export const BranchHelper = {
 
     // push
 
-    pushAllChildBranch(branch: ILeaf, pushList: ILeafPushList): void {
+    pushAllChildBranch(branch: ILeaf, leafList: ILeafList | ILeafLevelList): void {
         branch.__tempNumber = 1   // 标识需要更新子Leaf元素的WorldBounds分支 Layouter需使用
 
         if (branch.__.__childBranchNumber) {
@@ -23,19 +19,19 @@ export const BranchHelper = {
                 branch = children[i]
                 if (branch.isBranch) {
                     branch.__tempNumber = 1
-                    pushList.push(branch)
-                    pushAllChildBranch(branch, pushList)
+                    leafList.add(branch)
+                    pushAllChildBranch(branch, leafList)
                 }
             }
         }
     },
 
-    pushAllParent(leaf: ILeaf, pushList: ILeafPushList): void {
-        const { keys } = (pushList as ILeafList)
+    pushAllParent(leaf: ILeaf, leafList: ILeafList | ILeafLevelList): void {
+        const { keys } = (leafList as ILeafList)
         if (keys) {
             while (leaf.parent) {
                 if (keys[leaf.parent.innerId] === undefined) {
-                    pushList.push(leaf.parent)
+                    leafList.add(leaf.parent)
                     leaf = leaf.parent
                 } else {
                     break
@@ -43,7 +39,7 @@ export const BranchHelper = {
             }
         } else {
             while (leaf.parent) {
-                pushList.push(leaf.parent)
+                leafList.add(leaf.parent)
                 leaf = leaf.parent
             }
         }

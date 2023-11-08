@@ -11,7 +11,7 @@ export class LeafLevelList implements ILeafLevelList {
 
     constructor(item?: ILeaf | ILeaf[]) {
         this.reset()
-        if (item) item instanceof Array ? this.pushList(item) : this.push(item)
+        if (item) item instanceof Array ? this.addList(item) : this.add(item)
     }
 
     public has(leaf: ILeaf): boolean {
@@ -31,11 +31,11 @@ export class LeafLevelList implements ILeafLevelList {
         }
     }
 
-    public pushList(list: ILeaf[]): void {
-        list.forEach(leaf => { this.push(leaf) })
+    public addList(list: ILeaf[]): void {
+        list.forEach(leaf => { this.add(leaf) })
     }
 
-    public push(leaf: ILeaf): void {
+    public add(leaf: ILeaf): void {
         const { keys, levelMap } = this
         if (!keys[leaf.innerId]) {
             keys[leaf.innerId] = 1

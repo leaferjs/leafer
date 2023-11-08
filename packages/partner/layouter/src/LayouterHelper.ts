@@ -17,13 +17,13 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
 
                 updateAllWorldMatrix(leaf)
 
-                levelList.push(leaf)
+                levelList.add(leaf)
                 if (leaf.isBranch) pushAllChildBranch(leaf, levelList)
                 pushAllParent(leaf, levelList)
 
             } else if (layout.boundsChanged) {
 
-                levelList.push(leaf)
+                levelList.add(leaf)
                 if (leaf.isBranch) leaf.__tempNumber = 0  // 标识需要更新子Leaf元素的WorldBounds分支, 0表示不需要更新
                 pushAllParent(leaf, levelList)
             }

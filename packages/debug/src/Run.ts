@@ -12,37 +12,31 @@ interface names {
 
 const debug = Debug.get('RunTime')
 
-export class Run {
+export const Run = {
 
-    static currentId: number
-    static currentTime: number
-    static currentName: string
+    currentId: 0,
+    currentName: '',
 
-    static idMap: ids = {}
-    static nameMap: names = {}
-    static nameToIdMap: ids = {}
+    idMap: {} as ids,
+    nameMap: {} as names,
+    nameToIdMap: {} as ids,
 
-    static start(name: string, microsecond?: boolean): number {
+    start(name: string, microsecond?: boolean): number {
         const id = IncrementId.create(IncrementId.RUNTIME)
         R.currentId = R.idMap[id] = microsecond ? performance.now() : Date.now()
         R.currentName = R.nameMap[id] = name
         R.nameToIdMap[name] = id
         return id
-    }
+    },
 
-    static end(id: number, microsecond?: boolean): void {
-        const time = R.idMap[id]
-        const name = R.nameMap[id]
+    end(id: number, microsecond?: boolean): void {
+        const time = R.idMap[id], name = R.nameMap[id]
+        const duration = microsecond ? (performance.now() - time) / 1000 : Date.now() - time
         R.idMap[id] = R.nameMap[id] = R.nameToIdMap[name] = undefined
+        debug.log(name, duration, 'ms')
+    },
 
-        if (microsecond) {
-            debug.log(name, performance.now() - time, 'µs')
-        } else {
-            debug.log(name, Date.now() - time, 'ms')
-        }
-    }
-
-    static endOfName(name: string, microsecond?: boolean): void {
+    endOfName(name: string, microsecond?: boolean): void {
         const id = R.nameToIdMap[name]
         if (id !== undefined) R.end(id, microsecond)
     }

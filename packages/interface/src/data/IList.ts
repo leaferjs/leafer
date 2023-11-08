@@ -27,6 +27,7 @@ export interface ILeafList {
     forEach(itemCallback: ILeafListItemCallback): void
     sort(reverse?: boolean): void
     clone(): ILeafList
+    update(): void
     reset(): void
     destroy(): void
 }
@@ -39,8 +40,8 @@ export interface ILeafLevelList {
     has(leaf: ILeaf): boolean
     without(leaf: ILeaf): boolean
     sort(reverse?: boolean): void
-    pushList(list: ILeaf[]): void
-    push(leaf: ILeaf): void
+    addList(list: ILeaf[]): void
+    add(leaf: ILeaf): void
     forEach(itemCallback: ILeafListItemCallback): void
     reset(): void
     destroy(): void

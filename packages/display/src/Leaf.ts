@@ -109,14 +109,7 @@ export class Leaf implements ILeaf {
         this.__layout = new this.__LayoutProcessor(this)
 
         if (this.__level) this.resetCustom()
-
-        if (data) {
-            if (data.children) {
-                this.set(data)
-            } else {
-                Object.assign(this, data)
-            }
-        }
+        if (data) data.children ? this.set(data) : Object.assign(this, data)
     }
 
     public resetCustom(): void {
