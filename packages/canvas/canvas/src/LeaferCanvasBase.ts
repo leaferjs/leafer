@@ -283,7 +283,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
         if (blendMode) this.blendMode = blendMode
         this.fillStyle = color
-        temp.copy(bounds).scale(this.pixelRatio)
+        temp.set(bounds).scale(this.pixelRatio)
         this.fillRect(temp.x, temp.y, temp.width, temp.height)
         if (blendMode) this.blendMode = 'source-over'
     }
@@ -291,20 +291,20 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
         if (blendMode) this.blendMode = blendMode
         this.strokeStyle = color
-        temp.copy(bounds).scale(this.pixelRatio)
+        temp.set(bounds).scale(this.pixelRatio)
         this.strokeRect(temp.x, temp.y, temp.width, temp.height)
         if (blendMode) this.blendMode = 'source-over'
     }
 
     public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        temp.copy(bounds).scale(this.pixelRatio)
+        temp.set(bounds).scale(this.pixelRatio)
         if (ceilPixel) temp.ceil()
         this.clearRect(temp.x, temp.y, temp.width, temp.height)
     }
 
     public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
         this.beginPath()
-        temp.copy(bounds).scale(this.pixelRatio)
+        temp.set(bounds).scale(this.pixelRatio)
         if (ceilPixel) temp.ceil()
         this.rect(temp.x, temp.y, temp.width, temp.height)
         this.clip()

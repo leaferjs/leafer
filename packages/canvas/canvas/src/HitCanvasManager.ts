@@ -11,12 +11,12 @@ export class HitCanvasManager extends CanvasManager implements IHitCanvasManager
     protected imageTypeList: ILeafList = new LeafList()
 
     public getImageType(leaf: ILeaf, size: IScreenSizeData): IHitCanvas {
-        this.imageTypeList.push(leaf)
+        this.imageTypeList.add(leaf)
         return Creator.hitCanvas(size)
     }
 
     public getPathType(leaf: ILeaf): IHitCanvas {
-        this.pathTypeList.push(leaf)
+        this.pathTypeList.add(leaf)
         return Creator.hitCanvas()
     }
 

@@ -144,7 +144,7 @@ export class Renderer implements IRenderer {
 
         const bounds = block.getIntersect(canvas.bounds)
         const includes = block.includes(this.target.__world)
-        const realBounds = new Bounds().copy(bounds)
+        const realBounds = new Bounds(bounds)
 
         canvas.save()
 

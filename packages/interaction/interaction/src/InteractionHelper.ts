@@ -101,7 +101,7 @@ export const InteractionHelper = {
         const find = new LeafList()
         const { list } = path
         for (let i = 0, len = list.length; i < len; i++) {
-            if (list[i].hasEvent(type)) find.push(list[i])
+            if (list[i].hasEvent(type)) find.add(list[i])
         }
         return find
     }

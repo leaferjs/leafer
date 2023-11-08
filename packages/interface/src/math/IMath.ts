@@ -53,10 +53,7 @@ export interface IBoundsDataHandle {
     (target: any): IBoundsData
 }
 
-export interface IBounds extends IBoundsData {
-    readonly right: number
-    readonly bottom: number
-
+export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     set(x?: number | IBoundsData, y?: number, width?: number, height?: number): IBounds
     get(): IBoundsData
     clone(): IBounds
@@ -97,13 +94,6 @@ export interface ITwoPointBoundsData {
     minY: number
     maxX: number
     maxY: number
-}
-
-export interface ITwoPointBounds extends ITwoPointBoundsData {
-    addPoint(x: number, y: number): void
-    addBounds(x: number, y: number, width: number, height: number): void
-    add(pointBounds: ITwoPointBoundsData): void
-    getBounds(): IBounds
 }
 
 

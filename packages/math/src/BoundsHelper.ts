@@ -35,13 +35,15 @@ export const BoundsHelper = {
         B.set(t, bounds.x - spreadX, bounds.y - spreadY, bounds.width + spreadX * 2, bounds.height + spreadY * 2)
     },
 
-    right(t: IBoundsData): number {
-        return t.x + t.width
-    },
 
-    bottom(t: IBoundsData): number {
-        return t.y + t.height
-    },
+    minX(t: IBoundsData): number { return t.width > 0 ? t.x : t.x + t.width },
+
+    minY(t: IBoundsData): number { return t.height > 0 ? t.y : t.y + t.height },
+
+    maxX(t: IBoundsData): number { return t.width > 0 ? t.x + t.width : t.x },
+
+    maxY(t: IBoundsData): number { return t.height > 0 ? t.y + t.height : t.y },
+
 
     move(t: IBoundsData, x: number, y: number): void {
         t.x += x
@@ -61,8 +63,8 @@ export const BoundsHelper = {
             copy(to, t)
         }
         if (parent) {
-            to.offsetX = -(B.right(parent) - t.x)
-            to.offsetY = -(B.bottom(parent) - t.y)
+            to.offsetX = -(B.maxX(parent) - t.x)
+            to.offsetY = -(B.maxY(parent) - t.y)
         } else {
             to.offsetX = t.x + t.width
             to.offsetY = t.y + t.height

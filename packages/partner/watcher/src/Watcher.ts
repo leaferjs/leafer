@@ -22,7 +22,7 @@ export class Watcher implements IWatcher {
     public get updatedList(): ILeafList {
         if (this.hasRemove) {
             const updatedList = new LeafList()
-            this.__updatedList.list.forEach(item => { if (item.leafer) updatedList.push(item) })
+            this.__updatedList.list.forEach(item => { if (item.leafer) updatedList.add(item) })
             return updatedList
         } else {
             return this.__updatedList
@@ -59,7 +59,7 @@ export class Watcher implements IWatcher {
     }
 
     protected __onAttrChange(event: PropertyEvent): void {
-        this.__updatedList.push(event.target as ILeaf)
+        this.__updatedList.add(event.target as ILeaf)
         this.update()
     }
 
@@ -69,13 +69,13 @@ export class Watcher implements IWatcher {
             this.__pushChild(event.child)
         } else {
             this.hasRemove = true
-            this.__updatedList.push(event.parent)
+            this.__updatedList.add(event.parent)
         }
         this.update()
     }
 
     protected __pushChild(child: ILeaf): void {
-        this.__updatedList.push(child)
+        this.__updatedList.add(child)
         if (child.isBranch) this.__loopChildren(child)
     }
 

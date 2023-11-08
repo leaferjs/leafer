@@ -63,10 +63,10 @@ export class Pather {
     public getPath(leaf: ILeaf): LeafList {
         const path = new LeafList()
         while (leaf) {
-            path.push(leaf)
+            path.add(leaf)
             leaf = leaf.parent
         }
-        path.push(this.target)
+        path.add(this.target)
         return path
     }
 
@@ -76,7 +76,7 @@ export class Pather {
         for (let i = path.list.length - 1; i > -1; i--) {
             item = path.list[i]
             if (!item.__.hittable) break
-            hittablePath.unshift(item)
+            hittablePath.addAt(item, 0)
             if (!item.__.hitChildren) break
         }
         return hittablePath
@@ -96,7 +96,7 @@ export class Pather {
             for (let j = 0, jLen = path.length; j < jLen; j++) {
                 leaf = path.list[j]
                 if (nextPath && nextPath.has(leaf)) break
-                throughPath.push(leaf)
+                throughPath.add(leaf)
             }
         }
 

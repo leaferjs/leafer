@@ -194,8 +194,8 @@ export class Dragger {
 
         const bounds = interaction.shrinkCanvasBounds
         const { x, y } = bounds
-        const right = BoundsHelper.right(bounds)
-        const bottom = BoundsHelper.bottom(bounds)
+        const right = BoundsHelper.maxX(bounds)
+        const bottom = BoundsHelper.maxY(bounds)
 
         const moveX = data.x < x ? autoDistance : (right < data.x ? -autoDistance : 0)
         const moveY = data.y < y ? autoDistance : (bottom < data.y ? -autoDistance : 0)

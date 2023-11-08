@@ -9,8 +9,10 @@ export class Bounds implements IBounds {
     public width: number
     public height: number
 
-    public get right(): number { return B.right(this) }
-    public get bottom(): number { return B.bottom(this) }
+    public get minX(): number { return B.minX(this) }
+    public get minY(): number { return B.minY(this) }
+    public get maxX(): number { return B.maxX(this) }
+    public get maxY(): number { return B.maxY(this) }
 
     constructor(x?: number | IBoundsData, y?: number, width?: number, height?: number) {
         this.set(x, y, width, height)

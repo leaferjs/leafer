@@ -9,7 +9,7 @@ export class LeafList implements ILeafList {
 
     constructor(item?: ILeaf | ILeaf[]) {
         this.reset()
-        if (item) item instanceof Array ? this.pushList(item) : this.push(item)
+        if (item) item instanceof Array ? this.addList(item) : this.add(item)
     }
 
     public has(leaf: ILeaf): boolean {
@@ -25,22 +25,8 @@ export class LeafList implements ILeafList {
         return index === undefined ? -1 : index
     }
 
-    public pushList(list: ILeaf[]): void {
-        list.forEach(leaf => { this.push(leaf) })
-    }
 
-    public unshift(leaf: ILeaf): void {
-        const { keys } = this
-        if (keys[leaf.innerId] === undefined) {
-            this.list.unshift(leaf)
-            Object.keys(keys).forEach(innerId => {
-                if (keys[innerId] !== undefined) keys[innerId]++
-            })
-            keys[leaf.innerId] = 0
-        }
-    }
-
-    public push(leaf: ILeaf): void {
+    public add(leaf: ILeaf): void {
         const { list, keys } = this
         if (keys[leaf.innerId] === undefined) {
             list.push(leaf)
@@ -48,14 +34,25 @@ export class LeafList implements ILeafList {
         }
     }
 
-    public sort(reverse?: boolean): void {
-        const { list } = this
-        if (reverse) {
-            list.sort((a, b) => b.__level - a.__level) // 倒序
-        } else {
-            list.sort((a, b) => a.__level - b.__level) // 顺序
+    public addAt(leaf: ILeaf, index = 0): void {
+        const { keys } = this
+        if (keys[leaf.innerId] === undefined) {
+            const { list } = this
+            for (let i = index, len = list.length; i < len; i++)  keys[list[i].innerId]++
+            if (index === 0) {
+                list.unshift(leaf)
+            } else {
+                if (index > list.length) index = list.length
+                list.splice(index, 0, leaf)
+            }
+            keys[leaf.innerId] = index
         }
     }
+
+    public addList(list: ILeaf[]): void {
+        for (let leaf of list) this.add(leaf)
+    }
+
 
     public remove(leaf: ILeaf): void {
         const { list } = this
@@ -72,6 +69,16 @@ export class LeafList implements ILeafList {
         if (findIndex !== undefined) list.splice(findIndex, 1)
     }
 
+
+    public sort(reverse?: boolean): void {
+        const { list } = this
+        if (reverse) {
+            list.sort((a, b) => b.__level - a.__level) // 倒序
+        } else {
+            list.sort((a, b) => a.__level - b.__level) // 顺序
+        }
+    }
+
     public forEach(itemCallback: ILeafListItemCallback): void {
         this.list.forEach(itemCallback)
     }
@@ -81,6 +88,13 @@ export class LeafList implements ILeafList {
         list.list = [...this.list]
         list.keys = { ...this.keys }
         return list
+    }
+
+
+    public update(): void {
+        this.keys = {}
+        const { list, keys } = this
+        for (let i = 0, len = list.length; i < len; i++)    keys[list[i].innerId] = i
     }
 
     public reset(): void {

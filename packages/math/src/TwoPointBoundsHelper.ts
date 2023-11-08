@@ -28,7 +28,7 @@ export const TwoPointBoundsHelper = {
         t.maxY = pb.maxY
     },
 
-    add(t: ITwoPointBoundsData, pb: ITwoPointBoundsData): void {
+    addPointBounds(t: ITwoPointBoundsData, pb: ITwoPointBoundsData): void {
         t.minX = pb.minX < t.minX ? pb.minX : t.minX
         t.minY = pb.minY < t.minY ? pb.minY : t.minY
         t.maxX = pb.maxX > t.maxX ? pb.maxX : t.maxX

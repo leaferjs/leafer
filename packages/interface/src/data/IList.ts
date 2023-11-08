@@ -18,12 +18,14 @@ export interface ILeafList {
     has(leaf: ILeaf): boolean
     indexAt(index: number): ILeaf
     indexOf(leaf: ILeaf): number
-    unshift(leaf: ILeaf): void
-    pushList(list: ILeaf[]): void
-    push(leaf: ILeaf): void
-    sort(reverse?: boolean): void
+
+    add(leaf: ILeaf): void
+    addAt(leaf: ILeaf, index: number): void
+    addList(list: ILeaf[]): void
     remove(leaf: ILeaf): void
+
     forEach(itemCallback: ILeafListItemCallback): void
+    sort(reverse?: boolean): void
     clone(): ILeafList
     reset(): void
     destroy(): void

@@ -8,7 +8,7 @@ import { PathCommandMap as Command } from './PathCommandMap'
 
 const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = Command
 const { toTwoPointBounds, toTwoPointBoundsByQuadraticCurve, arcTo, arc, ellipse } = BezierHelper
-const { add, copy, addPoint, setPoint, addBounds, toBounds } = TwoPointBoundsHelper
+const { addPointBounds, copy, addPoint, setPoint, addBounds, toBounds } = TwoPointBoundsHelper
 const debug = Debug.get('PathBounds')
 
 let radius: number, radiusX: number, radiusY: number
@@ -54,7 +54,7 @@ export const PathBounds = {
                     toX = data[i + 5]
                     toY = data[i + 6]
                     toTwoPointBounds(x, y, data[i + 1], data[i + 2], data[i + 3], data[i + 4], toX, toY, tempPointBounds)
-                    add(setPointBounds, tempPointBounds)
+                    addPointBounds(setPointBounds, tempPointBounds)
                     x = toX
                     y = toY
                     i += 7
@@ -65,7 +65,7 @@ export const PathBounds = {
                     toX = data[i + 3]
                     toY = data[i + 4]
                     toTwoPointBoundsByQuadraticCurve(x, y, x1, y1, toX, toY, tempPointBounds)
-                    add(setPointBounds, tempPointBounds)
+                    addPointBounds(setPointBounds, tempPointBounds)
                     x = toX
                     y = toY
                     i += 5
@@ -91,7 +91,7 @@ export const PathBounds = {
                     break
                 case G: // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
                     ellipse(null, data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6], data[i + 7], data[i + 8] as unknown as boolean, tempPointBounds, setEndPoint)
-                    i === 0 ? copy(setPointBounds, tempPointBounds) : add(setPointBounds, tempPointBounds)
+                    i === 0 ? copy(setPointBounds, tempPointBounds) : addPointBounds(setPointBounds, tempPointBounds)
                     x = setEndPoint.x
                     y = setEndPoint.y
                     i += 9
@@ -107,7 +107,7 @@ export const PathBounds = {
                     break
                 case O: // arc(x, y, radius, startAngle, endAngle, anticlockwise)
                     arc(null, data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], data[i + 6] as unknown as boolean, tempPointBounds, setEndPoint)
-                    i === 0 ? copy(setPointBounds, tempPointBounds) : add(setPointBounds, tempPointBounds)
+                    i === 0 ? copy(setPointBounds, tempPointBounds) : addPointBounds(setPointBounds, tempPointBounds)
                     x = setEndPoint.x
                     y = setEndPoint.y
                     i += 7
@@ -122,7 +122,7 @@ export const PathBounds = {
                     break
                 case U: // arcTo(x1, y1, x2, y2, radius)
                     arcTo(null, x, y, data[i + 1], data[i + 2], data[i + 3], data[i + 4], data[i + 5], tempPointBounds, setEndPoint)
-                    i === 0 ? copy(setPointBounds, tempPointBounds) : add(setPointBounds, tempPointBounds)
+                    i === 0 ? copy(setPointBounds, tempPointBounds) : addPointBounds(setPointBounds, tempPointBounds)
                     x = setEndPoint.x
                     y = setEndPoint.y
                     i += 6
