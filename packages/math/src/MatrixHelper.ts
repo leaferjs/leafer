@@ -190,7 +190,8 @@ export const MatrixHelper = {
     },
 
     divideParent(t: IMatrixData, parent: IMatrixData): void {
-        M.multiplyParent(t, M.tempInvert(parent))
+        M.invert(t)
+        M.multiplyParent(t, parent)
     },
 
     tempInvert(t: IMatrixData): IMatrixData {
