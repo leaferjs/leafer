@@ -156,7 +156,7 @@ export class Leaf implements ILeaf {
     // data
 
     public set(_data: IObject): void { }
-    get(_options?: ILeafDataOptions): ILeafInputData { return undefined }
+    public get(_options?: ILeafDataOptions): ILeafInputData { return undefined }
 
     public toJSON(): IObject {
         return this.__.__getInputData()
@@ -337,28 +337,47 @@ export class Leaf implements ILeaf {
 
     // transform
 
-    public move(x: number, y?: number): void {
-        moveLocal(this, x, y)
-    }
-
-    public scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void {
-        zoomOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y, resize)
-    }
-
-    public rotateOf(origin: IPointData, angle: number): void {
-        rotateOfLocal(this, tempToOuterOf(origin, this.localTransform), angle)
-    }
-
-    public skewOf(origin: IPointData, x: number, y?: number): void {
-        skewOfLocal(this, tempToOuterOf(origin, this.localTransform), x, y)
+    public setTransform(matrix: IMatrixData, resize?: boolean): void {
+        setTransform(this, matrix, resize)
     }
 
     public transform(matrix: IMatrixData, resize?: boolean): void {
         transform(this, matrix, resize)
     }
 
-    public setTransform(matrix: IMatrixData, resize?: boolean): void {
-        setTransform(this, matrix, resize)
+
+    public move(x: number, y?: number): void {
+        moveLocal(this, x, y)
+    }
+
+    public scaleOf(origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
+        zoomOfLocal(this, tempToOuterOf(origin, this.localTransform), scaleX, scaleY, resize)
+    }
+
+    public rotateOf(origin: IPointData, angle: number): void {
+        rotateOfLocal(this, tempToOuterOf(origin, this.localTransform), angle)
+    }
+
+    public skewOf(origin: IPointData, skewX: number, skewY?: number): void {
+        skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY)
+    }
+
+
+    public scaleWith(scaleX: number, scaleY: number, resize?: boolean): void {
+        const data = this as ILeaf
+        if (resize) {
+            if (scaleX < 0) data.scaleX *= -1, scaleX = -scaleX
+            if (scaleY < 0) data.scaleY *= -1, scaleY = -scaleY
+            this.__scaleResize(scaleX, scaleY)
+        } else {
+            data.scaleX *= scaleX
+            data.scaleY *= scaleY
+        }
+    }
+
+    public __scaleResize(scaleX: number, scaleY: number): void {
+        if (scaleX !== 1) (this as ILeaf).width *= scaleX
+        if (scaleY !== 1) (this as ILeaf).height *= scaleY // Text auto height
     }
 
     // LeafHit rewrite

@@ -381,13 +381,17 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
-    // set
-    move(x: number, y?: number): void
-    scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void
-    rotateOf(origin: IPointData, rotation: number): void
-    skewOf(origin: IPointData, x: number, y?: number): void
-    transform(transform?: IMatrixData, resize?: boolean): void
+    // transform
     setTransform(transform?: IMatrixData, resize?: boolean): void
+    transform(transform?: IMatrixData, resize?: boolean): void
+
+    move(x: number, y?: number): void
+    scaleOf(origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void
+    rotateOf(origin: IPointData, rotation: number): void
+    skewOf(origin: IPointData, skewX: number, skewY?: number): void
+
+    scaleWith(scaleX: number, scaleY: number, resize?: boolean): void
+    __scaleResize(scaleX: number, scaleY: number): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean

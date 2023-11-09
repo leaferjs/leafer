@@ -74,19 +74,7 @@ export const LeafHelper = {
         copy(matrix, t.__localMatrix)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         moveByMatrix(t, matrix)
-        L.scale(t, scaleX, scaleY, resize)
-    },
-
-    scale(t: ILeaf, scaleX: number, scaleY = scaleX, resize?: boolean) {
-        if (resize) {
-            if (scaleX < 0) t.scaleX *= -1, scaleX = -scaleX
-            if (scaleY < 0) t.scaleY *= -1, scaleY = - scaleY
-            if (scaleX !== 1) t.width *= scaleX
-            if (scaleY !== 1) t.height *= scaleY // Text auto height
-        } else {
-            t.scaleX *= scaleX
-            t.scaleY *= scaleY
-        }
+        t.scaleWith(scaleX, scaleY, resize)
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
@@ -122,7 +110,7 @@ export const LeafHelper = {
         const layout = getLayout(transform)
         if (resize) {
             const { scaleX, scaleY } = layout
-            L.scale(t, scaleX / t.scaleX, scaleY / t.scaleY, resize)
+            t.scaleWith(scaleX / t.scaleX, scaleY / t.scaleY, resize)
             delete layout.scaleX
             delete layout.scaleY
         }
