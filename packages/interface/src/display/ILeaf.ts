@@ -386,8 +386,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     scaleOf(origin: IPointData, x: number, y?: number, resize?: boolean): void
     rotateOf(origin: IPointData, rotation: number): void
     skewOf(origin: IPointData, x: number, y?: number): void
-    transform(transform?: IMatrixData): void
-    setTransform(transform?: IMatrixData): void
+    transform(transform?: IMatrixData, resize?: boolean): void
+    setTransform(transform?: IMatrixData, resize?: boolean): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean

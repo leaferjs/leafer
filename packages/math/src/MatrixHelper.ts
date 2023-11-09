@@ -137,7 +137,7 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, fromLayout?: IOrientPointData): void { // = transform
+    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, childLayout?: IOrientPointData): void { // = transform
         const { e, f } = t
 
         to || (to = t)
@@ -152,7 +152,7 @@ export const MatrixHelper = {
             to.c = c * parent.a + d * parent.c
             to.d = c * parent.b + d * parent.d
 
-            if (fromLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData, fromLayout)
+            if (childLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData, childLayout)
 
         } else {
             to.a = parent.a
@@ -160,21 +160,21 @@ export const MatrixHelper = {
             to.c = parent.c
             to.d = parent.d
 
-            if (fromLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData)
+            if (childLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData)
         }
 
         to.e = e * parent.a + f * parent.c + parent.e
         to.f = e * parent.b + f * parent.d + parent.f
     },
 
-    multiplyParentLayout(t: IOrientPointData, parent: IOrientPointData, from?: IOrientPointData): void {
-        if (from) {
-            t.scaleX = parent.scaleX * from.scaleX
-            t.scaleY = parent.scaleY * from.scaleY
+    multiplyParentLayout(t: IOrientPointData, parent: IOrientPointData, child?: IOrientPointData): void {
+        if (child) {
+            t.scaleX = parent.scaleX * child.scaleX
+            t.scaleY = parent.scaleY * child.scaleY
 
-            t.rotation = parent.rotation + from.rotation
-            t.skewX = parent.skewX + from.skewX
-            t.skewY = parent.skewY + from.skewY
+            t.rotation = parent.rotation + child.rotation
+            t.skewX = parent.skewX + child.skewX
+            t.skewY = parent.skewY + child.skewY
         } else {
             t.scaleX = parent.scaleX
             t.scaleY = parent.scaleY

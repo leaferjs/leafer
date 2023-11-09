@@ -2,7 +2,7 @@ import { IBranch, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
-const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent } = MatrixHelper
+const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, getLayout } = MatrixHelper
 const matrix = {} as IMatrixData
 
 export const LeafHelper = {
@@ -74,6 +74,10 @@ export const LeafHelper = {
         copy(matrix, t.__localMatrix)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         moveByMatrix(t, matrix)
+        L.scale(t, scaleX, scaleY, resize)
+    },
+
+    scale(t: ILeaf, scaleX: number, scaleY = scaleX, resize?: boolean) {
         if (resize) {
             if (scaleX < 0) t.scaleX *= -1, scaleX = -scaleX
             if (scaleY < 0) t.scaleY *= -1, scaleY = - scaleY
@@ -108,10 +112,21 @@ export const LeafHelper = {
         t.skewY += skewY
     },
 
-    transform(t: ILeaf, transform: IMatrixData): void {
+    transform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
         copy(matrix, t.localTransform)
         multiplyParent(matrix, transform)
-        t.setTransform(matrix)
+        L.setTransform(t, matrix, resize)
+    },
+
+    setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
+        const layout = getLayout(transform)
+        if (resize) {
+            const { scaleX, scaleY } = layout
+            L.scale(t, scaleX / t.scaleX, scaleY / t.scaleY, resize)
+            delete layout.scaleX
+            delete layout.scaleY
+        }
+        t.set(layout)
     },
 
 
