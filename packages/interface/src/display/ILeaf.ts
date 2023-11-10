@@ -52,10 +52,12 @@ export interface ILeafAttrData {
     skewY: __Number
 
     scale: __Number | IPointData // helper
-    around: 'center' | IPointData
+    around: IAround
+
+    draggable: __Boolean
 
     editable: __Boolean
-    draggable: __Boolean
+    editSize?: IEditSize
 
     hittable: __Boolean
     hitFill: IHitType
@@ -102,7 +104,7 @@ export type IBlendMode =
     | 'destination-atop'
     | 'xor'
 
-export type IResizeType = 'size' | 'scale'
+export type IEditSize = 'size' | 'scale'
 export interface IImageCursor {
     url: string
     x?: number
@@ -186,8 +188,10 @@ export interface ILeafInputData {
     scale?: __Number | IPointData // helper
     around?: IAround
 
-    editable?: __Boolean
     draggable?: __Boolean
+
+    editable?: __Boolean
+    editSize?: IEditSize
 
     hittable?: __Boolean
     hitFill?: IHitType
@@ -231,8 +235,10 @@ export interface ILeafComputedData {
 
     around?: IAround
 
-    editable?: boolean
     draggable?: boolean
+
+    editable?: boolean
+    editSize?: IEditSize
 
     hittable?: boolean
     hitFill?: IHitType
@@ -292,8 +298,6 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态
-
-    readonly resizeable: boolean
 
     readonly __worldFliped: boolean
 
