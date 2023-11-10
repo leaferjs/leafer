@@ -3,11 +3,10 @@ import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId,
 function contextAttr(realName?: string) {
     return (target: Canvas, key: string) => {
         if (!realName) realName = key
-        const property: IObject & ThisType<Canvas> = {
+        Object.defineProperty(target, key, {
             get() { return (this.context as IObject)[realName] },
             set(value: unknown) { (this.context as IObject)[realName] = value }
-        }
-        Object.defineProperty(target, key, property)
+        } as ThisType<Canvas>)
     }
 }
 

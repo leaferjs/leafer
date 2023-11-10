@@ -17,6 +17,7 @@ import { ILeafRender } from './module/ILeafRender'
 import { ILeafMask } from './module/ILeafMask'
 import { ILeafData, ILeafDataOptions } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
+import { IAppBase } from '../app/IApp'
 
 
 export interface ICachedLeaf {
@@ -265,6 +266,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     readonly __DataProcessor: IObject // IDataProcessor
     readonly __LayoutProcessor: IObject // ILeafLayout
 
+    readonly app?: ILeaferBase
     leafer?: ILeaferBase
     parent?: ILeaf
 
