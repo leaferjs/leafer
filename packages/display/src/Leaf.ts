@@ -356,8 +356,8 @@ export class Leaf implements ILeaf {
         rotateOfLocal(this, tempToOuterOf(origin, this.localTransform), angle)
     }
 
-    public skewOf(origin: IPointData, skewX: number, skewY?: number): void {
-        skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY)
+    public skewOf(origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
+        skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
     }
 
 

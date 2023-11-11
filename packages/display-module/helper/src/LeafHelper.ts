@@ -88,16 +88,14 @@ export const LeafHelper = {
         t.rotation = MathHelper.formatRotation(t.rotation + angle)
     },
 
-    skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number): void {
-        this.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY)
+    skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
+        this.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY, resize)
     },
 
-    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0): void {
+    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0, resize?: boolean): void {
         copy(matrix, t.__localMatrix)
         skewOfOuter(matrix, origin, skewX, skewY)
-        moveByMatrix(t, matrix)
-        t.skewX += skewX
-        t.skewY += skewY
+        L.setTransform(t, matrix, resize)
     },
 
     transform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
