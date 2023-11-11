@@ -122,7 +122,7 @@ export class InteractionBase implements IInteraction {
             const canDrag = PointHelper.getDistance(this.downData, data) > this.config.pointer.dragDistance
             if (this.waitTap && canDrag) this.pointerWaitCancel()
 
-            this.dragger.checkDrag(data, canDrag)
+            if (!PointerButton.right(this.downData)) this.dragger.checkDrag(data, canDrag)
         }
 
         if (this.dragger.moving || this.config.pointer.ignoreMove) return
