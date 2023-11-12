@@ -1,10 +1,13 @@
 import { IPathCommandData, IPointData } from '@leafer/interface'
+import { MathHelper, PointHelper } from '@leafer/math'
+
 import { PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
-import { MathHelper } from '@leafer/math'
 
 
 const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = PathCommandMap
+const { getMinDistanceFrom, getRadianFrom } = PointHelper
+const { tan, min, abs } = Math
 const startPoint = {} as IPointData
 
 export const PathCommandDataHelper = {
@@ -73,8 +76,13 @@ export const PathCommandDataHelper = {
         }
     },
 
-    arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number): void {
-        data.push(U, x1, y1, x2, y2, radius)
+    arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number, lastX?: number, lastY?: number): void {
+        if (lastX !== undefined) {
+            const maxRadius = tan(getRadianFrom(lastX, lastY, x1, y1, x2, y2) / 2) * (getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2) / 2)
+            data.push(U, x1, y1, x2, y2, min(radius, abs(maxRadius)))
+        } else {
+            data.push(U, x1, y1, x2, y2, radius)
+        }
     },
 
     // new

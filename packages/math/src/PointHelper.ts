@@ -1,10 +1,10 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
-import { OneRadian } from './MathHelper'
+import { OneRadian, PI2 } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
 
 const { toInnerPoint, toOuterPoint } = M
-const { sin, cos, abs, sqrt, atan2 } = Math
+const { sin, cos, abs, sqrt, atan2, min, PI } = Math
 
 
 export const PointHelper = {
@@ -87,10 +87,26 @@ export const PointHelper = {
         return { x: t.x + (to.x - t.x) / 2, y: t.y + (to.y - t.y) / 2 }
     },
 
+    getCenterX(x1: number, x2: number): number {
+        return x1 + (x2 - x1) / 2
+    },
+
+    getCenterY(y1: number, y2: number): number {
+        return y1 + (y2 - y1) / 2
+    },
+
     getDistance(t: IPointData, point: IPointData): number {
-        const x = abs(point.x - t.x)
-        const y = abs(point.y - t.y)
+        return P.getDistanceFrom(t.x, t.y, point.x, point.y)
+    },
+
+    getDistanceFrom(x1: number, y1: number, x2: number, y2: number): number {
+        const x = abs(x2 - x1)
+        const y = abs(y2 - y1)
         return sqrt(x * x + y * y)
+    },
+
+    getMinDistanceFrom(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): number {
+        return min(P.getDistanceFrom(x1, y1, x2, y2), P.getDistanceFrom(x2, y2, x3, y3))
     },
 
     getAngle(t: IPointData, to: IPointData): number {
@@ -99,12 +115,15 @@ export const PointHelper = {
 
     getRotation(t: IPointData, origin: IPointData, to: IPointData, toOrigin?: IPointData): number {
         if (!toOrigin) toOrigin = origin
+        return P.getRadianFrom(t.x, t.y, origin.x, origin.y, to.x, to.y, toOrigin.x, toOrigin.y) / OneRadian
+    },
 
-        let fromAngle = P.getAngle(t, origin)
-        let toAngle = P.getAngle(to, toOrigin)
-
-        const angle = toAngle - fromAngle
-        return angle < -180 ? angle + 360 : angle
+    getRadianFrom(fromX: number, fromY: number, originX: number, originY: number, toX: number, toY: number, toOriginX?: number, toOriginY?: number): number {
+        if (toOriginX === undefined) toOriginX = originX, toOriginY = originY
+        let fromAngle = atan2(fromY - originY, fromX - originX)
+        let toAngle = atan2(toY - toOriginY, toX - toOriginX)
+        const radian = toAngle - fromAngle
+        return radian < -PI ? radian + PI2 : radian
     },
 
     getAtan2(t: IPointData, to: IPointData): number {
