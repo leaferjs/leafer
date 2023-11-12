@@ -52,6 +52,7 @@ export const PathScaler = {
                     break
                 case G: // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
                     scalePoints(data, scaleX, scaleY, i, 2)
+                    console.log('G')
                     i += 9
                     break
                 case F: // simple ellipse(x, y, radiusX, radiusY)
@@ -60,10 +61,10 @@ export const PathScaler = {
                     break
                 case O: // arc(x, y, radius, startAngle, endAngle, anticlockwise)
                     data[i] = G // to ellipse
-                    data.splice(i + 4, 0, data[i + 3])
+                    data.splice(i + 4, 0, data[i + 3], 0)
                     scalePoints(data, scaleX, scaleY, i, 2)
-                    i += 7 + 1
-                    len += 1
+                    i += 7 + 2
+                    len += 2
                     break
                 case P: // simple arc(x, y, radius)
                     data[i] = F // to simple ellipse
