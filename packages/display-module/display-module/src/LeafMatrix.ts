@@ -9,8 +9,6 @@ export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        if (this.__layout.matrixChanged) this.__updateLocalMatrix()
-
         multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as IOrientPointData)
     },
 
@@ -38,8 +36,6 @@ export const LeafMatrix: ILeafMatrixModule = {
             }
 
         }
-
-        this.__layout.matrixChanged = false
 
     }
 

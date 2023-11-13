@@ -4,6 +4,7 @@ export type ILeafBoundsModule = ILeafBounds & ThisType<ILeaf>
 
 export interface ILeafBounds {
     __updateWorldBounds?(): void
+    __updateLocalBounds?(): void
 
     __updateLocalBoxBounds?(): void
     __updateLocalStrokeBounds?(): void

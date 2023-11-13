@@ -5,7 +5,7 @@ import { updateBounds, updateMatrix, updateChange } from './LayouterHelper'
 import { LayoutBlockData } from './LayoutBlockData'
 
 
-const { updateAllWorldMatrix, updateAllChange } = LeafHelper
+const { updateAllWorldMatrix, updateAllChange, updateWorldBounds } = LeafHelper
 const { pushAllBranchStack, updateWorldBoundsByBranchStack } = BranchHelper
 
 const debug = Debug.get('Layouter')
@@ -160,7 +160,7 @@ export class Layouter implements ILayouter {
             pushAllBranchStack(target, branchStack)
             updateWorldBoundsByBranchStack(branchStack)
         } else {
-            target.__updateWorldBounds()
+            updateWorldBounds(target)
         }
 
         updateAllChange(target)

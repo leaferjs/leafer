@@ -33,6 +33,8 @@ export class LeafLayout implements ILeafLayout {
 
     // state
 
+    public resized: boolean
+
     // matrix changed
     public matrixChanged: boolean
     public scaleChanged: boolean

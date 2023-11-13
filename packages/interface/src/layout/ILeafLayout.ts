@@ -27,6 +27,7 @@ export interface ILeafLayout {
     localRenderBounds?: IBoundsData
 
     // state
+    resized: boolean
 
     // matrix changed
     matrixChanged: boolean // include positionChanged scaleChanged skewChanged

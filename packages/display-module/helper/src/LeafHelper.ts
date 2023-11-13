@@ -8,7 +8,7 @@ const matrix = {} as IMatrixData
 export const LeafHelper = {
 
     updateAllWorldMatrix(leaf: ILeaf): void {
-        leaf.__updateWorldMatrix()
+        updateWorldMatrix(leaf)
 
         if (leaf.isBranch) {
             const { children } = leaf
@@ -16,6 +16,16 @@ export const LeafHelper = {
                 updateAllWorldMatrix(children[i])
             }
         }
+    },
+
+    updateWorldMatrix(leaf: ILeaf): void {
+        if (leaf.__layout.matrixChanged) leaf.__updateLocalMatrix(), leaf.__layout.matrixChanged = false
+        leaf.__updateWorldMatrix()
+    },
+
+    updateWorldBounds(leaf: ILeaf): void {
+        if (leaf.__layout.boundsChanged) leaf.__updateLocalBounds(), leaf.__layout.boundsChanged = false
+        leaf.__updateWorldBounds()
     },
 
     updateAllWorldOpacity(leaf: ILeaf): void {
@@ -137,7 +147,7 @@ export const LeafHelper = {
 }
 
 const L = LeafHelper
-const { updateAllWorldMatrix, updateAllWorldOpacity, updateAllChange } = L
+const { updateAllWorldMatrix, updateWorldMatrix, updateAllWorldOpacity, updateAllChange } = L
 
 function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
     const { e, f } = t.__localMatrix

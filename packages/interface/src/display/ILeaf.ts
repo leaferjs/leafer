@@ -348,6 +348,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     // ILeafBounds ->
     __updateWorldBounds(): void
+    __updateLocalBounds(): void
 
     __updateLocalBoxBounds(): void
     __updateLocalStrokeBounds(): void

@@ -210,6 +210,8 @@ export class Leaf implements ILeaf {
 
     public __updateWorldBounds(): void { }
 
+    public __updateLocalBounds(): void { }
+
 
     public __updateLocalBoxBounds(): void { }
 

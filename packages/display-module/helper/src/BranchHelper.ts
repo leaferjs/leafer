@@ -1,6 +1,8 @@
 import { ILeaf, ILeafLevelList, ILeafList } from '@leafer/interface'
 
+import { LeafHelper } from './LeafHelper'
 
+const { updateWorldBounds } = LeafHelper
 
 export const BranchHelper = {
 
@@ -65,10 +67,10 @@ export const BranchHelper = {
         for (let i = branchStack.length - 1; i > -1; i--) {
             branch = branchStack[i]
             for (let j = 0, len = branch.children.length; j < len; j++) {
-                branch.children[j].__updateWorldBounds()
+                updateWorldBounds(branch.children[j])
             }
         }
-        branch.__updateWorldBounds()
+        updateWorldBounds(branch)
     }
 }
 

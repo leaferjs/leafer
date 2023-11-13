@@ -18,6 +18,7 @@
     "leaferjs"
   ],
   "dependencies": {
+    "@leafer/helper": "1.0.0-rc.6",
     "@leafer/event": "1.0.0-rc.6",
     "@leafer/math": "1.0.0-rc.6"
   },
