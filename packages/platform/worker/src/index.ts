@@ -41,7 +41,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
-                if (!src.startsWith('data:') && Platform.imageSuffix) src += (src.includes("?") ? "&" : "?") + Platform.imageSuffix
+                if (!src.startsWith('data:') && Platform.image.suffix) src += (src.includes("?") ? "&" : "?") + Platform.image.suffix
                 let req = new XMLHttpRequest()
                 req.open('GET', src, true)
                 req.responseType = "blob"

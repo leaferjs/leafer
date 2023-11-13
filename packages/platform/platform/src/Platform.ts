@@ -2,5 +2,9 @@ import { IPlatform } from '@leafer/interface'
 
 
 export const Platform: IPlatform = {
-    imageSuffix: 'leaf'
+    image: {
+        maxCacheSize: 2560 * 1600,  // 2k
+        maxPatternSize: 4096 * 2160, // 4k
+        suffix: 'leaf'
+    }
 }

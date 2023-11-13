@@ -53,7 +53,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 img.crossOrigin = 'anonymous'
                 img.onload = () => { resolve(img) }
                 img.onerror = (e) => { reject(e) }
-                if (!src.startsWith('data:') && Platform.imageSuffix) src += (src.includes("?") ? "&" : "?") + Platform.imageSuffix
+                if (!src.startsWith('data:') && Platform.image.suffix) src += (src.includes("?") ? "&" : "?") + Platform.image.suffix
                 img.src = src
             })
         }
