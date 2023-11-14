@@ -368,14 +368,14 @@ export class Leaf implements ILeaf {
         if (resize) {
             if (scaleX < 0) data.scaleX *= -1, scaleX = -scaleX
             if (scaleY < 0) data.scaleY *= -1, scaleY = -scaleY
-            this.__scaleResize(scaleX, scaleY)
+            this.scaleResize(scaleX, scaleY)
         } else {
             data.scaleX *= scaleX
             data.scaleY *= scaleY
         }
     }
 
-    public __scaleResize(scaleX: number, scaleY: number): void {
+    public scaleResize(scaleX: number, scaleY = scaleX): void {
         if (scaleX !== 1) (this as ILeaf).width *= scaleX
         if (scaleY !== 1) (this as ILeaf).height *= scaleY // Text auto height
     }
