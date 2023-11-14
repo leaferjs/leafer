@@ -84,7 +84,7 @@ export const LeafHelper = {
         copy(matrix, t.__localMatrix)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         moveByMatrix(t, matrix)
-        t.scaleWith(scaleX, scaleY, resize)
+        t.scaleResize(scaleX, scaleY, resize !== true)
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
@@ -118,7 +118,7 @@ export const LeafHelper = {
         const layout = getLayout(transform)
         if (resize) {
             const { scaleX, scaleY } = layout
-            t.scaleWith(scaleX / t.scaleX, scaleY / t.scaleY, resize)
+            t.scaleResize(scaleX / t.scaleX, scaleY / t.scaleY, resize !== true)
             delete layout.scaleX
             delete layout.scaleY
         }

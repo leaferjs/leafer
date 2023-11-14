@@ -397,8 +397,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     rotateOf(origin: IPointData, rotation: number): void
     skewOf(origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void
 
-    scaleWith(scaleX: number, scaleY: number, resize?: boolean): void
-    scaleResize(scaleX: number, scaleY: number): void
+    scaleResize(scaleX: number, scaleY: number, noResize?: boolean): void
+    __scaleResize(scaleX: number, scaleY: number): void
 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean
