@@ -1,4 +1,4 @@
-import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataHandle, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
 import { BoundsHelper as B } from './BoundsHelper'
 
 
@@ -74,23 +74,23 @@ export class Bounds implements IBounds {
         return this
     }
 
-    public addList(boundsList: IBounds[]): IBounds {
+    public addList(boundsList: IBoundsData[]): IBounds {
         B.setList(this, boundsList, true)
         return this
     }
 
-    public setList(boundsList: IBounds[]): IBounds {
+    public setList(boundsList: IBoundsData[]): IBounds {
         B.setList(this, boundsList)
         return this
     }
 
-    public addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds {
-        B.setListWithHandle(this, list, boundsDataHandle, true)
+    public addListWithFn(list: IObject[], boundsDataFn: IBoundsDataFn): IBounds {
+        B.setListWithFn(this, list, boundsDataFn, true)
         return this
     }
 
-    public setListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds {
-        B.setListWithHandle(this, list, boundsDataHandle)
+    public setListWithFn(list: IObject[], boundsDataFn: IBoundsDataFn): IBounds {
+        B.setListWithFn(this, list, boundsDataFn)
         return this
     }
 

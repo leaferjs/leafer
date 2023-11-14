@@ -19,6 +19,8 @@ export interface IPoint extends IPointData {
 
     getCenter(to: IPointData): IPoint
     getDistance(to: IPointData): number
+    getDistancePoint(to: IPointData, distance: number): IPoint
+
     getAngle(to: IPointData): number
     getAtan2(to: IPointData): number
 
@@ -49,7 +51,7 @@ export interface IOffsetBoundsData extends IBoundsData {
     offsetY: number
 }
 
-export interface IBoundsDataHandle {
+export interface IBoundsDataFn {
     (target: any): IBoundsData
 }
 
@@ -68,10 +70,10 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     unsign(): IBounds
 
     add(bounds: IBoundsData): IBounds
-    addList(boundsList: IBounds[]): IBounds
-    setList(boundsList: IBounds[]): IBounds
-    addListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
-    setListWithHandle(list: IObject[], boundsDataHandle: IBoundsDataHandle): IBounds
+    addList(boundsList: IBoundsData[]): IBounds
+    setList(boundsList: IBoundsData[]): IBounds
+    addListWithFn(list: IObject[], boundsDataHandle: IBoundsDataFn): IBounds
+    setListWithFn(list: IObject[], boundsDataHandle: IBoundsDataFn): IBounds
 
     setPoints(points: IPointData[]): IBounds
     getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
@@ -124,9 +126,12 @@ export interface IMatrixData {
     f: number
 }
 
-export interface IScaleRotationData {
+export interface IScaleData {
     scaleX: number
     scaleY: number
+}
+
+export interface IScaleRotationData extends IScaleData {
     rotation: number
 }
 
@@ -187,5 +192,7 @@ export interface IMatrix extends IMatrixData {
 }
 
 export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData { }
+
+export interface IMatrixWithScaleData extends IMatrixData, IScaleData { }
 
 export interface IMatrixWithLayoutData extends IMatrixData, IOrientBoundsData { }

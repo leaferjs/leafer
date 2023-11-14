@@ -60,6 +60,10 @@ export class Point implements IPoint {
         return P.getDistance(this, to)
     }
 
+    public getDistancePoint(to: IPointData, distance: number): IPoint {
+        return new Point(P.getDistancePoint(this, to, distance))
+    }
+
     public getAngle(to: IPointData): number {
         return P.getAngle(this, to)
     }

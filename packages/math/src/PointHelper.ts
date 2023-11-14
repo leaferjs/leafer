@@ -1,7 +1,8 @@
-import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
 import { OneRadian, PI2 } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
+
 
 const { toInnerPoint, toOuterPoint } = M
 const { sin, cos, abs, sqrt, atan2, min, PI } = Math
@@ -36,8 +37,9 @@ export const PointHelper = {
 
     rotate(t: IPointData, rotation: number, origin?: IPointData): void {
         if (!origin) origin = P.defaultPoint
-        const cosR = cos(rotation * OneRadian)
-        const sinR = sin(rotation * OneRadian)
+        rotation *= OneRadian
+        const cosR = cos(rotation)
+        const sinR = sin(rotation)
         const rx = t.x - origin.x
         const ry = t.y - origin.y
         t.x = origin.x + rx * cosR - ry * sinR
@@ -59,14 +61,14 @@ export const PointHelper = {
         return temp
     },
 
-    tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithLayoutData): IRadiusPointData {
+    tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithScaleData): IRadiusPointData {
         const { tempRadiusPoint: temp } = P
         P.copy(temp, t)
         P.toInnerRadiusPointOf(t, matrix, temp)
         return temp
     },
 
-    toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithLayoutData, to?: IRadiusPointData): void {
+    toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithScaleData, to?: IRadiusPointData): void {
         to || (to = t)
         toInnerPoint(matrix, t, to)
         to.radiusX = Math.abs(t.radiusX / matrix.scaleX)

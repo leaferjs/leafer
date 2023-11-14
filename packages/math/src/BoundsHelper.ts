@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IBoundsDataHandle, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -200,21 +200,21 @@ export const BoundsHelper = {
     },
 
     addList(t: IBoundsData, list: IBoundsData[]): void {
-        B.setListWithHandle(t, list, undefined, true)
+        B.setListWithFn(t, list, undefined, true)
     },
 
     setList(t: IBoundsData, list: IBoundsData[], addMode = false): void {
-        B.setListWithHandle(t, list, undefined, addMode)
+        B.setListWithFn(t, list, undefined, addMode)
     },
 
-    addListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle): void {
-        B.setListWithHandle(t, list, boundsDataHandle, true)
+    addListWithFn(t: IBoundsData, list: IObject[], boundsDataFn: IBoundsDataFn): void {
+        B.setListWithFn(t, list, boundsDataFn, true)
     },
 
-    setListWithHandle(t: IBoundsData, list: IObject[], boundsDataHandle: IBoundsDataHandle, addMode = false): void {
+    setListWithFn(t: IBoundsData, list: IObject[], boundsDataFn: IBoundsDataFn, addMode = false): void {
         let bounds: IBoundsData, first = true
         for (let i = 0, len = list.length; i < len; i++) {
-            bounds = boundsDataHandle ? boundsDataHandle(list[i]) : list[i] as IBoundsData
+            bounds = boundsDataFn ? boundsDataFn(list[i]) : list[i] as IBoundsData
             if (bounds && (bounds.width || bounds.height)) {
                 if (first) {
                     first = false
@@ -245,7 +245,7 @@ export const BoundsHelper = {
     },
 
 
-    hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean {
+    hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixWithScaleData): boolean {
         if (pointMatrix) point = P.tempToInnerRadiusPointOf(point, pointMatrix)
         return (point.x >= t.x - point.radiusX && point.x <= t.x + t.width + point.radiusX) && (point.y >= t.y - point.radiusY && point.y <= t.y + t.height + point.radiusY)
     },
