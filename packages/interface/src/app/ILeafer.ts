@@ -58,6 +58,13 @@ export interface ILeaferAttrData {
     __nextRenderWait: IFunction[]
 
     init(userConfig?: ILeaferConfig, parentApp?: IAppBase): void
+
+    start(): void
+    stop(): void
+
+    startLayout(): void
+    stopLayout(): void
+
     setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
     updateCursor(): void

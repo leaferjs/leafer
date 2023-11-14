@@ -137,4 +137,3 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
 Platform.name = 'miniapp'
 Platform.requestRender = function (render: IFunction): void { Platform.canvas.view.requestAnimationFrame(render) }
 Platform.devicePixelRatio = wx.getSystemInfoSync().pixelRatio
-Platform.realtimeLayout = true

@@ -66,7 +66,6 @@ Platform.name = 'web'
 Platform.isWorker = true
 Platform.requestRender = function (render: IFunction): void { requestAnimationFrame(render) }
 Platform.devicePixelRatio = 1
-Platform.realtimeLayout = true
 
 
 // same as web

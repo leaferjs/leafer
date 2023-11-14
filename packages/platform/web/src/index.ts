@@ -73,7 +73,6 @@ Platform.name = 'web'
 Platform.isMobile = 'ontouchstart' in window
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
 Platform.devicePixelRatio = Math.max(1, devicePixelRatio)
-Platform.realtimeLayout = true
 
 
 // same as worker

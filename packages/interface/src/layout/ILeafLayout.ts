@@ -69,7 +69,7 @@ export interface ILeafLayout {
     e: number
     f: number
 
-    update(force?: boolean): void
+    update(): void
 
     getTransform(relative?: ILocationType | ILeaf): IMatrixData
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData

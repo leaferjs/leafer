@@ -339,7 +339,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     findOne(condition: number | string | IFindMethod, options?: any): ILeaf
 
     forceUpdate(attrName?: string): void
-    updateLayout(force?: boolean): void
+
+    updateLayout(): void
 
     // ILeafMatrix ->
     __updateWorldMatrix(): void

@@ -21,7 +21,6 @@ export interface IPlatform {
     fullImageShadow?: boolean // safari need 
     syncDomFont?: boolean // firefox need
     layout?(target: ILeaf): void
-    realtimeLayout?: boolean
     origin?: {
         createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
         canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>

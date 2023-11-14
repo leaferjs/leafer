@@ -84,11 +84,11 @@ export class LeafLayout implements ILeafLayout {
         this.matrixChange()
     }
 
-    public update(force?: boolean): void {
+    public update(): void {
         const { leafer } = this.leaf
         if (leafer) {
             if (leafer.ready) {
-                if ((Platform.realtimeLayout || force) && leafer.watcher.changed) leafer.layouter.layout()
+                if (leafer.watcher.changed) leafer.layouter.layout()
             } else {
                 leafer.start()
             }
