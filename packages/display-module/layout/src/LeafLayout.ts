@@ -169,7 +169,7 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getBoundsPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
+    public getBoundsPoints(type?: IBoundsType, relative: ILocationType | ILeaf = 'world'): IPointData[] {
         const { leaf } = this
         const points = getPoints(this.getInnerBounds(type))
         let relativeLeaf: ILeaf

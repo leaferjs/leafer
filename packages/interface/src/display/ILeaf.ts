@@ -17,7 +17,6 @@ import { ILeafRender } from './module/ILeafRender'
 import { ILeafMask } from './module/ILeafMask'
 import { ILeafData, ILeafDataOptions } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
-import { IAppBase } from '../app/IApp'
 
 
 export interface ICachedLeaf {
