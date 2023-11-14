@@ -11,7 +11,7 @@ export const LeafBoundsHelper = {
         return target.__.isEraser ? null : (target.__local || target.__ as IBoundsData)
     },
 
-    localEventBounds(target: ILeaf): IBoundsData {
+    localStrokeBounds(target: ILeaf): IBoundsData {
         return target.__.isEraser ? null : target.__layout.localStrokeBounds
     },
 
@@ -23,7 +23,7 @@ export const LeafBoundsHelper = {
         return target.__.isMask ? target.__localBounds : null
     },
 
-    maskLocalEventBounds(target: ILeaf): IBoundsData {
+    maskLocalStrokeBounds(target: ILeaf): IBoundsData {
         return target.__.isMask ? target.__layout.localStrokeBounds : null
     },
 

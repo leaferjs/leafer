@@ -10,7 +10,7 @@ import { Leaf } from './Leaf'
 
 const { setListWithFn } = BoundsHelper
 const { sort } = BranchHelper
-const { localBoxBounds, localEventBounds, localRenderBounds, maskLocalBoxBounds, maskLocalEventBounds, maskLocalRenderBounds } = LeafBoundsHelper
+const { localBoxBounds, localStrokeBounds, localRenderBounds, maskLocalBoxBounds, maskLocalStrokeBounds, maskLocalRenderBounds } = LeafBoundsHelper
 
 
 @useModule(BranchRender)
@@ -46,7 +46,7 @@ export class Branch extends Leaf {
     }
 
     public __updateStrokeBounds(): void {
-        setListWithFn(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalEventBounds : localEventBounds)
+        setListWithFn(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalStrokeBounds : localStrokeBounds)
     }
 
     public __updateRenderBounds(): void {
