@@ -1,4 +1,4 @@
-import { IBoundsData, ILeafMatrixModule, IOrientPointData } from '@leafer/interface'
+import { IBoundsData, ILeafMatrixModule, ILayoutData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
@@ -9,7 +9,7 @@ export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as IOrientPointData)
+        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as ILayoutData)
     },
 
     __updateLocalMatrix(): void {
@@ -21,7 +21,7 @@ export const LeafMatrix: ILeafMatrixModule = {
             if (layout.affectScaleOrRotation) {
 
                 if (layout.scaleChanged || layout.rotationChanged) {
-                    setLayout(local, data as IOrientPointData, null, layout.affectRotation)
+                    setLayout(local, data as ILayoutData, null, layout.affectRotation)
                     layout.scaleChanged = layout.rotationChanged = false
                 }
 

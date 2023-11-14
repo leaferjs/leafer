@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, IOrientPointAttr, IMatrixWithLayoutData, IOrientBoundsData, IMatrixData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, IMatrixWithLayoutData, ILayoutBoundsData, IMatrixData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -372,9 +372,9 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __removeMask(child?: ILeaf): void
 
     // convert
-    getWorld(attrName: IOrientPointAttr): number
+    getWorld(attrName: ILayoutAttr): number
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
-    getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData
+    getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData
 
     worldToLocal(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
     localToWorld(local: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void

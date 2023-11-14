@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, IOrientPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData } from '@leafer/interface'
 import { MathHelper, OneRadian, PI_2 } from './MathHelper'
 
 
@@ -137,7 +137,7 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, childLayout?: IOrientPointData): void { // = transform
+    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, childLayout?: ILayoutData): void { // = transform
         const { e, f } = t
 
         to || (to = t)
@@ -152,7 +152,7 @@ export const MatrixHelper = {
             to.c = c * parent.a + d * parent.c
             to.d = c * parent.b + d * parent.d
 
-            if (childLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData, childLayout)
+            if (childLayout) M.multiplyParentLayout(to as unknown as ILayoutData, parent as unknown as ILayoutData, childLayout)
 
         } else {
             to.a = parent.a
@@ -160,14 +160,14 @@ export const MatrixHelper = {
             to.c = parent.c
             to.d = parent.d
 
-            if (childLayout) M.multiplyParentLayout(to as unknown as IOrientPointData, parent as unknown as IOrientPointData)
+            if (childLayout) M.multiplyParentLayout(to as unknown as ILayoutData, parent as unknown as ILayoutData)
         }
 
         to.e = e * parent.a + f * parent.c + parent.e
         to.f = e * parent.b + f * parent.d + parent.f
     },
 
-    multiplyParentLayout(t: IOrientPointData, parent: IOrientPointData, child?: IOrientPointData): void {
+    multiplyParentLayout(t: ILayoutData, parent: ILayoutData, child?: ILayoutData): void {
         if (child) {
             t.scaleX = parent.scaleX * child.scaleX
             t.scaleY = parent.scaleY * child.scaleY
@@ -245,7 +245,7 @@ export const MatrixHelper = {
         }
     },
 
-    setLayout(t: IMatrixData, layout: IOrientPointData, origin?: IPointData, bcChanged?: boolean | number): void {
+    setLayout(t: IMatrixData, layout: ILayoutData, origin?: IPointData, bcChanged?: boolean | number): void {
         const { x, y, scaleX, scaleY } = layout
 
         if (bcChanged === undefined) bcChanged = layout.rotation || layout.skewX || layout.skewY
@@ -291,7 +291,7 @@ export const MatrixHelper = {
         if (origin) M.translateInner(t, -origin.x, -origin.y)
     },
 
-    getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): IOrientPointData {
+    getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): ILayoutData {
         const { a, b, c, d, e, f } = t
 
         let x = e, y = f, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number

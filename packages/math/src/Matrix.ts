@@ -1,4 +1,4 @@
-import { IMatrix, IMatrixData, IPointData, IOrientPointData } from '@leafer/interface'
+import { IMatrix, IMatrixData, IPointData, ILayoutData } from '@leafer/interface'
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -122,12 +122,12 @@ export class Matrix implements IMatrix {
     }
 
 
-    public setLayout(data: IOrientPointData, origin?: IPointData): IMatrix {
+    public setLayout(data: ILayoutData, origin?: IPointData): IMatrix {
         M.setLayout(this, data, origin)
         return this
     }
 
-    public getLayout(origin?: IPointData, firstSkewY?: boolean): IOrientPointData {
+    public getLayout(origin?: IPointData, firstSkewY?: boolean): ILayoutData {
         return M.getLayout(this, origin, firstSkewY)
     }
 

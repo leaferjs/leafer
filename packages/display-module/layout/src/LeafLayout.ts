@@ -1,9 +1,9 @@
-import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, IOrientBoundsData, IOrientPointData, IPointData } from '@leafer/interface'
+import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, ILayoutData, IPointData } from '@leafer/interface'
 import { Bounds, BoundsHelper, Matrix, MatrixHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
 
-const { toOuterOf } = BoundsHelper
+const { toOuterOf, getPoints } = BoundsHelper
 
 export class LeafLayout implements ILeafLayout {
 
@@ -169,30 +169,50 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getOrientBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): IOrientBoundsData {
+    public getBoundsPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
         const { leaf } = this
-        let point: IPointData, orient: IOrientPointData
+        const points = getPoints(this.getInnerBounds(type))
+        let relativeLeaf: ILeaf
+        switch (relative) {
+            case 'world':
+                relativeLeaf = null
+                break
+            case 'local':
+                relativeLeaf = leaf.parent
+                break
+            case 'inner':
+                break
+            default:
+                relativeLeaf = relative
+        }
+        if (relativeLeaf !== undefined) points.forEach(point => leaf.innerToWorld(point, null, false, relativeLeaf))
+        return points
+    }
+
+    public getLayoutBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): ILayoutBoundsData {
+        const { leaf } = this
+        let point: IPointData, layout: ILayoutData
         let bounds: IBoundsData = this.getInnerBounds(type)
 
         switch (relative) {
             case 'world':
                 point = leaf.getWorldPoint(bounds)
-                orient = leaf.__world
+                layout = leaf.__world
                 break
             case 'local':
                 point = leaf.getLocalPointByInner(bounds)
-                orient = leaf.__ as IOrientPointData
+                layout = leaf.__ as ILayoutData
                 break
             case 'inner':
                 point = bounds
-                orient = MatrixHelper.defaultWorld
+                layout = MatrixHelper.defaultWorld
                 break
             default:
                 point = leaf.getWorldPoint(bounds, relative)
-                orient = leaf.__world
+                layout = leaf.__world
         }
 
-        let { scaleX, scaleY, rotation, skewX, skewY } = orient
+        let { scaleX, scaleY, rotation, skewX, skewY } = layout
         let { width, height } = bounds
 
         if (typeof relative === 'object') {

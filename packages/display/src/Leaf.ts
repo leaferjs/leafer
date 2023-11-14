@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, IOrientBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, IOrientPointAttr, IMatrixData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, ILayoutAttr, IMatrixData } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -255,7 +255,7 @@ export class Leaf implements ILeaf {
 
     // convert
 
-    public getWorld(attrName: IOrientPointAttr): number {
+    public getWorld(attrName: ILayoutAttr): number {
         this.__layout.update()
         if (attrName === 'x') return this.__world.e
         if (attrName === 'y') return this.__world.f
@@ -266,8 +266,12 @@ export class Leaf implements ILeaf {
         return this.__layout.getBounds(type, relative)
     }
 
-    public getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData {
-        return this.__layout.getOrientBounds(type, relative, unscale)
+    public getBoundsPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
+        return this.__layout.getBoundsPoints(type, relative)
+    }
+
+    public getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData {
+        return this.__layout.getLayoutBounds(type, relative, unscale)
     }
 
 

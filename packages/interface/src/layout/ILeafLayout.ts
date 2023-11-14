@@ -1,4 +1,4 @@
-import { IBoundsData, IMatrixData, IOrientBoundsData } from '../math/IMath'
+import { IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 
 export type ILocationType = 'world' | 'local' | 'inner'
@@ -73,7 +73,8 @@ export interface ILeafLayout {
 
     getTransform(relative?: ILocationType | ILeaf): IMatrixData
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
-    getOrientBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): IOrientBoundsData
+    getBoundsPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[]
+    getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData
 
     // 独立 / 引用 boxBounds
     spreadStroke(): void
