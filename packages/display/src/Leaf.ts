@@ -266,12 +266,12 @@ export class Leaf implements ILeaf {
         return this.__layout.getBounds(type, relative)
     }
 
-    public getBoundsPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
-        return this.__layout.getBoundsPoints(type, relative)
-    }
-
     public getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData {
         return this.__layout.getLayoutBounds(type, relative, unscale)
+    }
+
+    public getLayoutPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
+        return this.__layout.getLayoutPoints(type, relative)
     }
 
 

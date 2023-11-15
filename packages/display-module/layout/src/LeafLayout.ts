@@ -169,26 +169,6 @@ export class LeafLayout implements ILeafLayout {
         }
     }
 
-    public getBoundsPoints(type?: IBoundsType, relative: ILocationType | ILeaf = 'world'): IPointData[] {
-        const { leaf } = this
-        const points = getPoints(this.getInnerBounds(type))
-        let relativeLeaf: ILeaf
-        switch (relative) {
-            case 'world':
-                relativeLeaf = null
-                break
-            case 'local':
-                relativeLeaf = leaf.parent
-                break
-            case 'inner':
-                break
-            default:
-                relativeLeaf = relative
-        }
-        if (relativeLeaf !== undefined) points.forEach(point => leaf.innerToWorld(point, null, false, relativeLeaf))
-        return points
-    }
-
     public getLayoutBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): ILayoutBoundsData {
         const { leaf } = this
         let point: IPointData, layout: ILayoutData
@@ -234,6 +214,26 @@ export class LeafLayout implements ILeafLayout {
         }
 
         return { x: point.x, y: point.y, scaleX, scaleY, rotation, skewX, skewY, width, height }
+    }
+
+    public getLayoutPoints(type?: IBoundsType, relative: ILocationType | ILeaf = 'world'): IPointData[] {
+        const { leaf } = this
+        const points = getPoints(this.getInnerBounds(type))
+        let relativeLeaf: ILeaf
+        switch (relative) {
+            case 'world':
+                relativeLeaf = null
+                break
+            case 'local':
+                relativeLeaf = leaf.parent
+                break
+            case 'inner':
+                break
+            default:
+                relativeLeaf = relative
+        }
+        if (relativeLeaf !== undefined) points.forEach(point => leaf.innerToWorld(point, null, false, relativeLeaf))
+        return points
     }
 
     protected getWorldContentBounds(): IBoundsData {
