@@ -30,6 +30,7 @@ export interface ILeaferAttrData {
     ready: boolean
     viewReady: boolean
     viewCompleted: boolean
+    layoutLocked: boolean
 
     pixelRatio: number
 
@@ -62,8 +63,8 @@ export interface ILeaferAttrData {
     start(): void
     stop(): void
 
-    startLayout(): void
-    stopLayout(): void
+    unlockLayout(): void
+    lockLayout(): void
 
     setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
