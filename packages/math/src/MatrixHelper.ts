@@ -190,8 +190,7 @@ export const MatrixHelper = {
     },
 
     divideParent(t: IMatrixData, parent: IMatrixData): void {
-        M.invert(t)
-        M.multiplyParent(t, parent)
+        M.multiplyParent(t, M.tempInvert(parent))
     },
 
     tempInvert(t: IMatrixData): IMatrixData {
@@ -203,13 +202,27 @@ export const MatrixHelper = {
 
     invert(t: IMatrixData): void {
         const { a, b, c, d, e, f } = t
-        const s = 1 / (a * d - b * c)
-        t.a = d * s
-        t.b = -b * s
-        t.c = -c * s
-        t.d = a * s
-        t.e = -(e * d - f * c) * s
-        t.f = -(f * a - e * b) * s
+        if (!b && !c) {
+            if (a === 1 && d === 1) {
+                t.e = -e
+                t.f = -f
+            } else {
+                const s = 1 / (a * d)
+                t.a = d * s
+                t.d = a * s
+                t.e = -e * d * s
+                t.f = -f * a * s
+            }
+        } else {
+            const s = 1 / (a * d - b * c)
+            t.a = d * s
+            t.b = -b * s
+            t.c = -c * s
+            t.d = a * s
+            t.e = -(e * d - f * c) * s
+            t.f = -(f * a - e * b) * s
+        }
+
     },
 
 

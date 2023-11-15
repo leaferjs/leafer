@@ -10,7 +10,7 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint } = MatrixHelper
 const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform, setTransform } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform, setTransform, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -434,6 +434,10 @@ export class Leaf implements ILeaf {
 
     public remove(_child?: ILeaf, destroy?: boolean): void {
         if (this.parent) this.parent.remove(this, destroy)
+    }
+
+    public drop(child: ILeaf, resize?: boolean): void {
+        if (this.isBranch) drop(child, this, resize)
     }
 
     // ---

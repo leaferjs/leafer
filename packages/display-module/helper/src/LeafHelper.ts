@@ -1,8 +1,8 @@
-import { IBranch, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
+import { ILeaf, IMatrixData, IPointData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
-const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, getLayout } = MatrixHelper
+const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
 const matrix = {} as IMatrixData
 
 export const LeafHelper = {
@@ -126,11 +126,10 @@ export const LeafHelper = {
     },
 
 
-    drop(t: ILeaf, parent: IBranch): void {
-        const position = { x: t.x, y: t.y }
-        t.localToWorld(position)
-        parent.worldToInner(position)
-        t.set(position)
+    drop(t: ILeaf, parent: ILeaf, resize?: boolean): void {
+        copy(matrix, t.worldTransform)
+        divideParent(matrix, parent.worldTransform)
+        t.setTransform(matrix, resize)
         parent.add(t)
     },
 
