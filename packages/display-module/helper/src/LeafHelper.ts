@@ -126,11 +126,11 @@ export const LeafHelper = {
     },
 
 
-    drop(t: ILeaf, parent: ILeaf, resize?: boolean): void {
+    drop(t: ILeaf, parent: ILeaf, index: number, resize?: boolean): void {
         copy(matrix, t.worldTransform)
         divideParent(matrix, parent.worldTransform)
         t.setTransform(matrix, resize)
-        parent.add(t)
+        parent.add(t, index)
     },
 
     hasParent(t: ILeaf, parent: ILeaf): boolean {
