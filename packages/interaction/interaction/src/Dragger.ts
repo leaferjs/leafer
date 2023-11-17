@@ -101,9 +101,7 @@ export class Dragger {
         const list = this.getList()
         if (list.length && running) {
             const { moveX, moveY } = this.dragData
-            list.forEach(leaf => {
-                LeafHelper.moveWorld(leaf, moveX, moveY)
-            })
+            list.forEach(leaf => LeafHelper.moveWorld(leaf, moveX, moveY))
         }
     }
 

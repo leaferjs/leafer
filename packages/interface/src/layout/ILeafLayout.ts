@@ -28,6 +28,7 @@ export interface ILeafLayout {
 
     // state
     resized: boolean
+    waitAutoLayout: number
 
     // matrix changed
     matrixChanged: boolean // include positionChanged scaleChanged skewChanged

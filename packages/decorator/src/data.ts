@@ -44,6 +44,18 @@ export function positionType(defaultValue?: __Value) {
     }
 }
 
+export function autoLayoutType(defaultValue?: __Value) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: __Value) {
+                this.__setAttr(key, value)
+                this.__layout.matrixChanged || this.__layout.matrixChange()
+                this.__hasAutoLayout = !!value
+            }
+        })
+    }
+}
+
 export function scaleType(defaultValue?: __Value) {
     return (target: ILeaf, key: string) => {
         defineLeafAttr(target, key, defaultValue, {
@@ -74,7 +86,7 @@ export function boundsType(defaultValue?: __Value) {
             set(value: __Value) {
                 this.__setAttr(key, value)
                 this.__layout.boxChanged || this.__layout.boxChange()
-                if (this.__.around) this.__layout.matrixChanged || this.__layout.matrixChange()
+                if (this.__hasAutoLayout) this.__layout.matrixChanged || this.__layout.matrixChange()
             }
         })
     }

@@ -1,8 +1,8 @@
-import { ILeaf, ILeafLayout, ILeafLevelList, ILeafList } from '@leafer/interface'
+import { ILeafLayout, ILeafLevelList, ILeafList } from '@leafer/interface'
 import { BranchHelper, LeafHelper } from '@leafer/core'
 
 
-const { updateAllWorldMatrix, updateAllWorldOpacity, updateWorldBounds } = LeafHelper
+const { updateAllMatrix, updateAllWorldOpacity } = LeafHelper
 const { pushAllChildBranch, pushAllParent } = BranchHelper
 
 
@@ -15,7 +15,7 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
 
             if (layout.matrixChanged) {
 
-                updateAllWorldMatrix(leaf)
+                updateAllMatrix(leaf, true)
 
                 levelList.add(leaf)
                 if (leaf.isBranch) pushAllChildBranch(leaf, levelList)
@@ -27,33 +27,6 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
                 if (leaf.isBranch) leaf.__tempNumber = 0  // 标识需要更新子Leaf元素的WorldBounds分支, 0表示不需要更新
                 pushAllParent(leaf, levelList)
             }
-        }
-    })
-
-}
-
-
-export function updateBounds(boundsList: ILeafLevelList): void {
-
-    let itemList: ILeaf[], branch: ILeaf, children: ILeaf[]
-    boundsList.sort(true)
-    boundsList.levels.forEach(level => {
-        itemList = boundsList.levelMap[level]
-        for (let i = 0, len = itemList.length; i < len; i++) {
-            branch = itemList[i]
-
-            // 标识了需要更新子元素
-            if (branch.isBranch && branch.__tempNumber) {
-                children = branch.children
-                for (let j = 0, jLen = children.length; j < jLen; j++) {
-                    if (!children[j].isBranch) {
-                        updateWorldBounds(children[j])
-                    }
-                }
-            }
-
-            updateWorldBounds(branch)
-
         }
     })
 

@@ -34,6 +34,7 @@ export interface ILayouterConfig {
 export interface ILayouter extends IControl {
     target: ILeaf
     layoutedBlocks: ILayoutBlockData[]
+    extraBlock: ILayoutBlockData
 
     totalTimes: number
     times: number
@@ -53,6 +54,8 @@ export interface ILayouter extends IControl {
     layoutOnce(): void
     partLayout(): void
     fullLayout(): void
+
+    addExtra(leaf: ILeaf): void
 
     createBlock(data: ILeafList | ILeaf[]): ILayoutBlockData
     getBlocks(list: ILeafList): ILayoutBlockData[]

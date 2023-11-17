@@ -34,6 +34,7 @@ export class LeafLayout implements ILeafLayout {
     // state
 
     public resized: boolean
+    public waitAutoLayout = 0
 
     // matrix changed
     public matrixChanged: boolean

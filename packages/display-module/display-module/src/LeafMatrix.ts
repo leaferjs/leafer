@@ -1,4 +1,4 @@
-import { IBoundsData, ILeafMatrixModule, ILayoutData } from '@leafer/interface'
+import { ILeafMatrixModule, ILayoutData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
@@ -10,6 +10,7 @@ export const LeafMatrix: ILeafMatrixModule = {
     __updateWorldMatrix(): void {
 
         multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as ILayoutData)
+
     },
 
     __updateLocalMatrix(): void {
@@ -31,11 +32,13 @@ export const LeafMatrix: ILeafMatrixModule = {
             local.f = data.y
 
             if (data.around) {
-                toPoint(data.around, data as IBoundsData, tempPoint, true)
+                toPoint(data.around, layout.boxBounds, tempPoint)
                 translateInner(local, -tempPoint.x, -tempPoint.y)
             }
 
         }
+
+        this.__layout.matrixChanged = false
 
     }
 

@@ -1,4 +1,4 @@
-import { ILeaf, IMatrixData, IPointData } from '@leafer/interface'
+import { ILeaf, IMatrixData, IPointData, ILeafLevelList } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
@@ -7,25 +7,68 @@ const matrix = {} as IMatrixData
 
 export const LeafHelper = {
 
-    updateAllWorldMatrix(leaf: ILeaf): void {
-        updateWorldMatrix(leaf)
+    updateAllMatrix(leaf: ILeaf, checkAutoLayout?: boolean, hasAutoLayout?: boolean): void {
+        if (checkAutoLayout && leaf.__layout.matrixChanged) {
+            if (!hasAutoLayout) hasAutoLayout = leaf.__hasAutoLayout
+        }
+
+        updateMatrix(leaf, checkAutoLayout, hasAutoLayout)
 
         if (leaf.isBranch) {
             const { children } = leaf
             for (let i = 0, len = children.length; i < len; i++) {
-                updateAllWorldMatrix(children[i])
+                updateAllMatrix(children[i], checkAutoLayout, hasAutoLayout)
             }
         }
     },
 
-    updateWorldMatrix(leaf: ILeaf): void {
-        if (leaf.__layout.matrixChanged) leaf.__updateLocalMatrix(), leaf.__layout.matrixChanged = false
-        leaf.__updateWorldMatrix()
+    updateMatrix(leaf: ILeaf, checkAutoLayout?: boolean, hasAutoLayout?: boolean): void {
+        const layout = leaf.__layout
+
+        if (checkAutoLayout) {
+            if (hasAutoLayout) layout.waitAutoLayout++
+        } else {
+            if (layout.waitAutoLayout) layout.waitAutoLayout--
+        }
+
+        if (layout.waitAutoLayout) {
+            if (layout.matrixChanged) {
+                (checkAutoLayout && leaf.__hasAutoLayout) ? (layout.matrixChanged = false) : leaf.__updateLocalMatrix()
+            }
+        } else {
+            if (layout.matrixChanged) leaf.__updateLocalMatrix()
+            leaf.__updateWorldMatrix()
+        }
     },
 
-    updateWorldBounds(leaf: ILeaf): void {
-        if (leaf.__layout.boundsChanged) leaf.__updateLocalBounds(), leaf.__layout.boundsChanged = false
-        leaf.__updateWorldBounds()
+    updateBoundsList(boundsList: ILeafLevelList, exclude?: ILeaf): void {
+        let itemList: ILeaf[], branch: ILeaf, children: ILeaf[]
+        boundsList.sort(true)
+        boundsList.levels.forEach(level => {
+            itemList = boundsList.levelMap[level]
+            for (let i = 0, len = itemList.length; i < len; i++) {
+                branch = itemList[i]
+
+                // 标识了需要更新子元素
+                if (branch.isBranch && branch.__tempNumber) {
+                    children = branch.children
+                    for (let j = 0, jLen = children.length; j < jLen; j++) {
+                        if (!children[j].isBranch) {
+                            updateBounds(children[j])
+                        }
+                    }
+                }
+
+                if (exclude && exclude === branch) continue
+                updateBounds(branch)
+            }
+        })
+    },
+
+    updateBounds(leaf: ILeaf): void {
+        const layout = leaf.__layout
+        if (layout.boundsChanged) leaf.__updateLocalBounds()
+        if (!layout.waitAutoLayout) leaf.__updateWorldBounds()
     },
 
     updateAllWorldOpacity(leaf: ILeaf): void {
@@ -40,7 +83,6 @@ export const LeafHelper = {
     },
 
     updateAllChange(leaf: ILeaf): void {
-
         updateAllWorldOpacity(leaf)
 
         leaf.__updateChange()
@@ -126,7 +168,7 @@ export const LeafHelper = {
     },
 
 
-    drop(t: ILeaf, parent: ILeaf, index: number, resize?: boolean): void {
+    drop(t: ILeaf, parent: ILeaf, index?: number, resize?: boolean): void {
         copy(matrix, t.worldTransform)
         divideParent(matrix, parent.worldTransform)
         t.setTransform(matrix, resize)
@@ -146,7 +188,7 @@ export const LeafHelper = {
 }
 
 const L = LeafHelper
-const { updateAllWorldMatrix, updateWorldMatrix, updateAllWorldOpacity, updateAllChange } = L
+const { updateAllMatrix, updateMatrix, updateBounds, updateAllWorldOpacity, updateAllChange } = L
 
 function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
     const { e, f } = t.__localMatrix

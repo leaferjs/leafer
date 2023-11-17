@@ -67,6 +67,7 @@ export class Leaf implements ILeaf {
 
     public get __worldFliped(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
 
+    public __hasAutoLayout?: boolean
     public __hasMask?: boolean
     public __hasEraser?: boolean
     public __hitCanvas?: IHitCanvas
@@ -228,6 +229,7 @@ export class Leaf implements ILeaf {
     public __updateRenderBounds(): void { }
 
 
+    public __updateAutoLayout(): void { }
     public __updateNaturalSize(): void { }
 
 

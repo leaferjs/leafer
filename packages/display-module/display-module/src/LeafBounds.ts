@@ -1,6 +1,6 @@
 import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
-import { LeafHelper } from '@leafer/helper'
+import { BranchHelper, LeafHelper } from '@leafer/helper'
 
 
 const { toOuterOf, copyAndSpread } = BoundsHelper
@@ -91,9 +91,12 @@ export const LeafBounds: ILeafBoundsModule = {
             if (this.parent) this.parent.__layout.renderChange()
         }
 
+        layout.boundsChanged = false
+
     },
 
     __updateLocalBoxBounds(): void {
+        if (this.__hasAutoLayout) this.__updateAutoLayout()
         toOuterOf(this.__layout.boxBounds, this.__local, this.__local)
     },
 
@@ -115,15 +118,21 @@ export const LeafBounds: ILeafBoundsModule = {
         b.height = height
     },
 
+
+    __updateAutoLayout(): void {
+        this.__layout.matrixChanged = true
+        if (this.isBranch) {
+            if (this.leafer) this.leafer.layouter.addExtra(this)
+            BranchHelper.updateAutoLayout(this)
+        } else {
+            LeafHelper.updateMatrix(this)
+        }
+    },
+
     __updateNaturalSize(): void {
         const { __: data, __layout: layout } = this
         data.__naturalWidth = layout.boxBounds.width
         data.__naturalHeight = layout.boxBounds.height
-
-        if (this.around) {
-            this.__layout.matrixChanged = true
-            LeafHelper.updateAllWorldMatrix(this)
-        }
     },
 
     __updateStrokeBounds(): void {

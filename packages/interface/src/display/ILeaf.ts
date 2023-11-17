@@ -302,6 +302,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     readonly __worldFliped: boolean
 
+    __hasAutoLayout?: boolean
     __hasMask?: boolean
     __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
@@ -358,6 +359,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __updateStrokeBounds(): void
     __updateRenderBounds(): void
 
+    __updateAutoLayout(): void
     __updateNaturalSize(): void
 
     __updateStrokeSpread(): number
