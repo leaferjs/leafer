@@ -3,6 +3,8 @@ import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
 
 
+const { updateMatrix, updateAllMatrix, hasParentAutoLayout } = LeafHelper
+const { updateBounds } = BranchHelper
 const { toOuterOf, copyAndSpread } = BoundsHelper
 
 export const LeafBounds: ILeafBoundsModule = {
@@ -122,10 +124,15 @@ export const LeafBounds: ILeafBoundsModule = {
     __updateAutoLayout(): void {
         this.__layout.matrixChanged = true
         if (this.isBranch) {
-            if (this.leafer) this.leafer.layouter.addExtra(this)
-            BranchHelper.updateAutoLayout(this)
+            if (this.leafer) this.leafer.layouter.addExtra(this) // add part render
+            if (hasParentAutoLayout(this)) {
+                updateMatrix(this)
+            } else {
+                updateAllMatrix(this)
+                updateBounds(this, this)
+            }
         } else {
-            LeafHelper.updateMatrix(this)
+            updateMatrix(this)
         }
     },
 

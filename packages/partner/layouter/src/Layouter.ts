@@ -1,12 +1,11 @@
 import { ILayouter, ILeaf, ILayoutBlockData, IEventListenerId, ILayouterConfig, ILeafList } from '@leafer/interface'
 import { LayoutEvent, WatchEvent, LeafLevelList, LeafList, BranchHelper, LeafHelper, DataHelper, Run, Debug } from '@leafer/core'
 
-import { updateMatrix, updateChange } from './LayouterHelper'
+import { updateMatrix, updateBounds, updateChange } from './LayouterHelper'
 import { LayoutBlockData } from './LayoutBlockData'
 
 
-const { updateAllMatrix, updateAllChange, updateBounds, updateBoundsList } = LeafHelper
-const { pushAllBranchStack, updateWorldBoundsByBranchStack } = BranchHelper
+const { updateAllMatrix, updateAllChange } = LeafHelper
 
 const debug = Debug.get('Layouter')
 
@@ -115,7 +114,7 @@ export class Layouter implements ILayouter {
         this.extraBlock = null
         updateList.sort()
         updateMatrix(updateList, this.__levelList)
-        updateBoundsList(this.__levelList)
+        updateBounds(this.__levelList)
         updateChange(updateList)
 
         if (this.extraBlock) blocks.push(this.extraBlock)
@@ -155,11 +154,9 @@ export class Layouter implements ILayouter {
         updateAllMatrix(target, true)
 
         if (target.isBranch) {
-            const branchStack: ILeaf[] = [target]
-            pushAllBranchStack(target, branchStack)
-            updateWorldBoundsByBranchStack(branchStack)
+            BranchHelper.updateBounds(target)
         } else {
-            updateBounds(target)
+            LeafHelper.updateBounds(target)
         }
 
         updateAllChange(target)
@@ -204,8 +201,7 @@ export class Layouter implements ILayouter {
         if (this.target) {
             this.stop()
             this.__removeListenEvents()
-            this.target = null
-            this.config = null
+            this.target = this.config = null
         }
     }
 

@@ -1,4 +1,4 @@
-import { ILeaf, IMatrixData, IPointData, ILeafLevelList } from '@leafer/interface'
+import { ILeaf, IMatrixData, IPointData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 
 
@@ -7,62 +7,33 @@ const matrix = {} as IMatrixData
 
 export const LeafHelper = {
 
-    updateAllMatrix(leaf: ILeaf, checkAutoLayout?: boolean, hasAutoLayout?: boolean): void {
-        if (checkAutoLayout && leaf.__layout.matrixChanged) {
-            if (!hasAutoLayout) hasAutoLayout = leaf.__hasAutoLayout
-        }
+    updateAllMatrix(leaf: ILeaf, checkAutoLayout?: boolean, waitAutoLayout?: boolean): void {
+        if (checkAutoLayout && leaf.__hasAutoLayout && leaf.__layout.matrixChanged) waitAutoLayout = true
 
-        updateMatrix(leaf, checkAutoLayout, hasAutoLayout)
+        updateMatrix(leaf, checkAutoLayout, waitAutoLayout)
 
         if (leaf.isBranch) {
             const { children } = leaf
             for (let i = 0, len = children.length; i < len; i++) {
-                updateAllMatrix(children[i], checkAutoLayout, hasAutoLayout)
+                updateAllMatrix(children[i], checkAutoLayout, waitAutoLayout)
             }
         }
     },
 
-    updateMatrix(leaf: ILeaf, checkAutoLayout?: boolean, hasAutoLayout?: boolean): void {
+    updateMatrix(leaf: ILeaf, checkAutoLayout?: boolean, waitAutoLayout?: boolean): void {
         const layout = leaf.__layout
 
         if (checkAutoLayout) {
-            if (hasAutoLayout) layout.waitAutoLayout++
-        } else {
-            if (layout.waitAutoLayout) layout.waitAutoLayout--
+            if (waitAutoLayout) {
+                layout.waitAutoLayout = true
+                if (leaf.__hasAutoLayout) layout.matrixChanged = false // wait updateAutoLayout
+            }
+        } else if (layout.waitAutoLayout) {
+            layout.waitAutoLayout = false
         }
 
-        if (layout.waitAutoLayout) {
-            if (layout.matrixChanged) {
-                (checkAutoLayout && leaf.__hasAutoLayout) ? (layout.matrixChanged = false) : leaf.__updateLocalMatrix()
-            }
-        } else {
-            if (layout.matrixChanged) leaf.__updateLocalMatrix()
-            leaf.__updateWorldMatrix()
-        }
-    },
-
-    updateBoundsList(boundsList: ILeafLevelList, exclude?: ILeaf): void {
-        let itemList: ILeaf[], branch: ILeaf, children: ILeaf[]
-        boundsList.sort(true)
-        boundsList.levels.forEach(level => {
-            itemList = boundsList.levelMap[level]
-            for (let i = 0, len = itemList.length; i < len; i++) {
-                branch = itemList[i]
-
-                // 标识了需要更新子元素
-                if (branch.isBranch && branch.__tempNumber) {
-                    children = branch.children
-                    for (let j = 0, jLen = children.length; j < jLen; j++) {
-                        if (!children[j].isBranch) {
-                            updateBounds(children[j])
-                        }
-                    }
-                }
-
-                if (exclude && exclude === branch) continue
-                updateBounds(branch)
-            }
-        })
+        if (layout.matrixChanged) leaf.__updateLocalMatrix()
+        if (!layout.waitAutoLayout) leaf.__updateWorldMatrix()
     },
 
     updateBounds(leaf: ILeaf): void {
@@ -175,20 +146,25 @@ export const LeafHelper = {
         parent.add(t, index)
     },
 
-    hasParent(t: ILeaf, parent: ILeaf): boolean {
+    hasParent(p: ILeaf, parent: ILeaf): boolean | void {
         if (!parent) return false
-        let p = t
         while (p) {
             if (parent === p) return true
             p = p.parent
         }
-        return false
+    },
+
+    hasParentAutoLayout(p: ILeaf): boolean | void {
+        while (p.parent) {
+            p = p.parent
+            if (p.__hasAutoLayout) return true
+        }
     }
 
 }
 
 const L = LeafHelper
-const { updateAllMatrix, updateMatrix, updateBounds, updateAllWorldOpacity, updateAllChange } = L
+const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange } = L
 
 function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
     const { e, f } = t.__localMatrix

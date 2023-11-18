@@ -1,19 +1,10 @@
 import { ILeaf, ILeafLevelList, ILeafList } from '@leafer/interface'
-import { LeafLevelList } from '@leafer/list'
 
 import { LeafHelper } from './LeafHelper'
 
-const { updateBounds, updateAllMatrix, updateBoundsList } = LeafHelper
+const { updateBounds } = LeafHelper
 
 export const BranchHelper = {
-
-    updateAutoLayout(branch: ILeaf): void {
-        const levelList = new LeafLevelList()
-        updateAllMatrix(branch)
-        levelList.add(branch)
-        if (branch.isBranch) pushAllChildBranch(branch, levelList)
-        updateBoundsList(levelList, branch)
-    },
 
     sort(a: ILeaf, b: ILeaf): number {
         return (a.__.zIndex === b.__.zIndex) ? (a.__tempNumber - b.__tempNumber) : (a.__.zIndex - b.__.zIndex)
@@ -71,16 +62,24 @@ export const BranchHelper = {
         }
     },
 
-    updateWorldBoundsByBranchStack(branchStack: ILeaf[]): void {
-        let branch: ILeaf
+    updateBounds(branch: ILeaf, exclude?: ILeaf): void {
+        const branchStack: ILeaf[] = [branch]
+        pushAllBranchStack(branch, branchStack)
+        updateBoundsByBranchStack(branchStack, exclude)
+    },
+
+    updateBoundsByBranchStack(branchStack: ILeaf[], exclude?: ILeaf): void {
+        let branch: ILeaf, children: ILeaf[]
         for (let i = branchStack.length - 1; i > -1; i--) {
             branch = branchStack[i]
-            for (let j = 0, len = branch.children.length; j < len; j++) {
-                updateBounds(branch.children[j])
+            children = branch.children
+            for (let j = 0, len = children.length; j < len; j++) {
+                updateBounds(children[j])
             }
+            if (exclude && exclude === branch) continue
+            updateBounds(branch)
         }
-        updateBounds(branch)
     }
 }
 
-const { pushAllChildBranch, pushAllBranchStack } = BranchHelper
+const { pushAllChildBranch, pushAllBranchStack, updateBoundsByBranchStack } = BranchHelper

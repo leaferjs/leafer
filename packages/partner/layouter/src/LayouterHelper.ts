@@ -1,8 +1,8 @@
-import { ILeafLayout, ILeafLevelList, ILeafList } from '@leafer/interface'
+import { ILeafLayout, ILeafLevelList, ILeafList, ILeaf } from '@leafer/interface'
 import { BranchHelper, LeafHelper } from '@leafer/core'
 
 
-const { updateAllMatrix, updateAllWorldOpacity } = LeafHelper
+const { updateAllMatrix, updateBounds: updateOneBounds, updateAllWorldOpacity } = LeafHelper
 const { pushAllChildBranch, pushAllParent } = BranchHelper
 
 
@@ -30,6 +30,28 @@ export function updateMatrix(updateList: ILeafList, levelList: ILeafLevelList): 
         }
     })
 
+}
+
+export function updateBounds(boundsList: ILeafLevelList): void {
+    let list: ILeaf[], branch: ILeaf, children: ILeaf[]
+    boundsList.sort(true)
+    boundsList.levels.forEach(level => {
+        list = boundsList.levelMap[level]
+        for (let i = 0, len = list.length; i < len; i++) {
+            branch = list[i]
+
+            // 标识了需要更新子元素
+            if (branch.isBranch && branch.__tempNumber) {
+                children = branch.children
+                for (let j = 0, jLen = children.length; j < jLen; j++) {
+                    if (!children[j].isBranch) {
+                        updateOneBounds(children[j])
+                    }
+                }
+            }
+            updateOneBounds(branch)
+        }
+    })
 }
 
 
