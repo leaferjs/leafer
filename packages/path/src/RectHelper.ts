@@ -4,19 +4,16 @@ import { MathHelper } from '@leafer/math'
 export const RectHelper = {
 
     drawRoundRect(drawer: IPathDrawer, x: number, y: number, width: number, height: number, cornerRadius: number | number[]): void {
-        let [topLeft, topRight, bottomRight, bottomLeft] = MathHelper.fourNumber(cornerRadius)
+        const data = MathHelper.fourNumber(cornerRadius, Math.min(width / 2, height / 2))
 
-        const max = Math.min(width / 2, height / 2)
-        if (topLeft > max) topLeft = max
-        if (topRight > max) topRight = max
-        if (bottomRight > max) bottomRight = max
-        if (bottomLeft > max) bottomLeft = max
+        const right = x + width
+        const bottom = y + height
 
-        topLeft ? drawer.moveTo(x + topLeft, y) : drawer.moveTo(x, y)
-        topRight ? drawer.arcTo(x + width, y, x + width, y + height, topRight) : drawer.lineTo(x + width, y)
-        bottomRight ? drawer.arcTo(x + width, y + height, x, y + height, bottomRight) : drawer.lineTo(x + width, y + height)
-        bottomLeft ? drawer.arcTo(x, y + height, x, y, bottomLeft) : drawer.lineTo(x, y + height)
-        topLeft ? drawer.arcTo(x, y, x + width, y, topLeft) : drawer.lineTo(x, y)
+        data[0] ? drawer.moveTo(x + data[0], y) : drawer.moveTo(x, y)
+        data[1] ? drawer.arcTo(right, y, right, bottom, data[1]) : drawer.lineTo(right, y)
+        data[2] ? drawer.arcTo(right, bottom, x, bottom, data[2]) : drawer.lineTo(right, bottom)
+        data[3] ? drawer.arcTo(x, bottom, x, y, data[3]) : drawer.lineTo(x, bottom)
+        data[0] ? drawer.arcTo(x, y, right, y, data[0]) : drawer.lineTo(x, y)
     }
 
 }

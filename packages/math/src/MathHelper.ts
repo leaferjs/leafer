@@ -8,20 +8,18 @@ export const MathHelper = {
         return value
     },
 
-    fourNumber(num: number | number[]): number[] {
-        let one: number, two: number, three: number, four: number // = top right bottom left || topLeft, topRight, bottomRight, bottomLeft
+    fourNumber(num: number | number[], maxValue?: number): number[] { // top right bottom left || topLeft, topRight, bottomRight, bottomLeft
+        let data: number[]
         if (num instanceof Array) {
             switch (num.length) {
                 case 4:
-                    return num
+                    data = num
+                    break
                 case 2:
-                    one = three = num[0]
-                    two = four = num[1]
+                    data = [num[0], num[1], num[0], num[1]]
                     break
                 case 3:
-                    one = num[0]
-                    two = four = num[1]
-                    three = num[2]
+                    data = [num[0], num[1], num[2], num[1]]
                     break
                 case 1:
                     num = num[0]
@@ -30,7 +28,9 @@ export const MathHelper = {
                     num = 0
             }
         }
-        return one === undefined ? [num as number, num as number, num as number, num as number] : [one, two, three, four]
+        if (!data) data = [num as number, num as number, num as number, num as number]
+        if (maxValue) for (let i = 0; i < 4; i++)  if (data[i] > maxValue) data[i] = maxValue
+        return data
     },
 
     formatRotation(rotation: number, unsign?: boolean): number {
