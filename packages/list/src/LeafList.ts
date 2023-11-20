@@ -50,7 +50,7 @@ export class LeafList implements ILeafList {
     }
 
     public addList(list: ILeaf[]): void {
-        for (let leaf of list) this.add(leaf)
+        for (let i = 0; i < list.length; i++) this.add(list[i])
     }
 
 
