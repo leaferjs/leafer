@@ -50,8 +50,7 @@ export class Dragger {
         const { dragData } = this
 
         if (!this.moving) {
-            const moveOnDragEmpty = interaction.config.move.dragEmpty && (downData.target as ILeaf).isLeafer
-            this.moving = (PointerButton.middle(data) || interaction.moveMode || moveOnDragEmpty) && canDrag
+            this.moving = (PointerButton.middle(data) || interaction.moveMode) && canDrag
             if (this.moving) interaction.emit(MoveEvent.START, dragData)
         }
 

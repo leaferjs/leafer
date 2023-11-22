@@ -17,6 +17,7 @@ export interface IInteraction extends IControl {
 
     running: boolean
     readonly dragging: boolean
+    readonly isDragEmpty: boolean
     readonly moveMode: boolean
 
     config: IInteractionConfig
