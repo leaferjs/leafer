@@ -35,7 +35,8 @@ export class Dragger {
     }
 
     public getList(): ILeafList {
-        return this.dragging ? (DragEvent.list || this.interaction.selector.list || this.dragableList || emptyList) : emptyList
+        const { proxy } = this.interaction.selector
+        return this.dragging && (!proxy || !proxy.list.length) ? (DragEvent.list || this.dragableList || emptyList) : emptyList
     }
 
     public checkDrag(data: IPointerEvent, canDrag: boolean): void {

@@ -1,4 +1,4 @@
-import { ILeaf, ILeafMap, ILeafList, ISelector, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
+import { ILeaf, ILeafMap, ISelector, ISelectorProxy, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
 import { Pather } from './Pather'
@@ -10,12 +10,11 @@ export class Selector implements ISelector {
 
     public target: ILeaf
 
-    public list: ILeafList
+    public proxy?: ISelectorProxy // editor
 
     public config: ISelectorConfig = {}
 
     protected pather: Pather
-
 
     protected innerIdMap: ILeafMap = {}
     protected idMap: ILeafMap = {}

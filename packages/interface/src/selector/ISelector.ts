@@ -30,10 +30,14 @@ export interface IFindMethod {
     (leaf: ILeaf, options?: any): AnswerType
 }
 
+export interface ISelectorProxy {
+    list: ILeaf[]
+}
+
 export interface ISelector {
     target: ILeaf
 
-    list: ILeafList
+    proxy?: ISelectorProxy
 
     config: ISelectorConfig
 
