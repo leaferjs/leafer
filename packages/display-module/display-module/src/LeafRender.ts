@@ -14,7 +14,7 @@ export const LeafRender: ILeafRenderModule = {
                 this.__draw(tempCanvas, options)
 
                 const blendMode = this.__.isEraser ? 'destination-out' : this.__.blendMode
-                if (this.__worldFliped || options.matrix) {
+                if (this.__worldFlipped || options.matrix) {
                     canvas.copyWorldByReset(tempCanvas, null, null, blendMode)
                 } else {
                     canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, blendMode)

@@ -65,7 +65,7 @@ export class Leaf implements ILeaf {
     public __level: number // layer level  0 -> branch -> branch -> deep
     public __tempNumber: number // temp sort
 
-    public get __worldFliped(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
+    public get __worldFlipped(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
 
     public __hasAutoLayout?: boolean
     public __hasMask?: boolean

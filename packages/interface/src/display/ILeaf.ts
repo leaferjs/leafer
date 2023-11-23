@@ -300,7 +300,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __level: number // 图层级别 root(1) -> hight
     __tempNumber?: number // 用于临时运算储存状态
 
-    readonly __worldFliped: boolean
+    readonly __worldFlipped: boolean
 
     __hasAutoLayout?: boolean
     __hasMask?: boolean
