@@ -430,5 +430,5 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __updateSortChildren(): void
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf, destroy?: boolean): void
-    drop(child: ILeaf, index?: number, resize?: boolean): void
+    dropTo(parent: ILeaf, index?: number, resize?: boolean): void
 }

@@ -438,8 +438,8 @@ export class Leaf implements ILeaf {
         if (this.parent) this.parent.remove(this, destroy)
     }
 
-    public drop(child: ILeaf, index?: number, resize?: boolean): void {
-        if (this.isBranch) drop(child, this, index, resize)
+    public dropTo(parent: ILeaf, index?: number, resize?: boolean): void {
+        drop(this, parent, index, resize)
     }
 
     // ---

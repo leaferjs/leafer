@@ -130,8 +130,7 @@ export const LeafHelper = {
     setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
         const layout = getLayout(transform)
         if (resize) {
-            const { scaleX, scaleY } = layout
-            t.scaleResize(scaleX / t.scaleX, scaleY / t.scaleY, resize !== true)
+            t.scaleResize(layout.scaleX / t.scaleX, layout.scaleY / t.scaleY, resize !== true)
             delete layout.scaleX
             delete layout.scaleY
         }
