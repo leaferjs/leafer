@@ -23,7 +23,7 @@ export class InteractionBase implements IInteraction {
 
     public running: boolean
     public get dragging(): boolean { return this.dragger.dragging }
-    public get isDragEmpty(): boolean { return this.config.move.dragEmpty && this.hoverData && (this.hoverData.path.list[0] as ILeaf).isLeafer }
+    public get isDragEmpty(): boolean { return this.config.move.dragEmpty && (this.hoverData && (this.hoverData.path.list[0] as ILeaf).isLeafer) && (!this.downData || (this.downData.path.list[0] as ILeaf).isLeafer) }
     public get moveMode(): boolean { return (Keyboard.isHoldSpaceKey() && this.config.move.holdSpaceKey) || (this.downData && PointerButton.middle(this.downData)) || this.isDragEmpty }
 
     public config: IInteractionConfig = config
