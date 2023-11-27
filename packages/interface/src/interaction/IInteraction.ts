@@ -77,8 +77,8 @@ export interface IZoomConfig {
 }
 
 export interface IMoveConfig {
-    always?: boolean
     holdSpaceKey?: boolean
+    drag?: boolean
     dragEmpty?: boolean
     dragOut?: boolean
     autoDistance?: number
