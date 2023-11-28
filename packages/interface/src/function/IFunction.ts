@@ -11,3 +11,12 @@ export interface INumberFunction {
 export interface IPointDataFunction {
     (...arg: any): IPointData
 }
+
+
+export interface IAttrDecorator {
+    (...arg: any): IAttrDecoratorInner
+}
+
+interface IAttrDecoratorInner {
+    (target: any, key: string): any
+}

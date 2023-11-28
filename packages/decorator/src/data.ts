@@ -5,17 +5,6 @@ import { Debug } from '@leafer/debug'
 
 // name
 
-export function aliasType(name: string) {
-    return (target: ILeaf, key: string) => {
-        defineKey(target, key, {
-            get() { return this.__getAttr(name) },
-            set(value: __Value) {
-                this.__setAttr(name, value)
-            }
-        })
-    }
-}
-
 export function defineLeafAttr(target: ILeaf, key: string, defaultValue?: __Value, mergeDescriptor?: IObject & ThisType<ILeaf>): void {
     const defaultDescriptor: IObject & ThisType<ILeaf> = {
         get() { return this.__getAttr(key) },
@@ -225,9 +214,6 @@ function getSetMethodName(key: string): string {
     return 'set' + key.charAt(0).toUpperCase() + key.slice(1)
 }
 
-export function setDefaultValue(target: IObject, key: string, defaultValue: __Value): void {
-    defineDataProcessor(target.prototype, key, defaultValue)
-}
 
 // define leaf.__[key] getter/setter
 export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: __Value): void {
@@ -262,12 +248,17 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: _
         }
     }
 
-    const descriptor = getDescriptor(data, key)
+    // find parent proto
+    let descriptor, find = data
+    while (!descriptor && find) {
+        descriptor = getDescriptor(find, key)
+        find = find.__proto__
+    }
 
-    if (descriptor && descriptor.set) property.set = descriptor.set // use custom set
+    if (descriptor && descriptor.set) property.set = descriptor.set // use exist set
 
     if (data[setMethodName]) {
-        property.set = data[setMethodName] //  use custom setKey(value)
+        property.set = data[setMethodName] // first use custom setKey(value)
         delete data[setMethodName]
     }
 

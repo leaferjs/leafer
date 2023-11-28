@@ -52,4 +52,4 @@ export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPo
 export { __Number, __Boolean, __String, __Object, __Value, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IDataTypeHandle } from './data/IData'
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
 export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, ITwoPointBoundsData, IAutoBounds, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
-export { IFunction } from './function/IFunction'
+export { IFunction, IAttrDecorator } from './function/IFunction'

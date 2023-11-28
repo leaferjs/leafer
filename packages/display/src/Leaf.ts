@@ -1,9 +1,9 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, ILayoutAttr, IMatrixData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, ILayoutAttr, IMatrixData, IAttrDecorator } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafHit, LeafEventer, LeafRender } from '@leafer/display-module'
-import { useModule } from '@leafer/decorator'
+import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
@@ -464,6 +464,15 @@ export class Leaf implements ILeaf {
     public hasEvent(_type: string, _capture?: boolean): boolean { return false }
 
     // ---
+
+    static changeAttr(attrName: string, defaultValue: __Value): void {
+        defineDataProcessor(this.prototype, attrName, defaultValue)
+    }
+
+    static addAttr(attrName: string, defaultValue: __Value, fn?: IAttrDecorator): void {
+        if (!fn) fn = boundsType
+        fn(defaultValue)(this.prototype, attrName)
+    }
 
 
     public destroy(): void {
