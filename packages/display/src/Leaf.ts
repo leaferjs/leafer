@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, __Number, __Boolean, __Value, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, __String, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, ILayoutAttr, IMatrixData, IAttrDecorator } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILeafDataOptions, ILayoutAttr, IMatrixData, IAttrDecorator } from '@leafer/interface'
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -167,13 +167,13 @@ export class Leaf implements ILeaf {
 
     // LeafDataProxy rewrite
 
-    public __setAttr(_attrName: string, _newValue: __Value): void { }
+    public __setAttr(_attrName: string, _newValue: IValue): void { }
 
-    public __getAttr(_attrName: string): __Value { return undefined }
+    public __getAttr(_attrName: string): IValue { return undefined }
 
-    public setProxyAttr(_attrName: string, _newValue: __Value): void { }
+    public setProxyAttr(_attrName: string, _newValue: IValue): void { }
 
-    public getProxyAttr(_attrName: string): __Value { return undefined }
+    public getProxyAttr(_attrName: string): IValue { return undefined }
 
     // ---
 
@@ -465,11 +465,11 @@ export class Leaf implements ILeaf {
 
     // ---
 
-    static changeAttr(attrName: string, defaultValue: __Value): void {
+    static changeAttr(attrName: string, defaultValue: IValue): void {
         defineDataProcessor(this.prototype, attrName, defaultValue)
     }
 
-    static addAttr(attrName: string, defaultValue: __Value, fn?: IAttrDecorator): void {
+    static addAttr(attrName: string, defaultValue: IValue, fn?: IAttrDecorator): void {
         if (!fn) fn = boundsType
         fn(defaultValue)(this.prototype, attrName)
     }

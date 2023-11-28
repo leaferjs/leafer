@@ -1,4 +1,4 @@
-import { ILeafData, ILeafDataOptions, ILeaf, IObject, __Value } from '@leafer/interface'
+import { ILeafData, ILeafDataOptions, ILeaf, IObject, IValue } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -48,7 +48,7 @@ export class LeafData implements ILeafData {
                 if (key[0] !== '_') data[key] = this[key]
             }
         } else {
-            let realKey: string, value: __Value
+            let realKey: string, value: IValue
             for (let key in this) {
                 realKey = key.substring(1)
                 if ((this as any)[realKey] !== undefined) {

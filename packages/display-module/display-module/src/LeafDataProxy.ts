@@ -1,10 +1,10 @@
-import { ILeafDataProxyModule, IObject, __Value } from '@leafer/interface'
+import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
 import { PropertyEvent } from '@leafer/event'
 
 
 export const LeafDataProxy: ILeafDataProxyModule = {
 
-    __setAttr(name: string, newValue: __Value): void {
+    __setAttr(name: string, newValue: IValue): void {
         if (this.leafer && this.leafer.created) {
             const oldValue = this.__.__getInput(name)
             if (typeof newValue === 'object' || oldValue !== newValue) {
@@ -22,16 +22,16 @@ export const LeafDataProxy: ILeafDataProxyModule = {
         }
     },
 
-    __getAttr(name: string): __Value {
+    __getAttr(name: string): IValue {
         if (this.proxyData) return this.getProxyAttr(name)
         return this.__.__get(name)
     },
 
-    setProxyAttr(name: string, newValue: __Value): void {
+    setProxyAttr(name: string, newValue: IValue): void {
         if ((this.proxyData as IObject)[name] !== newValue) (this.proxyData as IObject)[name] = newValue
     },
 
-    getProxyAttr(name: string): __Value {
+    getProxyAttr(name: string): IValue {
         return (this.proxyData as IObject)[name]
     }
 

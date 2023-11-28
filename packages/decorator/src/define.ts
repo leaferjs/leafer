@@ -1,4 +1,4 @@
-import { ILeaf, IObject, __Value } from '@leafer/interface'
+import { ILeaf, IObject } from '@leafer/interface'
 
 import * as types from './data'
 

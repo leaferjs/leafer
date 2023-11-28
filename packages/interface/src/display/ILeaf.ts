@@ -4,7 +4,7 @@ import { IEventer } from '../event/IEventer'
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
-import { IObject, __Number, __Boolean, __Value, __String } from '../data/IData'
+import { IObject, INumber, IBoolean, IValue, IString } from '../data/IData'
 import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, IMatrixWithLayoutData, ILayoutBoundsData, IMatrixData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
@@ -28,44 +28,44 @@ export interface ICachedLeaf {
 
 export interface ILeafAttrData {
     // layer data
-    id: __String
-    name: __String
-    className: __String
+    id: IString
+    name: IString
+    className: IString
 
     blendMode: IBlendMode
-    opacity: __Number
-    visible: __Boolean
-    isMask: __Boolean
-    isEraser: __Boolean
-    locked: __Boolean
-    zIndex: __Number
+    opacity: INumber
+    visible: IBoolean
+    isMask: IBoolean
+    isEraser: IBoolean
+    locked: IBoolean
+    zIndex: INumber
 
     // layout data
-    x: __Number
-    y: __Number
-    width: __Number
-    height: __Number
-    scaleX: __Number
-    scaleY: __Number
-    rotation: __Number
-    skewX: __Number
-    skewY: __Number
+    x: INumber
+    y: INumber
+    width: INumber
+    height: INumber
+    scaleX: INumber
+    scaleY: INumber
+    rotation: INumber
+    skewX: INumber
+    skewY: INumber
 
-    scale: __Number | IPointData // helper
+    scale: INumber | IPointData // helper
     around: IAround
 
-    draggable: __Boolean
+    draggable: IBoolean
 
-    editable: __Boolean
+    editable: IBoolean
     editSize?: IEditSize
 
-    hittable: __Boolean
+    hittable: IBoolean
     hitFill: IHitType
     hitStroke: IHitType
-    hitBox: __Boolean
-    hitChildren: __Boolean
-    hitSelf: __Boolean
-    hitRadius: __Number
+    hitBox: IBoolean
+    hitChildren: IBoolean
+    hitSelf: IBoolean
+    hitRadius: INumber
 
     cursor: ICursorType | ICursorType[]
 }
@@ -162,44 +162,44 @@ export interface ILeafInputData {
     tag?: string
 
     // layer data
-    id?: __String
-    name?: __String
-    className?: __String
+    id?: IString
+    name?: IString
+    className?: IString
 
     blendMode?: IBlendMode
-    opacity?: __Number
-    visible?: __Boolean
-    isMask?: __Boolean
-    isEraser?: __Boolean
-    locked?: __Boolean
-    zIndex?: __Number
+    opacity?: INumber
+    visible?: IBoolean
+    isMask?: IBoolean
+    isEraser?: IBoolean
+    locked?: IBoolean
+    zIndex?: INumber
 
     // layout data
-    x?: __Number
-    y?: __Number
-    width?: __Number
-    height?: __Number
-    scaleX?: __Number
-    scaleY?: __Number
-    rotation?: __Number
-    skewX?: __Number
-    skewY?: __Number
+    x?: INumber
+    y?: INumber
+    width?: INumber
+    height?: INumber
+    scaleX?: INumber
+    scaleY?: INumber
+    rotation?: INumber
+    skewX?: INumber
+    skewY?: INumber
 
-    scale?: __Number | IPointData // helper
+    scale?: INumber | IPointData // helper
     around?: IAround
 
-    draggable?: __Boolean
+    draggable?: IBoolean
 
-    editable?: __Boolean
+    editable?: IBoolean
     editSize?: IEditSize
 
-    hittable?: __Boolean
+    hittable?: IBoolean
     hitFill?: IHitType
     hitStroke?: IHitType
-    hitBox?: __Boolean
-    hitChildren?: __Boolean
-    hitSelf?: __Boolean
-    hitRadius?: __Number
+    hitBox?: IBoolean
+    hitChildren?: IBoolean
+    hitSelf?: IBoolean
+    hitRadius?: INumber
 
     cursor?: ICursorType | ICursorType[]
 
@@ -330,10 +330,10 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     toString(): string
 
     // ILeafData ->
-    __setAttr(attrName: string, newValue: __Value): void
-    __getAttr(attrName: string): __Value
-    setProxyAttr(name: string, newValue: __Value): void
-    getProxyAttr(name: string): __Value
+    __setAttr(attrName: string, newValue: IValue): void
+    __getAttr(attrName: string): IValue
+    setProxyAttr(name: string, newValue: IValue): void
+    getProxyAttr(name: string): IValue
 
     // find
     find(condition: number | string | IFindMethod, options?: any): ILeaf[]

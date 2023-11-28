@@ -1,8 +1,7 @@
-export type __Number = number // number | string    will convert to number
-export type __Boolean = boolean // boolean | string  will convert to boolean
-export type __String = string //  string  | other   will convert to string
-export type __Object = IObject // will convert to object
-export type __Value = __Number | __Boolean | __String | __Object  // 
+export type INumber = number // number | string    will convert to number
+export type IBoolean = boolean // boolean | string  will convert to boolean
+export type IString = string //  string  | other   will convert to string
+export type IValue = INumber | IBoolean | IString | IObject  // 
 export type ITimer = any
 
 export type IPathString = string
