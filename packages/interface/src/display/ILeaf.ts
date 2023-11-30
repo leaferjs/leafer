@@ -15,7 +15,7 @@ import { ILeafLayout, IBoundsType, ILocationType } from '../layout/ILeafLayout'
 import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
 import { ILeafMask } from './module/ILeafMask'
-import { ILeafData, ILeafDataOptions } from '../data/ILeafData'
+import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
 
 
@@ -275,7 +275,9 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     isBranchLeaf?: boolean
 
     __: ILeafData
+
     proxyData?: ILeafInputData
+    __proxyData?: ILeafInputData
 
     __layout: ILeafLayout
 
@@ -325,7 +327,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __bindLeafer(leafer: ILeaferBase | null): void
 
     set(data: IObject): void
-    get(options?: ILeafDataOptions): ILeafInputData
+    get(): ILeafInputData
     toJSON(): IObject
     toString(): string
 

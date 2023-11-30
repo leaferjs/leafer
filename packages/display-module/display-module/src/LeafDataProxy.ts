@@ -9,7 +9,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
             const oldValue = this.__.__getInput(name)
             if (typeof newValue === 'object' || oldValue !== newValue) {
                 (this.__ as IObject)[name] = newValue
-                if (this.proxyData) this.setProxyAttr(name, newValue)
+                if (this.__proxyData) this.setProxyAttr(name, newValue)
 
                 const { CHANGE } = PropertyEvent
                 const event = new PropertyEvent(CHANGE, this, name, oldValue, newValue)
@@ -18,21 +18,12 @@ export const LeafDataProxy: ILeafDataProxyModule = {
             }
         } else {
             (this.__ as IObject)[name] = newValue
-            if (this.proxyData) this.setProxyAttr(name, newValue)
+            if (this.__proxyData) this.setProxyAttr(name, newValue)
         }
     },
 
     __getAttr(name: string): IValue {
-        if (this.proxyData) return this.getProxyAttr(name)
+        if (this.__proxyData) return this.getProxyAttr(name)
         return this.__.__get(name)
-    },
-
-    setProxyAttr(name: string, newValue: IValue): void {
-        if ((this.proxyData as IObject)[name] !== newValue) (this.proxyData as IObject)[name] = newValue
-    },
-
-    getProxyAttr(name: string): IValue {
-        return (this.proxyData as IObject)[name]
     }
-
 }

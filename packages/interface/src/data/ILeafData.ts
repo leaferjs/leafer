@@ -10,11 +10,12 @@ export interface IDataProcessor {
     __checkSingle(): void
 
     __get(name: string): any
+    __getData(): IObject
 
     __setInput(name: string, value: any): void
     __getInput(name: string): any
     __removeInput(name: string): void
-    __getInputData(options?: ILeafDataOptions): IObject
+    __getInputData(): IObject
 
     __setMiddle(name: string, value: any): void
     __getMiddle(name: string): any

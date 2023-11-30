@@ -1,4 +1,4 @@
-import { ILeafData, ILeafDataOptions, ILeaf, IObject, IValue } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -24,6 +24,18 @@ export class LeafData implements ILeafData {
         return (this as IObject)[name]
     }
 
+    public __getData(): IObject {
+        const data: IObject = { tag: this.__leaf.tag }, { __input } = this
+        let inputValue: IValue
+        for (let key in this) {
+            if (key[0] !== '_') {
+                inputValue = __input ? __input[key] : undefined
+                data[key] = (inputValue === undefined) ? this[key] : inputValue
+            }
+        }
+        return data
+    }
+
     public __setInput(name: string, value: any): void {
         this.__input || (this.__input = {})
         this.__input[name] = value
@@ -41,19 +53,15 @@ export class LeafData implements ILeafData {
         if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
     }
 
-    public __getInputData(options?: ILeafDataOptions): IObject {
+    public __getInputData(): IObject {
         const data: IObject = { tag: this.__leaf.tag }, { __input } = this
-        if (options) {
-            for (let key in this) {
-                if (key[0] !== '_') data[key] = this[key]
-            }
-        } else {
-            let realKey: string, value: IValue
-            for (let key in this) {
-                realKey = key.substring(1)
-                if ((this as any)[realKey] !== undefined) {
-                    value = __input ? __input[realKey] : undefined
-                    data[realKey] = value === undefined ? this[key] : value
+        let value: IValue, inputValue: IValue
+        for (let key in this) {
+            if (key[0] !== '_') {
+                value = (this as IObject)['_' + key]
+                if (value !== undefined) {
+                    inputValue = __input ? __input[key] : undefined
+                    data[key] = (inputValue === undefined) ? value : inputValue
                 }
             }
         }
