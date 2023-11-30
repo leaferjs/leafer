@@ -14,7 +14,7 @@ export const ImageManager: IImageManager = {
 
     patternTasker: new TaskProcessor(),
 
-    get isComplete() { return I.tasker.isComplete && I.patternTasker.isComplete },
+    get isComplete() { return I.tasker.isComplete },
 
     get(config: ILeaferImageConfig): ILeaferImage {
         let image = I.map[config.url]
