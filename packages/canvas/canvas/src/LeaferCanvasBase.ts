@@ -324,7 +324,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     // 需要有 manager变量
-    public getSameCanvas(useSameWorldTransform?: boolean): ILeaferCanvas {
+    public getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas {
         const { width, height, pixelRatio } = this
 
         const options = { width, height, pixelRatio }
@@ -333,6 +333,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         canvas.save()
 
         if (useSameWorldTransform) canvas.useWorldTransform({ ...this.worldTransform })
+        if (useSameSmooth) canvas.smooth = this.smooth
 
         return canvas
     }

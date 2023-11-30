@@ -49,8 +49,8 @@ export const BranchRender: IBranchRenderModule = {
         if (this.__hasMask && children.length > 1) {
 
             let mask: boolean
-            const maskCanvas = canvas.getSameCanvas()
-            const contentCanvas = canvas.getSameCanvas()
+            const maskCanvas = canvas.getSameCanvas(false, true)
+            const contentCanvas = canvas.getSameCanvas(false, true)
 
             for (let i = 0, len = children.length; i < len; i++) {
                 child = children[i]

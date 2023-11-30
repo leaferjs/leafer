@@ -183,7 +183,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean
-    getSameCanvas(useSameWorldTransform?: boolean): ILeaferCanvas
+    getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas
     getBiggerCanvas(addWidth: number, addHeight: number): ILeaferCanvas
     recycle(): void
 
