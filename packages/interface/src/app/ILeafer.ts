@@ -29,6 +29,7 @@ export interface ILeaferAttrData {
     created: boolean
     ready: boolean
     viewReady: boolean
+    imageReady: boolean
     viewCompleted: boolean
     layoutLocked: boolean
 

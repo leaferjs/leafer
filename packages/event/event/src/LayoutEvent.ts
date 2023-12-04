@@ -12,7 +12,7 @@ export class LayoutEvent extends Event implements ILayoutEvent {
     static START = 'layout.start'
 
     static BEFORE = 'layout.before'
-    static LAYOUT = 'layout.layout'
+    static LAYOUT = 'layout'
     static AFTER = 'layout.after'
 
     static AGAIN = 'layout.again'
