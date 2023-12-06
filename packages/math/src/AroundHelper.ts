@@ -2,7 +2,7 @@ import { IAround, IPointData, IBoundsData } from '@leafer/interface'
 import { Direction9 } from './Direction'
 
 
-const data: IPointData[] = [
+const directionData: IPointData[] = [
     { x: 0, y: 0 },  //topLeft
     { x: 0.5, y: 0 },//top
     { x: 1, y: 0 },  //topRight
@@ -10,13 +10,13 @@ const data: IPointData[] = [
     { x: 1, y: 1 },  //bottomRight
     { x: 0.5, y: 1 },//bottom
     { x: 0, y: 1 },  //bottomLeft
-    { x: 1, y: 0.5 },//left
+    { x: 0, y: 0.5 },//left
     { x: 0.5, y: 0.5 } // center
 ]
 
 export const AroundHelper = {
 
-    data, // index Direction9
+    directionData, // index Direction9
 
     tempPoint: {} as IPointData,
 
@@ -37,5 +37,5 @@ export const AroundHelper = {
 }
 
 function get(around: IAround): IPointData {
-    return typeof around === 'string' ? data[Direction9[around]] : around
+    return typeof around === 'string' ? directionData[Direction9[around]] : around
 }
