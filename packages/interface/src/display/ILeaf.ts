@@ -112,6 +112,14 @@ export interface IImageCursor {
 }
 
 export type IAround =
+    | 'topLeft'
+    | 'top'
+    | 'topRight'
+    | 'right'
+    | 'bottomRight'
+    | 'bottom'
+    | 'bottomLeft'
+    | 'left'
     | 'center'
     | IPointData
 

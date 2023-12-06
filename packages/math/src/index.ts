@@ -13,4 +13,4 @@ export { MatrixHelper } from './MatrixHelper'
 export { MathHelper, OneRadian, PI2, PI_2 } from './MathHelper'
 
 export { StringNumberMap } from './StringNumber'
-export { Direction4 } from './Direction'
+export { Direction4, Direction9 } from './Direction'
