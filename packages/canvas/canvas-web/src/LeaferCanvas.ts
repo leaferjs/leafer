@@ -19,6 +19,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         view ? this.__createViewFrom(view) : this.__createView()
         const { style } = this.view
         style.display || (style.display = 'block')
+        style.userSelect = 'none'
         this.parentView = this.view.parentElement
 
         if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
