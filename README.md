@@ -4,8 +4,6 @@
 
 Leafer 定义了图形渲染引擎的核心功能，提供超强的动力，可以瞬间创建 100 万个图形，与具体 UI、业务场景无关， 提供了性能优化和可扩展的空间，遵循 Leafer 接口之上开发的渲染器、布局器、UI 框架之间可以互通有无。
 
-Leafer 暂未对外开放 API，请直接使用基于 Leafer 开发的 [Leafer UI](https://www.leaferjs.com/ui/guide)。
-
 ## 访问资源
 
 [官方网站](https://www.leaferjs.com)
