@@ -192,7 +192,7 @@ export function cursorType(defaultValue?: IValue) {
 // get
 
 export function dataProcessor(processor: IObject) {
-    return (target: ILeaf, _key: string) => {
+    return (target: IObject, _key?: string) => {
         defineKey(target, '__DataProcessor', {
             get() { return processor }
         })
@@ -200,7 +200,7 @@ export function dataProcessor(processor: IObject) {
 }
 
 export function layoutProcessor(processor: IObject) {
-    return (target: ILeaf, _key: string) => {
+    return (target: IObject, _key?: string) => {
         defineKey(target, '__LayoutProcessor', {
             get() { return processor }
         })
