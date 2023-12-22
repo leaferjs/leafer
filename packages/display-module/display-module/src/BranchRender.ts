@@ -19,7 +19,7 @@ export const BranchRender: IBranchRenderModule = {
 
             if (this.__.__single) {
                 canvas.resetTransform()
-                const tempCanvas = canvas.getSameCanvas()
+                const tempCanvas = canvas.getSameCanvas(false, true)
 
                 this.__renderBranch(tempCanvas, options)
 

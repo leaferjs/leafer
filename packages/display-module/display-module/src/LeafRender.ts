@@ -9,7 +9,7 @@ export const LeafRender: ILeafRenderModule = {
             canvas.opacity = this.__worldOpacity
 
             if (this.__.__single) {
-                const tempCanvas = canvas.getSameCanvas(true)
+                const tempCanvas = canvas.getSameCanvas(true, true)
 
                 this.__draw(tempCanvas, options)
 
