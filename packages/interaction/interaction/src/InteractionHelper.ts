@@ -79,12 +79,13 @@ export const InteractionHelper = {
 
 
     getBase(e: IObject): IUIEvent {
+        const pointerUpButtons = e.button === 1 ? 4 : e.button // 0: left, 1: middle, 2: right
         return {
             altKey: e.altKey,
             ctrlKey: e.ctrlKey,
             shiftKey: e.shiftKey,
             metaKey: e.metaKey,
-            buttons: e.buttons === undefined ? 1 : e.buttons, // touchEvent no button and buttons, set default
+            buttons: e.buttons === undefined ? 1 : (e.buttons === 0 ? pointerUpButtons : e.buttons), // touchEvent no button and buttons, set default
             origin: e
         } as IUIEvent
     },
