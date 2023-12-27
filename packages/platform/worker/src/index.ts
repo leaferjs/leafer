@@ -5,7 +5,7 @@ export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
 import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
-import { Platform, Creator, FileHelper, InteractionBase } from '@leafer/core'
+import { Platform, Creator, FileHelper } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
 import { LeaferImage } from '@leafer/image-worker'
@@ -15,10 +15,7 @@ const { mineType } = FileHelper
 
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
-    image: (options) => new LeaferImage(options),
-    hitCanvas: (options?, manager?) => new LeaferCanvas(options, manager),
-
-    interaction: (target, canvas, selector, options?) => new InteractionBase(target, canvas, selector, options),
+    image: (options) => new LeaferImage(options)
 } as ICreator)
 
 
