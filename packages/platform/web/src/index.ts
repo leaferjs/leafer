@@ -3,14 +3,12 @@ export * from '@leafer/partner'
 
 export * from '@leafer/canvas-web'
 export * from '@leafer/image-web'
-export * from '@leafer/interaction-web'
 
 import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
 import { Platform, Creator, FileHelper } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
 import { LeaferImage } from '@leafer/image-web'
-import { Interaction } from '@leafer/interaction-web'
 
 
 const { mineType, fileType } = FileHelper
@@ -18,10 +16,7 @@ const { mineType, fileType } = FileHelper
 
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
-    image: (options) => new LeaferImage(options),
-    hitCanvas: (options?, manager?) => new LeaferCanvas(options, manager),
-
-    interaction: (target, canvas, selector, options?) => new Interaction(target, canvas, selector, options),
+    image: (options) => new LeaferImage(options)
 } as ICreator)
 
 
