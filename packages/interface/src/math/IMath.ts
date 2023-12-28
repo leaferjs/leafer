@@ -10,6 +10,7 @@ export interface IPoint extends IPointData {
     get(): IPointData
     clone(): IPoint
 
+    move(x: number, y: number): IPoint
     rotate(rotation: number, origin?: IPointData): IPoint
     rotateOf(origin: IPointData, rotation: number): IPoint
     getRotation(origin: IPointData, to: IPointData, toOrigin?: IPointData): number
@@ -60,6 +61,7 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     get(): IBoundsData
     clone(): IBounds
 
+    move(x: number, y: number): IBounds
     scale(scaleX: number, scaleY?: number): IBounds
     scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IBounds
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds

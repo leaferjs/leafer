@@ -26,6 +26,11 @@ export class Point implements IPoint {
     }
 
 
+    public move(x: number, y: number): IPoint {
+        P.move(this, x, y)
+        return this
+    }
+
     public rotate(rotation: number, origin?: IPointData): IPoint {
         P.rotate(this, rotation, origin)
         return this

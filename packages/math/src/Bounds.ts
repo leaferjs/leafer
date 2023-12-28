@@ -33,6 +33,11 @@ export class Bounds implements IBounds {
     }
 
 
+    public move(x: number, y: number): IBounds {
+        B.move(this, x, y)
+        return this
+    }
+
     public scale(scaleX: number, scaleY?: number): IBounds {
         B.scale(this, scaleX, scaleY)
         return this
