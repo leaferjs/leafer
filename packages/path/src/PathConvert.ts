@@ -1,5 +1,5 @@
 import { IPathCommandData, IPointData } from '@leafer/interface'
-import { StringNumberMap } from '@leafer/math'
+import { MathHelper, StringNumberMap } from '@leafer/math'
 import { Debug } from '@leafer/debug'
 
 import { PathCommandMap as Command, NeedConvertToCanvasCommandMap, NeedConvertToCurveCommandMap, PathCommandLengthMap, PathNumberCommandMap, PathNumberCommandLengthMap } from './PathCommandMap'
@@ -26,7 +26,7 @@ export const PathConvert = {
 
     current: { dot: 0 } as ICurrentCommand,
 
-    stringify(data: IPathCommandData): string {
+    stringify(data: IPathCommandData, floatLength?: number): string {
         let i = 0, len = data.length, count: number, str: string = '', command: number, lastCommand: number
         while (i < len) {
             command = data[i]
@@ -38,7 +38,7 @@ export const PathConvert = {
             }
 
             for (let j = 1; j < count; j++) {
-                str += data[i + j];
+                str += MathHelper.float(data[i + j], floatLength);
                 (j === count - 1) || (str += ' ')
             }
 
