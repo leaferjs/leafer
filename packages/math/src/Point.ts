@@ -31,6 +31,16 @@ export class Point implements IPoint {
         return this
     }
 
+    public scale(scaleX: number, scaleY?: number): IPoint {
+        P.scale(this, scaleX, scaleY)
+        return this
+    }
+
+    public scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IPoint {
+        P.scaleOf(this, origin, scaleX, scaleY)
+        return this
+    }
+
     public rotate(rotation: number, origin?: IPointData): IPoint {
         P.rotate(this, rotation, origin)
         return this

@@ -35,6 +35,17 @@ export const PointHelper = {
         t.y += y
     },
 
+
+    scale(t: IPointData, scaleX: number, scaleY = scaleX): void {
+        if (t.x) t.x *= scaleX
+        if (t.y) t.y *= scaleY
+    },
+
+    scaleOf(t: IPointData, origin: IPointData, scaleX: number, scaleY = scaleX): void {
+        t.x += (t.x - origin.x) * (scaleX - 1)
+        t.y += (t.y - origin.y) * (scaleY - 1)
+    },
+
     rotate(t: IPointData, rotation: number, origin?: IPointData): void {
         if (!origin) origin = P.defaultPoint
         rotation *= OneRadian

@@ -74,15 +74,13 @@ export const BoundsHelper = {
 
 
     scale(t: IBoundsData, scaleX: number, scaleY = scaleX): void {
-        if (t.x) t.x *= scaleX
-        if (t.y) t.y *= scaleY
+        P.scale(t, scaleX, scaleY)
         t.width *= scaleX
         t.height *= scaleY
     },
 
     scaleOf(t: IBoundsData, origin: IPointData, scaleX: number, scaleY = scaleX): void {
-        t.x += (t.x - origin.x) * (scaleX - 1)
-        t.y += (t.y - origin.y) * (scaleY - 1)
+        P.scaleOf(t, origin, scaleX, scaleY)
         t.width *= scaleX
         t.height *= scaleY
     },

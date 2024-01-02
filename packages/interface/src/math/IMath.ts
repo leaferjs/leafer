@@ -11,6 +11,8 @@ export interface IPoint extends IPointData {
     clone(): IPoint
 
     move(x: number, y: number): IPoint
+    scale(scaleX: number, scaleY?: number): IPoint
+    scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IPoint
     rotate(rotation: number, origin?: IPointData): IPoint
     rotateOf(origin: IPointData, rotation: number): IPoint
     getRotation(origin: IPointData, to: IPointData, toOrigin?: IPointData): number
