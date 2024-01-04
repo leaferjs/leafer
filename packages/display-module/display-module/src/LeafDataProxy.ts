@@ -13,7 +13,13 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
                 const { CHANGE } = PropertyEvent
                 const event = new PropertyEvent(CHANGE, this, name, oldValue, newValue)
-                if (this.hasEvent(CHANGE) && !this.isLeafer) this.emitEvent(event)
+
+                if (this.isLeafer) {
+                    this.emitEvent(new PropertyEvent(PropertyEvent.LEAFER_CHANGE, this, name, oldValue, newValue))
+                } else {
+                    if (this.hasEvent(CHANGE)) this.emitEvent(event)
+                }
+
                 this.leafer.emitEvent(event)
             }
         } else {

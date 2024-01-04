@@ -41,7 +41,7 @@ export interface IPlatform {
         maxCacheSize: number // 最大等级缓存，一般取当前屏幕大小，默认2k: 2560 * 1600
         maxPatternSize: number // 最大repeat pattern缓存, 默认4k: 4096 * 2160
         suffix: string  // 需要带上后缀区分dom中image标签的缓存，否则会导致浏览器缓存跨域问题
-        crossOrigin?: string | false // 跨域设置
+        crossOrigin: string | false // 跨域设置
     }
 }
 
