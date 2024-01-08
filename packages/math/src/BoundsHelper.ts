@@ -280,6 +280,8 @@ export const BoundsHelper = {
 
     getIntersectData(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): IBoundsData {
         if (otherMatrix) other = B.tempToOuterOf(other, otherMatrix)
+        if (!B.hit(t, other)) return { x: 0, y: 0, width: 0, height: 0 }
+
         let { x, y, width, height } = other
 
         right = x + width
