@@ -53,6 +53,11 @@ export class Bounds implements IBounds {
         return this
     }
 
+    public toInnerOf(matrix: IMatrixData, to?: IBoundsData): IBounds {
+        B.toInnerOf(this, matrix, to)
+        return this
+    }
+
     public getFitMatrix(put: IBoundsData): IMatrix {
         return B.getFitMatrix(this, put)
     }
@@ -72,6 +77,10 @@ export class Bounds implements IBounds {
         return this
     }
 
+    public float(maxLength?: number): IBounds {
+        B.float(this, maxLength)
+        return this
+    }
 
 
     public add(bounds: IBoundsData): IBounds {

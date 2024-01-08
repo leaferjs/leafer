@@ -3,10 +3,12 @@ import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
 import { PointHelper as P } from './PointHelper'
+import { MathHelper } from './MathHelper'
 
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
 const { toOuterPoint } = M
+const { float } = MathHelper
 
 let right: number, bottom: number, boundsRight: number, boundsBottom: number
 const point = {} as IPointData
@@ -147,6 +149,12 @@ export const BoundsHelper = {
         }
     },
 
+    toInnerOf(t: IBoundsData, matrix: IMatrixData, to?: IBoundsData): void {
+        to || (to = t)
+        B.move(to, -matrix.e, -matrix.f)
+        B.scale(to, 1 / matrix.a, 1 / matrix.d)
+    },
+
     getFitMatrix(t: IBoundsData, put: IBoundsData): IMatrix {
         const scale = Math.min(1, Math.min(t.width / put.width, t.height / put.height))
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
@@ -181,6 +189,12 @@ export const BoundsHelper = {
         }
     },
 
+    float(t: IBoundsData, maxLength?: number): void {
+        t.x = float(t.x, maxLength)
+        t.y = float(t.y, maxLength)
+        t.width = float(t.width, maxLength)
+        t.height = float(t.height, maxLength)
+    },
 
     add(t: IBoundsData, bounds: IBoundsData): void {
         right = t.x + t.width
