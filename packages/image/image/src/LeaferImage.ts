@@ -5,6 +5,14 @@ import { IncrementId } from '@leafer/math'
 import { ImageManager } from './ImageManager'
 
 
+interface ILeaferImageCacheCanvas {
+    width: number
+    height: number
+    opacity: number
+    canvas: IObject
+}
+
+
 const { IMAGE, create } = IncrementId
 
 export class LeaferImage implements ILeaferImage {
@@ -30,6 +38,8 @@ export class LeaferImage implements ILeaferImage {
     public config: ILeaferImageConfig
 
     protected waitComplete: IFunction[] = []
+
+    public cache: ILeaferImageCacheCanvas
 
     constructor(config: ILeaferImageConfig) {
         this.innerId = create(IMAGE)
@@ -83,15 +93,25 @@ export class LeaferImage implements ILeaferImage {
     public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): any {
         width || (width = this.width)
         height || (height = this.height)
+
+        if (this.cache) { // when use > 1, check cache
+            const { cache } = this
+            if (cache.width === width && cache.height === height && cache.opacity === opacity) return cache.canvas
+        }
+
         const canvas = Platform.origin.createCanvas(width, height)
         const ctx = canvas.getContext('2d')
         if (opacity) ctx.globalAlpha = opacity
         ctx.drawImage(this.view, 0, 0, width, height)
+
+        this.cache = this.use > 1 ? { width, height, opacity, canvas } : null
+
         return canvas
     }
 
     public destroy(): void {
         this.config = { url: '' }
+        this.cache = null
         this.waitComplete.length = 0
     }
 
