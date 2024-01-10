@@ -392,7 +392,17 @@ export class Leaf implements ILeaf {
 
     public __hit(_local: IRadiusPointData): boolean { return true }
 
-    public __drawHitPath(_canvas: ILeaferCanvas): void { }
+    public __hitFill(inner: IRadiusPointData, windingRule?: string): boolean {
+        return this.__hitCanvas?.hitFill(inner, windingRule)
+    }
+
+    public __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean {
+        return this.__hitCanvas?.hitStroke(inner, strokeWidth)
+    }
+
+    public __drawHitPath(canvas: ILeaferCanvas): void {
+        if (canvas) this.__drawRenderPath(canvas)
+    }
 
     public __updateHitCanvas(): void { }
 

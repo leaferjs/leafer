@@ -1,4 +1,4 @@
-import { ILeafHitModule, IRadiusPointData, ILeaferCanvas } from '@leafer/interface'
+import { ILeafHitModule, IRadiusPointData } from '@leafer/interface'
 import { PointHelper, BoundsHelper } from '@leafer/math'
 
 
@@ -25,10 +25,6 @@ export const LeafHit: ILeafHitModule = {
         }
 
         return this.__hit(inner)
-    },
-
-    __drawHitPath(canvas: ILeaferCanvas): void {
-        this.__drawRenderPath(canvas)
     }
 
 }

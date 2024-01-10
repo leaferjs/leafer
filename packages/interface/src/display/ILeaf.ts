@@ -415,6 +415,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean
     __hit(local: IRadiusPointData): boolean
+    __hitFill(inner: IRadiusPointData, windingRule?: string): boolean
+    __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean
     __drawHitPath(canvas: ILeaferCanvas): void
     __updateHitCanvas(): void
 
