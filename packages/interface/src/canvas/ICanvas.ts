@@ -111,6 +111,8 @@ export interface CanvasPattern {
     setTransform(transform?: DOMMatrix2DInit): void
 }
 
+export type ICanvasPattern = CanvasPattern
+
 declare var CanvasPattern: {
     prototype: CanvasPattern
     new(): CanvasPattern

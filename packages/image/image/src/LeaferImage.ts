@@ -1,16 +1,8 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { IncrementId } from '@leafer/math'
 
 import { ImageManager } from './ImageManager'
-
-
-interface ILeaferImageCacheCanvas {
-    width: number
-    height: number
-    opacity: number
-    canvas: IObject
-}
 
 
 const { IMAGE, create } = IncrementId
@@ -26,6 +18,7 @@ export class LeaferImage implements ILeaferImage {
     public height: number
 
     public isSVG: boolean
+    public hasOpacityPixel: boolean // check png / svg / webp
 
     public get completed() { return this.ready || !!this.error }
 
@@ -39,12 +32,13 @@ export class LeaferImage implements ILeaferImage {
 
     protected waitComplete: IFunction[] = []
 
-    public cache: ILeaferImageCacheCanvas
+    protected cache: ILeaferImageCacheCanvas
 
     constructor(config: ILeaferImageConfig) {
         this.innerId = create(IMAGE)
         this.config = config || { url: '' }
         this.isSVG = ImageManager.isFormat('svg', config)
+        this.hasOpacityPixel = ImageManager.hasOpacityPixel(config)
     }
 
     public load(onSuccess: IFunction, onError: IFunction): number {
@@ -95,8 +89,9 @@ export class LeaferImage implements ILeaferImage {
         height || (height = this.height)
 
         if (this.cache) { // when use > 1, check cache
-            const { cache } = this
-            if (cache.width === width && cache.height === height && cache.opacity === opacity) return cache.canvas
+            let { params, data } = this.cache
+            for (let i in params) { if (params[i] !== arguments[i]) { data = null; break } }
+            if (data) return data
         }
 
         const canvas = Platform.origin.createCanvas(width, height)
@@ -104,9 +99,21 @@ export class LeaferImage implements ILeaferImage {
         if (opacity) ctx.globalAlpha = opacity
         ctx.drawImage(this.view, 0, 0, width, height)
 
-        this.cache = this.use > 1 ? { width, height, opacity, canvas } : null
+        this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
 
         return canvas
+    }
+
+    public getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): ICanvasPattern {
+        const pattern = Platform.canvas.createPattern(canvas, repeat)
+        try {
+            if (transform && pattern.setTransform) {
+                pattern.setTransform(transform) // maybe error 
+                transform = null
+            }
+        } catch { }
+        if (paint) paint.transform = transform
+        return pattern
     }
 
     public destroy(): void {
