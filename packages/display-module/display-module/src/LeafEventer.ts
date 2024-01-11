@@ -96,11 +96,8 @@ export const LeafEventer: ILeafEventerModule = {
 
     hasEvent(type: string, capture?: boolean): boolean {
         const { __bubbleMap: b, __captureMap: c } = this
-        if (capture === undefined) {
-            return !!((c && c[type]) || (b && b[type]))
-        } else {
-            return !!(capture ? (c && c[type]) : (b && b[type]))
-        }
+        const hasB = b && b[type], hasC = c && c[type]
+        return !!(capture === undefined ? (hasB || hasC) : (capture ? hasC : hasB))
     },
 
 }
