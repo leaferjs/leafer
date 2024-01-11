@@ -44,7 +44,7 @@ export const ImageManager: IImageManager = {
         }
     },
 
-    isPixel(config: ILeaferImageConfig): boolean {
+    hasOpacityPixel(config: ILeaferImageConfig): boolean {
         return FileHelper.opacityTypes.some(item => I.isFormat(item, config))
     },
 
