@@ -125,8 +125,8 @@ export class Leaf implements ILeaf {
         this.leafer ? item() : (this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item])
     }
 
-    public nextRender(item: IFunction): void {
-        this.leafer ? this.leafer.nextRender(item) : this.waitLeafer(() => this.leafer.nextRender(item))
+    public nextRender(item: IFunction, off?: 'off'): void {
+        this.leafer ? this.leafer.nextRender(item, off) : this.waitLeafer(() => this.leafer.nextRender(item, off))
     }
 
     public __bindLeafer(leafer: ILeaferBase | null): void {
