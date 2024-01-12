@@ -1,4 +1,4 @@
-import { IPointerEvent, IDragEvent, ILeaf, ILeafList, ITimer } from '@leafer/interface'
+import { IPointerEvent, IDragEvent, ILeaf, ILeafList, ITimer, IFunction } from '@leafer/interface'
 import { MoveEvent, DragEvent, DropEvent, PointerButton } from '@leafer/event-ui'
 import { BoundsHelper, PointHelper } from '@leafer/math'
 import { LeafHelper } from '@leafer/helper'
@@ -19,18 +19,22 @@ export class Dragger {
     public dragging: boolean
 
     public dragData: IDragEvent
+    protected downData: IPointerEvent
 
     public dragableList: ILeafList
     protected dragOverPath: ILeafList
     protected dragEnterPath: ILeafList
 
     protected autoMoveTimer: ITimer
+    protected animateWait: IFunction
 
     constructor(interaction: InteractionBase) {
         this.interaction = interaction
     }
 
-    public setDragData(data: IPointerEvent): void {
+    public setDragData(data: IPointerEvent): void { // pointer down
+        if (this.animateWait) this.dragEndReal()
+        this.downData = this.interaction.downData
         this.dragData = getDragEventData(data, data, data)
     }
 
@@ -41,38 +45,22 @@ export class Dragger {
 
     public checkDrag(data: IPointerEvent, canDrag: boolean): void {
         const { interaction } = this
-        const { downData } = interaction
 
         if (this.moving && !(PointerButton.middle(data) || PointerButton.left(data))) {
             interaction.pointerCancel() // 按住中键拖出页面后的up事件接收不到
             return
         }
 
-        const { dragData } = this
-
         if (!this.moving) {
             this.moving = (PointerButton.middle(data) || interaction.moveMode) && canDrag
-            if (this.moving) interaction.emit(MoveEvent.START, dragData)
+            if (this.moving) interaction.emit(MoveEvent.START, this.dragData)
         }
 
         if (!this.moving) {
             this.dragStart(data, canDrag)
         }
 
-        const { path, throughPath } = downData
-        this.dragData = getDragEventData(downData, dragData, data)
-        if (throughPath) this.dragData.throughPath = throughPath
-        this.dragData.path = path
-
-        if (this.moving) {
-            interaction.emit(MoveEvent.BEFORE_MOVE, this.dragData)
-            interaction.emit(MoveEvent.MOVE, this.dragData)
-        } else if (this.dragging) {
-            this.realDrag()
-            interaction.emit(DragEvent.BEFORE_DRAG, this.dragData)
-            interaction.emit(DragEvent.DRAG, this.dragData)
-        }
-
+        this.drag(data)
     }
 
     public dragStart(data: IPointerEvent, canDrag: boolean): void {
@@ -96,7 +84,24 @@ export class Dragger {
         }
     }
 
-    protected realDrag(): void {
+    protected drag(data: IPointerEvent): void {
+        const { interaction, dragData, downData } = this
+        const { path, throughPath } = downData
+        this.dragData = getDragEventData(downData, dragData, data)
+        if (throughPath) this.dragData.throughPath = throughPath
+        this.dragData.path = path
+
+        if (this.moving) {
+            interaction.emit(MoveEvent.BEFORE_MOVE, this.dragData)
+            interaction.emit(MoveEvent.MOVE, this.dragData)
+        } else if (this.dragging) {
+            this.dragReal()
+            interaction.emit(DragEvent.BEFORE_DRAG, this.dragData)
+            interaction.emit(DragEvent.DRAG, this.dragData)
+        }
+    }
+
+    protected dragReal(): void {
         const { running } = this.interaction
         const list = this.getList()
         if (list.length && running) {
@@ -131,12 +136,26 @@ export class Dragger {
         this.dragEnterPath = path
     }
 
-    public dragEnd(data: IPointerEvent): void {
-        const { interaction } = this
-        const { downData } = interaction
+    public dragEnd(data: IPointerEvent, speed?: number): void {
+        if (!this.dragData) return
 
-        if (!downData) return
+        const { moveX, moveY } = this.dragData
+        if (this.moving && (Math.abs(moveX) > 1 || Math.abs(moveY) > 1)) {
+            data = { ...data }
+            speed = (speed || (data.pointerType === 'touch' ? 2 : 1)) * 0.9
+            PointHelper.move(data, moveX * speed, moveY * speed)
 
+            this.drag(data)
+            this.animate(() => { this.dragEnd(data, 1) })
+
+        } else {
+            this.dragEndReal(data)
+        }
+    }
+
+    protected dragEndReal(data?: IPointerEvent): void {
+        const { interaction, downData, dragData } = this
+        if (!data) data = dragData
         const { path, throughPath } = downData
         const endDragData = getDragEventData(downData, data, data)
         if (throughPath) endDragData.throughPath = throughPath
@@ -152,6 +171,13 @@ export class Dragger {
 
         this.autoMoveCancel()
         this.dragReset()
+        this.animate(null, 'off')
+    }
+
+    protected animate(func?: IFunction, off?: 'off'): void { // dragEnd animation
+        const animateWait = func || this.animateWait
+        if (animateWait) this.interaction.target.nextRender(animateWait, off)
+        this.animateWait = func
     }
 
 
@@ -172,7 +198,7 @@ export class Dragger {
     }
 
     protected dragReset(): void {
-        DragEvent.list = DragEvent.data = this.dragableList = this.dragData = this.dragOverPath = this.dragEnterPath = null
+        DragEvent.list = DragEvent.data = this.dragableList = this.dragData = this.downData = this.dragOverPath = this.dragEnterPath = null
         this.dragging = this.moving = false
     }
 
@@ -185,8 +211,7 @@ export class Dragger {
 
 
     protected autoMoveOnDragOut(data: IPointerEvent): void {
-        const { interaction } = this
-        const { downData } = interaction
+        const { interaction, downData } = this
         const { autoDistance, dragOut } = interaction.config.move
         if (!dragOut || !autoDistance) return
 
