@@ -214,10 +214,13 @@ export class Renderer implements IRenderer {
         const startTime = Date.now()
         Platform.requestRender(() => {
             this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
-            if (this.changed) {
-                if (this.running && this.canvas.view) this.render()
+
+            if (this.running) {
+                this.target.emit(AnimateEvent.FRAME)
+                if (this.changed && this.canvas.view) this.render()
+                this.target.emit(RenderEvent.NEXT)
             }
-            if (this.running) this.target.emit(AnimateEvent.FRAME)
+
             if (this.target) this.__requestRender()
         })
     }
