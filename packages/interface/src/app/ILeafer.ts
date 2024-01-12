@@ -33,6 +33,8 @@ export interface ILeaferAttrData {
     viewCompleted: boolean
     layoutLocked: boolean
 
+    transforming: boolean
+
     pixelRatio: number
 
     view: unknown
