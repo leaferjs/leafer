@@ -20,7 +20,8 @@ export const config: IInteractionConfig = {
         dragHover: true,
         dragDistance: 2,
         swipeDistance: 20,
-        ignoreMove: false
+        ignoreMove: false,
+        preventDefaultMenu: true
     },
     cursor: {}
 }

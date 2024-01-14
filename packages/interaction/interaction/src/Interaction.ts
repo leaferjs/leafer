@@ -24,7 +24,8 @@ export class InteractionBase implements IInteraction {
     public running: boolean
     public get dragging(): boolean { return this.dragger.dragging }
     public get isDragEmpty(): boolean { return this.config.move.dragEmpty && (this.hoverData && (this.hoverData.path.list[0] as ILeaf).isLeafer) && (!this.downData || (this.downData.path.list[0] as ILeaf).isLeafer) }
-    public get moveMode(): boolean { return this.config.move.drag || (this.config.move.holdSpaceKey && Keyboard.isHoldSpaceKey()) || (this.downData && PointerButton.middle(this.downData)) || this.isDragEmpty }
+    public get isHoldRightKey(): boolean { return this.config.move.holdRightKey && this.downData && PointerButton.right(this.downData) }
+    public get moveMode(): boolean { return this.config.move.drag || (this.config.move.holdSpaceKey && Keyboard.isHoldSpaceKey()) || (this.downData && ((this.config.move.holdMiddleKey && PointerButton.middle(this.downData)) || (this.isHoldRightKey && this.dragger.moving))) || this.isDragEmpty }
 
     public config: IInteractionConfig = config
 
@@ -40,6 +41,7 @@ export class InteractionBase implements IInteraction {
     protected overPath: LeafList
     protected enterPath: LeafList
 
+    protected waitMenuTap: boolean
     protected waitTap: boolean
     protected longPressTimer: ITimer
     protected longPressed: boolean
@@ -98,6 +100,8 @@ export class InteractionBase implements IInteraction {
         if (PointerButton.left(data)) {
             this.tapWait()
             this.longPressWait(data)
+        } else if (PointerButton.right(data)) {
+            this.waitMenuTap = true
         }
 
         this.updateCursor(data)
@@ -121,21 +125,24 @@ export class InteractionBase implements IInteraction {
 
         if (this.downData) {
             const canDrag = PointHelper.getDistance(this.downData, data) > this.config.pointer.dragDistance
-            if (this.waitTap && canDrag) this.pointerWaitCancel()
+            if (canDrag) {
+                if (this.waitTap) this.pointerWaitCancel()
+                this.waitMenuTap = false
+            }
 
-            if (!PointerButton.right(this.downData)) this.dragger.checkDrag(data, canDrag)
+            this.dragger.checkDrag(data, canDrag)
         }
 
-        if (this.dragger.moving || this.config.pointer.ignoreMove) return
+        if (!this.dragger.moving) {
+            this.updateHoverData(data)
+            this.emit(PointerEvent.MOVE, data)
 
-        this.updateHoverData(data)
-        this.emit(PointerEvent.MOVE, data)
-
-        this.pointerOverOrOut(data)
-        this.pointerEnterOrLeave(data)
-        if (this.dragger.dragging) {
-            this.dragger.dragOverOrOut(data)
-            this.dragger.dragEnterOrLeave(data)
+            this.pointerOverOrOut(data)
+            this.pointerEnterOrLeave(data)
+            if (this.dragger.dragging) {
+                this.dragger.dragOverOrOut(data)
+                this.dragger.dragEnterOrLeave(data)
+            }
         }
 
         this.updateCursor(data)
@@ -155,6 +162,7 @@ export class InteractionBase implements IInteraction {
         this.touchLeave(data)
 
         this.tap(data)
+        this.menuTap(data)
 
         this.dragger.dragEnd(data)
 
@@ -182,6 +190,9 @@ export class InteractionBase implements IInteraction {
         this.emit(PointerEvent.MENU, data)
     }
 
+    public menuTap(data: IPointerEvent): void {
+        if (this.waitMenuTap) this.emit(PointerEvent.MENU_TAP, data)
+    }
 
     // window transform
 

@@ -26,6 +26,8 @@ export class Dragger {
     protected dragEnterPath: ILeafList
 
     protected autoMoveTimer: ITimer
+
+    protected canAnimate: boolean
     protected animateWait: IFunction
 
     constructor(interaction: InteractionBase) {
@@ -46,14 +48,16 @@ export class Dragger {
     public checkDrag(data: IPointerEvent, canDrag: boolean): void {
         const { interaction } = this
 
-        if (this.moving && !(PointerButton.middle(data) || PointerButton.left(data))) {
-            interaction.pointerCancel() // 按住中键拖出页面后的up事件接收不到
+        if (this.moving && data.buttons < 1) {
+            this.canAnimate = false // 防止dragEnd动画
+            interaction.pointerCancel() // 按住中键/右键拖出页面后的up事件接收不到
             return
+        } else {
+            this.canAnimate = true
         }
 
-        if (!this.moving) {
-            this.moving = (PointerButton.middle(data) || interaction.moveMode) && canDrag
-            if (this.moving) interaction.emit(MoveEvent.START, this.dragData)
+        if (!this.moving && canDrag) {
+            if (this.moving = interaction.moveMode || interaction.isHoldRightKey) interaction.emit(MoveEvent.START, this.dragData)
         }
 
         if (!this.moving) {
@@ -65,7 +69,7 @@ export class Dragger {
 
     public dragStart(data: IPointerEvent, canDrag: boolean): void {
         if (!this.dragging) {
-            this.dragging = PointerButton.left(data) && canDrag
+            this.dragging = canDrag && PointerButton.left(data)
             if (this.dragging) {
                 this.interaction.emit(DragEvent.START, this.dragData)
                 this.getDragableList(this.dragData.path)
@@ -140,7 +144,7 @@ export class Dragger {
         if (!this.dragData) return
 
         const { moveX, moveY } = this.dragData
-        if (this.moving && (Math.abs(moveX) > 1 || Math.abs(moveY) > 1)) {
+        if (this.canAnimate && this.moving && (Math.abs(moveX) > 1 || Math.abs(moveY) > 1)) {
             data = { ...data }
             speed = (speed || (data.pointerType === 'touch' ? 2 : 1)) * 0.9
             PointHelper.move(data, moveX * speed, moveY * speed)

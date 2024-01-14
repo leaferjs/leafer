@@ -144,6 +144,7 @@ export class Interaction extends InteractionBase {
     // context menu
 
     protected onContextMenu(e: PointerEvent): void {
+        if (this.config.pointer.preventDefaultMenu) e.preventDefault()
         this.menu(PointerEventHelper.convert(e, this.getLocal(e)))
     }
 

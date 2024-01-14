@@ -18,6 +18,7 @@ export interface IInteraction extends IControl {
     running: boolean
     readonly dragging: boolean
     readonly isDragEmpty: boolean
+    readonly isHoldRightKey: boolean
     readonly moveMode: boolean
 
     config: IInteractionConfig
@@ -78,6 +79,8 @@ export interface IZoomConfig {
 
 export interface IMoveConfig {
     holdSpaceKey?: boolean
+    holdMiddleKey?: boolean
+    holdRightKey?: boolean
     drag?: boolean
     dragEmpty?: boolean
     dragOut?: boolean
@@ -107,6 +110,7 @@ export interface IPointerConfig {
     swipeDistance?: number
     ignoreMove?: boolean // 性能优化字段, 控制move事件触发次数
     preventDefault?: boolean
+    preventDefaultMenu?: boolean
 }
 
 export interface ICursorConfig {

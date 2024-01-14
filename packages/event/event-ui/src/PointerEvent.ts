@@ -33,6 +33,7 @@ export class PointerEvent extends UIEvent implements IPointerEvent {
     static LONG_TAP = 'long_tap'
 
     static MENU = 'pointer.menu'
+    static MENU_TAP = 'pointer.menu_tap'
 
     public readonly width: number
     public readonly height: number
