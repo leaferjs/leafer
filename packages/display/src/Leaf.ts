@@ -368,23 +368,14 @@ export class Leaf implements ILeaf {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
     }
 
+    // @leafer-in/scale rewrite
 
-    public scaleResize(scaleX: number, scaleY = scaleX, noResize?: boolean): void {
-        const data = this as ILeaf
-        if (noResize) {
-            data.scaleX *= scaleX
-            data.scaleY *= scaleY
-        } else {
-            if (scaleX < 0) data.scaleX *= -1, scaleX = -scaleX
-            if (scaleY < 0) data.scaleY *= -1, scaleY = -scaleY
-            this.__scaleResize(scaleX, scaleY)
-        }
+    public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean): void {
+        (this as ILeaf).scaleX *= scaleX;
+        (this as ILeaf).scaleY *= scaleY
     }
 
-    public __scaleResize(scaleX: number, scaleY: number): void {
-        if (scaleX !== 1) (this as ILeaf).width *= scaleX
-        if (scaleY !== 1) (this as ILeaf).height *= scaleY // Text auto height
-    }
+    public __scaleResize(_scaleX: number, _scaleY: number): void { }
 
     // LeafHit rewrite
 
