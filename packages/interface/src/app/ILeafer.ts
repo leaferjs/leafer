@@ -104,6 +104,7 @@ export interface ICreator {
     image?(options?: ILeaferImageConfig): ILeaferImage
     canvas?(options?: ILeaferCanvasConfig, manager?: ICanvasManager): ILeaferCanvas
     hitCanvas?(options?: IHitCanvasConfig, manager?: ICanvasManager): IHitCanvas
+    hitCanvasManager?(): IHitCanvasManager
 
     watcher?(target: ILeaf, options?: IWatcherConfig): IWatcher
     layouter?(target: ILeaf, options?: ILayouterConfig): ILayouter

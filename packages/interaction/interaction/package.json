@@ -20,6 +20,7 @@
   "dependencies": {
     "@leafer/event": "1.0.0-rc.9",
     "@leafer/event-ui": "1.0.0-rc.9",
+    "@leafer/canvas": "1.0.0-rc.9",
     "@leafer/math": "1.0.0-rc.9",
     "@leafer/helper": "1.0.0-rc.9",
     "@leafer/list": "1.0.0-rc.9",

@@ -25,15 +25,11 @@ export class Debug {
     }
 
     static set filter(name: string | string[]) {
-        if (!name) name = []
-        else if (typeof name === 'string') name = [name]
-        this.filterList = name
+        this.filterList = getNameList(name)
     }
 
     static set exclude(name: string | string[]) {
-        if (!name) name = []
-        else if (typeof name === 'string') name = [name]
-        this.excludeList = name
+        this.excludeList = getNameList(name)
     }
 
 
@@ -46,7 +42,7 @@ export class Debug {
     }
 
     tip(...messages: unknown[]): void {
-        if (D.enable) console.warn(this.name, ...messages)
+        if (D.enable) this.warn(...messages)
     }
 
     warn(...messages: unknown[]): void {
@@ -67,6 +63,12 @@ export class Debug {
             console.error(this.name, ...messages, e)
         }
     }
+}
+
+function getNameList(name: string | string[]): string[] {
+    if (!name) name = []
+    else if (typeof name === 'string') name = [name]
+    return name
 }
 
 const D = Debug
