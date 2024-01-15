@@ -1,7 +1,5 @@
 export * from '@leafer/core'
 
-export * from '@leafer/partner'
-
 export * from '@leafer/canvas-node'
 export * from '@leafer/image-node'
 

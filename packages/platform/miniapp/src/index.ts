@@ -1,5 +1,4 @@
 export * from '@leafer/core'
-export * from '@leafer/partner'
 
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'

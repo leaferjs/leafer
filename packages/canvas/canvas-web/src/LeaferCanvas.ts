@@ -1,5 +1,5 @@
-import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, ICursorType } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug, Cursor } from '@leafer/core'
+import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener } from '@leafer/interface'
+import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug } from '@leafer/core'
 
 
 const debug = Debug.get('LeaferCanvas')
@@ -40,27 +40,6 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     protected __createView(): void {
         this.view = document.createElement('canvas')
-    }
-
-    public setCursor(cursor: ICursorType | ICursorType[]): void {
-        const list: ICursorType[] = []
-        this.eachCursor(cursor, list)
-        if (typeof list[list.length - 1] === 'object') list.push('default')
-        this.view.style.cursor = list.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(',')
-    }
-
-    protected eachCursor(cursor: ICursorType | ICursorType[], list: ICursorType[], level = 0): void {
-        level++
-        if (cursor instanceof Array) {
-            cursor.forEach(item => this.eachCursor(item, list, level))
-        } else {
-            const custom = typeof cursor === 'string' && Cursor.get(cursor)
-            if (custom && level < 2) {
-                this.eachCursor(custom, list, level)
-            } else {
-                list.push(cursor)
-            }
-        }
     }
 
     protected __createViewFrom(inputView: string | object): void {

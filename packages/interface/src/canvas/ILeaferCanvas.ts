@@ -5,7 +5,6 @@ import { IResizeEventListener } from '../event/IEvent'
 import { IPathDrawer } from '../path/IPathDrawer'
 import { InnerId } from '../event/IEventer'
 import { ICanvasManager } from './ICanvasManager'
-import { ICursorType } from '../display/ILeaf'
 
 export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
@@ -178,8 +177,6 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     resize(size: IScreenSizeData): void
     updateViewSize(): void
     updateClientBounds(): void
-
-    setCursor(cursor: ICursorType | ICursorType[]): void
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean

@@ -54,7 +54,9 @@ export interface IInteraction extends IControl {
 
     updateDownData(data?: IPointerEvent): void
     updateHoverData(data: IPointerEvent): void
+
     updateCursor(hoverData?: IPointerEvent): void
+    setCursor(cursor: ICursorType | ICursorType[]): void
 
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
 }

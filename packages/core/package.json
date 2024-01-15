@@ -25,7 +25,6 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/interaction": "1.0.0-rc.9",
     "@leafer/canvas": "1.0.0-rc.9",
     "@leafer/image": "1.0.0-rc.9",
 
@@ -36,7 +35,6 @@
     "@leafer/display-module": "1.0.0-rc.9",
 
     "@leafer/event": "1.0.0-rc.9",
-    "@leafer/event-ui": "1.0.0-rc.9",
 
     "@leafer/file": "1.0.0-rc.9",
     "@leafer/helper": "1.0.0-rc.9",
@@ -46,7 +44,6 @@
 
     "@leafer/path": "1.0.0-rc.9",
     "@leafer/platform": "1.0.0-rc.9",
-    "@leafer/plugin": "1.0.0-rc.9",
 
     "@leafer/task": "1.0.0-rc.9",
 

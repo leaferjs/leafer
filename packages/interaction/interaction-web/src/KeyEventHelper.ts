@@ -1,5 +1,5 @@
 import { IKeyEvent } from '@leafer/interface'
-import { InteractionHelper } from '@leafer/core'
+import { InteractionHelper } from '@leafer/interaction'
 
 
 export const KeyEventHelper = {

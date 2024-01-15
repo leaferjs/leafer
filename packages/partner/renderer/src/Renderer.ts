@@ -232,7 +232,7 @@ export class Renderer implements IRenderer {
             const bounds = new Bounds(0, 0, width, height)
             if (!bounds.includes(this.target.__world) || this.needFill || !e.samePixelRatio) {
                 this.addBlock(this.canvas.bounds)
-                this.target.forceUpdate('blendMode')
+                this.target.forceUpdate('surface')
             }
         }
     }

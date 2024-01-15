@@ -1,5 +1,6 @@
-import { IObject, IPointData, ITimer, IKeepTouchData } from '@leafer/interface'
-import { InteractionBase, InteractionHelper, MathHelper } from '@leafer/core'
+import { IObject, IPointData, ITimer, IKeepTouchData, ICursorType } from '@leafer/interface'
+import { MathHelper } from '@leafer/core'
+import { InteractionBase, InteractionHelper, Cursor } from '@leafer/interaction'
 
 import { PointerEventHelper } from './PointerEventHelper'
 import { WheelEventHelper } from './WheelEventHelper'
@@ -329,6 +330,30 @@ export class Interaction extends InteractionBase {
         this.preventDefaultWheel(e)
 
         this.transformEnd()
+    }
+
+
+    // cursor
+    public setCursor(cursor: ICursorType | ICursorType[]): void {
+        super.setCursor(cursor)
+        const list: ICursorType[] = []
+        this.eachCursor(cursor, list)
+        if (typeof list[list.length - 1] === 'object') list.push('default')
+        this.canvas.view.style.cursor = list.map(item => (typeof item === 'object') ? `url(${item.url}) ${item.x || 0} ${item.y || 0}` : item).join(',')
+    }
+
+    protected eachCursor(cursor: ICursorType | ICursorType[], list: ICursorType[], level = 0): void {
+        level++
+        if (cursor instanceof Array) {
+            cursor.forEach(item => this.eachCursor(item, list, level))
+        } else {
+            const custom = typeof cursor === 'string' && Cursor.get(cursor)
+            if (custom && level < 2) {
+                this.eachCursor(custom, list, level)
+            } else {
+                list.push(cursor)
+            }
+        }
     }
 
     public destroy(): void {

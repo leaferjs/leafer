@@ -22,6 +22,7 @@ export class InteractionBase implements IInteraction {
     public selector: ISelector
 
     public running: boolean
+
     public get dragging(): boolean { return this.dragger.dragging }
     public get isDragEmpty(): boolean { return this.config.move.dragEmpty && (this.hoverData && (this.hoverData.path.list[0] as ILeaf).isLeafer) && (!this.downData || (this.downData.path.list[0] as ILeaf).isLeafer) }
     public get isHoldRightKey(): boolean { return this.config.move.holdRightKey && this.downData && PointerButton.right(this.downData) }
@@ -368,9 +369,8 @@ export class InteractionBase implements IInteraction {
 
     }
 
-    protected setCursor(cursor: ICursorType | ICursorType[]): void {
+    public setCursor(cursor: ICursorType | ICursorType[]): void {
         this.cursor = cursor
-        this.canvas.setCursor(cursor)
     }
 
     protected emitTap(data: IPointerEvent) {
