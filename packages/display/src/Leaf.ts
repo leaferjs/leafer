@@ -2,7 +2,7 @@ import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOp
 import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
-import { LeafDataProxy, LeafMatrix, LeafBounds, LeafHit, LeafEventer, LeafRender } from '@leafer/display-module'
+import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper, WaitHelper } from '@leafer/helper'
 
@@ -15,7 +15,6 @@ const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform, setTransf
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
 @useModule(LeafBounds)
-@useModule(LeafHit)
 @useModule(LeafEventer)
 @useModule(LeafRender)
 export class Leaf implements ILeaf {
