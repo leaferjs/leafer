@@ -36,7 +36,7 @@ export const WheelEventHelper = {
         if (zoom) {
             zoomSpeed = MathHelper.within(zoomSpeed, 0, 1)
             const min = e.deltaY ? config.delta.y : config.delta.x
-            scale = 1 - delta / (min * 5) * zoomSpeed // zoomSpeed
+            scale = 1 - delta / (min * 4) * zoomSpeed // zoomSpeed
             if (scale < 0.5) scale = 0.5
             if (scale >= 1.5) scale = 1.5
         }

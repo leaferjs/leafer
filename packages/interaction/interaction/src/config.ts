@@ -1,6 +1,4 @@
 import { IInteractionConfig } from '@leafer/interface'
-import { Platform } from '@leafer/platform'
-
 
 export const config: IInteractionConfig = {
     wheel: {
@@ -8,7 +6,7 @@ export const config: IInteractionConfig = {
         zoomSpeed: 0.5,
         moveSpeed: 0.5,
         rotateSpeed: 0.5,
-        delta: Platform.os === 'Windows' ? { x: 150 / 4, y: 150 / 4 } : { x: 80 / 4, y: 8.0 },
+        delta: { x: 80 / 4, y: 8.0 }, // 基准速度（会影响zoomSpeed)，可根据不同系统、浏览器细化定制
         preventDefault: true
     },
     pointer: {
