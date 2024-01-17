@@ -3,7 +3,7 @@ import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
 import { PointHelper as P } from './PointHelper'
-import { MathHelper } from './MathHelper'
+import { MathHelper, getBoundsData } from './MathHelper'
 
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
@@ -280,7 +280,7 @@ export const BoundsHelper = {
 
     getIntersectData(t: IBoundsData, other: IBoundsData, otherMatrix?: IMatrixData): IBoundsData {
         if (otherMatrix) other = B.tempToOuterOf(other, otherMatrix)
-        if (!B.hit(t, other)) return { x: 0, y: 0, width: 0, height: 0 }
+        if (!B.hit(t, other)) return getBoundsData()
 
         let { x, y, width, height } = other
 

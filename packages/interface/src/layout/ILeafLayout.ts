@@ -69,6 +69,12 @@ export interface ILeafLayout {
     d: number
     e: number
     f: number
+    x: number
+    y: number
+    width: number
+    height: number
+
+    createLocal(): void
 
     update(): void
 

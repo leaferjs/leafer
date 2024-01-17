@@ -1,22 +1,18 @@
 import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData } from '@leafer/interface'
-import { MathHelper, OneRadian, PI_2 } from './MathHelper'
+import { MathHelper, OneRadian, PI_2, getBoundsData, getMatrixData } from './MathHelper'
 
 
 const { sin, cos, acos, sqrt } = Math
 const { float } = MathHelper
 const tempPoint = {} as IPointData
 
-function get(): IMatrixData {
-    return { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 }
-}
-
 function getWorld(): IMatrixWithLayoutData {
-    return { ...get(), x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
+    return { ...getMatrixData(), ...getBoundsData(), scaleX: 1, scaleY: 1, rotation: 0, skewX: 0, skewY: 0 }
 }
 
 export const MatrixHelper = {
 
-    defaultMatrix: get(),
+    defaultMatrix: getMatrixData(),
 
     defaultWorld: getWorld(),
 
@@ -31,7 +27,7 @@ export const MatrixHelper = {
         t.f = f
     },
 
-    get,
+    get: getMatrixData,
 
     getWorld,
 

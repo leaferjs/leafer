@@ -1,3 +1,5 @@
+import { IPointData, IBoundsData, IMatrixData } from '@leafer/interface'
+
 const { round, pow, PI } = Math
 
 export const MathHelper = {
@@ -64,3 +66,7 @@ export const MathHelper = {
 export const OneRadian = PI / 180
 export const PI2 = PI * 2
 export const PI_2 = PI / 2
+
+export function getPointData(): IPointData { return { x: 0, y: 0 } }
+export function getBoundsData(): IBoundsData { return { x: 0, y: 0, width: 0, height: 0 } }
+export function getMatrixData(): IMatrixData { return { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 } }

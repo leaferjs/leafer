@@ -44,7 +44,7 @@ export class Leaf implements ILeaf {
     public __local?: IMatrixWithBoundsData // and localStrokeBounds? localRenderBounds?
 
     public get __localMatrix(): IMatrixData { return this.__local || this.__layout }
-    public get __localBounds(): IBoundsData { return this.__local || this.__ as IBoundsData }
+    public get __localBoxBounds(): IBoundsData { return this.__local || this.__layout }
 
     public __worldOpacity: number
 

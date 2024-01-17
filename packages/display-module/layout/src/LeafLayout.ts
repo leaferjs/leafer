@@ -75,14 +75,25 @@ export class LeafLayout implements ILeafLayout {
     public get d() { return 1 }
     public get e() { return this.leaf.__.x }
     public get f() { return this.leaf.__.y }
+    public get x() { return this.e + this.boxBounds.x }
+    public get y() { return this.f + this.boxBounds.y }
+    public get width() { return this.boxBounds.width }
+    public get height() { return this.boxBounds.height }
 
 
     constructor(leaf: ILeaf) {
         this.leaf = leaf
         this.renderBounds = this.strokeBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
-        if (leaf.__local) this.localRenderBounds = this.localStrokeBounds = leaf.__local
+        this.localRenderBounds = this.localStrokeBounds = this.leaf.__localBoxBounds
         this.boxChange()
         this.matrixChange()
+    }
+
+    public createLocal(): void {
+        const old = this.leaf.__local
+        const local = this.leaf.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
+        if (this.localStrokeBounds === old) this.localStrokeBounds = local
+        if (this.localRenderBounds === old) this.localRenderBounds = local
     }
 
     public update(): void {
@@ -151,7 +162,7 @@ export class LeafLayout implements ILeafLayout {
             case 'margin':
             case 'content':
             case 'box':
-                return this.leaf.__localBounds
+                return this.leaf.__localBoxBounds
         }
     }
 
@@ -260,7 +271,7 @@ export class LeafLayout implements ILeafLayout {
     public spreadStrokeCancel(): void {
         const same = this.renderBounds === this.strokeBounds
         this.strokeBounds = this.boxBounds
-        this.localStrokeBounds = this.leaf.__localBounds
+        this.localStrokeBounds = this.leaf.__localBoxBounds
         if (same) this.spreadRenderCancel()
     }
     public spreadRenderCancel(): void {
@@ -324,6 +335,7 @@ export class LeafLayout implements ILeafLayout {
     protected _scaleOrRotationChange() {
         this.affectScaleOrRotation = true
         this.matrixChange()
+        if (!this.leaf.__local) this.createLocal()
     }
 
     public matrixChange(): void {

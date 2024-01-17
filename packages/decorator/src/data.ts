@@ -40,6 +40,7 @@ export function autoLayoutType(defaultValue?: IValue) {
                 this.__setAttr(key, value)
                 this.__layout.matrixChanged || this.__layout.matrixChange()
                 this.__hasAutoLayout = !!value
+                if (!this.__local) this.__layout.createLocal()
             }
         })
     }

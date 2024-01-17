@@ -296,7 +296,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __local?: IMatrixWithBoundsData
 
     readonly __localMatrix: IMatrixData
-    readonly __localBounds: IBoundsData
+    readonly __localBoxBounds: IBoundsData
 
     __worldOpacity: number
 
@@ -341,6 +341,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     get(): ILeafInputData
     toJSON(): IObject
     toString(): string
+    toSVG?(): string
+    toHTML?(): string
 
     // ILeafData ->
     __setAttr(attrName: string, newValue: IValue): void

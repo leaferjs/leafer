@@ -1,5 +1,5 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
-import { OneRadian, PI2 } from './MathHelper'
+import { OneRadian, PI2, getPointData } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
 
@@ -10,7 +10,7 @@ const { sin, cos, abs, sqrt, atan2, min, PI } = Math
 
 export const PointHelper = {
 
-    defaultPoint: { x: 0, y: 0 } as IPointData,
+    defaultPoint: getPointData(),
 
     tempPoint: {} as IPointData,
     tempRadiusPoint: {} as IRadiusPointData,
