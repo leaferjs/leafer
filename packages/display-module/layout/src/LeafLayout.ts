@@ -1,9 +1,10 @@
-import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, ILayoutData, IPointData } from '@leafer/interface'
-import { Bounds, BoundsHelper, Matrix, MatrixHelper } from '@leafer/math'
+import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { Bounds, BoundsHelper, Matrix, MatrixHelper, PointHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
 
-const { toOuterOf, getPoints } = BoundsHelper
+const tempMatrix = new Matrix()
+const { toOuterOf, getPoints, copy } = BoundsHelper
 
 export class LeafLayout implements ILeafLayout {
 
@@ -156,9 +157,9 @@ export class LeafLayout implements ILeafLayout {
     public getLocalBounds(type: IBoundsType = 'box'): IBoundsData {
         switch (type) {
             case 'render':
-                if (this.localRenderBounds) return this.localRenderBounds
+                return this.localRenderBounds
             case 'stroke':
-                if (this.localStrokeBounds) return this.localStrokeBounds
+                return this.localStrokeBounds
             case 'margin':
             case 'content':
             case 'box':
@@ -183,49 +184,43 @@ export class LeafLayout implements ILeafLayout {
 
     public getLayoutBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): ILayoutBoundsData {
         const { leaf } = this
-        let point: IPointData, layout: ILayoutData
-        let bounds: IBoundsData = this.getInnerBounds(type)
+        let point: IPointData, matrix: IMatrixData, bounds: IBoundsData = this.getInnerBounds(type)
 
         switch (relative) {
             case 'world':
                 point = leaf.getWorldPoint(bounds)
-                layout = leaf.__world
+                matrix = leaf.__world
                 break
             case 'local':
                 point = leaf.getLocalPointByInner(bounds)
-                layout = leaf.__ as ILayoutData
+                matrix = leaf.__localMatrix
                 break
             case 'inner':
                 point = bounds
-                layout = MatrixHelper.defaultWorld
+                matrix = MatrixHelper.defaultMatrix
                 break
             default:
                 point = leaf.getWorldPoint(bounds, relative)
-                layout = leaf.__world
+                matrix = tempMatrix.set(leaf.__world).divideParent(relative.__world)
         }
 
-        let { scaleX, scaleY, rotation, skewX, skewY } = layout
-        let { width, height } = bounds
-
-        if (typeof relative === 'object') {
-            const r = relative.__world
-            scaleX /= r.scaleX
-            scaleY /= r.scaleY
-            rotation -= r.rotation
-            skewX -= r.skewX
-            skewY -= r.skewY
-        }
+        const layoutBounds = MatrixHelper.getLayout(matrix) as IMatrixWithLayoutData
+        copy(layoutBounds, bounds)
+        PointHelper.copy(layoutBounds, point)
 
         if (unscale) {
-            const uScaleX = scaleX < 0 ? -scaleX : scaleX
-            const uScaleY = scaleY < 0 ? -scaleY : scaleY
-            scaleX /= uScaleX
-            scaleY /= uScaleY
-            width *= uScaleX
-            height *= uScaleY
+            const { scaleX, scaleY } = layoutBounds
+            const uScaleX = Math.abs(scaleX)
+            const uScaleY = Math.abs(scaleY)
+            if (uScaleX !== 1 || uScaleY !== 1) {
+                layoutBounds.scaleX /= uScaleX
+                layoutBounds.scaleY /= uScaleY
+                layoutBounds.width *= uScaleX
+                layoutBounds.height *= uScaleY
+            }
         }
 
-        return { x: point.x, y: point.y, scaleX, scaleY, rotation, skewX, skewY, width, height }
+        return layoutBounds
     }
 
     public getLayoutPoints(type?: IBoundsType, relative: ILocationType | ILeaf = 'world'): IPointData[] {
