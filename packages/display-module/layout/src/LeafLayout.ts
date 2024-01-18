@@ -1,4 +1,4 @@
-import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '@leafer/interface'
 import { Bounds, BoundsHelper, Matrix, MatrixHelper, PointHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 
@@ -12,11 +12,14 @@ export class LeafLayout implements ILeafLayout {
 
     public proxyZoom: boolean
 
-    // local
+    // inner
 
     public boxBounds: IBoundsData
-    public strokeBounds: IBoundsData
-    public renderBounds: IBoundsData
+    public get strokeBounds(): IBoundsData { return this._strokeBounds || this.boxBounds }
+    public get renderBounds(): IBoundsData { return this._renderBounds || this.boxBounds }
+
+    public _strokeBounds: IBoundsData
+    public _renderBounds: IBoundsData
 
     // auto layout
     public marginBounds: IBoundsData
@@ -24,8 +27,11 @@ export class LeafLayout implements ILeafLayout {
 
     // local
 
-    public localStrokeBounds?: IBoundsData
-    public localRenderBounds?: IBoundsData
+    public get localStrokeBounds(): IBoundsData { return this._localStrokeBounds || this }
+    public get localRenderBounds(): IBoundsData { return this._localRenderBounds || this }
+
+    protected _localStrokeBounds?: IBoundsData
+    protected _localRenderBounds?: IBoundsData
 
     // world temp
     protected _worldContentBounds: IBoundsData
@@ -84,17 +90,16 @@ export class LeafLayout implements ILeafLayout {
 
     constructor(leaf: ILeaf) {
         this.leaf = leaf
-        this.renderBounds = this.strokeBounds = this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
-        this.localRenderBounds = this.localStrokeBounds = this.leaf.__localBoxBounds
+        this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
+        if (this.leaf.__local) this._localRenderBounds = this._localStrokeBounds = this.leaf.__local
         this.boxChange()
         this.matrixChange()
     }
 
     public createLocal(): void {
-        const old = this.leaf.__local
         const local = this.leaf.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
-        if (this.localStrokeBounds === old) this.localStrokeBounds = local
-        if (this.localRenderBounds === old) this.localRenderBounds = local
+        if (!this._localStrokeBounds) this._localStrokeBounds = local
+        if (!this._localRenderBounds) this._localRenderBounds = local
     }
 
     public update(): void {
@@ -204,7 +209,7 @@ export class LeafLayout implements ILeafLayout {
                 matrix = tempMatrix.set(leaf.__world).divideParent(relative.__world)
         }
 
-        const layoutBounds = MatrixHelper.getLayout(matrix) as IMatrixWithLayoutData
+        const layoutBounds = MatrixHelper.getLayout(matrix) as ILayoutBoundsData
         copy(layoutBounds, bounds)
         PointHelper.copy(layoutBounds, point)
 
@@ -265,25 +270,25 @@ export class LeafLayout implements ILeafLayout {
 
     public spreadStrokeCancel(): void {
         const same = this.renderBounds === this.strokeBounds
-        this.strokeBounds = this.boxBounds
-        this.localStrokeBounds = this.leaf.__localBoxBounds
+        this._strokeBounds = this.boxBounds
+        this._localStrokeBounds = this.leaf.__localBoxBounds
         if (same) this.spreadRenderCancel()
     }
     public spreadRenderCancel(): void {
-        this.renderBounds = this.strokeBounds
-        this.localRenderBounds = this.localStrokeBounds
+        this._renderBounds = this._strokeBounds
+        this._localRenderBounds = this._localStrokeBounds
     }
 
     public spreadStroke(): void {
         const { x, y, width, height } = this.strokeBounds
-        this.strokeBounds = { x, y, width, height }
-        this.localStrokeBounds = { x, y, width, height }
+        this._strokeBounds = { x, y, width, height }
+        this._localStrokeBounds = { x, y, width, height }
         if (!this.renderSpread) this.spreadRenderCancel()
     }
     public spreadRender(): void {
         const { x, y, width, height } = this.renderBounds
-        this.renderBounds = { x, y, width, height }
-        this.localRenderBounds = { x, y, width, height }
+        this._renderBounds = { x, y, width, height }
+        this._localRenderBounds = { x, y, width, height }
     }
 
 
