@@ -201,4 +201,11 @@ export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData { }
 
 export interface IMatrixWithScaleData extends IMatrixData, IScaleData { }
 
+export interface IMatrixWithOptionScaleData extends IMatrixData {
+    scaleX?: number
+    scaleY?: number
+}
+
+export interface IMatrixWithBoundsScaleData extends IMatrixData, IBoundsData, IScaleData { }
+
 export interface IMatrixWithLayoutData extends IMatrixData, ILayoutBoundsData { }

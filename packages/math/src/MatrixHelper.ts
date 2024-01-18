@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData } from '@leafer/interface'
 import { MathHelper, OneRadian, PI_2, getBoundsData, getMatrixData } from './MathHelper'
 
 
@@ -133,7 +133,7 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixData, parent: IMatrixData, to?: IMatrixData, abcdChanged?: boolean | number, childLayout?: ILayoutData): void { // = transform
+    multiplyParent(t: IMatrixWithOptionScaleData, parent: IMatrixWithOptionScaleData, to?: IMatrixWithOptionScaleData, abcdChanged?: boolean | number, childScaleData?: IScaleData): void { // = transform
         const { e, f } = t
 
         to || (to = t)
@@ -148,7 +148,10 @@ export const MatrixHelper = {
             to.c = c * parent.a + d * parent.c
             to.d = c * parent.b + d * parent.d
 
-            if (childLayout) M.multiplyParentLayout(to as unknown as ILayoutData, parent as unknown as ILayoutData, childLayout)
+            if (childScaleData) {
+                to.scaleX = parent.scaleX * childScaleData.scaleX
+                to.scaleY = parent.scaleY * childScaleData.scaleY
+            }
 
         } else {
             to.a = parent.a
@@ -156,30 +159,16 @@ export const MatrixHelper = {
             to.c = parent.c
             to.d = parent.d
 
-            if (childLayout) M.multiplyParentLayout(to as unknown as ILayoutData, parent as unknown as ILayoutData)
+            if (childScaleData) {
+                to.scaleX = parent.scaleX
+                to.scaleY = parent.scaleY
+            }
         }
 
         to.e = e * parent.a + f * parent.c + parent.e
         to.f = e * parent.b + f * parent.d + parent.f
     },
 
-    multiplyParentLayout(t: ILayoutData, parent: ILayoutData, child?: ILayoutData): void {
-        if (child) {
-            t.scaleX = parent.scaleX * child.scaleX
-            t.scaleY = parent.scaleY * child.scaleY
-
-            t.rotation = parent.rotation + child.rotation
-            t.skewX = parent.skewX + child.skewX
-            t.skewY = parent.skewY + child.skewY
-        } else {
-            t.scaleX = parent.scaleX
-            t.scaleY = parent.scaleY
-
-            t.rotation = parent.rotation
-            t.skewX = parent.skewX
-            t.skewY = parent.skewY
-        }
-    },
 
     divide(t: IMatrixData, child: IMatrixData): void {
         M.multiply(t, M.tempInvert(child))
