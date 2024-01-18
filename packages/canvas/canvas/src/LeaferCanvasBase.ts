@@ -1,5 +1,5 @@
 import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType } from '@leafer/interface'
-import { Bounds, BoundsHelper, IncrementId } from '@leafer/math'
+import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
 import { FileHelper } from '@leafer/file'
@@ -8,6 +8,7 @@ import { Debug } from '@leafer/debug'
 import { Canvas } from './Canvas'
 
 
+const { copy } = MatrixHelper
 const temp = new Bounds()
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
 const debug = Debug.get('LeaferCanvasBase')
@@ -22,7 +23,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public manager: ICanvasManager
 
-    public pixelRatio: number
+    public size: IScreenSizeData = {} as IScreenSizeData
+
+    public get width(): number { return this.size.width }
+    public get height(): number { return this.size.height }
+
+    public get pixelRatio(): number { return this.size.pixelRatio }
     public get pixelWidth(): number { return this.width * this.pixelRatio }
     public get pixelHeight(): number { return this.height * this.pixelRatio }
 
@@ -57,7 +63,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         const { width, height, pixelRatio } = config
         this.autoLayout = !width || !height
 
-        this.pixelRatio = pixelRatio
+        this.size.pixelRatio = pixelRatio
         this.config = config
 
         this.init()
@@ -122,9 +128,10 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
             takeCanvas.copyWorld(this)
         }
 
-        DataHelper.copyAttrs(this, size, canvasSizeAttrs)
+        DataHelper.copyAttrs(this.size, size, canvasSizeAttrs)
+        this.size.pixelRatio || (this.size.pixelRatio = 1)
+
         this.bounds = new Bounds(0, 0, this.width, this.height)
-        this.pixelRatio || (this.pixelRatio = 1)
 
         if (!this.unreal) {
             this.updateViewSize()
@@ -325,28 +332,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     // 需要有 manager变量
     public getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas {
-        const { width, height, pixelRatio } = this
-
-        const options = { width, height, pixelRatio }
-        const canvas = this.manager ? this.manager.get(options) : Creator.canvas(options)
-
+        const canvas = this.manager ? this.manager.get(this.size) : Creator.canvas({ ...this.size })
         canvas.save()
 
-        if (useSameWorldTransform) canvas.useWorldTransform({ ...this.worldTransform })
+        if (useSameWorldTransform) copy(canvas.worldTransform, this.worldTransform), canvas.useWorldTransform()
         if (useSameSmooth) canvas.smooth = this.smooth
 
-        return canvas
-    }
-
-    public getBiggerCanvas(addWidth: number, addHeight: number): ILeaferCanvas {
-        let { width, height, pixelRatio } = this
-        if (addWidth) width += addWidth
-        if (addHeight) height += addHeight
-
-        const options = { width, height, pixelRatio }
-        const canvas = this.manager ? this.manager.get(options) : Creator.canvas(options)
-
-        canvas.save()
         return canvas
     }
 
