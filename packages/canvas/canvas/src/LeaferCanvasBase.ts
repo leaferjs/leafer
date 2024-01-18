@@ -266,10 +266,10 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode): void {
+    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, onlyResetTransform?: boolean): void {
         this.resetTransform()
         this.copyWorld(canvas, from, to, blendMode)
-        this.useWorldTransform()
+        if (!onlyResetTransform) this.useWorldTransform() // restore world transform
     }
 
     public useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void {

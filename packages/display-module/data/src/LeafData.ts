@@ -12,6 +12,12 @@ export class LeafData implements ILeafData {
     public __naturalWidth?: number
     public __naturalHeight?: number
 
+    public get __blendMode(): string {
+        if ((this as ILeafData).isEraser) return 'destination-out'
+        const { blendMode } = (this as ILeafData)
+        return blendMode === 'pass-through' ? null : blendMode
+    }
+
     constructor(leaf: ILeaf) {
         this.__leaf = leaf
     }
@@ -78,14 +84,16 @@ export class LeafData implements ILeafData {
     }
 
     public __checkSingle(): void {
-        if ((this as ILeafData).blendMode === 'pass-through') {
-            if (this.__leaf.__hasEraser || (this as ILeafData).isEraser) {
-                this.__single = true
-            } else if (this.__single) {
-                this.__single = false
+        const t = this as ILeafData
+        if (t.blendMode === 'pass-through') {
+            const leaf = this.__leaf
+            if ((t.opacity < 1 && leaf.isBranch) || leaf.__hasEraser || t.isEraser) {
+                t.__single = true
+            } else if (t.__single) {
+                t.__single = false
             }
         } else {
-            this.__single = true
+            t.__single = true
         }
     }
 

@@ -18,19 +18,16 @@ export const BranchRender: IBranchRenderModule = {
         if (this.__worldOpacity) {
 
             if (this.__.__single) {
-                canvas.resetTransform()
                 const tempCanvas = canvas.getSameCanvas(false, true)
 
                 this.__renderBranch(tempCanvas, options)
 
-                canvas.opacity = this.__worldOpacity
+                canvas.opacity = this.__.opacity
 
-                const blendMode = this.__.isEraser ? 'destination-out' : this.__.blendMode
-
-                if (this.__worldFlipped || options.matrix) {
-                    canvas.copyWorld(tempCanvas, null, null, blendMode)
+                if (options.matrix) {
+                    canvas.copyWorldByReset(tempCanvas, null, null, this.__.__blendMode, true)
                 } else {
-                    canvas.copyWorld(tempCanvas, this.__world, this.__world, blendMode)
+                    canvas.copyWorldByReset(tempCanvas, this.__world, this.__world, this.__.__blendMode, true)
                 }
 
                 tempCanvas.recycle()
@@ -57,7 +54,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 if (child.isMask) {
                     if (mask) {
-                        this.__renderMask(canvas, contentCanvas, maskCanvas)
+                        this.__renderMask(canvas, options, contentCanvas, maskCanvas)
                     } else {
                         mask = true
                     }
@@ -69,7 +66,7 @@ export const BranchRender: IBranchRenderModule = {
                 child.__render(mask ? contentCanvas : canvas, options)
             }
 
-            this.__renderMask(canvas, contentCanvas, maskCanvas, true)
+            this.__renderMask(canvas, options, contentCanvas, maskCanvas, true)
 
         } else {
 

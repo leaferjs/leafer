@@ -247,7 +247,7 @@ export class Leaf implements ILeaf {
 
     public __updateMask(_value?: boolean): void { }
 
-    public __renderMask(_canvas: ILeaferCanvas, _content: ILeaferCanvas, _mask: ILeaferCanvas, _recycle?: boolean): void { }
+    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions, _content: ILeaferCanvas, _mask: ILeaferCanvas, _recycle?: boolean): void { }
 
     public __removeMask(_child?: ILeaf): void { }
 

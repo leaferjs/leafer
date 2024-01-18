@@ -1,4 +1,4 @@
-import { ILeaf, ILeaferCanvas, ILeafMaskModule } from '@leafer/interface'
+import { ILeaf, ILeaferCanvas, ILeafMaskModule, IRenderOptions } from '@leafer/interface'
 
 
 export const LeafMask: ILeafMaskModule = {
@@ -11,14 +11,20 @@ export const LeafMask: ILeafMaskModule = {
         this.__hasMask = value ? true : this.children.some(item => item.__.isMask)
     },
 
-    __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void {
-        content.opacity = 1
+    __renderMask(canvas: ILeaferCanvas, options: IRenderOptions, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void {
         content.resetTransform()
-        content.useMask(mask)
+        content.opacity = 1
 
-        canvas.opacity = this.__worldOpacity
         canvas.resetTransform()
-        canvas.copyWorld(content)
+        canvas.opacity = 1
+
+        if (options.matrix) {
+            content.useMask(mask)
+            canvas.copyWorld(content)
+        } else {
+            content.useMask(mask, this.__world)
+            canvas.copyWorld(content, this.__world)
+        }
 
         if (recycle) {
             content.recycle()

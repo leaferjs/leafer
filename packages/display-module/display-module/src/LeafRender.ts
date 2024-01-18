@@ -6,19 +6,19 @@ export const LeafRender: ILeafRenderModule = {
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
             canvas.setWorld(this.__world, options.matrix)
-            canvas.opacity = this.__worldOpacity
+            canvas.opacity = this.__.opacity
 
             if (this.__.__single) {
                 const tempCanvas = canvas.getSameCanvas(true, true)
 
                 this.__draw(tempCanvas, options)
 
-                const blendMode = this.__.isEraser ? 'destination-out' : this.__.blendMode
                 if (this.__worldFlipped || options.matrix) {
-                    canvas.copyWorldByReset(tempCanvas, null, null, blendMode)
+                    canvas.copyWorldByReset(tempCanvas, null, null, this.__.__blendMode, true)
                 } else {
-                    canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, blendMode)
+                    canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, this.__.__blendMode)
                 }
+
                 tempCanvas.recycle()
             } else {
                 this.__draw(canvas, options)

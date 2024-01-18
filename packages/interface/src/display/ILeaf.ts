@@ -266,6 +266,7 @@ export interface ILeafComputedData {
     __complex?: boolean // 外观是否复杂
     __naturalWidth?: number
     __naturalHeight?: number
+    readonly __blendMode: string
 }
 
 export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -385,7 +386,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     // IBranchMask ->
     __updateEraser(value?: boolean): void
     __updateMask(value?: boolean): void
-    __renderMask(canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void
+    __renderMask(canvas: ILeaferCanvas, options: IRenderOptions, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void
     __removeMask(child?: ILeaf): void
 
     // convert
