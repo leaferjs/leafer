@@ -11,6 +11,10 @@ export class Matrix implements IMatrix {
     public e: number
     public f: number
 
+    // when b = 0, c = 0 can use scaleX, scaleY
+    public get scaleX(): number { return this.a }
+    public get scaleY(): number { return this.d }
+
     constructor(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number) {
         this.set(a, b, c, d, e, f)
     }

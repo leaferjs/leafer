@@ -6,7 +6,7 @@ export const LeafRender: ILeafRenderModule = {
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
 
-            canvas.setWorld(this.__renderWorld = this.__getRenderWorld(options))
+            canvas.setWorld(this.__nowWorld = this.__getRenderWorld(options))
             canvas.opacity = this.__.opacity
 
             if (this.__.__single) {
@@ -15,12 +15,12 @@ export const LeafRender: ILeafRenderModule = {
                 this.__draw(tempCanvas, options)
 
                 if (this.__worldFlipped) {
-                    canvas.copyWorldByReset(tempCanvas, this.__renderWorld, null, this.__.__blendMode, true)
+                    canvas.copyWorldByReset(tempCanvas, this.__nowWorld, null, this.__.__blendMode, true)
                 } else {
-                    canvas.copyWorldToInner(tempCanvas, this.__renderWorld, this.__layout.renderBounds, this.__.__blendMode)
+                    canvas.copyWorldToInner(tempCanvas, this.__nowWorld, this.__layout.renderBounds, this.__.__blendMode)
                 }
 
-                tempCanvas.recycle(this.__renderWorld)
+                tempCanvas.recycle(this.__nowWorld)
 
             } else {
 
@@ -33,7 +33,7 @@ export const LeafRender: ILeafRenderModule = {
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
-            canvas.setWorld(this.__renderWorld = this.__getRenderWorld(options))
+            canvas.setWorld(this.__nowWorld = this.__getRenderWorld(options))
             this.__drawRenderPath(canvas)
             this.__.windingRule ? canvas.clip(this.__.windingRule) : canvas.clip()
         }

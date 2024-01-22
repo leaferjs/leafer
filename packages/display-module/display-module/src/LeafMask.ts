@@ -81,7 +81,7 @@ function getCanvas(canvas: ILeaferCanvas): ILeaferCanvas {
 
 
 function usePixelMask(leaf: ILeaf, canvas: ILeaferCanvas, content: ILeaferCanvas, mask: ILeaferCanvas): void {
-    const realBounds = leaf.__renderWorld
+    const realBounds = leaf.__nowWorld
     content.resetTransform()
     content.opacity = 1
     content.useMask(mask, realBounds)
@@ -92,7 +92,7 @@ function usePixelMask(leaf: ILeaf, canvas: ILeaferCanvas, content: ILeaferCanvas
 
 
 function copyContent(leaf: ILeaf, canvas: ILeaferCanvas, content: ILeaferCanvas, maskOpacity: number): void {
-    const realBounds = leaf.__renderWorld
+    const realBounds = leaf.__nowWorld
 
     canvas.resetTransform()
     canvas.opacity = maskOpacity

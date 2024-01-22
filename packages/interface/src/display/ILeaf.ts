@@ -308,7 +308,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __world: IMatrixWithBoundsScaleData
     __local?: IMatrixWithBoundsData
 
-    __renderWorld?: IMatrixWithBoundsScaleData // maybe __world use parent matrix render
+    __nowWorld?: IMatrixWithBoundsScaleData // maybe __world use parent matrix render
 
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
