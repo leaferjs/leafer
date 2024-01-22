@@ -1,5 +1,8 @@
-import { ILeaf, ILeaferCanvas, IRenderOptions, IBranchRenderModule } from '@leafer/interface'
+import { LeafBoundsHelper } from '@leafer/helper'
+import { ILeaferCanvas, IRenderOptions, IBranchRenderModule } from '@leafer/interface'
 
+
+const { excludeRenderBounds } = LeafBoundsHelper
 
 export const BranchRender: IBranchRenderModule = {
 
@@ -18,71 +21,45 @@ export const BranchRender: IBranchRenderModule = {
         if (this.__worldOpacity) {
 
             if (this.__.__single) {
-                const tempCanvas = canvas.getSameCanvas(false, true)
 
+                const tempCanvas = canvas.getSameCanvas(false, true)
                 this.__renderBranch(tempCanvas, options)
 
-                canvas.opacity = this.__.opacity
+                const realBounds = this.__getRenderWorld(options, true)
 
-                if (options.matrix) {
-                    canvas.copyWorldByReset(tempCanvas, null, null, this.__.__blendMode, true)
+                canvas.opacity = this.__.opacity
+                canvas.copyWorldByReset(tempCanvas, realBounds, realBounds, this.__.__blendMode, true)
+
+                tempCanvas.recycle(realBounds)
+
+            } else {
+
+                if (this.__hasMask) {
+
+                    this.__renderMask(canvas, options)
+
                 } else {
-                    canvas.copyWorldByReset(tempCanvas, this.__world, this.__world, this.__.__blendMode, true)
+
+                    const { children } = this
+                    for (let i = 0, len = children.length; i < len; i++) {
+                        if (excludeRenderBounds(children[i], options)) continue
+                        children[i].__render(canvas, options)
+                    }
+
                 }
 
-                tempCanvas.recycle()
-            } else {
-                this.__renderBranch(canvas, options)
             }
 
         }
     },
 
-    __renderBranch(canvas: ILeaferCanvas, options: IRenderOptions): void {
-
-        let child: ILeaf
-        const { children } = this
-
-        if (this.__hasMask && children.length > 1) {
-
-            let mask: boolean
-            const maskCanvas = canvas.getSameCanvas(false, true)
-            const contentCanvas = canvas.getSameCanvas(false, true)
-
+    __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
+        if (this.__worldOpacity) {
+            const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
-                child = children[i]
-
-                if (child.isMask) {
-                    if (mask) {
-                        this.__renderMask(canvas, options, contentCanvas, maskCanvas)
-                    } else {
-                        mask = true
-                    }
-
-                    child.__render(maskCanvas, options)
-                    continue
-                }
-
-                child.__render(mask ? contentCanvas : canvas, options)
+                if (excludeRenderBounds(children[i], options)) continue
+                children[i].__clip(canvas, options)
             }
-
-            this.__renderMask(canvas, options, contentCanvas, maskCanvas, true)
-
-        } else {
-
-            const { bounds, hideBounds } = options
-
-            for (let i = 0, len = children.length; i < len; i++) {
-                child = children[i]
-
-                if (bounds && !bounds.hit(child.__world, options.matrix)) continue
-                if (hideBounds && hideBounds.includes(child.__world, options.matrix)) continue
-
-                child.__render(canvas, options)
-            }
-
         }
-
     }
-
 }

@@ -1,5 +1,5 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData } from '@leafer/interface'
-import { IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IMatrixWithLayoutData, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '@leafer/interface'
+import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
@@ -8,7 +8,8 @@ import { LeafHelper, WaitHelper } from '@leafer/helper'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint } = MatrixHelper
+const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
+const { toOuterOf } = BoundsHelper
 const { tempToOuterOf, copy } = PointHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform, setTransform, drop } = LeafHelper
 
@@ -243,18 +244,33 @@ export class Leaf implements ILeaf {
 
     // LeafMask rewrite
 
-    public __updateEraser(_value?: boolean): void { }
+    public __updateEraser(value?: boolean): void {
+        this.__hasEraser = value ? true : this.children.some(item => item.__.eraser)
+    }
 
-    public __updateMask(_value?: boolean): void { }
+    public __updateMask(value?: boolean): void {
+        this.__hasMask = value ? true : this.children.some(item => item.__.mask)
+    }
 
-    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions, _content: ILeaferCanvas, _mask: ILeaferCanvas, _recycle?: boolean): void { }
+    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __removeMask(_child?: ILeaf): void { }
 
     // ---
 
 
     // convert
+
+    public __getRenderWorld(renderOptions: IRenderOptions, onlyConvertBounds?: boolean): IMatrixWithBoundsScaleData {
+        if (renderOptions.matrix) {
+            const renderWorld = {} as IMatrixWithBoundsScaleData, { matrix } = renderOptions
+            if (!onlyConvertBounds) multiplyParent(this.__world, matrix, renderWorld, undefined, matrix)
+            toOuterOf(this.__world, matrix, renderWorld)
+            return renderWorld
+        } else {
+            return this.__world
+        }
+    }
+
 
     public getWorld(attrName: ILayoutAttr): number {
         this.__layout.update()
@@ -406,6 +422,9 @@ export class Leaf implements ILeaf {
     public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+
+
+    public __clip(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 

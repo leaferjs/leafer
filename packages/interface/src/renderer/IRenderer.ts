@@ -1,6 +1,6 @@
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
-import { IBounds, IMatrix } from '../math/IMath'
+import { IBounds, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 import { IControl } from '../control/IControl'
 
@@ -8,7 +8,7 @@ export interface IRenderOptions {
     includes?: boolean,
     bounds?: IBounds,
     hideBounds?: IBounds,
-    matrix?: IMatrix,
+    matrix?: IMatrixWithScaleData,
     inCamera?: boolean
 }
 

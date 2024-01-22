@@ -174,8 +174,8 @@ export const BoundsHelper = {
     ceil(t: IBoundsData): void {
         t.x = Math.floor(t.x)
         t.y = Math.floor(t.y)
-        t.width = Math.ceil(t.width)
-        t.height = Math.ceil(t.height)
+        t.width = Math.ceil(t.width) + 1
+        t.height = Math.ceil(t.height) + 1
     },
 
     unsign(t: IBoundsData): void {

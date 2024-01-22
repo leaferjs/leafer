@@ -109,7 +109,7 @@ export class Pather {
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
             child = children[i]
-            if (!child.__.visible || (hitMask && !child.__.isMask)) continue
+            if (!child.__.visible || (hitMask && !child.__.mask)) continue
             hit = child.__.hitRadius ? true : hitRadiusPoint(child.__world, point)
 
             if (child.isBranch) {

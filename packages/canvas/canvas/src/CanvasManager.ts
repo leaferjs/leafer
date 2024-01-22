@@ -28,10 +28,7 @@ export class CanvasManager implements ICanvasManager {
     }
 
     public recycle(old: ILeaferCanvas): void {
-        if (!old.recycled) {
-            old.clear()
-            old.recycled = true
-        }
+        old.recycled = true
     }
 
     public clearRecycled(): void {

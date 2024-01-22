@@ -155,31 +155,20 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public setCursor(_cursor: ICursorType | ICursorType[]): void { }
 
-    public setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData, onlyTranslate?: boolean): void {
+    public setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void {
         const { pixelRatio } = this
         const w = this.worldTransform
         if (parentMatrix) {
 
-            if (onlyTranslate) {
-                this.setTransform(
-                    w.a = matrix.a * pixelRatio,
-                    w.b = matrix.b * pixelRatio,
-                    w.c = matrix.c * pixelRatio,
-                    w.d = matrix.d * pixelRatio,
-                    w.e = (matrix.e + parentMatrix.e) * pixelRatio,
-                    w.f = (matrix.f + parentMatrix.f) * pixelRatio
-                )
-            } else {
-                const { a, b, c, d, e, f } = parentMatrix
-                this.setTransform(
-                    w.a = ((matrix.a * a) + (matrix.b * c)) * pixelRatio,
-                    w.b = ((matrix.a * b) + (matrix.b * d)) * pixelRatio,
-                    w.c = ((matrix.c * a) + (matrix.d * c)) * pixelRatio,
-                    w.d = ((matrix.c * b) + (matrix.d * d)) * pixelRatio,
-                    w.e = (((matrix.e * a) + (matrix.f * c) + e)) * pixelRatio,
-                    w.f = (((matrix.e * b) + (matrix.f * d) + f)) * pixelRatio
-                )
-            }
+            const { a, b, c, d, e, f } = parentMatrix
+            this.setTransform(
+                w.a = ((matrix.a * a) + (matrix.b * c)) * pixelRatio,
+                w.b = ((matrix.a * b) + (matrix.b * d)) * pixelRatio,
+                w.c = ((matrix.c * a) + (matrix.d * c)) * pixelRatio,
+                w.d = ((matrix.c * b) + (matrix.d * d)) * pixelRatio,
+                w.e = (((matrix.e * a) + (matrix.f * c) + e)) * pixelRatio,
+                w.f = (((matrix.e * b) + (matrix.f * d) + f)) * pixelRatio
+            )
 
         } else {
 
@@ -335,15 +324,17 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         const canvas = this.manager ? this.manager.get(this.size) : Creator.canvas({ ...this.size })
         canvas.save()
 
+
         if (useSameWorldTransform) copy(canvas.worldTransform, this.worldTransform), canvas.useWorldTransform()
         if (useSameSmooth) canvas.smooth = this.smooth
 
         return canvas
     }
 
-    public recycle(): void {
+    public recycle(clearBounds?: IBoundsData): void {
         if (!this.recycled) {
             this.restore()
+            clearBounds ? this.clearWorld(clearBounds, true) : this.clear()
             this.manager ? this.manager.recycle(this) : this.destroy()
         }
     }

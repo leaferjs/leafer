@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -35,10 +35,12 @@ export interface ILeafAttrData {
     blendMode: IBlendMode
     opacity: INumber
     visible: IBoolean
-    isMask: IBoolean
-    isEraser: IBoolean
     locked: IBoolean
     zIndex: INumber
+
+    mask: IBoolean
+    maskType: IMaskType
+    eraser: IBoolean
 
     // layout data
     x: INumber
@@ -76,6 +78,11 @@ export type IHitType =
     | 'pixel'
     | 'all'
     | 'none'
+
+export type IMaskType =
+    | 'path'
+    | 'pixel'
+    | 'clipping'
 
 export type IBlendMode =
     | 'pass-through'
@@ -161,7 +168,7 @@ export type ICursorType =
     | 'col-resize'
     | 'row-resize'
     | 'all-scroll'
-    | 'zoom -in'
+    | 'zoom-in'
     | 'zoom-out'
 
 export interface ICursorTypeMap {
@@ -178,10 +185,12 @@ export interface ILeafInputData {
     blendMode?: IBlendMode
     opacity?: INumber
     visible?: IBoolean
-    isMask?: IBoolean
-    isEraser?: IBoolean
     locked?: IBoolean
     zIndex?: INumber
+
+    mask?: IBoolean
+    maskType?: IMaskType
+    eraser?: IBoolean
 
     // layout data
     x?: INumber
@@ -227,10 +236,12 @@ export interface ILeafComputedData {
     blendMode?: IBlendMode
     opacity?: number
     visible?: boolean
-    isMask?: boolean
-    isEraser?: boolean
     locked?: boolean
     zIndex?: number
+
+    mask?: boolean
+    maskType?: IMaskType
+    eraser?: boolean
 
     // layout data
     x?: number
@@ -245,6 +256,7 @@ export interface ILeafComputedData {
 
     around?: IAround
     lazy?: boolean
+    windingRule?: any
 
     draggable?: boolean
 
@@ -295,6 +307,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
 
     __world: IMatrixWithBoundsScaleData
     __local?: IMatrixWithBoundsData
+
+    __renderWorld?: IMatrixWithBoundsScaleData // maybe __world use parent matrix render
 
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
@@ -386,11 +400,12 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     // IBranchMask ->
     __updateEraser(value?: boolean): void
     __updateMask(value?: boolean): void
-    __renderMask(canvas: ILeaferCanvas, options: IRenderOptions, content: ILeaferCanvas, mask: ILeaferCanvas, recycle?: boolean): void
-    __removeMask(child?: ILeaf): void
+    __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     // convert
-    getWorld(attrName: ILayoutAttr): number
+    __getRenderWorld(options: IRenderOptions, onlyConvertBounds?: boolean): IMatrixWithBoundsScaleData // when render use other matrix
+
+    getWorld(attrName: ILayoutAttr): number // will remove
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
     getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData
 
@@ -431,6 +446,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
     __draw(canvas: ILeaferCanvas, options: IRenderOptions): void
 
+    __clip(canvas: ILeaferCanvas, options: IRenderOptions): void
     __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __updateWorldOpacity(): void

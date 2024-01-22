@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IBlendMode, IEditSize, ICursorType, ICursorTypeMap, IAround } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IMaskType, IBlendMode, IEditSize, ICursorType, ICursorTypeMap, IAround } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 

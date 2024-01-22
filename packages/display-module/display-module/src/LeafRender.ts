@@ -5,24 +5,37 @@ export const LeafRender: ILeafRenderModule = {
 
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
-            canvas.setWorld(this.__world, options.matrix)
+
+            canvas.setWorld(this.__renderWorld = this.__getRenderWorld(options))
             canvas.opacity = this.__.opacity
 
             if (this.__.__single) {
-                const tempCanvas = canvas.getSameCanvas(true, true)
 
+                const tempCanvas = canvas.getSameCanvas(true, true)
                 this.__draw(tempCanvas, options)
 
-                if (this.__worldFlipped || options.matrix) {
-                    canvas.copyWorldByReset(tempCanvas, null, null, this.__.__blendMode, true)
+                if (this.__worldFlipped) {
+                    canvas.copyWorldByReset(tempCanvas, this.__renderWorld, null, this.__.__blendMode, true)
                 } else {
-                    canvas.copyWorldToInner(tempCanvas, this.__world, this.__layout.renderBounds, this.__.__blendMode)
+                    canvas.copyWorldToInner(tempCanvas, this.__renderWorld, this.__layout.renderBounds, this.__.__blendMode)
                 }
 
-                tempCanvas.recycle()
+                tempCanvas.recycle(this.__renderWorld)
+
             } else {
+
                 this.__draw(canvas, options)
+
             }
+
+        }
+    },
+
+    __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
+        if (this.__worldOpacity) {
+            canvas.setWorld(this.__renderWorld = this.__getRenderWorld(options))
+            this.__drawRenderPath(canvas)
+            this.__.windingRule ? canvas.clip(this.__.windingRule) : canvas.clip()
         }
     },
 

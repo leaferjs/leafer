@@ -1,4 +1,4 @@
-import { ILeaf, IBoundsData } from '@leafer/interface'
+import { ILeaf, IBoundsData, IRenderOptions } from '@leafer/interface'
 
 
 export const LeafBoundsHelper = {
@@ -8,27 +8,33 @@ export const LeafBoundsHelper = {
     },
 
     localBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.isEraser ? null : (target.__local || target.__layout)
+        return target.__.eraser ? null : (target.__local || target.__layout)
     },
 
     localStrokeBounds(target: ILeaf): IBoundsData {
-        return target.__.isEraser ? null : target.__layout.localStrokeBounds
+        return target.__.eraser ? null : target.__layout.localStrokeBounds
     },
 
     localRenderBounds(target: ILeaf): IBoundsData {
-        return target.__.isEraser ? null : target.__layout.localRenderBounds
+        return target.__.eraser ? null : target.__layout.localRenderBounds
     },
 
     maskLocalBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.isMask ? target.__localBoxBounds : null
+        return target.__.mask ? target.__localBoxBounds : null
     },
 
     maskLocalStrokeBounds(target: ILeaf): IBoundsData {
-        return target.__.isMask ? target.__layout.localStrokeBounds : null
+        return target.__.mask ? target.__layout.localStrokeBounds : null
     },
 
     maskLocalRenderBounds(target: ILeaf): IBoundsData {
-        return target.__.isMask ? target.__layout.localRenderBounds : null
+        return target.__.mask ? target.__layout.localRenderBounds : null
+    },
+
+    excludeRenderBounds(child: ILeaf, options: IRenderOptions): boolean {
+        if (options.bounds && !options.bounds.hit(child.__world, options.matrix)) return true
+        if (options.hideBounds && options.hideBounds.includes(child.__world, options.matrix)) return true
+        return false
     }
 
 }
