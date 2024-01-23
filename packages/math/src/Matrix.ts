@@ -1,4 +1,4 @@
-import { IMatrix, IMatrixData, IPointData, ILayoutData } from '@leafer/interface'
+import { IMatrix, IMatrixData, IPointData, ILayoutData, IMatrixWithScaleData } from '@leafer/interface'
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -10,10 +10,6 @@ export class Matrix implements IMatrix {
     public d: number
     public e: number
     public f: number
-
-    // when b = 0, c = 0 can use scaleX, scaleY
-    public get scaleX(): number { return this.a }
-    public get scaleY(): number { return this.d }
 
     constructor(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number) {
         this.set(a, b, c, d, e, f)
@@ -135,6 +131,9 @@ export class Matrix implements IMatrix {
         return M.getLayout(this, origin, firstSkewY)
     }
 
+    public toWorld(scaleX?: number, scaleY?: number): IMatrixWithScaleData {
+        return M.toWorld(this, scaleX, scaleY)
+    }
 
     public reset(): void {
         M.reset(this)

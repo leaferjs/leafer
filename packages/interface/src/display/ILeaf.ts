@@ -308,7 +308,8 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __world: IMatrixWithBoundsScaleData
     __local?: IMatrixWithBoundsData
 
-    __nowWorld?: IMatrixWithBoundsScaleData // maybe __world use parent matrix render
+    __nowWorld?: IMatrixWithBoundsScaleData // use __world or __cameraWorld render
+    __cameraWorld?: IMatrixWithBoundsScaleData // use camera matrix render
 
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
@@ -319,6 +320,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     readonly localTransform: IMatrixData
 
     readonly boxBounds: IBoundsData
+    readonly renderBounds: IBoundsData
     readonly worldBoxBounds: IBoundsData
     readonly worldStrokeBounds: IBoundsData
     readonly worldRenderBounds: IBoundsData
@@ -403,7 +405,7 @@ export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, IL
     __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     // convert
-    __getRenderWorld(options: IRenderOptions, onlyConvertBounds?: boolean): IMatrixWithBoundsScaleData // when render use other matrix
+    __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix
 
     getWorld(attrName: ILayoutAttr): number // will remove
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData

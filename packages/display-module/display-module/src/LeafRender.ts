@@ -6,7 +6,7 @@ export const LeafRender: ILeafRenderModule = {
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
 
-            canvas.setWorld(this.__nowWorld = this.__getRenderWorld(options))
+            canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
             canvas.opacity = this.__.opacity
 
             if (this.__.__single) {
@@ -33,7 +33,7 @@ export const LeafRender: ILeafRenderModule = {
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {
-            canvas.setWorld(this.__nowWorld = this.__getRenderWorld(options))
+            canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
             this.__drawRenderPath(canvas)
             this.__.windingRule ? canvas.clip(this.__.windingRule) : canvas.clip()
         }

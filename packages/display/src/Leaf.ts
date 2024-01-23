@@ -44,6 +44,9 @@ export class Leaf implements ILeaf {
     public __world: IMatrixWithBoundsScaleData
     public __local?: IMatrixWithBoundsData // and localStrokeBounds? localRenderBounds?
 
+    public __nowWorld?: IMatrixWithBoundsScaleData // use __world or __cameraWorld render
+    public __cameraWorld?: IMatrixWithBoundsScaleData // use camera matrix render  
+
     public get __localMatrix(): IMatrixData { return this.__local || this.__layout }
     public get __localBoxBounds(): IBoundsData { return this.__local || this.__layout }
 
@@ -55,6 +58,7 @@ export class Leaf implements ILeaf {
 
     // now bounds
     public get boxBounds(): IBoundsData { return this.getBounds('box', 'inner') }
+    public get renderBounds(): IBoundsData { return this.getBounds('render', 'inner') }
     public get worldBoxBounds(): IBoundsData { return this.getBounds('box') }
     public get worldStrokeBounds(): IBoundsData { return this.getBounds('stroke') }
     public get worldRenderBounds(): IBoundsData { return this.getBounds('render') }
@@ -260,12 +264,13 @@ export class Leaf implements ILeaf {
 
     // convert
 
-    public __getRenderWorld(renderOptions: IRenderOptions, onlyConvertBounds?: boolean): IMatrixWithBoundsScaleData {
-        if (renderOptions.matrix) {
-            const renderWorld = {} as IMatrixWithBoundsScaleData, { matrix } = renderOptions
-            if (!onlyConvertBounds) multiplyParent(this.__world, matrix, renderWorld, undefined, matrix)
-            toOuterOf(this.__world, matrix, renderWorld)
-            return renderWorld
+    public __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData {
+        if (options.matrix) {
+            if (!this.__cameraWorld) this.__cameraWorld = {} as IMatrixWithBoundsScaleData
+            const cameraWorld = this.__cameraWorld
+            multiplyParent(this.__world, options.matrix, cameraWorld, undefined, this.__world)
+            toOuterOf(this.__layout.renderBounds, cameraWorld, cameraWorld)
+            return cameraWorld
         } else {
             return this.__world
         }

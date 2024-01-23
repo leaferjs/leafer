@@ -25,12 +25,12 @@ export const BranchRender: IBranchRenderModule = {
                 const tempCanvas = canvas.getSameCanvas(false, true)
                 this.__renderBranch(tempCanvas, options)
 
-                const realBounds = this.__getRenderWorld(options, true)
+                const nowWorld = this.__getNowWorld(options)
 
                 canvas.opacity = this.__.opacity
-                canvas.copyWorldByReset(tempCanvas, realBounds, realBounds, this.__.__blendMode, true)
+                canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, this.__.__blendMode, true)
 
-                tempCanvas.recycle(realBounds)
+                tempCanvas.recycle(nowWorld)
 
             } else {
 

@@ -163,10 +163,6 @@ export interface ILayoutBoundsData extends ILayoutData, IBoundsData {
 }
 export interface IMatrix extends IMatrixData {
 
-    // when b = 0, c = 0 can use scaleX, scaleY
-    readonly scaleX: number
-    readonly scaleY: number
-
     set(a: number | IMatrixData, b: number, c: number, d: number, e: number, f: number): IMatrix
     get(): IMatrixData
     clone(): IMatrix
@@ -198,6 +194,8 @@ export interface IMatrix extends IMatrixData {
 
     setLayout(data: ILayoutData, origin?: IPointData): IMatrix
     getLayout(origin?: IPointData, firstSkewY?: boolean): ILayoutData
+
+    toWorld(scaleX?: number, scaleY?: number): IMatrixWithScaleData
 
     reset(): void
 }

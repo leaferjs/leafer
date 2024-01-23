@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData } from '@leafer/interface'
+import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData, IMatrixWithScaleData } from '@leafer/interface'
 import { MathHelper, OneRadian, PI_2, getBoundsData, getMatrixData } from './MathHelper'
 
 
@@ -333,6 +333,23 @@ export const MatrixHelper = {
         }
 
         return { x, y, scaleX, scaleY, rotation, skewX, skewY }
+    },
+
+    toWorld(t: IMatrixData, scaleX?: number, scaleY = scaleX): IMatrixWithScaleData {
+        const world = t as unknown as IMatrixWithScaleData
+        if (!scaleX || !scaleY) {
+            const { a, b, c, d } = t
+            if (b || c) {
+                scaleX = sqrt(a * a + b * b)
+                scaleY = (a * d - b * c) / scaleX
+            } else {
+                scaleX = a
+                scaleY = d
+            }
+        }
+        world.scaleX = scaleX
+        world.scaleY = scaleY
+        return world
     },
 
     reset(t: IMatrixData): void {
