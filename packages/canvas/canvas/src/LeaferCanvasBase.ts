@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType } from '@leafer/interface'
 import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -76,11 +76,20 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.__bindContext()
     }
 
+    public export(filename: IExportFileType | string, options?: IExportOptions | number | boolean): string | Promise<any> {
+        const { quality, blob } = FileHelper.getExportOptions(options)
+        if (filename.includes('.')) {
+            return this.saveAs(filename, quality)
+        } else if (blob) {
+            return this.toBlob(filename as IExportFileType, quality)
+        } else {
+            return this.toDataURL(filename as IExportImageType, quality)
+        }
+    }
+
     public toBlob(type?: IExportFileType, quality?: number): Promise<IBlob> {
         return new Promise((resolve) => {
-            const canvas = this.getSaveCanvas(type)
-            Platform.origin.canvasToBolb(canvas.view, type, quality).then((blob) => {
-                canvas.recycle()
+            Platform.origin.canvasToBolb(this.view, type, quality).then((blob) => {
                 resolve(blob)
             }).catch((e) => {
                 debug.error(e)
@@ -90,17 +99,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public toDataURL(type?: IExportImageType, quality?: number): string | Promise<string> {
-        const canvas = this.getSaveCanvas(type)
-        const data = Platform.origin.canvasToDataURL(canvas.view, type, quality)
-        canvas.recycle()
-        return data
+        return Platform.origin.canvasToDataURL(this.view, type, quality)
     }
 
     public saveAs(filename: string, quality?: number): Promise<boolean> {
         return new Promise((resolve) => {
-            const canvas = this.getSaveCanvas(FileHelper.fileType(filename))
-            Platform.origin.canvasSaveAs(canvas.view, filename, quality).then(() => {
-                canvas.recycle()
+            Platform.origin.canvasSaveAs(this.view, filename, quality).then(() => {
                 resolve(true)
             }).catch((e) => {
                 debug.error(e)
@@ -108,16 +112,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
             })
         })
     }
-
-    public getSaveCanvas(type: string): ILeaferCanvas {
-        const { backgroundColor, bounds } = this as ILeaferCanvas
-        const canvas = this.getSameCanvas()
-        if (['jpg', 'jpeg'].includes(type)) canvas.fillWorld(bounds, '#FFFFFF')
-        if (backgroundColor) canvas.fillWorld(bounds, backgroundColor)
-        canvas.copyWorld(this)
-        return canvas
-    }
-
 
     public resize(size: IScreenSizeData): void {
         if (this.isSameSize(size)) return

@@ -1,4 +1,4 @@
-import { IExportFileType, IStringMap } from '@leafer/interface'
+import { IExportFileType, IStringMap, IExportOptions } from '@leafer/interface'
 
 export const FileHelper = {
 
@@ -15,8 +15,24 @@ export const FileHelper = {
     fileType(filename: string): string {
         const l = filename.split('.')
         return l[l.length - 1]
+    },
+
+    isOpacityImage(filename: string): boolean {
+        const type = F.fileType(filename)
+        return F.opacityTypes.some(item => item === type)
+    },
+
+    getExportOptions(options?: IExportOptions | number | boolean): IExportOptions {
+        switch (typeof options) {
+            case 'object': return options
+            case 'number': return { quality: options }
+            case 'boolean': return { blob: options }
+            default: return {}
+        }
     }
 
 }
 
-FileHelper.opacityTypes.forEach(type => FileHelper.upperCaseTypeMap[type] = type.toUpperCase())
+const F = FileHelper
+
+F.opacityTypes.forEach(type => F.upperCaseTypeMap[type] = type.toUpperCase())

@@ -23,7 +23,7 @@ export const BranchRender: IBranchRenderModule = {
             if (this.__.__single) {
 
                 const tempCanvas = canvas.getSameCanvas(false, true)
-                this.__renderBranch(tempCanvas, options)
+                this.__draw(tempCanvas, options)
 
                 const nowWorld = this.__getNowWorld(options)
 
@@ -34,24 +34,30 @@ export const BranchRender: IBranchRenderModule = {
 
             } else {
 
-                if (this.__hasMask) {
-
-                    this.__renderMask(canvas, options)
-
-                } else {
-
-                    const { children } = this
-                    for (let i = 0, len = children.length; i < len; i++) {
-                        if (excludeRenderBounds(children[i], options)) continue
-                        children[i].__render(canvas, options)
-                    }
-
-                }
+                this.__draw(canvas, options)
 
             }
 
         }
+
     },
+
+    __draw(canvas: ILeaferCanvas, options: IRenderOptions): void {
+        if (this.__hasMask) {
+
+            this.__renderMask(canvas, options)
+
+        } else {
+
+            const { children } = this
+            for (let i = 0, len = children.length; i < len; i++) {
+                if (excludeRenderBounds(children[i], options)) continue
+                children[i].__render(canvas, options)
+            }
+
+        }
+    },
+
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__worldOpacity) {

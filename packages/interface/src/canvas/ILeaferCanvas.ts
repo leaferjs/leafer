@@ -5,6 +5,8 @@ import { IResizeEventListener } from '../event/IEvent'
 import { IPathDrawer } from '../path/IPathDrawer'
 import { InnerId } from '../event/IEventer'
 import { ICanvasManager } from './ICanvasManager'
+import { IExportFileType } from '../file/IFileType'
+import { IExportOptions } from '../file/IExport'
 
 export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
@@ -167,6 +169,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     init(): void
 
+    export(filename: IExportFileType | string, options?: IExportOptions | number | boolean): string | Promise<any>
     toBlob(type?: string, quality?: number): Promise<IBlob>
     toDataURL(type?: string, quality?: number): string | Promise<string>
     saveAs(filename: string, quality?: number): Promise<boolean>
