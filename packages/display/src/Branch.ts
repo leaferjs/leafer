@@ -119,6 +119,10 @@ export class Branch extends Leaf {
         }
     }
 
+    public clear(): void {
+        this.removeAll(true)
+    }
+
     protected __preRemove(): void {
         if (this.__hasMask) this.__updateMask()
         if (this.__hasEraser) this.__updateEraser()

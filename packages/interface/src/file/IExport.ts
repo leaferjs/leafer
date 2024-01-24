@@ -1,4 +1,4 @@
-import { IBlob } from '../canvas/ILeaferCanvas'
+import { IBlob, ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IBoundsData } from '../math/IMath'
 
 
@@ -12,7 +12,7 @@ export interface IExportOptions {
 }
 
 export interface IExportResult {
-    data: IBlob | string | boolean
+    data: ILeaferCanvas | IBlob | string | boolean
 }
 
 export interface IExportResultFunction {
