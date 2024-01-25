@@ -117,6 +117,7 @@ export interface IImageCursor {
     url: string
     x?: number
     y?: number
+    rotation?: number
 }
 
 export type IAround =
@@ -171,9 +172,7 @@ export type ICursorType =
     | 'zoom-in'
     | 'zoom-out'
 
-export interface ICursorTypeMap {
-    [name: string]: ICursorType | ICursorType[]
-}
+
 export interface ILeafInputData {
     tag?: string
 

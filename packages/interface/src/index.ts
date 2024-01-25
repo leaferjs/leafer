@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IMaskType, IBlendMode, IEditSize, ICursorType, ICursorTypeMap, IAround } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IMaskType, IBlendMode, IEditSize, ICursorType, IAround } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
@@ -47,6 +47,7 @@ export { IExportOptions, IExportResult, IExportResultFunction } from './file/IEx
 export { InnerId, IEventer, IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
 export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IKeepTouchData } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IKeyEvent, IImageEvent } from './event/IUIEvent'
+export { ICursorTypeMap, ICursorRotate, ICursorRotateMap } from './interaction/ICursor'
 export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPointerConfig } from './interaction/IInteraction'
 
 
