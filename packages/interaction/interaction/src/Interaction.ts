@@ -14,7 +14,6 @@ import { config } from './config'
 
 
 const { pathHasEventType, getMoveEventData, getZoomEventData, getRotateEventData } = InteractionHelper
-
 export class InteractionBase implements IInteraction {
 
     public target: ILeaf
@@ -326,10 +325,10 @@ export class InteractionBase implements IInteraction {
         return this.dragger.getList().has(leaf)
     }
 
-    public updateDownData(data?: IPointerEvent): void {
+    public updateDownData(data?: IPointerEvent, options?: ISelectPathOptions): void {
         if (!data) data = this.downData
         if (!data) return
-        this.findPath(data)
+        this.findPath(data, options)
         this.downData = data
     }
 

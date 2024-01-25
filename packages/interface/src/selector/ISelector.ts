@@ -12,6 +12,7 @@ export interface ISelectPathOptions {
     name?: string
     through?: boolean
     exclude?: ILeafList
+    findList?: ILeaf[]
     ignoreHittable?: boolean
 }
 

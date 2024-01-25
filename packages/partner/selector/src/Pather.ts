@@ -28,10 +28,10 @@ export class Pather {
         this.exclude = options.exclude || null
 
         this.point = { x: hitPoint.x, y: hitPoint.y, radiusX: hitRadius, radiusY: hitRadius }
-        this.findList = []
+        this.findList = options.findList || []
 
         // path
-        this.eachFind(this.target.children, this.target.__onlyHitMask)
+        if (!options.findList) this.eachFind(this.target.children, this.target.__onlyHitMask)
 
         const list = this.findList
         const leaf = this.getBestMatchLeaf()

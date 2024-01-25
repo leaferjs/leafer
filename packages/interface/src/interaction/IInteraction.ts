@@ -52,7 +52,7 @@ export interface IInteraction extends IControl {
     findPath(data: IPointerEvent, options?: ISelectPathOptions): ILeafList
     isDrag(leaf: ILeaf): boolean
 
-    updateDownData(data?: IPointerEvent): void
+    updateDownData(data?: IPointerEvent, options?: ISelectPathOptions): void
     updateHoverData(data: IPointerEvent): void
 
     updateCursor(hoverData?: IPointerEvent): void
