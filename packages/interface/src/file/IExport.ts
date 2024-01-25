@@ -7,12 +7,16 @@ export interface IExportOptions {
     blob?: boolean
     pixelRatio?: number
     slice?: boolean
+    trim?: boolean
     fill?: string
     screenshot?: IBoundsData | boolean
+
 }
 
 export interface IExportResult {
     data: ILeaferCanvas | IBlob | string | boolean
+    localRenderBounds?: IBoundsData
+    trimBounds?: IBoundsData
 }
 
 export interface IExportResultFunction {

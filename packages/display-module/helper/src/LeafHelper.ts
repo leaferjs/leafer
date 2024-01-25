@@ -119,6 +119,13 @@ export const LeafHelper = {
         L.setTransform(t, matrix, resize)
     },
 
+    transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
+        copy(matrix, t.worldTransform)
+        multiplyParent(matrix, transform)
+        divideParent(matrix, t.parent.worldTransform)
+        L.setTransform(t, matrix, resize)
+    },
+
     transform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
         copy(matrix, t.localTransform)
         multiplyParent(matrix, transform)

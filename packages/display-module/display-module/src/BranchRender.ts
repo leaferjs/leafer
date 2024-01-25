@@ -23,7 +23,8 @@ export const BranchRender: IBranchRenderModule = {
             if (this.__.__single) {
 
                 const tempCanvas = canvas.getSameCanvas(false, true)
-                this.__draw(tempCanvas, options)
+
+                this.__renderBranch(tempCanvas, options)
 
                 const nowWorld = this.__getNowWorld(options)
 
@@ -34,7 +35,7 @@ export const BranchRender: IBranchRenderModule = {
 
             } else {
 
-                this.__draw(canvas, options)
+                this.__renderBranch(canvas, options)
 
             }
 
@@ -42,7 +43,7 @@ export const BranchRender: IBranchRenderModule = {
 
     },
 
-    __draw(canvas: ILeaferCanvas, options: IRenderOptions): void {
+    __renderBranch(canvas: ILeaferCanvas, options: IRenderOptions): void {
         if (this.__hasMask) {
 
             this.__renderMask(canvas, options)

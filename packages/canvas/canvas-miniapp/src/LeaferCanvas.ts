@@ -61,8 +61,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public updateViewSize(): void {
         const { width, height, pixelRatio } = this
 
-        this.view.width = width * pixelRatio
-        this.view.height = height * pixelRatio
+        this.view.width = Math.ceil(width * pixelRatio)
+        this.view.height = Math.ceil(height * pixelRatio)
     }
 
     public updateClientBounds(callback?: IFunction): void {

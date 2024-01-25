@@ -9,6 +9,7 @@ import { MathHelper, getBoundsData } from './MathHelper'
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
 const { toOuterPoint } = M
 const { float } = MathHelper
+const { floor, ceil } = Math
 
 let right: number, bottom: number, boundsRight: number, boundsBottom: number
 const point = {} as IPointData
@@ -172,10 +173,11 @@ export const BoundsHelper = {
     },
 
     ceil(t: IBoundsData): void {
-        t.x = Math.floor(t.x)
-        t.y = Math.floor(t.y)
-        t.width = Math.ceil(t.width) + 1
-        t.height = Math.ceil(t.height) + 1
+        const { x, y } = t
+        t.x = floor(t.x)
+        t.y = floor(t.y)
+        t.width = x > t.x ? ceil(t.width + x - t.x) : ceil(t.width)
+        t.height = y > t.y ? ceil(t.height + y - t.y) : ceil(t.height)
     },
 
     unsign(t: IBoundsData): void {

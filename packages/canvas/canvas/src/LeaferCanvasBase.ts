@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView } from '@leafer/interface'
 import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -41,7 +41,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public autoLayout: boolean
 
-    public view: any
+    public view: ILeaferCanvasView
     public parentView: any
 
     public unreal?: boolean
@@ -123,7 +123,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
 
         DataHelper.copyAttrs(this.size, size, canvasSizeAttrs)
-        this.size.pixelRatio || (this.size.pixelRatio = 1)
+        this.size.pixelRatio || (this.size.pixelRatio = Platform.devicePixelRatio)
 
         this.bounds = new Bounds(0, 0, this.width, this.height)
 

@@ -3,8 +3,6 @@ import { LeaferCanvasBase, Platform, canvasPatch } from '@leafer/core'
 
 export class LeaferCanvas extends LeaferCanvasBase {
 
-    declare public view: IObject
-
     public get allowBackgroundColor(): boolean { return true }
 
     public init(): void {
@@ -27,8 +25,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public updateViewSize(): void {
         const { width, height, pixelRatio } = this
 
-        this.view.width = width * pixelRatio
-        this.view.height = height * pixelRatio
+        this.view.width = Math.ceil(width * pixelRatio)
+        this.view.height = Math.ceil(height * pixelRatio)
 
         this.clientBounds = this.bounds
     }

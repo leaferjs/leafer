@@ -34,7 +34,7 @@ export { IPlatform, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platfor
 export { IPlugin } from './plugin/IPlugin'
 
 
-export { ILeaferCanvas, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasConfig, IHitCanvasConfig, IBlobFunction, IBlob } from './canvas/ILeaferCanvas'
+export { ILeaferCanvas, ILeaferCanvasView, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ILeaferCanvasConfig, IHitCanvasConfig, IBlobFunction, IBlob } from './canvas/ILeaferCanvas'
 export { ISkiaCanvas, ISkiaCanvasExportConfig, ICanvasType, ISkiaNAPICanvas } from './canvas/ISkiaCanvas'
 export { IPathDrawer, IPathCreator } from './path/IPathDrawer'
 export { IWindingRule, ICanvasContext2D, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'

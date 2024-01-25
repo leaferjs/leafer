@@ -371,7 +371,6 @@ export class Leaf implements ILeaf {
         transform(this, matrix, resize)
     }
 
-
     public move(x: number, y?: number): void {
         moveLocal(this, x, y)
     }

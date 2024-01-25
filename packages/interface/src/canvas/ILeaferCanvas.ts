@@ -1,5 +1,5 @@
 import { IObject } from '../data/IData'
-import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData } from '../math/IMath'
+import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData, ISizeData } from '../math/IMath'
 import { ICanvasContext2D, IWindingRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern } from './ICanvas'
 import { IResizeEventListener } from '../event/IEvent'
 import { IPathDrawer } from '../path/IPathDrawer'
@@ -131,6 +131,7 @@ interface ICanvasMethod {
     clear(): void
 }
 
+export type ILeaferCanvasView = any
 export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     readonly innerId: InnerId
@@ -156,7 +157,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     autoLayout: boolean
 
-    view: any
+    view: ILeaferCanvasView
     parentView: any
 
     unreal?: boolean

@@ -17,9 +17,9 @@ export const FileHelper = {
         return l[l.length - 1]
     },
 
-    isOpacityImage(filename: string): boolean {
+    isOpaqueImage(filename: string): boolean {
         const type = F.fileType(filename)
-        return F.opacityTypes.some(item => item === type)
+        return ['jpg', 'jpeg'].some(item => item === type)
     },
 
     getExportOptions(options?: IExportOptions | number | boolean): IExportOptions {
