@@ -88,7 +88,7 @@ export const LeafHelper = {
     },
 
     zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
-        this.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize)
+        L.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize)
     },
 
     zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, resize?: boolean): void {
@@ -99,7 +99,7 @@ export const LeafHelper = {
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
-        this.rotateOfLocal(t, getTempLocal(t, origin), angle)
+        L.rotateOfLocal(t, getTempLocal(t, origin), angle)
     },
 
     rotateOfLocal(t: ILeaf, origin: IPointData, angle: number): void {
@@ -110,7 +110,7 @@ export const LeafHelper = {
     },
 
     skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
-        this.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY, resize)
+        L.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY, resize)
     },
 
     skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0, resize?: boolean): void {
@@ -122,7 +122,7 @@ export const LeafHelper = {
     transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
         copy(matrix, t.worldTransform)
         multiplyParent(matrix, transform)
-        divideParent(matrix, t.parent.worldTransform)
+        if (t.parent) divideParent(matrix, t.parent.worldTransform)
         L.setTransform(t, matrix, resize)
     },
 
