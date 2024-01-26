@@ -145,7 +145,7 @@ export class InteractionBase implements IInteraction {
             }
         }
 
-        this.updateCursor(data)
+        this.updateCursor(this.downData || data)
     }
 
     public pointerUp(data?: IPointerEvent): void {
@@ -340,19 +340,18 @@ export class InteractionBase implements IInteraction {
     }
 
     public updateCursor(data?: IPointerEvent): void {
-
         if (this.config.cursor.stop) return
 
         if (!data) {
             this.updateHoverData()
-            data = this.hoverData
+            data = this.downData || this.hoverData
         }
 
         if (this.dragger.moving) {
             return this.setCursor('grabbing')
         } else if (this.moveMode) {
             return this.setCursor(this.downData ? 'grabbing' : 'grab')
-        } else if (!data || this.dragger.dragging) return
+        } else if (!data) return
 
         let leaf: ILeaf
         let cursor: ICursorType | ICursorType[]
@@ -365,7 +364,6 @@ export class InteractionBase implements IInteraction {
         }
 
         this.setCursor(cursor)
-
     }
 
     public setCursor(cursor: ICursorType | ICursorType[]): void {
