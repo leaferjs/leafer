@@ -313,12 +313,12 @@ export const MatrixHelper = {
                 rotation = PI_2 - (d > 0 ? acos(-cosR) : -acos(cosR))
             }
 
-            const cosR = cos(rotation)
+            const cosR = float(cos(rotation)) // when -90 / 90 is 0
             const sinR = sin(rotation)
 
             scaleX = float(scaleX), scaleY = float(scaleY)
-            skewX = float((c / scaleY + sinR) / cosR / OneRadian)
-            skewY = float((b / scaleX - sinR) / cosR / OneRadian)
+            skewX = cosR ? float((c / scaleY + sinR) / cosR / OneRadian, 10) : 0
+            skewY = cosR ? float((b / scaleX - sinR) / cosR / OneRadian, 10) : 0
             rotation = float(rotation / OneRadian)
 
         } else {

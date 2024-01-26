@@ -43,7 +43,7 @@ export const MathHelper = {
             if (rotation > 180) rotation -= 360
             if (rotation < -180) rotation += 360
         }
-        return rotation
+        return MathHelper.float(rotation)
     },
 
     getGapRotation(addRotation: number, gap: number, oldRotation: number = 0): number {
