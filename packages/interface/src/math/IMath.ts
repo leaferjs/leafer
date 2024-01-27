@@ -195,7 +195,7 @@ export interface IMatrix extends IMatrixData {
     setLayout(data: ILayoutData, origin?: IPointData): IMatrix
     getLayout(origin?: IPointData, firstSkewY?: boolean): ILayoutData
 
-    toWorld(scaleX?: number, scaleY?: number): IMatrixWithScaleData
+    withScale(scaleX?: number, scaleY?: number): IMatrixWithScaleData
 
     reset(): void
 }

@@ -131,8 +131,8 @@ export class Matrix implements IMatrix {
         return M.getLayout(this, origin, firstSkewY)
     }
 
-    public toWorld(scaleX?: number, scaleY?: number): IMatrixWithScaleData {
-        return M.toWorld(this, scaleX, scaleY)
+    public withScale(scaleX?: number, scaleY?: number): IMatrixWithScaleData {
+        return M.withScale(this, scaleX, scaleY)
     }
 
     public reset(): void {

@@ -335,7 +335,7 @@ export const MatrixHelper = {
         return { x, y, scaleX, scaleY, rotation, skewX, skewY }
     },
 
-    toWorld(t: IMatrixData, scaleX?: number, scaleY = scaleX): IMatrixWithScaleData {
+    withScale(t: IMatrixData, scaleX?: number, scaleY = scaleX): IMatrixWithScaleData {
         const world = t as unknown as IMatrixWithScaleData
         if (!scaleX || !scaleY) {
             const { a, b, c, d } = t
