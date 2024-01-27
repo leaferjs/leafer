@@ -1,4 +1,4 @@
-import { ILeaf } from '../display/ILeaf'
+import { ILeaf, ICursorType } from '../display/ILeaf'
 import { IRenderer, IRendererConfig } from '../renderer/IRenderer'
 import { IHitCanvas, ILeaferCanvas, ILeaferCanvasConfig, IHitCanvasConfig } from '../canvas/ILeaferCanvas'
 import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
@@ -72,7 +72,7 @@ export interface ILeaferAttrData {
     setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
     forceRender(bounds?: IBounds): void
-    updateCursor(): void
+    updateCursor(cursor?: ICursorType): void
     resize(size: IScreenSizeData): void
 
     waitReady(item: IFunction): void
