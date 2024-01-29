@@ -5,17 +5,17 @@ import { IBoundsData } from '../math/IMath'
 export interface IExportOptions {
     quality?: number
     blob?: boolean
+    scale?: number
     pixelRatio?: number
     slice?: boolean
     trim?: boolean
     fill?: string
     screenshot?: IBoundsData | boolean
-
 }
 
 export interface IExportResult {
     data: ILeaferCanvas | IBlob | string | boolean
-    localRenderBounds?: IBoundsData
+    renderBounds?: IBoundsData
     trimBounds?: IBoundsData
 }
 
