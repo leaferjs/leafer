@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
   },
-  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/event",
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/event/event",
   "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",

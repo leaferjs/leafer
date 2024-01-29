@@ -1,7 +1,7 @@
 {
   "name": "@leafer/layouter",
   "version": "1.0.0-rc.9",
-  "description": "@leafer/canvas",
+  "description": "@leafer/layouter",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "main": "src/index.ts",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
   },
-  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/canvas/canvas",
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/partner/layouter",
   "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",
