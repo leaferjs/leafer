@@ -5,14 +5,14 @@
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "type": "module",
-  "main": "dist/core.esm.js",
+  "main": "lib/core.esm.js",
   "exports": {
-    "import": "./dist/core.esm.js",
-    "require": "./dist/core.cjs",
+    "import": "./lib/core.esm.js",
+    "require": "./lib/core.cjs",
     "types": "./types/index.d.ts"
   },
   "types": "types/index.d.ts",
-  "files": ["src","types","dist"],
+  "files": ["src","types","lib"],
   "repository": {
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
