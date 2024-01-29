@@ -1,5 +1,5 @@
 import { IDropEvent, ILeaf, ILeafList, IObject } from '@leafer/interface'
-import { registerUIEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/core'
 
 import { PointerEvent } from './PointerEvent'
 import { DragEvent } from './DragEvent'

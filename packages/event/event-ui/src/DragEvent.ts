@@ -1,6 +1,5 @@
 import { IDragEvent, IPointData, ILeaf, ILeafList, IObject } from '@leafer/interface'
-import { registerUIEvent } from '@leafer/decorator'
-import { LeafList } from '@leafer/list'
+import { registerUIEvent, LeafList } from '@leafer/core'
 
 import { PointerEvent } from './PointerEvent'
 

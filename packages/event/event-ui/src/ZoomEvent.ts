@@ -1,5 +1,5 @@
 import { IZoomEvent } from '@leafer/interface'
-import { registerUIEvent } from '@leafer/decorator'
+import { registerUIEvent } from '@leafer/core'
 
 import { UIEvent } from './UIEvent'
 
