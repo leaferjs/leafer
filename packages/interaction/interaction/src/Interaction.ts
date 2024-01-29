@@ -1,9 +1,6 @@
 import { IUIEvent, IPointerEvent, ILeaf, IInteraction, IInteractionConfig, ILeafList, IMoveEvent, IZoomEvent, IRotateEvent, ISelector, IBounds, IEventListenerId, IInteractionCanvas, ITimer, IKeepTouchData, IKeyEvent, ISelectPathOptions, ICursorType, IBooleanMap } from '@leafer/interface'
 import { PointerEvent, DropEvent, KeyEvent, PointerButton, Keyboard } from '@leafer/event-ui'
-import { LeaferEvent, ResizeEvent } from '@leafer/event'
-import { LeafList } from '@leafer/list'
-import { Bounds, PointHelper } from '@leafer/math'
-import { DataHelper } from '@leafer/data'
+import { LeaferEvent, ResizeEvent, LeafList, Bounds, PointHelper, DataHelper } from '@leafer/core'
 
 import { Transformer } from './Transformer'
 import { Dragger } from './Dragger'

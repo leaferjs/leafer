@@ -1,7 +1,5 @@
 import { IScreenSizeData, IHitCanvasManager, ILeaf, IHitCanvas, ILeafList } from '@leafer/interface'
-import { CanvasManager } from '@leafer/canvas'
-import { LeafList } from '@leafer/list'
-import { Creator } from '@leafer/platform'
+import { CanvasManager, LeafList, Creator } from '@leafer/core'
 
 
 export class HitCanvasManager extends CanvasManager implements IHitCanvasManager {

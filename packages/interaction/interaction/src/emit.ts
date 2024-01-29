@@ -1,6 +1,5 @@
 import { IUIEvent, ILeaf, ILeafList } from '@leafer/interface'
-import { EventCreator } from '@leafer/platform'
-import { Debug } from '@leafer/debug'
+import { EventCreator, Debug } from '@leafer/core'
 
 const debug = Debug.get('emit')
 

@@ -1,8 +1,6 @@
 import { IPointerEvent, IDragEvent, ILeaf, ILeafList, ITimer, IFunction } from '@leafer/interface'
 import { MoveEvent, DragEvent, DropEvent, PointerButton } from '@leafer/event-ui'
-import { BoundsHelper, PointHelper } from '@leafer/math'
-import { LeafHelper } from '@leafer/helper'
-import { LeafList } from '@leafer/list'
+import { BoundsHelper, PointHelper, LeafHelper, LeafList } from '@leafer/core'
 
 import { InteractionHelper } from './InteractionHelper'
 import { InteractionBase } from './Interaction'

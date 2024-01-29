@@ -1,7 +1,6 @@
 import { IEvent, IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IDragEvent, ISwipeEvent, IUIEvent, IPointData, ILeafList, IDropEvent, IObject } from '@leafer/interface'
 import { SwipeEvent } from '@leafer/event-ui'
-import { PointHelper } from '@leafer/math'
-import { LeafList } from '@leafer/list'
+import { PointHelper, LeafList } from '@leafer/core'
 
 
 export const InteractionHelper = {

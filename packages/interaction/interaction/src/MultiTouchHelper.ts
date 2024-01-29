@@ -1,5 +1,5 @@
 import { IMultiTouchData, IKeepTouchData } from '@leafer/interface'
-import { PointHelper } from '@leafer/math'
+import { PointHelper } from '@leafer/core'
 
 
 export const MultiTouchHelper = {
