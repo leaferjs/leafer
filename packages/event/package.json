@@ -1,7 +1,7 @@
 {
-  "name": "@leafer/interaction",
+  "name": "@leafer/event",
   "version": "1.0.0-rc.9",
-  "description": "@leafer/interaction",
+  "description": "@leafer/event",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
   "main": "src/index.ts",
@@ -11,15 +11,15 @@
     "type": "git",
     "url": "https://github.com/leaferjs/leafer.git"
   },
-  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/interaction/interaction",
+  "homepage": "https://github.com/leaferjs/leafer/tree/main/packages/event",
   "bugs": "https://github.com/leaferjs/leafer/issues",
   "keywords": [
     "leafer",
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "1.0.0-rc.9",
-    "@leafer/event-ui": "1.0.0-rc.9"
+    "@leafer/decorator": "1.0.0-rc.9",
+    "@leafer/platform": "1.0.0-rc.9"
   },
   "devDependencies": {
      "@leafer/interface": "1.0.0-rc.9"
