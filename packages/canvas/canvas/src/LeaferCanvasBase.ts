@@ -123,7 +123,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
 
         DataHelper.copyAttrs(this.size, size, canvasSizeAttrs)
-        this.size.pixelRatio || (this.size.pixelRatio = Platform.devicePixelRatio)
+        this.size.pixelRatio || (this.size.pixelRatio = 1)
 
         this.bounds = new Bounds(0, 0, this.width, this.height)
 
