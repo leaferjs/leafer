@@ -14,7 +14,6 @@ import { ILeafBounds } from './module/ILeafBounds'
 import { ILeafLayout, IBoundsType, ILocationType } from '../layout/ILeafLayout'
 import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
-import { ILeafMask } from './module/ILeafMask'
 import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
 
@@ -280,7 +279,7 @@ export interface ILeafComputedData {
     readonly __blendMode: string
 }
 
-export interface ILeaf extends ILeafMask, ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
+export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
     tag: string
     readonly __tag: string
     readonly innerName: string
