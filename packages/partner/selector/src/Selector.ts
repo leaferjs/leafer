@@ -1,10 +1,12 @@
-import { ILeaf, ILeafMap, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
-import { ChildEvent, LayoutEvent, DataHelper, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
+import { ILeaf, ILeafMap, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, IAnswer } from '@leafer/interface'
+import { ChildEvent, LayoutEvent, DataHelper, Answer, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
 import { Picker } from './Picker'
 
 
-const { Yes, NoAndSkip, YesAndSkip } = AnswerType
+
+
+const { Yes, NoAndSkip, YesAndSkip } = Answer
 
 export class Selector implements ISelector {
 
@@ -93,7 +95,7 @@ export class Selector implements ISelector {
 
 
     protected eachFind(children: ILeaf[], method: IFindMethod, list?: ILeaf[], options?: any): void {
-        let child: ILeaf, result: AnswerType
+        let child: ILeaf, result: IAnswer
         for (let i = 0, len = children.length; i < len; i++) {
             child = children[i]
             result = method(child, options)
