@@ -23,6 +23,7 @@ export interface IUIEvent extends IEvent {
     path?: ILeafList
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
 
+    getPage(): IPointData
     getInner?(relative?: ILeaf): IPointData
     getLocal?(relative?: ILeaf): IPointData
 }
@@ -46,8 +47,11 @@ export interface IDragEvent extends IPointerEvent {
     totalX?: number
     totalY?: number
 
+    getPageMove(total?: boolean): IPointData
     getInnerMove?(relative?: ILeaf): IPointData
     getLocalMove?(relative?: ILeaf): IPointData
+
+    getPageTotal(): IPointData
     getInnerTotal?(relative?: ILeaf): IPointData
     getLocalTotal?(relative?: ILeaf): IPointData
 }

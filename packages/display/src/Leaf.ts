@@ -360,6 +360,14 @@ export class Leaf implements ILeaf {
         return point
     }
 
+    public getPagePoint(world: IPointData, distance?: boolean, change?: boolean): IPointData {
+        return this.getInnerPoint(world, this.leafer.zoomLayer, distance, change)
+    }
+
+    public getWorldPointByPage(page: IPointData, distance?: boolean, change?: boolean): IPointData {
+        return this.leafer.zoomLayer.getWorldPoint(page, null, distance, change)
+    }
+
 
     // transform
 
