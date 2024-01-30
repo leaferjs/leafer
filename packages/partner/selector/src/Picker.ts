@@ -1,10 +1,10 @@
-import { ILeaf, ILeafList, IPointData, IRadiusPointData, ISelectPathResult, ISelectPathOptions, ISelector } from '@leafer/interface'
+import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector } from '@leafer/interface'
 import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 
 const { hitRadiusPoint } = BoundsHelper
 
-export class Pather {
+export class Picker {
 
     protected target: ILeaf
     protected selector: ISelector
@@ -19,19 +19,20 @@ export class Pather {
         this.selector = selector
     }
 
-    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
+    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
         if (!hitRadius) hitRadius = 0
         if (!options) options = {}
 
         const through = options.through || false
         const ignoreHittable = options.ignoreHittable || false
+        const target = options.target || this.target
         this.exclude = options.exclude || null
 
         this.point = { x: hitPoint.x, y: hitPoint.y, radiusX: hitRadius, radiusY: hitRadius }
         this.findList = options.findList || []
 
         // path
-        if (!options.findList) this.eachFind(this.target.children, this.target.__onlyHitMask)
+        if (!options.findList) this.eachFind(target.children, target.__onlyHitMask)
 
         const list = this.findList
         const leaf = this.getBestMatchLeaf()
@@ -39,7 +40,7 @@ export class Pather {
 
         this.clear()
 
-        return through ? { path, leaf, throughPath: list.length ? this.getThroughPath(list) : path } : { path, leaf }
+        return through ? { path, target: leaf, throughPath: list.length ? this.getThroughPath(list) : path } : { path, target: leaf }
     }
 
     public getBestMatchLeaf(): ILeaf {

@@ -1,18 +1,21 @@
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
+import { IBranch } from '../display/IBranch'
 
-export interface ISelectPathResult {
-    leaf: ILeaf
+export interface IPickResult {
+    target: ILeaf
     path: ILeafList
     throughPath?: ILeafList
 }
 
-export interface ISelectPathOptions {
+export interface IPickOptions {
     name?: string
+    hitRadius?: number
     through?: boolean
-    exclude?: ILeafList
+    target?: IBranch
     findList?: ILeaf[]
+    exclude?: ILeafList
     ignoreHittable?: boolean
 }
 
@@ -42,7 +45,7 @@ export interface ISelector {
 
     config: ISelectorConfig
 
-    getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult
+    getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
 
     getBy(condition: number | string | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
     getByInnerId(innerId: number, branch?: ILeaf): ILeaf

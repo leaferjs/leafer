@@ -3,7 +3,7 @@ import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEven
 import { ILeaf, ICursorType } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
-import { ISelector, ISelectPathOptions } from '../selector/ISelector'
+import { ISelector, IPickOptions } from '../selector/ISelector'
 import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
@@ -49,10 +49,10 @@ export interface IInteraction extends IControl {
     keyDown(data: IKeyEvent): void
     keyUp(data: IKeyEvent): void
 
-    findPath(data: IPointerEvent, options?: ISelectPathOptions): ILeafList
+    findPath(data: IPointerEvent, options?: IPickOptions): ILeafList
     isDrag(leaf: ILeaf): boolean
 
-    updateDownData(data?: IPointerEvent, options?: ISelectPathOptions): void
+    updateDownData(data?: IPointerEvent, options?: IPickOptions): void
     updateHoverData(data: IPointerEvent): void
 
     updateCursor(hoverData?: IPointerEvent): void

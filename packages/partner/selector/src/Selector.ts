@@ -1,7 +1,7 @@
-import { ILeaf, ILeafMap, ISelector, ISelectorProxy, ISelectPathResult, ISelectPathOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
+import { ILeaf, ILeafMap, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, AnswerType } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
-import { Pather } from './Pather'
+import { Picker } from './Picker'
 
 
 const { Yes, NoAndSkip, YesAndSkip } = AnswerType
@@ -14,7 +14,7 @@ export class Selector implements ISelector {
 
     public config: ISelectorConfig = {}
 
-    protected pather: Pather
+    protected picker: Picker
 
     protected innerIdMap: ILeafMap = {}
     protected idMap: ILeafMap = {}
@@ -34,7 +34,7 @@ export class Selector implements ISelector {
     constructor(target: ILeaf, userConfig?: ISelectorConfig) {
         this.target = target
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
-        this.pather = new Pather(target, this)
+        this.picker = new Picker(target, this)
         this.__listenEvents()
     }
 
@@ -58,9 +58,9 @@ export class Selector implements ISelector {
         }
     }
 
-    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: ISelectPathOptions): ISelectPathResult {
+    public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
         if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
-        return this.pather.getByPoint(hitPoint, hitRadius, options)
+        return this.picker.getByPoint(hitPoint, hitRadius, options)
     }
 
     public getByInnerId(innerId: number, branch?: ILeaf): ILeaf {
@@ -144,7 +144,7 @@ export class Selector implements ISelector {
     public destroy(): void {
         if (this.__eventIds.length) {
             this.__removeListenEvents()
-            this.pather.destroy()
+            this.picker.destroy()
             this.findLeaf = null
             this.innerIdMap = {}
             this.idMap = {}
