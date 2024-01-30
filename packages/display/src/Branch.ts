@@ -3,7 +3,7 @@ import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper, WaitHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
-import { BranchRender, LeafMask } from '@leafer/display-module'
+import { BranchRender } from '@leafer/display-module'
 
 import { Leaf } from './Leaf'
 
@@ -14,7 +14,6 @@ const { localBoxBounds, localStrokeBounds, localRenderBounds, maskLocalBoxBounds
 
 
 @useModule(BranchRender)
-@useModule(LeafMask)
 export class Branch extends Leaf {
 
     constructor() {
