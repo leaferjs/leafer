@@ -361,11 +361,13 @@ export class Leaf implements ILeaf {
     }
 
     public getPagePoint(world: IPointData, distance?: boolean, change?: boolean): IPointData {
-        return this.getInnerPoint(world, this.leafer.zoomLayer, distance, change)
+        const layer = this.leafer ? this.leafer.zoomLayer : this
+        return layer.getInnerPoint(world, null, distance, change)
     }
 
     public getWorldPointByPage(page: IPointData, distance?: boolean, change?: boolean): IPointData {
-        return this.leafer.zoomLayer.getWorldPoint(page, null, distance, change)
+        const layer = this.leafer ? this.leafer.zoomLayer : this
+        return layer.getWorldPoint(page, null, distance, change)
     }
 
 
