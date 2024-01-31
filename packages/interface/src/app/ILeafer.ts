@@ -5,7 +5,7 @@ import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
 import { ISelector, ISelectorConfig } from '../selector/ISelector'
 import { IInteraction, IInteractionCanvas, IInteractionConfig } from '../interaction/IInteraction'
 import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
-import { IAutoBounds, IBounds, IPointData, IScreenSizeData } from '../math/IMath'
+import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData } from '../math/IMath'
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
@@ -71,7 +71,7 @@ export interface ILeaferAttrData {
 
     setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
-    forceRender(bounds?: IBounds): void
+    forceRender(bounds?: IBoundsData): void
     updateCursor(cursor?: ICursorType): void
     resize(size: IScreenSizeData): void
 
