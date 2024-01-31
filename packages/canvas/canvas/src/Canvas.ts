@@ -1,4 +1,4 @@
-import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction, IWindingRule, IBlendMode, IScreenSizeData } from '@leafer/interface'
+import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction, IWindingRule, IBlendMode } from '@leafer/interface'
 
 function contextAttr(realName?: string) {
     return (target: Canvas, key: string) => {
