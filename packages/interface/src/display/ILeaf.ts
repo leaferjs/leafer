@@ -420,8 +420,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     getLocalPointByInner(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-    getPagePoint(world: IPointData, distance?: boolean, change?: boolean): IPointData
-    getWorldPointByPage(page: IPointData, distance?: boolean, change?: boolean): IPointData
+    getPagePoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPointByPage(page: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
 
     // transform
