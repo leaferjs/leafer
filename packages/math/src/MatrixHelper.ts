@@ -317,8 +317,8 @@ export const MatrixHelper = {
             const sinR = sin(rotation)
 
             scaleX = float(scaleX), scaleY = float(scaleY)
-            skewX = cosR ? float((c / scaleY + sinR) / cosR / OneRadian, 10) : 0
-            skewY = cosR ? float((b / scaleX - sinR) / cosR / OneRadian, 10) : 0
+            skewX = cosR ? float((c / scaleY + sinR) / cosR / OneRadian, 9) : 0
+            skewY = cosR ? float((b / scaleX - sinR) / cosR / OneRadian, 9) : 0
             rotation = float(rotation / OneRadian)
 
         } else {
