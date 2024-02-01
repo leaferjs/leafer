@@ -397,7 +397,7 @@ export class Leaf implements ILeaf {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
     }
 
-    // @leafer-in/scale rewrite
+    // @leafer-ui/scale rewrite
 
     public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean): void {
         (this as ILeaf).scaleX *= scaleX;

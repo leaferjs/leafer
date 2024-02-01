@@ -15,6 +15,8 @@ export interface IExportOptions {
 
 export interface IExportResult {
     data: ILeaferCanvas | IBlob | string | boolean
+    width?: number
+    height?: number
     renderBounds?: IBoundsData
     trimBounds?: IBoundsData
 }
