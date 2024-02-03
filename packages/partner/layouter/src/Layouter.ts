@@ -163,9 +163,11 @@ export class Layouter implements ILayouter {
     }
 
     public addExtra(leaf: ILeaf): void {
-        const block = this.extraBlock || (this.extraBlock = new LayoutBlockData([]))
-        block.updatedList.add(leaf)
-        block.beforeBounds.add(leaf.__world)
+        if (!this.__updatedList.has(leaf)) {
+            const { updatedList, beforeBounds } = this.extraBlock || (this.extraBlock = new LayoutBlockData([]))
+            updatedList.length ? beforeBounds.add(leaf.__world) : beforeBounds.set(leaf.__world)
+            updatedList.add(leaf)
+        }
     }
 
     public createBlock(data: ILeafList | ILeaf[]): ILayoutBlockData {
