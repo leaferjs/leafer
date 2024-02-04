@@ -5,6 +5,7 @@ import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper, WaitHelper } from '@leafer/helper'
+import { ChildEvent } from '@leafer/event'
 
 
 const { LEAF, create } = IncrementId
@@ -510,8 +511,10 @@ export class Leaf implements ILeaf {
 
     public destroy(): void {
         if (!this.destroyed) {
-            if (this.parent) this.remove()
+            const { parent } = this
+            if (parent) this.remove()
             if (this.children) (this as unknown as IBranch).removeAll(true)
+            if (this.hasEvent(ChildEvent.DESTROY)) this.emitEvent(new ChildEvent(ChildEvent.DESTROY, this, parent))
 
             this.__.destroy()
             this.__layout.destroy()

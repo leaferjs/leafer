@@ -7,6 +7,7 @@ export class ChildEvent extends Event implements IChildEvent {
 
     static ADD = 'child.add'
     static REMOVE = 'child.remove'
+    static DESTROY = 'child.destroy'
 
     readonly parent?: ILeaf
     readonly child?: ILeaf
