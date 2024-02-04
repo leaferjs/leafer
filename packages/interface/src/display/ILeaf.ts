@@ -54,7 +54,9 @@ export interface ILeafAttrData {
 
     scale: INumber | IPointData // helper
     around: IAround
+
     lazy: IBoolean
+    pixelRatio: INumber
 
     draggable: IBoolean
 
@@ -203,7 +205,9 @@ export interface ILeafInputData {
 
     scale?: INumber | IPointData // helper
     around?: IAround
+
     lazy?: IBoolean
+    pixelRatio?: INumber
 
     draggable?: IBoolean
 
@@ -253,7 +257,10 @@ export interface ILeafComputedData {
     skewY?: number
 
     around?: IAround
+
     lazy?: boolean
+    pixelRatio?: number
+
     windingRule?: any
 
     draggable?: boolean

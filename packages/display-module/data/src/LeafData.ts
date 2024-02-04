@@ -97,6 +97,10 @@ export class LeafData implements ILeafData {
         }
     }
 
+    public __removeNaturalSize(): void {
+        this.__naturalWidth = this.__naturalHeight = undefined
+    }
+
     public destroy(): void {
         this.__input = this.__middle = null
     }

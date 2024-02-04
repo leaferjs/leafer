@@ -6,9 +6,6 @@ export interface IDataProcessor {
     __input: IObject
     __middle: IObject
 
-    __single: boolean
-    __checkSingle(): void
-
     __get(name: string): any
     __getData(): IObject
 
@@ -29,5 +26,7 @@ export interface ILeafDataOptions {
 }
 
 export interface ILeafData extends IDataProcessor, ILeafComputedData {
-
+    __single: boolean
+    __checkSingle(): void
+    __removeNaturalSize(): void
 }

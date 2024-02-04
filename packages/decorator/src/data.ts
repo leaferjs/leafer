@@ -70,13 +70,14 @@ export function rotationType(defaultValue?: IValue) {
     }
 }
 
-export function boundsType(defaultValue?: IValue) {
+export function boundsType(defaultValue?: IValue, removeNaturalSize?: boolean) {
     return (target: ILeaf, key: string) => {
         defineLeafAttr(target, key, defaultValue, {
             set(value: IValue) {
                 this.__setAttr(key, value)
                 this.__layout.boxChanged || this.__layout.boxChange()
                 if (this.__hasAutoLayout) this.__layout.matrixChanged || this.__layout.matrixChange()
+                if (removeNaturalSize) this.__.__removeNaturalSize()
             }
         })
     }

@@ -35,8 +35,6 @@ export interface ILeaferAttrData {
 
     transforming: boolean
 
-    pixelRatio: number
-
     view: unknown
 
     canvas: ILeaferCanvas
