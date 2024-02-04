@@ -41,7 +41,7 @@ export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VComma
 
 export { ILeaferImage, ILeaferImageConfig, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
 export { IExportFileType, IExportImageType } from './file/IFileType'
-export { IExportOptions, IExportResult, IExportResultFunction } from './file/IExport'
+export { IExportOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
 
 export { InnerId, IEventer, IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
 export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IKeepTouchData } from './event/IEvent'

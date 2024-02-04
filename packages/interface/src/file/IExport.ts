@@ -1,4 +1,5 @@
 import { IBlob, ILeaferCanvas } from '../canvas/ILeaferCanvas'
+import { ILocationType } from '../layout/ILeafLayout'
 import { IBoundsData } from '../math/IMath'
 
 
@@ -11,6 +12,8 @@ export interface IExportOptions {
     trim?: boolean
     fill?: string
     screenshot?: IBoundsData | boolean
+    location?: ILocationType
+    onCanvas?: IExportOnCanvasFunction
 }
 
 export interface IExportResult {
@@ -23,4 +26,8 @@ export interface IExportResult {
 
 export interface IExportResultFunction {
     (data: IExportResult): void
+}
+
+export interface IExportOnCanvasFunction {
+    (data: ILeaferCanvas): void
 }

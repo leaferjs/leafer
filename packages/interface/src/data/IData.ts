@@ -1,7 +1,7 @@
 export type INumber = number // number | string    will convert to number
 export type IBoolean = boolean // boolean | string  will convert to boolean
 export type IString = string //  string  | other   will convert to string
-export type IValue = INumber | IBoolean | IString | IObject  // 
+export type IValue = INumber | IBoolean | IString | IObject
 export type ITimer = any
 
 export type IPathString = string

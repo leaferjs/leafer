@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -54,7 +54,7 @@ export class Leaf implements ILeaf {
     public __worldOpacity: number
 
     // now transform
-    public get worldTransform(): IMatrixData { return this.__layout.getTransform('world') }
+    public get worldTransform(): IMatrixWithScaleData { return this.__layout.getTransform('world') as IMatrixWithScaleData }
     public get localTransform(): IMatrixData { return this.__layout.getTransform('local') }
 
     // now bounds
@@ -160,7 +160,7 @@ export class Leaf implements ILeaf {
     // data
 
     public set(_data: IObject): void { }
-    public get(): ILeafInputData { return undefined }
+    public get(_name?: string): ILeafInputData | IValue { return undefined }
 
     public toJSON(): IObject {
         return this.__.__getInputData()
