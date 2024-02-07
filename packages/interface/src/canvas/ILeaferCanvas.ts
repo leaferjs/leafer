@@ -30,6 +30,11 @@ export interface ICanvasStrokeOptions {
     miterLimit?: number
 }
 
+export interface ICanvasCacheOptions extends ICanvasStrokeOptions {
+    fillStyle?: string | object
+    strokeStyle?: string | object
+}
+
 export interface ICanvasAttr extends ICanvasStrokeOptions, IObject {
 
     smooth: boolean // imageSmoothingEnabled: boolean

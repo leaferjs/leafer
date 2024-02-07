@@ -190,7 +190,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public setStrokeOptions(options: ICanvasStrokeOptions): void {
-        this.strokeCap = options.strokeCap
+        this.strokeCap = options.strokeCap === 'none' ? 'butt' : options.strokeCap
         this.strokeJoin = options.strokeJoin
         this.dashPattern = options.dashPattern
         this.dashOffset = options.dashOffset

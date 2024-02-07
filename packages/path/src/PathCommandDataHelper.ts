@@ -88,18 +88,13 @@ export const PathCommandDataHelper = {
     // new
 
     drawEllipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        if (rotation === undefined) rotation = 0
-        if (startAngle === undefined) startAngle = 0
-        if (endAngle === undefined) endAngle = 360
-        BezierHelper.ellipse(null, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise, null, null, startPoint)
+        BezierHelper.ellipse(null, x, y, radiusX, radiusY, rotation === undefined ? 0 : rotation, startAngle === undefined ? 0 : startAngle, endAngle === undefined ? 360 : endAngle, anticlockwise, null, null, startPoint)
         data.push(M, startPoint.x, startPoint.y)
         ellipse(data, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
     },
 
     drawArc(data: IPathCommandData, x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        if (startAngle === undefined) startAngle = 0
-        if (endAngle === undefined) endAngle = 360
-        BezierHelper.arc(null, x, y, radius, startAngle, endAngle, anticlockwise, null, null, startPoint)
+        BezierHelper.arc(null, x, y, radius, startAngle === undefined ? 0 : startAngle, endAngle === undefined ? 360 : endAngle, anticlockwise, null, null, startPoint)
         data.push(M, startPoint.x, startPoint.y)
         arc(data, x, y, radius, startAngle, endAngle, anticlockwise)
     },
