@@ -22,7 +22,7 @@ export interface IPoint extends IPointData {
 
     getCenter(to: IPointData): IPoint
     getDistance(to: IPointData): number
-    getDistancePoint(to: IPointData, distance: number): IPoint
+    getDistancePoint(to: IPointData, distance: number, changeTo?: boolean): IPoint
 
     getAngle(to: IPointData): number
     getAtan2(to: IPointData): number

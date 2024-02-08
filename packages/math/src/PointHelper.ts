@@ -30,6 +30,11 @@ export const PointHelper = {
         t.y = point.y
     },
 
+    copyFrom(t: IPointData, x: number, y: number): void {
+        t.x = x
+        t.y = y
+    },
+
     move(t: IPointData, x: number, y: number): void {
         t.x += x
         t.y += y
@@ -60,21 +65,21 @@ export const PointHelper = {
 
     tempToInnerOf(t: IPointData, matrix: IMatrixData): IPointData {
         const { tempPoint: temp } = P
-        P.copy(temp, t)
+        copy(temp, t)
         toInnerPoint(matrix, temp, temp)
         return temp
     },
 
     tempToOuterOf(t: IPointData, matrix: IMatrixData): IPointData {
         const { tempPoint: temp } = P
-        P.copy(temp, t)
+        copy(temp, t)
         toOuterPoint(matrix, temp, temp)
         return temp
     },
 
     tempToInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithScaleData): IRadiusPointData {
         const { tempRadiusPoint: temp } = P
-        P.copy(temp, t)
+        copy(temp, t)
         P.toInnerRadiusPointOf(t, matrix, temp)
         return temp
     },
@@ -109,7 +114,7 @@ export const PointHelper = {
     },
 
     getDistance(t: IPointData, point: IPointData): number {
-        return P.getDistanceFrom(t.x, t.y, point.x, point.y)
+        return getDistanceFrom(t.x, t.y, point.x, point.y)
     },
 
     getDistanceFrom(x1: number, y1: number, x2: number, y2: number): number {
@@ -119,11 +124,11 @@ export const PointHelper = {
     },
 
     getMinDistanceFrom(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number): number {
-        return min(P.getDistanceFrom(x1, y1, x2, y2), P.getDistanceFrom(x2, y2, x3, y3))
+        return min(getDistanceFrom(x1, y1, x2, y2), getDistanceFrom(x2, y2, x3, y3))
     },
 
     getAngle(t: IPointData, to: IPointData): number {
-        return P.getAtan2(t, to) / OneRadian
+        return getAtan2(t, to) / OneRadian
     },
 
     getRotation(t: IPointData, origin: IPointData, to: IPointData, toOrigin?: IPointData): number {
@@ -144,9 +149,12 @@ export const PointHelper = {
     },
 
 
-    getDistancePoint(t: IPointData, to: IPointData, distance: number): IPointData {
-        const r = P.getAtan2(t, to)
-        return { x: t.x + cos(r) * distance, y: t.y + sin(r) * distance }
+    getDistancePoint(t: IPointData, to: IPointData, distance: number, changeTo: boolean): IPointData {
+        const r = getAtan2(t, to)
+        to = changeTo ? to : {} as IPointData
+        to.x = t.x + cos(r) * distance
+        to.y = t.y + sin(r) * distance
+        return to
     },
 
     reset(t: IPointData): void {
@@ -155,3 +163,4 @@ export const PointHelper = {
 }
 
 const P = PointHelper
+const { getDistanceFrom, copy, getAtan2 } = P
