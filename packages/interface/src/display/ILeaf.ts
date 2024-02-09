@@ -4,7 +4,7 @@ import { IEventer } from '../event/IEventer'
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
-import { IObject, INumber, IBoolean, IValue, IString } from '../data/IData'
+import { IObject, INumber, IBoolean, IValue, IString, IPathString } from '../data/IData'
 import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
@@ -16,6 +16,8 @@ import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
 import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
+import { IPathCommandData } from '../path/IPathCommand'
+import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 
 
 export interface ICachedLeaf {
@@ -59,6 +61,9 @@ export interface ILeafAttrData {
     pixelRatio: INumber
 
     draggable: IBoolean
+
+    path: IPathCommandData | IPathString
+    windingRule: IWindingRule
 
     editable: IBoolean
     editSize?: IEditSize
@@ -211,6 +216,9 @@ export interface ILeafInputData {
 
     draggable?: IBoolean
 
+    path?: IPathCommandData | IPathString
+    windingRule?: IWindingRule
+
     editable?: IBoolean
     editSize?: IEditSize
 
@@ -261,7 +269,8 @@ export interface ILeafComputedData {
     lazy?: boolean
     pixelRatio?: number
 
-    windingRule?: any
+    path?: IPathCommandData
+    windingRule?: IWindingRule
 
     draggable?: boolean
 
@@ -284,6 +293,13 @@ export interface ILeafComputedData {
     __naturalWidth?: number
     __naturalHeight?: number
     readonly __blendMode: string
+
+    __useArrow?: boolean
+    __useEffect?: boolean
+
+    __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
+    __pathForRender?: IPathCommandData
+    __path2DForRender?: IPath2D
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -344,6 +360,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __onlyHitMask: boolean
     readonly __ignoreHitWorld: boolean
+
+    readonly pathInputed: boolean
+    pathClosed: boolean
 
     __parentWait?: IFunction[]
     __leaferWait?: IFunction[]

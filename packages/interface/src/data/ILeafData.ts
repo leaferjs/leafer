@@ -26,7 +26,7 @@ export interface ILeafDataOptions {
 }
 
 export interface ILeafData extends IDataProcessor, ILeafComputedData {
-    __single: boolean
+    __single?: boolean
     __checkSingle(): void
     __removeNaturalSize(): void
 }

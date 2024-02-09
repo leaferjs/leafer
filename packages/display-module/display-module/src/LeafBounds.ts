@@ -1,11 +1,13 @@
 import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
+import { PathBounds } from '@leafer/path'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
 
 
 const { updateMatrix, updateAllMatrix, hasParentAutoLayout } = LeafHelper
 const { updateBounds } = BranchHelper
 const { toOuterOf, copyAndSpread } = BoundsHelper
+const { toBounds } = PathBounds
 
 export const LeafBounds: ILeafBoundsModule = {
 
@@ -26,7 +28,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
         if (layout.boxChanged) {
 
-            this.__updatePath()
+            if (!this.__.__pathInputed) this.__updatePath()
             this.__updateRenderPath()
 
             this.__updateBoxBounds()
@@ -113,11 +115,15 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateBoxBounds(): void {
         const b = this.__layout.boxBounds
-        const { width, height } = this.__
-        b.x = 0
-        b.y = 0
-        b.width = width
-        b.height = height
+        const data = this.__
+        if (data.__pathInputed) {
+            toBounds(data.__pathForRender, b)
+        } else {
+            b.x = 0
+            b.y = 0
+            b.width = data.width
+            b.height = data.height
+        }
     },
 
 

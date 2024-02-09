@@ -70,17 +70,32 @@ export function rotationType(defaultValue?: IValue) {
     }
 }
 
-export function boundsType(defaultValue?: IValue, removeNaturalSize?: boolean) {
+export function boundsType(defaultValue?: IValue) {
     return (target: ILeaf, key: string) => {
         defineLeafAttr(target, key, defaultValue, {
             set(value: IValue) {
                 this.__setAttr(key, value)
-                this.__layout.boxChanged || this.__layout.boxChange()
-                if (this.__hasAutoLayout) this.__layout.matrixChanged || this.__layout.matrixChange()
-                if (removeNaturalSize) this.__.__removeNaturalSize()
+                doBoundsType(this)
             }
         })
     }
+}
+
+export function naturalBoundsType(defaultValue?: IValue) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: IValue) {
+                this.__setAttr(key, value)
+                doBoundsType(this)
+                this.__.__removeNaturalSize()
+            }
+        })
+    }
+}
+
+export function doBoundsType(leaf: ILeaf): void {
+    leaf.__layout.boxChanged || leaf.__layout.boxChange()
+    if (leaf.__hasAutoLayout) leaf.__layout.matrixChanged || leaf.__layout.matrixChange()
 }
 
 export const pathType = boundsType
@@ -91,10 +106,15 @@ export function affectStrokeBoundsType(defaultValue?: IValue) {
         defineLeafAttr(target, key, defaultValue, {
             set(value: IValue) {
                 this.__setAttr(key, value)
-                this.__layout.strokeChanged || this.__layout.strokeChange()
+                doStrokeType(this)
             }
         })
     }
+}
+
+export function doStrokeType(leaf: ILeaf): void {
+    leaf.__layout.strokeChanged || leaf.__layout.strokeChange()
+    if (leaf.__.__useArrow) doBoundsType(leaf)
 }
 
 export const strokeType = affectStrokeBoundsType

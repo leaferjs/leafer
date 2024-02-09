@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject, IValue } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue, IPathCommandData } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -11,6 +11,9 @@ export class LeafData implements ILeafData {
 
     public __naturalWidth?: number
     public __naturalHeight?: number
+
+    public __pathInputed?: number
+    public __pathForRender?: IPathCommandData
 
     public get __blendMode(): string {
         if ((this as ILeafData).eraser) return 'destination-out'
