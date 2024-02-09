@@ -16,12 +16,6 @@ const { localBoxBounds, localStrokeBounds, localRenderBounds, maskLocalBoxBounds
 @useModule(BranchRender)
 export class Branch extends Leaf {
 
-    constructor() {
-        super()
-        this.isBranch = true
-        this.children = []
-    }
-
     // overwrite
 
     public __updateStrokeSpread(): number {
