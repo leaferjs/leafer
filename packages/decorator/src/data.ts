@@ -98,6 +98,18 @@ export function doBoundsType(leaf: ILeaf): void {
     if (leaf.__hasAutoLayout) leaf.__layout.matrixChanged || leaf.__layout.matrixChange()
 }
 
+export function pathInputType(defaultValue?: IValue) {
+    return (target: ILeaf, key: string) => {
+        defineLeafAttr(target, key, defaultValue, {
+            set(value: IValue) {
+                if (this.__.__pathInputed !== 2) this.__.__pathInputed = value ? 1 : 0
+                this.__setAttr(key, value)
+                doBoundsType(this)
+            }
+        })
+    }
+}
+
 export const pathType = boundsType
 
 
@@ -114,7 +126,6 @@ export function affectStrokeBoundsType(defaultValue?: IValue) {
 
 export function doStrokeType(leaf: ILeaf): void {
     leaf.__layout.strokeChanged || leaf.__layout.strokeChange()
-    if (leaf.__.__useArrow) doBoundsType(leaf)
 }
 
 export const strokeType = affectStrokeBoundsType

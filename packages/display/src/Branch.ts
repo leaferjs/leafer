@@ -63,6 +63,8 @@ export class Branch extends Leaf {
     }
 
     public add(child: ILeaf, index?: number): void {
+        if (child === this) return
+
         if (child.parent) child.parent.remove(child)
         child.parent = this
 
@@ -84,7 +86,7 @@ export class Branch extends Leaf {
         children.forEach(child => this.add(child))
     }
 
-    public remove(child?: Leaf, destroy?: boolean): void {
+    public remove(child?: ILeaf, destroy?: boolean): void {
         if (child) {
             const index = this.children.indexOf(child)
             if (index > -1) {

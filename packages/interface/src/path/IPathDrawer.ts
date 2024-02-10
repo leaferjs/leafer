@@ -18,6 +18,7 @@ export interface IPathDrawer {
 
 export interface IPathCreator {
     path: IPathCommandData
+    __path: IPathCommandData
 
     beginPath(): IPathCreator
 

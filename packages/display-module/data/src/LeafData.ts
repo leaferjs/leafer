@@ -55,6 +55,9 @@ export class LeafData implements ILeafData {
             const value = this.__input[name]
             if (value !== undefined) return value
         }
+
+        if (name === 'path' && !this.__pathInputed) return // no path mode
+
         return (this as IObject)['_' + name]
     }
 
@@ -69,6 +72,9 @@ export class LeafData implements ILeafData {
             if (key[0] !== '_') {
                 value = (this as IObject)['_' + key]
                 if (value !== undefined) {
+
+                    if (key === 'path' && !this.__pathInputed) continue // no path mode
+
                     inputValue = __input ? __input[key] : undefined
                     data[key] = (inputValue === undefined) ? value : inputValue
                 }
