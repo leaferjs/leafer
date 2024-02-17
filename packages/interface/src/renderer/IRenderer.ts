@@ -32,6 +32,7 @@ export interface IRenderer extends IControl {
 
     waitAgain: boolean
     changed: boolean
+    ignore: boolean
 
     config: IRendererConfig
 

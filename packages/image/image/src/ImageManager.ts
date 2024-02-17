@@ -33,7 +33,7 @@ export const ImageManager: IImageManager = {
 
     clearRecycled(): void {
         const list = I.recycledList
-        if (list.length) {
+        if (list.length > 100) { // cache 100
             list.forEach(image => {
                 if (!image.use && image.url) {
                     delete I.map[image.url]

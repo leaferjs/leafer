@@ -19,6 +19,7 @@ export class Renderer implements IRenderer {
 
     public waitAgain: boolean
     public changed: boolean
+    public ignore: boolean
 
     public config: IRendererConfig = {
         usePartRender: true,
@@ -108,6 +109,11 @@ export class Renderer implements IRenderer {
             callback()
         } else {
             this.requestLayout()
+
+            if (this.ignore) {
+                this.ignore = this.rendering = false
+                return
+            }
 
             this.emitRender(RenderEvent.BEFORE)
 
@@ -274,9 +280,7 @@ export class Renderer implements IRenderer {
         if (this.target) {
             this.stop()
             this.__removeListenEvents()
-            this.target = null
-            this.canvas = null
-            this.config = null
+            this.target = this.canvas = this.config = null
         }
     }
 }
