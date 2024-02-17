@@ -37,6 +37,8 @@ export interface ILeafAttrData {
     opacity: INumber
     visible: IBoolean
     locked: IBoolean
+    selected: IBoolean
+    disabled: IBoolean
     zIndex: INumber
 
     mask: IBoolean
@@ -66,7 +68,7 @@ export interface ILeafAttrData {
     windingRule: IWindingRule
 
     editable: IBoolean
-    editSize?: IEditSize
+    editSize: IEditSize
 
     hittable: IBoolean
     hitFill: IHitType
@@ -77,6 +79,12 @@ export interface ILeafAttrData {
     hitRadius: INumber
 
     cursor: ICursorType | ICursorType[]
+
+    hoverStyle: ILeafInputData
+    pressStyle: ILeafInputData
+    focusStyle: ILeafInputData
+    selectedStyle: ILeafInputData
+    disabledStyle: ILeafInputData
 }
 
 export type IHitType =
@@ -191,6 +199,8 @@ export interface ILeafInputData {
     opacity?: INumber
     visible?: IBoolean
     locked?: IBoolean
+    selected?: IBoolean
+    disabled?: IBoolean
     zIndex?: INumber
 
     mask?: IBoolean
@@ -232,6 +242,12 @@ export interface ILeafInputData {
 
     cursor?: ICursorType | ICursorType[]
 
+    hoverStyle?: ILeafInputData
+    pressStyle?: ILeafInputData
+    focusStyle?: ILeafInputData
+    selectedStyle?: ILeafInputData
+    disabledStyle?: ILeafInputData
+
     children?: ILeafInputData[]
 
     // other
@@ -247,6 +263,8 @@ export interface ILeafComputedData {
     opacity?: number
     visible?: boolean
     locked?: boolean
+    selected?: boolean
+    disabled?: boolean
     zIndex?: number
 
     mask?: boolean
@@ -287,6 +305,12 @@ export interface ILeafComputedData {
 
     cursor?: ICursorType | ICursorType[]
 
+    hoverStyle?: ILeafInputData
+    pressStyle?: ILeafInputData
+    focusStyle?: ILeafInputData
+    selectedStyle?: ILeafInputData
+    disabledStyle?: ILeafInputData
+
     // other
     __childBranchNumber?: number // 存在子分支的个数
     __complex?: boolean // 外观是否复杂
@@ -300,6 +324,13 @@ export interface ILeafComputedData {
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
+
+    // restore style
+    __hoverStyle?: ILeafInputData
+    __pressStyle?: ILeafInputData
+    __focusStyle?: ILeafInputData
+    __selectedStyle?: ILeafInputData
+    __disabledStyle?: ILeafInputData
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -379,7 +410,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __bindLeafer(leafer: ILeaferBase | null): void
 
     set(data: IObject): void
-    get(name?: string): ILeafInputData | IValue
+    get(name?: string | string[] | IObject): ILeafInputData | IValue
     toJSON(): IObject
     toString(): string
     toSVG?(): string

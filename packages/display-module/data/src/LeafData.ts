@@ -65,21 +65,36 @@ export class LeafData implements ILeafData {
         if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
     }
 
-    public __getInputData(): IObject {
-        const data: IObject = { tag: this.__leaf.tag }, { __input } = this
-        let value: IValue, inputValue: IValue
-        for (let key in this) {
-            if (key[0] !== '_') {
-                value = (this as IObject)['_' + key]
-                if (value !== undefined) {
+    public __getInputData(names?: string[] | IObject): IObject {
+        const data: IObject = {}
 
-                    if (key === 'path' && !this.__pathInputed) continue // no path mode
+        if (names) {
 
-                    inputValue = __input ? __input[key] : undefined
-                    data[key] = (inputValue === undefined) ? value : inputValue
+            if (names instanceof Array) {
+                for (let name of names) data[name] = this.__getInput(name)
+            } else {
+                for (let name in names) data[name] = this.__getInput(name)
+            }
+
+        } else {
+
+            let value: IValue, inputValue: IValue, { __input } = this
+            data.tag = this.__leaf.tag
+            for (let key in this) {
+                if (key[0] !== '_') {
+                    value = (this as IObject)['_' + key]
+                    if (value !== undefined) {
+
+                        if (key === 'path' && !this.__pathInputed) continue // no path mode
+
+                        inputValue = __input ? __input[key] : undefined
+                        data[key] = (inputValue === undefined) ? value : inputValue
+                    }
                 }
             }
+
         }
+
         return data
     }
 

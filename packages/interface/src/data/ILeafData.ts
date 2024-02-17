@@ -12,7 +12,7 @@ export interface IDataProcessor {
     __setInput(name: string, value: any): void
     __getInput(name: string): any
     __removeInput(name: string): void
-    __getInputData(): IObject
+    __getInputData(names?: string[] | IObject): IObject
 
     __setMiddle(name: string, value: any): void
     __getMiddle(name: string): any

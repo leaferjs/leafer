@@ -28,9 +28,9 @@ export interface IPathCreator {
     quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): IPathCreator
     closePath(): IPathCreator
 
-    arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): IPathCreator
+    arc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
     arcTo(x1: number, y1: number, x2: number, y2: number, radius: number): IPathCreator
-    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation: number, startAngle: number, endAngle: number, anticlockwise?: boolean): IPathCreator
+    ellipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
 
     rect(x: number, y: number, width: number, height: number): IPathCreator
     roundRect(x: number, y: number, width: number, height: number, radius?: number | number[]): IPathCreator
