@@ -1,6 +1,6 @@
 import { INumberFunction, IPointDataFunction } from '../function/IFunction'
 import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEvent } from '../event/IUIEvent'
-import { ILeaf, ICursorType } from '../display/ILeaf'
+import { ILeaf, ICursorType, IStateStyleType } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
 import { ISelector, IPickOptions } from '../selector/ISelector'
@@ -55,6 +55,8 @@ export interface IInteraction extends IControl {
     updateDownData(data?: IPointerEvent, options?: IPickOptions): void
     updateHoverData(data: IPointerEvent): void
 
+    setStateStyle(leaf: ILeaf, stateType: IStateStyleType): void
+    unsetStateStyle(leaf: ILeaf, stateType: IStateStyleType): void
     updateCursor(hoverData?: IPointerEvent): void
     setCursor(cursor: ICursorType | ICursorType[]): void
 

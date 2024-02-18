@@ -36,9 +36,10 @@ export interface ILeafAttrData {
     blendMode: IBlendMode
     opacity: INumber
     visible: IBoolean
-    locked: IBoolean
+    focus: IBoolean
     selected: IBoolean
     disabled: IBoolean
+    locked: IBoolean
     zIndex: INumber
 
     mask: IBoolean
@@ -186,6 +187,12 @@ export type ICursorType =
     | 'zoom-in'
     | 'zoom-out'
 
+export type IStateStyleType =
+    | 'hoverStyle'
+    | 'pressStyle'
+    | 'focusStyle'
+    | 'selectedStyle'
+    | 'disabledStyle'
 
 export interface ILeafInputData {
     tag?: string
@@ -198,9 +205,10 @@ export interface ILeafInputData {
     blendMode?: IBlendMode
     opacity?: INumber
     visible?: IBoolean
-    locked?: IBoolean
+    focus?: IBoolean
     selected?: IBoolean
     disabled?: IBoolean
+    locked?: IBoolean
     zIndex?: INumber
 
     mask?: IBoolean
@@ -262,9 +270,10 @@ export interface ILeafComputedData {
     blendMode?: IBlendMode
     opacity?: number
     visible?: boolean
-    locked?: boolean
+    focus?: boolean
     selected?: boolean
     disabled?: boolean
+    locked?: boolean
     zIndex?: number
 
     mask?: boolean
@@ -328,9 +337,7 @@ export interface ILeafComputedData {
     // restore style
     __hoverStyle?: ILeafInputData
     __pressStyle?: ILeafInputData
-    __focusStyle?: ILeafInputData
-    __selectedStyle?: ILeafInputData
-    __disabledStyle?: ILeafInputData
+    __stateStyle?: ILeafInputData // focus / selected / disabled
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
