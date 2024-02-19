@@ -334,10 +334,7 @@ export interface ILeafComputedData {
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
 
-    // restore style
-    __hoverStyle?: ILeafInputData
-    __pressStyle?: ILeafInputData
-    __stateStyle?: ILeafInputData // focus / selected / disabled
+    __normalStyle?: ILeafInputData // restore hover / press / focus / selected / disabled style
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {

@@ -51,6 +51,8 @@ export interface IInteraction extends IControl {
 
     findPath(data: IPointerEvent, options?: IPickOptions): ILeafList
     isDrag(leaf: ILeaf): boolean
+    isPress(leaf: ILeaf): boolean
+    isHover(leaf: ILeaf): boolean
 
     updateDownData(data?: IPointerEvent, options?: IPickOptions): void
     updateHoverData(data: IPointerEvent): void
