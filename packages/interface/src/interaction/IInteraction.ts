@@ -53,6 +53,7 @@ export interface IInteraction extends IControl {
     isDrag(leaf: ILeaf): boolean
     isPress(leaf: ILeaf): boolean
     isHover(leaf: ILeaf): boolean
+    cancelHover(): void
 
     updateDownData(data?: IPointerEvent, options?: IPickOptions): void
     updateHoverData(data: IPointerEvent): void
