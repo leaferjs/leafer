@@ -126,6 +126,7 @@ export function affectStrokeBoundsType(defaultValue?: IValue) {
 
 export function doStrokeType(leaf: ILeaf): void {
     leaf.__layout.strokeChanged || leaf.__layout.strokeChange()
+    if (leaf.__.__useArrow) doBoundsType(leaf)
 }
 
 export const strokeType = affectStrokeBoundsType
