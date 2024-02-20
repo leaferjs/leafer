@@ -81,6 +81,7 @@ export interface ILeafAttrData {
 
     cursor: ICursorType | ICursorType[]
 
+    normalStyle: ILeafInputData // restore hover / press / focus / selected / disabled style
     hoverStyle: ILeafInputData
     pressStyle: ILeafInputData
     focusStyle: ILeafInputData
@@ -250,6 +251,7 @@ export interface ILeafInputData {
 
     cursor?: ICursorType | ICursorType[]
 
+    normalStyle?: ILeafInputData
     hoverStyle?: ILeafInputData
     pressStyle?: ILeafInputData
     focusStyle?: ILeafInputData
@@ -314,6 +316,7 @@ export interface ILeafComputedData {
 
     cursor?: ICursorType | ICursorType[]
 
+    normalStyle?: ILeafInputData
     hoverStyle?: ILeafInputData
     pressStyle?: ILeafInputData
     focusStyle?: ILeafInputData
@@ -333,8 +336,6 @@ export interface ILeafComputedData {
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
-
-    __normalStyle?: ILeafInputData // restore hover / press / focus / selected / disabled style
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
