@@ -12,7 +12,7 @@ const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, setTransform, drop } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -401,6 +401,10 @@ export class Leaf implements ILeaf {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
     }
 
+
+    public transformWorld(worldTransform?: IMatrixData, resize?: boolean): void {
+        transformWorld(this, worldTransform, resize)
+    }
 
     public moveWorld(x: number, y?: number): void {
         moveWorld(this, x, y)
