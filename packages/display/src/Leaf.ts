@@ -12,7 +12,7 @@ const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, transform, setTransform, drop } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, setTransform, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -375,7 +375,7 @@ export class Leaf implements ILeaf {
     }
 
 
-    // transform
+    // transform 
 
     public setTransform(matrix: IMatrixData, resize?: boolean): void {
         setTransform(this, matrix, resize)
@@ -400,6 +400,24 @@ export class Leaf implements ILeaf {
     public skewOf(origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
         skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
     }
+
+
+    public moveWorld(x: number, y?: number): void {
+        moveWorld(this, x, y)
+    }
+
+    public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
+        zoomOfWorld(this, worldOrigin, scaleX, scaleY, resize)
+    }
+
+    public rotateOfWorld(worldOrigin: IPointData, rotation: number): void {
+        rotateOfWorld(this, worldOrigin, rotation)
+    }
+
+    public skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
+        skewOfWorld(this, worldOrigin, skewX, skewY, resize)
+    }
+
 
     // @leafer-ui/scale rewrite
 
