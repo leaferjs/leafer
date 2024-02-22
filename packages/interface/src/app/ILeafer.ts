@@ -78,6 +78,7 @@ export interface ILeaferAttrData {
     waitViewCompleted(item: IFunction): void
 
     zoom(zoomType: IZoomType, padding?: IFourNumber, fixed?: boolean): IBoundsData
+    validScale(changeScale: number): number
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | number | ILeaf | ILeaf[] | IBoundsData
