@@ -6,6 +6,8 @@ export type ITimer = any
 
 export type IPathString = string
 
+export type IFourNumber = number | number[]
+
 export interface IObject {
     [name: string]: any
 }

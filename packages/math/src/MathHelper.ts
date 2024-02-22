@@ -10,6 +10,16 @@ export const MathHelper = {
         return value
     },
 
+    minus(value: number | number[], isFourNumber: boolean): number | number[] {
+        if (value instanceof Array) {
+            if (isFourNumber) value = MathHelper.fourNumber(value)
+            for (let i = 0; i < value.length; i++) value[i] = -value[i]
+        } else {
+            value = -value
+        }
+        return value
+    },
+
     fourNumber(num: number | number[], maxValue?: number): number[] { // top right bottom left || topLeft, topRight, bottomRight, bottomLeft
         let data: number[]
         if (num instanceof Array) {

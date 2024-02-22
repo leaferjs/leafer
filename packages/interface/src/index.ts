@@ -1,5 +1,5 @@
 export { IAppBase } from './app/IApp'
-export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator } from './app/ILeafer'
+export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator, IZoomType } from './app/ILeafer'
 export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IAround } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
@@ -50,7 +50,7 @@ export { ICursorTypeMap, ICursorRotate, ICursorRotateMap } from './interaction/I
 export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPointerConfig } from './interaction/IInteraction'
 
 
-export { INumber, IBoolean, IString, IValue, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IDataTypeHandle } from './data/IData'
+export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IDataTypeHandle } from './data/IData'
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
 export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, ITwoPointBoundsData, IAutoBounds, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
 export { IFunction, IAttrDecorator } from './function/IFunction'

@@ -9,7 +9,7 @@ import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData } from '../math/I
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
-import { IObject } from '../data/IData'
+import { IFourNumber, IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
 import { IAppBase } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
@@ -76,7 +76,11 @@ export interface ILeaferAttrData {
     waitReady(item: IFunction): void
     waitViewReady(item: IFunction): void
     waitViewCompleted(item: IFunction): void
+
+    zoom(type: IZoomType, padding?: IFourNumber, fixed?: boolean): IBoundsData
 }
+
+export type IZoomType = 'in' | 'out' | 'fit' | number | ILeaf | ILeaf[] | IBoundsData
 
 export interface ILeaferBase extends IZoomView, IControl, ILeaferAttrData {
     readonly isApp: boolean

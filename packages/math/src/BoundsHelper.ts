@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -8,7 +8,7 @@ import { MathHelper, getBoundsData } from './MathHelper'
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
 const { toOuterPoint } = M
-const { float } = MathHelper
+const { float, fourNumber } = MathHelper
 const { floor, ceil } = Math
 
 let right: number, bottom: number, boundsRight: number, boundsBottom: number
@@ -33,9 +33,14 @@ export const BoundsHelper = {
         t.height = bounds.height
     },
 
-    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spreadX: number, spreadY?: number): void {
-        if (!spreadY) spreadY = spreadX
-        B.set(t, bounds.x - spreadX, bounds.y - spreadY, bounds.width + spreadX * 2, bounds.height + spreadY * 2)
+    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spreadX: IFourNumber, spreadY?: number): void {
+        if (spreadX instanceof Array) {
+            const four = fourNumber(spreadX)
+            B.set(t, bounds.x - four[3], bounds.y - four[0], bounds.width + four[1] + four[3], bounds.height + four[2] + four[0])
+        } else {
+            if (!spreadY) spreadY = spreadX
+            B.set(t, bounds.x - spreadX, bounds.y - spreadY, bounds.width + spreadX * 2, bounds.height + spreadY * 2)
+        }
     },
 
 
@@ -162,14 +167,14 @@ export const BoundsHelper = {
     },
 
 
-    getSpread(t: IBoundsData, spreadX: number, spreadY?: number): IBoundsData {
+    getSpread(t: IBoundsData, spreadX: IFourNumber, spreadY?: number): IBoundsData {
         const n = {} as IBoundsData
         B.copyAndSpread(n, t, spreadX, spreadY)
         return n
     },
 
-    spread(t: IBoundsData, spreadX: number, spreadY = spreadX): void {
-        B.copyAndSpread(t, t, spreadX, spreadY)
+    spread(t: IBoundsData, spreadX: IFourNumber, spreadY = spreadX): void {
+        B.copyAndSpread(t, t, spreadX, spreadY as number)
     },
 
     ceil(t: IBoundsData): void {

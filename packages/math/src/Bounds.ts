@@ -1,5 +1,6 @@
-import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData } from '@leafer/interface'
+import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData, IFourNumber } from '@leafer/interface'
 import { BoundsHelper as B } from './BoundsHelper'
+import { MathHelper } from './MathHelper'
 
 
 export class Bounds implements IBounds {
@@ -62,8 +63,13 @@ export class Bounds implements IBounds {
         return B.getFitMatrix(this, put)
     }
 
-    public spread(spreadX: number, spreadY?: number): IBounds {
-        B.spread(this, spreadX, spreadY)
+    public spread(fourNumber: IFourNumber, spreadY?: number): IBounds {
+        B.spread(this, fourNumber, spreadY)
+        return this
+    }
+
+    public shrink(fourNumber: IFourNumber): IBounds {
+        B.spread(this, MathHelper.minus(fourNumber, true))
         return this
     }
 
