@@ -4,7 +4,6 @@ import { LeafHelper } from '@leafer/helper'
 import { Platform } from '@leafer/platform'
 
 
-const tempMatrix = new Matrix()
 const { toOuterOf, getPoints, copy } = BoundsHelper
 
 export class LeafLayout implements ILeafLayout {
