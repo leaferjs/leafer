@@ -1,5 +1,5 @@
 import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '@leafer/interface'
-import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
+import { Bounds, BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
@@ -12,7 +12,7 @@ const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, drop } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getRelativeWorld, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -307,6 +307,14 @@ export class Leaf implements ILeaf {
 
     public getLayoutPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[] {
         return this.__layout.getLayoutPoints(type, relative)
+    }
+
+
+    public getWorldBounds(inner: IBoundsData, relative?: ILeaf, change?: boolean): IBoundsData {
+        const matrix = relative ? getRelativeWorld(this, relative) : this.worldTransform
+        const to = change ? inner : {} as IBoundsData
+        toOuterOf(inner, matrix, to)
+        return to
     }
 
 

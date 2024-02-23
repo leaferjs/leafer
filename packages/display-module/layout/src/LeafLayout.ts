@@ -1,5 +1,6 @@
 import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '@leafer/interface'
 import { Bounds, BoundsHelper, Matrix, MatrixHelper, PointHelper } from '@leafer/math'
+import { LeafHelper } from '@leafer/helper'
 import { Platform } from '@leafer/platform'
 
 
@@ -206,7 +207,7 @@ export class LeafLayout implements ILeafLayout {
                 break
             default:
                 point = leaf.getWorldPoint(bounds, relative)
-                matrix = tempMatrix.set(leaf.__world).divideParent(relative.__world)
+                matrix = LeafHelper.getRelativeWorld(leaf, relative, true)
         }
 
         const layoutBounds = MatrixHelper.getLayout(matrix) as ILayoutBoundsData

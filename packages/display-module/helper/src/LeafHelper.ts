@@ -142,11 +142,14 @@ export const LeafHelper = {
         t.set(layout)
     },
 
+    getRelativeWorld(t: ILeaf, relative: ILeaf, temp?: boolean): IMatrixData {
+        copy(matrix, t.worldTransform)
+        divideParent(matrix, relative.worldTransform)
+        return temp ? matrix : { ...matrix }
+    },
 
     drop(t: ILeaf, parent: ILeaf, index?: number, resize?: boolean): void {
-        copy(matrix, t.worldTransform)
-        divideParent(matrix, parent.worldTransform)
-        t.setTransform(matrix, resize)
+        t.setTransform(L.getRelativeWorld(t, parent, true), resize)
         parent.add(t, index)
     },
 
