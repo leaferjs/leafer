@@ -116,7 +116,10 @@ export class Leaf implements ILeaf {
         this.__layout = new this.__LayoutProcessor(this)
 
         if (this.__level) this.resetCustom()
-        if (data) data.children ? this.set(data) : Object.assign(this, data)
+        if (data) {
+            if ((data as ILeaf).__) data = (data as ILeaf).toJSON()
+            data.children ? this.set(data) : Object.assign(this, data)
+        }
     }
 
     public resetCustom(): void {
