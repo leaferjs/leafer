@@ -73,9 +73,9 @@ export interface ILeaferAttrData {
     updateCursor(cursor?: ICursorType): void
     resize(size: IScreenSizeData): void
 
-    waitReady(item: IFunction): void
-    waitViewReady(item: IFunction): void
-    waitViewCompleted(item: IFunction): void
+    waitReady(item: IFunction, bind?: IObject): void
+    waitViewReady(item: IFunction, bind?: IObject): void
+    waitViewCompleted(item: IFunction, bind?: IObject): void
 
     zoom(zoomType: IZoomType, padding?: IFourNumber, fixed?: boolean): IBoundsData
     validScale(changeScale: number): number

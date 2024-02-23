@@ -125,16 +125,22 @@ export class Leaf implements ILeaf {
     }
 
 
-    public waitParent(item: IFunction): void {
+    public waitParent(item: IFunction, bind?: IObject): void {
+        if (bind) item = item.bind(bind)
         this.parent ? item() : (this.__parentWait ? this.__parentWait.push(item) : this.__parentWait = [item])
     }
 
-    public waitLeafer(item: IFunction): void {
+    public waitLeafer(item: IFunction, bind?: IObject): void {
+        if (bind) item = item.bind(bind)
         this.leafer ? item() : (this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item])
     }
 
-    public nextRender(item: IFunction, off?: 'off'): void {
-        this.leafer ? this.leafer.nextRender(item, off) : this.waitLeafer(() => this.leafer.nextRender(item, off))
+    public nextRender(item: IFunction, bind?: IObject, off?: 'off'): void {
+        this.leafer ? this.leafer.nextRender(item, bind, off) : this.waitLeafer(() => this.leafer.nextRender(item, bind, off))
+    }
+
+    public removeNextRender(item: IFunction): void {
+        this.nextRender(item, null, 'off')
     }
 
     public __bindLeafer(leafer: ILeaferBase | null): void {

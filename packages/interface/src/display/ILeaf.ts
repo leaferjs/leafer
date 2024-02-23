@@ -408,9 +408,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     reset(data?: ILeafInputData): void
     resetCustom(): void
 
-    waitParent(item: IFunction): void
-    waitLeafer(item: IFunction): void
-    nextRender(item: IFunction, off?: 'off'): void
+    waitParent(item: IFunction, bind?: IObject): void
+    waitLeafer(item: IFunction, bind?: IObject): void
+    nextRender(item: IFunction, bind?: IObject, off?: 'off'): void
+    removeNextRender(item: IFunction): void
 
     __bindLeafer(leafer: ILeaferBase | null): void
 
