@@ -81,7 +81,7 @@ export interface ILeaferAttrData {
     validScale(changeScale: number): number
 }
 
-export type IZoomType = 'in' | 'out' | 'fit' | number | ILeaf | ILeaf[] | IBoundsData
+export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData
 
 export interface ILeaferBase extends IZoomView, IControl, ILeaferAttrData {
     readonly isApp: boolean
