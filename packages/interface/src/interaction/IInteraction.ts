@@ -88,6 +88,7 @@ export interface IMoveConfig {
     holdSpaceKey?: boolean
     holdMiddleKey?: boolean
     holdRightKey?: boolean
+    scroll?: boolean
     drag?: boolean
     dragAnimate?: boolean
     dragEmpty?: boolean
