@@ -1,7 +1,7 @@
 import { IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
 
-export type ILocationType = 'world' | 'local' | 'inner'
+export type ILocationType = 'world' | 'page' | 'local' | 'inner'
 export type IBoundsType = 'content' | 'box' | 'stroke' | 'margin' | 'render'
 
 export interface ILeafLayout {

@@ -67,7 +67,6 @@ export interface ILeaferAttrData {
     unlockLayout(): void
     lockLayout(): void
 
-    setZoomLayer(zoomLayer: ILeaf): void
     forceFullRender(): void
     forceRender(bounds?: IBoundsData): void
     updateCursor(cursor?: ICursorType): void

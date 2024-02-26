@@ -1,9 +1,10 @@
 import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '@leafer/interface'
-import { Bounds, BoundsHelper, Matrix, MatrixHelper, PointHelper } from '@leafer/math'
+import { Bounds, BoundsHelper, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafHelper } from '@leafer/helper'
 import { Platform } from '@leafer/platform'
 
 
+const { getRelativeWorld } = LeafHelper
 const { toOuterOf, getPoints, copy } = BoundsHelper
 
 export class LeafLayout implements ILeafLayout {
@@ -119,15 +120,18 @@ export class LeafLayout implements ILeafLayout {
 
     public getTransform(relative: ILocationType | ILeaf = 'world'): IMatrixData {
         this.update()
+        const { leaf } = this
         switch (relative) {
             case 'world':
-                return this.leaf.__world
+                return leaf.__world
             case 'local':
-                return this.leaf.__localMatrix
+                return leaf.__localMatrix
             case 'inner':
                 return MatrixHelper.defaultMatrix
+            case 'page':
+                relative = leaf.zoomLayer
             default:
-                return new Matrix(this.leaf.__world).divideParent(relative.__world)
+                return getRelativeWorld(leaf, relative)
         }
     }
 
@@ -140,6 +144,8 @@ export class LeafLayout implements ILeafLayout {
                 return this.getLocalBounds(type)
             case 'inner':
                 return this.getInnerBounds(type)
+            case 'page':
+                relative = this.leaf.zoomLayer
             default:
                 return new Bounds(this.getInnerBounds(type)).toOuterOf(this.getTransform(relative))
         }
@@ -204,9 +210,11 @@ export class LeafLayout implements ILeafLayout {
                 point = bounds
                 matrix = MatrixHelper.defaultMatrix
                 break
+            case 'page':
+                relative = leaf.zoomLayer
             default:
                 point = leaf.getWorldPoint(bounds, relative)
-                matrix = LeafHelper.getRelativeWorld(leaf, relative, true)
+                matrix = getRelativeWorld(leaf, relative, true)
         }
 
         const layoutBounds = MatrixHelper.getLayout(matrix) as ILayoutBoundsData
@@ -241,6 +249,8 @@ export class LeafLayout implements ILeafLayout {
                 break
             case 'inner':
                 break
+            case 'page':
+                relative = leaf.zoomLayer
             default:
                 relativeLeaf = relative
         }

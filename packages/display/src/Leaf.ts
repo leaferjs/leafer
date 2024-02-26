@@ -297,6 +297,11 @@ export class Leaf implements ILeaf {
         return this.getLayoutBounds()[attrName]
     }
 
+    public getTransform(relative?: ILocationType | ILeaf): IMatrixData {
+        return this.__layout.getTransform(relative)
+    }
+
+
     public getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData {
         return this.__layout.getBounds(type, relative)
     }

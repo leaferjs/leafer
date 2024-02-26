@@ -349,6 +349,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly app?: ILeaferBase
     leafer?: ILeaferBase
     parent?: ILeaf
+    zoomLayer?: ILeaf
 
     readonly isApp?: boolean
     readonly isLeafer?: boolean
@@ -469,6 +470,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix
 
     getWorld(attrName: ILayoutAttr): number // will remove
+    getTransform(relative?: ILocationType | ILeaf): IMatrixData
+
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
     getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData
 
