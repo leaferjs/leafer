@@ -32,15 +32,12 @@ export class Leaf implements ILeaf {
     public get __DataProcessor() { return LeafData }
     public get __LayoutProcessor() { return LeafLayout }
 
-    public get app(): ILeaferBase { return this.leafer }
     public leafer?: ILeaferBase
     public parent?: ILeaf
 
     public get isLeafer(): boolean { return false }
     public get isBranch(): boolean { return false }
     public get isBranchLeaf(): boolean { return false }
-
-    public get isFocus(): boolean { return this.app && this.app.focusLayer === this }
 
     public __: ILeafData
     public __layout: ILeafLayout
