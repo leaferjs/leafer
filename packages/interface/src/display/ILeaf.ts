@@ -36,7 +36,6 @@ export interface ILeafAttrData {
     blendMode: IBlendMode
     opacity: INumber
     visible: IBoolean
-    focus: IBoolean
     selected: IBoolean
     disabled: IBoolean
     locked: IBoolean
@@ -206,7 +205,6 @@ export interface ILeafInputData {
     blendMode?: IBlendMode
     opacity?: INumber
     visible?: IBoolean
-    focus?: IBoolean
     selected?: IBoolean
     disabled?: IBoolean
     locked?: IBoolean
@@ -272,7 +270,6 @@ export interface ILeafComputedData {
     blendMode?: IBlendMode
     opacity?: number
     visible?: boolean
-    focus?: boolean
     selected?: boolean
     disabled?: boolean
     locked?: boolean
@@ -356,6 +353,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly isBranch?: boolean
     readonly isBranchLeaf?: boolean
 
+    readonly isFocus?: boolean
+
     __: ILeafData
 
     proxyData?: ILeafInputData
@@ -433,6 +432,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     find(condition: number | string | IFindMethod, options?: any): ILeaf[]
     findOne(condition: number | string | IFindMethod, options?: any): ILeaf
 
+    focus(value?: boolean): void
     forceUpdate(attrName?: string): void
 
     updateLayout(): void
@@ -534,6 +534,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __drawRenderPath(canvas: ILeaferCanvas): void
     __updatePath(): void
     __updateRenderPath(): void
+
+    // 
 
     // branch
     children?: ILeaf[]

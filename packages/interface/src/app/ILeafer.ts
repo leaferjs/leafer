@@ -50,6 +50,7 @@ export interface ILeaferAttrData {
     hitCanvasManager?: IHitCanvasManager
 
     autoLayout?: IAutoBounds
+    focusLayer?: ILeaf
 
     config: ILeaferConfig
 
