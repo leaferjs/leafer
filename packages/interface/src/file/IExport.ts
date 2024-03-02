@@ -13,7 +13,7 @@ export interface IExportOptions {
     trim?: boolean
     fill?: string
     screenshot?: IBoundsData | boolean
-    location?: ILocationType | ILeaf
+    relative?: ILocationType | ILeaf
     onCanvas?: IExportOnCanvasFunction
 }
 
