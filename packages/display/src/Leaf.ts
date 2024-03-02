@@ -306,7 +306,7 @@ export class Leaf implements ILeaf {
     }
 
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {
-        return this.__layout.getTransform(relative)
+        return this.__layout.getTransform(relative || 'local')
     }
 
 
