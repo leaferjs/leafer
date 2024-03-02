@@ -19,3 +19,5 @@ import { PathHelper } from './PathHelper'
 PathHelper.creator = new PathCreator()
 PathHelper.parse = PathConvert.parse
 PathHelper.convertToCanvasData = PathConvert.toCanvasData
+
+export const pen = new PathCreator()

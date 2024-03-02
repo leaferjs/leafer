@@ -13,11 +13,16 @@ export class PathCreator implements IPathDrawer {
     public __path: IPathCommandData // 提供一个更安全的内部变量（比如覆盖给Pen时需要用到，避免与原有属性冲突）
 
     constructor(path?: IPathCommandData | IPathString) {
+        this.set(path)
+    }
+
+    public set(path?: IPathCommandData | IPathString): PathCreator {
         if (path) {
             this.__path = typeof path === 'string' ? PathHelper.parse(path) : path
         } else {
             this.__path = []
         }
+        return this
     }
 
     public beginPath(): PathCreator {
