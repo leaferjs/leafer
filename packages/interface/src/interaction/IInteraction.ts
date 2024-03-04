@@ -51,6 +51,8 @@ export interface IInteraction extends IControl {
     keyUp(data: IKeyEvent): void
 
     findPath(data: IPointerEvent, options?: IPickOptions): ILeafList
+    isRootPath(data: IPointerEvent): boolean
+    canMove(data: IPointerEvent): boolean
 
     isDrag(leaf: ILeaf): boolean
     isPress(leaf: ILeaf): boolean
@@ -59,7 +61,7 @@ export interface IInteraction extends IControl {
 
     cancelHover(): void
 
-    updateDownData(data?: IPointerEvent, options?: IPickOptions): void
+    updateDownData(data?: IPointerEvent, options?: IPickOptions, merge?: boolean): void
     updateHoverData(data: IPointerEvent): void
 
     updateCursor(hoverData?: IPointerEvent): void

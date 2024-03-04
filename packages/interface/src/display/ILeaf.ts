@@ -352,6 +352,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly isLeafer?: boolean
     readonly isBranch?: boolean
     readonly isBranchLeaf?: boolean
+    readonly isOutside?: boolean // scrollBar ...
 
     __: ILeafData
 

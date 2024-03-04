@@ -72,7 +72,7 @@ export class Picker {
     }
 
     public getHitablePath(leaf: ILeaf): LeafList {
-        const path = this.getPath(leaf)
+        const path = this.getPath(leaf && leaf.hittable ? leaf : null)
         let item: ILeaf, hittablePath = new LeafList()
         for (let i = path.list.length - 1; i > -1; i--) {
             item = path.list[i]
