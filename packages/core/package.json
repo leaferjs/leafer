@@ -1,6 +1,6 @@
 {
   "name": "@leafer/core",
-  "version": "1.0.0-rc.18",
+  "version": "1.0.0-rc.19",
   "description": "@leafer/core",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -25,28 +25,28 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/canvas": "1.0.0-rc.18",
-    "@leafer/image": "1.0.0-rc.18",
+    "@leafer/canvas": "1.0.0-rc.19",
+    "@leafer/image": "1.0.0-rc.19",
 
-    "@leafer/data": "1.0.0-rc.18",
-    "@leafer/debug": "1.0.0-rc.18",
-    "@leafer/decorator": "1.0.0-rc.18",
-    "@leafer/display": "1.0.0-rc.18",
-    "@leafer/display-module": "1.0.0-rc.18",
+    "@leafer/data": "1.0.0-rc.19",
+    "@leafer/debug": "1.0.0-rc.19",
+    "@leafer/decorator": "1.0.0-rc.19",
+    "@leafer/display": "1.0.0-rc.19",
+    "@leafer/display-module": "1.0.0-rc.19",
 
-    "@leafer/event": "1.0.0-rc.18",
+    "@leafer/event": "1.0.0-rc.19",
 
-    "@leafer/file": "1.0.0-rc.18",
-    "@leafer/helper": "1.0.0-rc.18",
-    "@leafer/layout": "1.0.0-rc.18",
-    "@leafer/list": "1.0.0-rc.18",
-    "@leafer/math": "1.0.0-rc.18",
+    "@leafer/file": "1.0.0-rc.19",
+    "@leafer/helper": "1.0.0-rc.19",
+    "@leafer/layout": "1.0.0-rc.19",
+    "@leafer/list": "1.0.0-rc.19",
+    "@leafer/math": "1.0.0-rc.19",
 
-    "@leafer/path": "1.0.0-rc.18",
-    "@leafer/platform": "1.0.0-rc.18",
+    "@leafer/path": "1.0.0-rc.19",
+    "@leafer/platform": "1.0.0-rc.19",
 
-    "@leafer/task": "1.0.0-rc.18",
+    "@leafer/task": "1.0.0-rc.19",
 
-    "@leafer/interface": "1.0.0-rc.18"
+    "@leafer/interface": "1.0.0-rc.19"
   }
 }
