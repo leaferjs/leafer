@@ -544,3 +544,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     remove(child?: ILeaf, destroy?: boolean): void
     dropTo(parent: ILeaf, index?: number, resize?: boolean): void
 }
+
+export type ILeafAttrDescriptor = IObject & ThisType<ILeaf>
+
+export interface ILeafAttrDescriptorFn {
+    (key: string): ILeafAttrDescriptor
+}

@@ -1,96 +1,91 @@
-import { ILeafData, ILeaf, IObject, IValue } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from '@leafer/interface'
 import { defineKey, getDescriptor } from './object'
 import { Debug } from '@leafer/debug'
 
 
 // name
 
-export function defineLeafAttr(target: ILeaf, key: string, defaultValue?: IValue, mergeDescriptor?: IObject & ThisType<ILeaf>): void {
-    const defaultDescriptor: IObject & ThisType<ILeaf> = {
+export function decorateLeafAttr(defaultValue?: IValue, descriptorFn?: ILeafAttrDescriptorFn) {
+    return (target: ILeaf, key: string) => defineLeafAttr(target, key, defaultValue, descriptorFn && descriptorFn(key))
+}
+
+export function attr(partDescriptor?: ILeafAttrDescriptor): ILeafAttrDescriptor {
+    return partDescriptor
+}
+
+
+export function defineLeafAttr(target: ILeaf, key: string, defaultValue?: IValue, partDescriptor?: ILeafAttrDescriptor): void {
+    const defaultDescriptor: ILeafAttrDescriptor = {
         get() { return this.__getAttr(key) },
         set(value: IValue) { this.__setAttr(key, value) },
         configurable: true,
         enumerable: true
     }
-    defineKey(target, key, Object.assign(defaultDescriptor, mergeDescriptor || {}))
+    defineKey(target, key, Object.assign(defaultDescriptor, partDescriptor || {}))
     defineDataProcessor(target, key, defaultValue)
 }
 
+
 export function dataType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue)
-    }
+    return decorateLeafAttr(defaultValue)
 }
 
 export function positionType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.matrixChanged || this.__layout.matrixChange()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.matrixChanged || this.__layout.matrixChange()
+        }
+    }))
 }
 
 export function autoLayoutType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.matrixChanged || this.__layout.matrixChange()
-                this.__hasAutoLayout = !!value
-                if (!this.__local) this.__layout.createLocal()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.matrixChanged || this.__layout.matrixChange()
+            this.__hasAutoLayout = !!value
+            if (!this.__local) this.__layout.createLocal()
+        }
+    }))
 }
 
 export function scaleType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.scaleChanged || this.__layout.scaleChange()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.scaleChanged || this.__layout.scaleChange()
+        }
+    }))
 }
 
-
 export function rotationType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.rotationChanged || this.__layout.rotationChange()
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.rotationChanged || this.__layout.rotationChange()
+        }
 
-            }
-        })
-    }
+    }))
 }
 
 export function boundsType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                doBoundsType(this)
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            doBoundsType(this)
+        }
+    }))
 }
 
 export function naturalBoundsType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                doBoundsType(this)
-                this.__.__removeNaturalSize()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            doBoundsType(this)
+            this.__.__removeNaturalSize()
+        }
+    }))
 }
 
 export function doBoundsType(leaf: ILeaf): void {
@@ -99,29 +94,25 @@ export function doBoundsType(leaf: ILeaf): void {
 }
 
 export function pathInputType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                if (this.__.__pathInputed !== 2) this.__.__pathInputed = value ? 1 : 0
-                this.__setAttr(key, value)
-                doBoundsType(this)
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            if (this.__.__pathInputed !== 2) this.__.__pathInputed = value ? 1 : 0
+            this.__setAttr(key, value)
+            doBoundsType(this)
+        }
+    }))
 }
 
 export const pathType = boundsType
 
 
 export function affectStrokeBoundsType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                doStrokeType(this)
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            doStrokeType(this)
+        }
+    }))
 }
 
 export function doStrokeType(leaf: ILeaf): void {
@@ -132,94 +123,78 @@ export function doStrokeType(leaf: ILeaf): void {
 export const strokeType = affectStrokeBoundsType
 
 export function affectRenderBoundsType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.renderChanged || this.__layout.renderChange()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.renderChanged || this.__layout.renderChange()
+        }
+    }))
 }
 
 export function surfaceType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.surfaceChanged || this.__layout.surfaceChange()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.surfaceChanged || this.__layout.surfaceChange()
+        }
+    }))
 }
 
 export function opacityType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.opacityChanged || this.__layout.opacityChange()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.opacityChanged || this.__layout.opacityChange()
+        }
+    }))
 }
 
 export function sortType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                this.__layout.surfaceChanged || this.__layout.surfaceChange()
-                this.waitParent(() => { this.parent.__layout.childrenSortChange() })
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            this.__layout.surfaceChanged || this.__layout.surfaceChange()
+            this.waitParent(() => { this.parent.__layout.childrenSortChange() })
+        }
+    }))
 }
 
 export function maskType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: boolean) {
-                this.__setAttr(key, value)
-                this.__layout.boxChanged || this.__layout.boxChange()
-                this.waitParent(() => { this.parent.__updateMask(value) })
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: boolean) {
+            this.__setAttr(key, value)
+            this.__layout.boxChanged || this.__layout.boxChange()
+            this.waitParent(() => { this.parent.__updateMask(value) })
+        }
+    }))
 }
 
 export function eraserType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: boolean) {
-                this.__setAttr(key, value)
-                this.waitParent(() => { this.parent.__updateEraser(value) })
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: boolean) {
+            this.__setAttr(key, value)
+            this.waitParent(() => { this.parent.__updateEraser(value) })
+        }
+    }))
 }
 
 export function hitType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
-                if (this.leafer) this.leafer.updateCursor()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
+            if (this.leafer) this.leafer.updateCursor()
+        }
+    }))
 }
 
 export function cursorType(defaultValue?: IValue) {
-    return (target: ILeaf, key: string) => {
-        defineLeafAttr(target, key, defaultValue, {
-            set(value: IValue) {
-                this.__setAttr(key, value)
-                if (this.leafer) this.leafer.updateCursor()
-            }
-        })
-    }
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            this.__setAttr(key, value)
+            if (this.leafer) this.leafer.updateCursor()
+        }
+    }))
 }
 
 
