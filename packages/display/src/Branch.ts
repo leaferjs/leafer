@@ -14,7 +14,7 @@ const { localBoxBounds, localStrokeBounds, localRenderBounds, maskLocalBoxBounds
 
 
 @useModule(BranchRender)
-export class Branch extends Leaf {
+export class Branch extends Leaf { // tip: rewrited Group
 
     // overwrite
 

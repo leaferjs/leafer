@@ -5,7 +5,7 @@ import { PathHelper } from './PathHelper'
 
 const { moveTo, lineTo, quadraticCurveTo, bezierCurveTo, closePath, beginPath, rect, roundRect, ellipse, arc, arcTo, drawEllipse, drawArc, drawPoints } = PathCommandDataHelper
 
-export class PathCreator implements IPathDrawer {
+export class PathCreator implements IPathDrawer { // tip: rewrited Pen
 
     public set path(value: IPathCommandData) { this.__path = value }
     public get path() { return this.__path }
