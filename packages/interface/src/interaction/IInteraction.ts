@@ -84,11 +84,13 @@ export interface IInteractionConfig {
 }
 
 export interface IZoomConfig {
+    disabled?: boolean
     min?: number
     max?: number
 }
 
 export interface IMoveConfig {
+    disabled?: boolean
     holdSpaceKey?: boolean
     holdMiddleKey?: boolean
     holdRightKey?: boolean

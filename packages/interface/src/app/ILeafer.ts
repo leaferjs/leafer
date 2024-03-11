@@ -77,6 +77,7 @@ export interface ILeaferAttrData {
     waitViewCompleted(item: IFunction, bind?: IObject): void
 
     zoom(zoomType: IZoomType, padding?: IFourNumber, fixedScale?: boolean): IBoundsData
+    validMove(moveX: number, moveY: number): IPointData
     validScale(changeScale: number): number
 }
 
