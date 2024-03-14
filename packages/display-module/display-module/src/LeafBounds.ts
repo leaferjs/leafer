@@ -6,7 +6,7 @@ import { BranchHelper, LeafHelper } from '@leafer/helper'
 
 const { updateMatrix, updateAllMatrix, hasParentAutoLayout } = LeafHelper
 const { updateBounds } = BranchHelper
-const { toOuterOf, copyAndSpread } = BoundsHelper
+const { toOuterOf, copyAndSpread, copy } = BoundsHelper
 const { toBounds } = PathBounds
 
 export const LeafBounds: ILeafBoundsModule = {
@@ -153,7 +153,8 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateRenderBounds(): void {
-        copyAndSpread(this.__layout.renderBounds, this.__layout.strokeBounds, this.__layout.renderSpread)
+        const { renderSpread, strokeBounds, renderBounds } = this.__layout
+        renderSpread > 0 ? copyAndSpread(renderBounds, strokeBounds, renderSpread) : copy(renderBounds, strokeBounds) // Box use -1
     },
 
 }

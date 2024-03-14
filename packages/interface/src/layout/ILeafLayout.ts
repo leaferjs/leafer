@@ -58,7 +58,7 @@ export interface ILeafLayout {
     affectChildrenSort?: boolean
 
     strokeSpread: number
-    renderSpread: number
+    renderSpread: number // -1 表示监视变化，不影响实际renderBounds，目前用在Box上
     strokeBoxSpread: number
     renderShapeSpread: number
 
