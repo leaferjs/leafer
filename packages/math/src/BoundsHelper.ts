@@ -203,11 +203,16 @@ export const BoundsHelper = {
         t.height = float(t.height, maxLength)
     },
 
-    add(t: IBoundsData, bounds: IBoundsData): void {
+    add(t: IBoundsData, bounds: IBoundsData, isPoint?: boolean): void {
         right = t.x + t.width
         bottom = t.y + t.height
-        boundsRight = bounds.x + bounds.width
-        boundsBottom = bounds.y + bounds.height
+        boundsRight = bounds.x
+        boundsBottom = bounds.y
+
+        if (!isPoint) {
+            boundsRight += bounds.width
+            boundsBottom += bounds.height
+        }
 
         right = right > boundsRight ? right : boundsRight
         bottom = bottom > boundsBottom ? bottom : boundsBottom
@@ -251,6 +256,10 @@ export const BoundsHelper = {
     setPoints(t: IBoundsData, points: IPointData[]): void {
         points.forEach((point, index) => index === 0 ? setPoint(tempPointBounds, point.x, point.y) : addPoint(tempPointBounds, point.x, point.y))
         toBounds(tempPointBounds, t)
+    },
+
+    addPoint(t: IBoundsData, point: IPointData): void {
+        add(t, point as IBoundsData, true)
     },
 
     getPoints(t: IBoundsData): IPointData[] {

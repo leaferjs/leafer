@@ -83,6 +83,7 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     setListWithFn(list: IObject[], boundsDataHandle: IBoundsDataFn): IBounds
 
     setPoints(points: IPointData[]): IBounds
+    addPoint(point: IPointData): IBounds
     getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean

@@ -120,6 +120,11 @@ export class Bounds implements IBounds {
         return this
     }
 
+    public addPoint(point: IPointData): IBounds {
+        B.addPoint(this, point)
+        return this
+    }
+
     public getPoints(): IPointData[] {
         return B.getPoints(this)
     }
