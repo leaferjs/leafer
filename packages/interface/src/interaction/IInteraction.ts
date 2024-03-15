@@ -120,6 +120,7 @@ export interface IPointerConfig {
     tapTime?: number
     longPressTime?: number
     transformTime?: number
+    hover?: boolean
     dragHover?: boolean
     dragDistance?: number
     swipeDistance?: number

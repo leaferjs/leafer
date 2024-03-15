@@ -38,6 +38,7 @@ export interface IPointerEvent extends IUIEvent {
     tiltX?: number
     tiltY?: number
     twist?: number
+    isCancel?: boolean
 }
 export type PointerType = 'mouse' | 'pen' | 'touch'
 
