@@ -20,5 +20,4 @@ export class LeaferEvent extends Event implements ILeaferEvent {
 
     static END = 'leafer.end'
 
-
 }
