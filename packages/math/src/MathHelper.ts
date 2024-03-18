@@ -12,7 +12,7 @@ export const MathHelper = {
 
     minus(value: number | number[], isFourNumber: boolean): number | number[] {
         if (value instanceof Array) {
-            if (isFourNumber) value = MathHelper.fourNumber(value)
+            if (isFourNumber) value = MathHelper.fourNumber(value, 0)
             for (let i = 0; i < value.length; i++) value[i] = -value[i]
         } else {
             value = -value
@@ -25,7 +25,7 @@ export const MathHelper = {
         if (num instanceof Array) {
             switch (num.length) {
                 case 4:
-                    data = num
+                    data = maxValue === undefined ? num : [...num]
                     break
                 case 2:
                     data = [num[0], num[1], num[0], num[1]]
