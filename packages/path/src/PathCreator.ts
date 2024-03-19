@@ -1,11 +1,11 @@
-import { IPathCommandData, IPathDrawer, IPathString } from '@leafer/interface'
+import { IPathCommandData, IPathCreator, IPathString } from '@leafer/interface'
 import { PathCommandDataHelper } from './PathCommandDataHelper'
 import { PathHelper } from './PathHelper'
 
 
 const { moveTo, lineTo, quadraticCurveTo, bezierCurveTo, closePath, beginPath, rect, roundRect, ellipse, arc, arcTo, drawEllipse, drawArc, drawPoints } = PathCommandDataHelper
 
-export class PathCreator implements IPathDrawer { // tip: rewrited Pen
+export class PathCreator implements IPathCreator { //  tip: rewrited Pen
 
     public set path(value: IPathCommandData) { this.__path = value }
     public get path() { return this.__path }
@@ -100,5 +100,7 @@ export class PathCreator implements IPathDrawer { // tip: rewrited Pen
         drawPoints(this.__path, points, curve, close)
         return this
     }
+
+    public clearPath = this.beginPath
 
 }

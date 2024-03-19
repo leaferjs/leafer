@@ -16,7 +16,7 @@ export interface IPathDrawer {
     roundRect(x: number, y: number, width: number, height: number, radius?: number | number[]): void
 }
 
-export interface IPathCreator {
+export interface IPathCreator extends IPathDrawer {
     path: IPathCommandData
     __path: IPathCommandData
 
@@ -39,4 +39,6 @@ export interface IPathCreator {
     drawEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
     drawArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
     drawPoints(points: number[], curve?: boolean | number, close?: boolean): IPathCreator
+
+    clearPath(): IPathCreator
 }
