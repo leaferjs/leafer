@@ -81,7 +81,6 @@ export class Leaf implements ILeaf {
     public get __ignoreHitWorld(): boolean { return (this.__hasMask || this.__hasEraser) && this.__.hitChildren }
 
     public get pathInputed(): boolean { return !!this.__.__pathInputed }
-    public pathClosed: boolean
 
     // event
     public __captureMap?: IEventListenerMap

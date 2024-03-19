@@ -66,6 +66,7 @@ export interface ILeafAttrData {
 
     path: IPathCommandData | IPathString
     windingRule: IWindingRule
+    closed: boolean
 
     editable: IBoolean
     editSize: IEditSize
@@ -235,6 +236,7 @@ export interface ILeafInputData {
 
     path?: IPathCommandData | IPathString
     windingRule?: IWindingRule
+    closed?: boolean
 
     editable?: IBoolean
     editSize?: IEditSize
@@ -297,6 +299,7 @@ export interface ILeafComputedData {
 
     path?: IPathCommandData
     windingRule?: IWindingRule
+    closed?: boolean
 
     draggable?: boolean
 
@@ -397,7 +400,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly __ignoreHitWorld: boolean
 
     readonly pathInputed: boolean
-    pathClosed: boolean
 
     __parentWait?: IFunction[]
     __leaferWait?: IFunction[]
