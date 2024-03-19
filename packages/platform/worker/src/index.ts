@@ -35,6 +35,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         },
         canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => (canvas as any).convertToBlob({ type: mineType(type), quality }),
         canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
+        download(_url: string, _filename: string): Promise<void> { return undefined },
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
                 if (!src.startsWith('data:') && Platform.image.suffix) src += (src.includes("?") ? "&" : "?") + Platform.image.suffix

@@ -30,9 +30,13 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         canvasToDataURL: (canvas: HTMLCanvasElement, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
         canvasToBolb: (canvas: HTMLCanvasElement, type?: IExportFileType, quality?: number) => new Promise((resolve) => canvas.toBlob(resolve, mineType(type), quality)),
         canvasSaveAs: (canvas: HTMLCanvasElement, filename: string, quality?: any) => {
+            const url = canvas.toDataURL(mineType(fileType(filename)), quality)
+            return Platform.origin.download(url, filename)
+        },
+        download(url: string, filename: string,): Promise<void> {
             return new Promise((resolve) => {
                 let el = document.createElement('a')
-                el.href = canvas.toDataURL(mineType(fileType(filename)), quality)
+                el.href = url
                 el.download = filename
                 document.body.appendChild(el)
                 el.click()

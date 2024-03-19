@@ -26,9 +26,12 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
             canvasToDataURL: (canvas: IObject, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
             canvasToBolb: (canvas: IObject, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
             canvasSaveAs: (canvas: IObject, filePath: string, quality?: any) => {
+                let data: string = canvas.toDataURL(mineType(fileType(filePath)), quality)
+                data = data.substring(data.indexOf('64,') + 3)
+                return Platform.origin.download(data, filePath)
+            },
+            download(data: string, filePath: string): Promise<void> {
                 return new Promise((resolve, reject) => {
-                    let data: string = canvas.toDataURL(mineType(fileType(filePath)), quality)
-                    data = data.substring(data.indexOf('64,') + 3)
                     let toAlbum: boolean
                     if (!filePath.includes('/')) {
                         filePath = `${app.env.USER_DATA_PATH}/` + filePath

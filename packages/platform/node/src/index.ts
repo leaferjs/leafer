@@ -34,6 +34,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURLSync(type, { quality }),
                 canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
                 canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
+                download(_url: string, _filename: string): Promise<void> { return undefined },
                 loadImage
             }
 
@@ -47,6 +48,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
                 canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(mineType(type), quality),
                 canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(mineType(fileType(filename)), quality)),
+                download(_url: string, _filename: string): Promise<void> { return undefined },
                 loadImage
             }
 

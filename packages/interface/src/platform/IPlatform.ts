@@ -26,6 +26,7 @@ export interface IPlatform {
         canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>
         canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
+        download(url: string, filename: string): Promise<void>
         loadImage(url: string): Promise<any>
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
     },
