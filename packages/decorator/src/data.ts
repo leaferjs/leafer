@@ -30,10 +30,10 @@ export function dataType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue)
 }
 
-export function positionType(defaultValue?: IValue) {
+export function positionType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
+            this.__setAttr(key, value, checkFiniteNumber)
             this.__layout.matrixChanged || this.__layout.matrixChange()
         }
     }))
@@ -50,29 +50,29 @@ export function autoLayoutType(defaultValue?: IValue) {
     }))
 }
 
-export function scaleType(defaultValue?: IValue) {
+export function scaleType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
+            this.__setAttr(key, value, checkFiniteNumber)
             this.__layout.scaleChanged || this.__layout.scaleChange()
         }
     }))
 }
 
-export function rotationType(defaultValue?: IValue) {
+export function rotationType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
+            this.__setAttr(key, value, checkFiniteNumber)
             this.__layout.rotationChanged || this.__layout.rotationChange()
         }
 
     }))
 }
 
-export function boundsType(defaultValue?: IValue) {
+export function boundsType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
+            this.__setAttr(key, value, checkFiniteNumber)
             doBoundsType(this)
         }
     }))

@@ -1,12 +1,22 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
 import { PropertyEvent } from '@leafer/event'
+import { Debug } from '@leafer/debug'
 
+
+const { isFinite } = Number
+const debug = Debug.get('setAttr')
 
 export const LeafDataProxy: ILeafDataProxyModule = {
 
-    __setAttr(name: string, newValue: IValue): void {
+    __setAttr(name: string, newValue: IValue, checkFiniteNumber?: boolean): void {
         if (this.leafer && this.leafer.created) {
             const oldValue = this.__.__getInput(name)
+
+            if (checkFiniteNumber && !isFinite(newValue) && newValue !== undefined) { // 警告 NaN、Infinity、-Infinity、null、非有效数字
+                debug.warn(this.innerName, name, newValue)
+                newValue = undefined // must
+            }
+
             if (typeof newValue === 'object' || oldValue !== newValue) {
                 (this.__ as IObject)[name] = newValue
                 if (this.__proxyData) this.setProxyAttr(name, newValue)
@@ -22,6 +32,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
                 this.leafer.emitEvent(event)
             }
+
         } else {
             (this.__ as IObject)[name] = newValue
             if (this.__proxyData) this.setProxyAttr(name, newValue)
