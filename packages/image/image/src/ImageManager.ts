@@ -61,6 +61,7 @@ export const ImageManager: IImageManager = {
 
     destroy(): void {
         I.map = {}
+        I.recycledList = []
     }
 
 }
