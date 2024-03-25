@@ -70,6 +70,7 @@ export interface ILeafAttrData {
 
     editable: IBoolean
     editSize: IEditSize
+    editorStyle: IObject
 
     hittable: IBoolean
     hitFill: IHitType
@@ -240,6 +241,7 @@ export interface ILeafInputData {
 
     editable?: IBoolean
     editSize?: IEditSize
+    editorStyle?: IObject
 
     hittable?: IBoolean
     hitFill?: IHitType
@@ -305,6 +307,7 @@ export interface ILeafComputedData {
 
     editable?: boolean
     editSize?: IEditSize
+    editorStyle?: IObject
 
     hittable?: boolean
     hitFill?: IHitType
