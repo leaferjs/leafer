@@ -52,6 +52,7 @@ export interface IInteraction extends IControl {
 
     findPath(data: IPointerEvent, options?: IPickOptions): ILeafList
     isRootPath(data: IPointerEvent): boolean
+    isTreePath(data: IPointerEvent): boolean
     canMove(data: IPointerEvent): boolean
 
     isDrag(leaf: ILeaf): boolean

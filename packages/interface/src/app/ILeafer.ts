@@ -5,7 +5,7 @@ import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
 import { ISelector, ISelectorConfig } from '../selector/ISelector'
 import { IInteraction, IInteractionCanvas, IInteractionConfig } from '../interaction/IInteraction'
 import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
-import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData } from '../math/IMath'
+import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData, IBounds } from '../math/IMath'
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
@@ -22,6 +22,7 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
     start?: boolean
     type?: ILeaferType
     realCanvas?: boolean
+    lazySpeard?: IFourNumber
 }
 
 export interface ILeaferAttrData {
@@ -50,6 +51,7 @@ export interface ILeaferAttrData {
     hitCanvasManager?: IHitCanvasManager
 
     autoLayout?: IAutoBounds
+    lazyBounds: IBounds
 
     config: ILeaferConfig
 
