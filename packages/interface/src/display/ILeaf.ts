@@ -72,7 +72,7 @@ export interface ILeafAttrData {
     editSize: IEditSize
     editorStyle: IObject
 
-    hittable: IBoolean
+    hittable: IHittable
     hitFill: IHitType
     hitStroke: IHitType
     hitBox: IBoolean
@@ -90,9 +90,10 @@ export interface ILeafAttrData {
     disabledStyle: ILeafInputData
 }
 
+export type IHittable = IBoolean | 'path' | 'pixel'
+
 export type IHitType =
-    | 'path'
-    | 'pixel'
+    | 'auto'
     | 'all'
     | 'none'
 
@@ -243,7 +244,7 @@ export interface ILeafInputData {
     editSize?: IEditSize
     editorStyle?: IObject
 
-    hittable?: IBoolean
+    hittable?: IHittable
     hitFill?: IHitType
     hitStroke?: IHitType
     hitBox?: IBoolean
@@ -309,7 +310,7 @@ export interface ILeafComputedData {
     editSize?: IEditSize
     editorStyle?: IObject
 
-    hittable?: boolean
+    hittable?: IHittable
     hitFill?: IHitType
     hitStroke?: IHitType
     hitBox?: boolean
