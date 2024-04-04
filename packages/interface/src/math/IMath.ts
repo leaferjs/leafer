@@ -163,9 +163,10 @@ export type ILayoutAttr =
 
 export interface ILayoutBoundsData extends ILayoutData, IBoundsData {
 }
-export interface IMatrix extends IMatrixData {
+export interface IMatrix extends IMatrixWithScaleData {
 
     set(a: number | IMatrixData, b: number, c: number, d: number, e: number, f: number): IMatrix
+    setWith(dataWithScale: IMatrixWithScaleData): IMatrix  // set scaleX scaleY
     get(): IMatrixData
     clone(): IMatrix
 
@@ -173,6 +174,7 @@ export interface IMatrix extends IMatrixData {
     translateInner(x: number, y: number): IMatrix
 
     scale(x: number, y?: number): IMatrix
+    scaleWith(x: number, y?: number): IMatrix // change scaleX scaleY
     scaleOfOuter(origin: IPointData, x: number, y?: number): IMatrix
     scaleOfInner(origin: IPointData, x: number, y?: number): IMatrix
 
@@ -190,6 +192,7 @@ export interface IMatrix extends IMatrixData {
     divide(child: IMatrixData): IMatrix
     divideParent(parent: IMatrixData): IMatrix
     invert(): IMatrix
+    invertWith(): IMatrix  // change scaleX scaleY
 
     toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void
     toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void

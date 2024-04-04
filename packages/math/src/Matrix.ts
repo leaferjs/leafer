@@ -11,12 +11,22 @@ export class Matrix implements IMatrix {
     public e: number
     public f: number
 
+    public scaleX: number
+    public scaleY: number
+
     constructor(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number) {
         this.set(a, b, c, d, e, f)
     }
 
     public set(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): IMatrix {
         typeof a === 'object' ? M.copy(this, a) : M.set(this, a, b, c, d, e, f)
+        return this
+    }
+
+    public setWith(dataWithScale: IMatrixWithScaleData): IMatrix {
+        M.copy(this, dataWithScale)
+        this.scaleX = dataWithScale.scaleX
+        this.scaleY = dataWithScale.scaleY
         return this
     }
 
@@ -42,6 +52,13 @@ export class Matrix implements IMatrix {
 
     public scale(x: number, y?: number): IMatrix {
         M.scale(this, x, y)
+        return this
+    }
+
+    public scaleWith(x: number, y?: number): IMatrix {
+        M.scale(this, x, y)
+        this.scaleX *= x
+        this.scaleY *= y
         return this
     }
 
@@ -109,6 +126,13 @@ export class Matrix implements IMatrix {
 
     public invert(): IMatrix {
         M.invert(this)
+        return this
+    }
+
+    public invertWith(): IMatrix {
+        M.invert(this)
+        this.scaleX = 1 / this.scaleX
+        this.scaleY = 1 / this.scaleY
         return this
     }
 
