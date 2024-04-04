@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData } from '@leafer/interface'
 import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -72,7 +72,9 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public init(): void { }
 
     public __createContext(): void {
-        this.context = this.view.getContext('2d')
+        const { view } = this
+        const { contextSettings } = this.config
+        this.context = contextSettings ? view.getContext('2d', contextSettings) : view.getContext('2d')
         this.__bindContext()
     }
 
@@ -213,6 +215,14 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public hitStroke(point: IPointData, strokeWidth?: number): boolean {
         this.strokeWidth = strokeWidth
         return this.context.isPointInStroke(point.x, point.y)
+    }
+
+    public hitPixel(radiusPoint: IRadiusPointData, scale = 1): boolean { // 画布必须有alpha通道
+        let { x, y, radiusX, radiusY } = radiusPoint
+        radiusX *= scale, radiusY *= scale
+        const { data } = this.context.getImageData(x * scale - radiusX, y * scale - radiusY, radiusX * 2, radiusY * 2)
+        for (let i = 0, len = data.length; i < len; i += 4) { if (data[i + 3] > 0) return true }
+        return data[3] > 0
     }
 
 

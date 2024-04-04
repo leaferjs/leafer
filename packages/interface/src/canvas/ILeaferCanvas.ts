@@ -1,6 +1,6 @@
 import { IObject } from '../data/IData'
-import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData } from '../math/IMath'
-import { ICanvasContext2D, IWindingRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern } from './ICanvas'
+import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData, IRadiusPointData } from '../math/IMath'
+import { ICanvasContext2D, IWindingRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern, ICanvasRenderingContext2DSettings } from './ICanvas'
 import { IResizeEventListener } from '../event/IEvent'
 import { IPathDrawer } from '../path/IPathDrawer'
 import { InnerId } from '../event/IEventer'
@@ -15,6 +15,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     smooth?: boolean
     hittable?: boolean
     webgl?: boolean
+    contextSettings?: ICanvasRenderingContext2DSettings
 }
 
 export type IHitCanvasConfig = ILeaferCanvasConfig
@@ -111,6 +112,8 @@ interface ICanvasMethod {
 
     hitFill(point: IPointData, fillRule?: string): boolean
     hitStroke(point: IPointData, strokeWidth?: number): boolean
+    hitPixel(radiusPoint: IRadiusPointData, scale?: number): boolean
+
 
     setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
     setStrokeOptions(options: ICanvasStrokeOptions): void
