@@ -72,7 +72,7 @@ export interface ILeafAttrData {
     editSize: IEditSize
     editorStyle: IObject
 
-    hittable: IHittable
+    hittable: IBoolean
     hitFill: IHitType
     hitStroke: IHitType
     hitBox: IBoolean
@@ -90,10 +90,9 @@ export interface ILeafAttrData {
     disabledStyle: ILeafInputData
 }
 
-export type IHittable = IBoolean | 'path' | 'pixel'
-
 export type IHitType =
-    | 'auto'
+    | 'path'
+    | 'pixel'
     | 'all'
     | 'none'
 
@@ -244,7 +243,7 @@ export interface ILeafInputData {
     editSize?: IEditSize
     editorStyle?: IObject
 
-    hittable?: IHittable
+    hittable?: IBoolean
     hitFill?: IHitType
     hitStroke?: IHitType
     hitBox?: IBoolean
@@ -310,7 +309,7 @@ export interface ILeafComputedData {
     editSize?: IEditSize
     editorStyle?: IObject
 
-    hittable?: IHittable
+    hittable?: boolean
     hitFill?: IHitType
     hitStroke?: IHitType
     hitBox?: boolean
@@ -518,8 +517,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean
     __hit(local: IRadiusPointData): boolean
-    __hitFill(inner: IRadiusPointData, windingRule?: string): boolean
+    __hitFill(inner: IRadiusPointData): boolean
     __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean
+    __hitPixel(inner: IRadiusPointData): boolean
     __drawHitPath(canvas: ILeaferCanvas): void
     __updateHitCanvas(): void
 
@@ -529,7 +529,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __draw(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void
-    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions, ignoreFill?: boolean, ignoreStroke?: boolean): void
 
     __updateWorldOpacity(): void
     __updateChange(): void

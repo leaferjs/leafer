@@ -467,13 +467,11 @@ export class Leaf implements ILeaf {
 
     public __hit(_local: IRadiusPointData): boolean { return true }
 
-    public __hitFill(inner: IRadiusPointData, windingRule?: string): boolean {
-        return this.__hitCanvas?.hitFill(inner, windingRule)
-    }
+    public __hitFill(inner: IRadiusPointData): boolean { return this.__hitCanvas.hitFill(inner, this.__.windingRule) }
 
-    public __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean {
-        return this.__hitCanvas?.hitStroke(inner, strokeWidth)
-    }
+    public __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean { return this.__hitCanvas.hitStroke(inner, strokeWidth) }
+
+    public __hitPixel(inner: IRadiusPointData): boolean { return this.__hitCanvas.hitPixel(inner, this.__layout.renderBounds, this.__hitCanvas.hitScale) }
 
     public __drawHitPath(canvas: ILeaferCanvas): void {
         if (canvas) this.__drawRenderPath(canvas)
@@ -495,7 +493,7 @@ export class Leaf implements ILeaf {
 
     public __clip(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+    public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions, _ignoreFill?: boolean, _ignoreStroke?: boolean): void { }
 
 
     public __updateWorldOpacity(): void { }

@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator, IZoomType } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHittable, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
@@ -36,7 +36,7 @@ export { IPlugin } from './plugin/IPlugin'
 export { ILeaferCanvas, ILeaferCanvasView, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ICanvasCacheOptions, ILeaferCanvasConfig, IHitCanvasConfig, IBlobFunction, IBlob } from './canvas/ILeaferCanvas'
 export { ISkiaCanvas, ISkiaCanvasExportConfig, ICanvasType, ISkiaNAPICanvas } from './canvas/ISkiaCanvas'
 export { IPathDrawer, IPathCreator } from './path/IPathDrawer'
-export { IWindingRule, ICanvasContext2D, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'
+export { IWindingRule, ICanvasContext2D, ITextMetrics, IPath2D, ICanvasPattern, ICanvasRenderingContext2DSettings } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'

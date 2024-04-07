@@ -10,7 +10,7 @@ export interface ILeafRender {
     __drawFast?(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __clip?(_canvas: ILeaferCanvas, _options: IRenderOptions): void
-    __renderShape?(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __renderShape?(canvas: ILeaferCanvas, options: IRenderOptions, ignoreFill?: boolean, ignoreStroke?: boolean): void
 
     __updateWorldOpacity?(): void
     __updateChange?(): void

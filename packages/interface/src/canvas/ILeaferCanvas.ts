@@ -112,7 +112,7 @@ interface ICanvasMethod {
 
     hitFill(point: IPointData, fillRule?: string): boolean
     hitStroke(point: IPointData, strokeWidth?: number): boolean
-    hitPixel(radiusPoint: IRadiusPointData, scale?: number): boolean
+    hitPixel(radiusPoint: IRadiusPointData, offset?: IPointData, scale?: number): boolean
 
 
     setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
@@ -202,7 +202,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
 
 export interface IHitCanvas extends ILeaferCanvas {
-
+    hitScale?: number
 }
 
 
