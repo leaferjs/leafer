@@ -11,6 +11,7 @@ export interface IImageManager {
     recycledList: ILeaferImage[]
     tasker: ITaskProcessor
     patternTasker: ITaskProcessor
+    patternLocked?: boolean // 锁定pattern不更新, 一般用于创建碰撞位图
     readonly isComplete: boolean
     get(config: ILeaferImageConfig): ILeaferImage
     recycle(image: ILeaferImage): void

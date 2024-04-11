@@ -221,7 +221,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         let { x, y, radiusX, radiusY } = radiusPoint
         if (offset) x -= offset.x, y -= offset.y
         if (scale) x *= scale, y *= scale, radiusX *= scale, radiusY *= scale
-        const { data } = this.context.getImageData(x - radiusX, y - radiusY, radiusX * 2, radiusY * 2)
+        const { data } = this.context.getImageData(x - radiusX, y - radiusY, Math.max(radiusX * 2, 1), Math.max(radiusY * 2, 1))
         for (let i = 0, len = data.length; i < len; i += 4) { if (data[i + 3] > 0) return true }
         return data[3] > 0
     }
