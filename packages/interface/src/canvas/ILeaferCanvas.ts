@@ -1,6 +1,6 @@
 import { IObject } from '../data/IData'
 import { IBounds, IMatrixData, IBoundsData, IAutoBoundsData, IAutoBounds, IScreenSizeData, IMatrixWithBoundsData, IPointData, IRadiusPointData } from '../math/IMath'
-import { ICanvasContext2D, IWindingRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern, ICanvasRenderingContext2DSettings } from './ICanvas'
+import { ICanvasContext2D, IWindingRule, IPath2D, ITextMetrics, CanvasGradient, CanvasPattern, ICanvasContext2DSettings } from './ICanvas'
 import { IResizeEventListener } from '../event/IEvent'
 import { IPathDrawer } from '../path/IPathDrawer'
 import { InnerId } from '../event/IEventer'
@@ -15,7 +15,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     smooth?: boolean
     hittable?: boolean
     webgl?: boolean
-    contextSettings?: ICanvasRenderingContext2DSettings
+    contextSettings?: ICanvasContext2DSettings
 }
 
 export type IHitCanvasConfig = ILeaferCanvasConfig

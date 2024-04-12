@@ -125,12 +125,15 @@ interface CanvasRect {
 }
 
 type PredefinedColorSpace = 'display-p3' | 'srgb'
-export interface ICanvasRenderingContext2DSettings {
+interface ICanvasRenderingContext2DSettings {
     alpha?: boolean
     colorSpace?: PredefinedColorSpace
     desynchronized?: boolean
     willReadFrequently?: boolean
 }
+
+export type ICanvasContext2DSettings = ICanvasRenderingContext2DSettings
+
 export interface ICanvasContext2D extends CanvasCompositing, CanvasDrawImage, CanvasDrawPath, CanvasFillStrokeStyles, CanvasFilters, CanvasImageData, CanvasImageSmoothing, CanvasPath, CanvasPathDrawingStyles, CanvasRect, CanvasShadowStyles, CanvasState, CanvasText, CanvasTextDrawingStyles, CanvasTransform, CanvasUserInterface {
     readonly canvas: HTMLCanvasElement
     getContextAttributes(): ICanvasRenderingContext2DSettings
