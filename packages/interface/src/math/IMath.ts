@@ -68,7 +68,7 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IBounds
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     toInnerOf(matrix: IMatrixData, to?: IBoundsData): IBounds
-    getFitMatrix(put: IBoundsData): IMatrix
+    getFitMatrix(put: IBoundsData, baseScale?: number): IMatrix
 
     spread(fourNumber: IFourNumber, spreadY?: number): IBounds
     shrink(fourNumber: IFourNumber): IBounds

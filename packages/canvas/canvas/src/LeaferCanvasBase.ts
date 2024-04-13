@@ -217,11 +217,11 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         return this.context.isPointInStroke(point.x, point.y)
     }
 
-    public hitPixel(radiusPoint: IRadiusPointData, offset?: IPointData, scale?: number): boolean { // 画布必须有alpha通道
+    public hitPixel(radiusPoint: IRadiusPointData, offset?: IPointData, scale = 1): boolean { // 画布必须有alpha通道
         let { x, y, radiusX, radiusY } = radiusPoint
         if (offset) x -= offset.x, y -= offset.y
-        if (scale) x *= scale, y *= scale, radiusX *= scale, radiusY *= scale
-        const { data } = this.context.getImageData(x - radiusX, y - radiusY, Math.max(radiusX * 2, 1), Math.max(radiusY * 2, 1))
+        temp.set(x - radiusX, y - radiusY, radiusX * 2, radiusY * 2).scale(scale).ceil()
+        const { data } = this.context.getImageData(temp.x, temp.y, temp.width, temp.height)
         for (let i = 0, len = data.length; i < len; i += 4) { if (data[i + 3] > 0) return true }
         return data[3] > 0
     }
