@@ -461,21 +461,19 @@ export class Leaf implements ILeaf {
 
     public __scaleResize(_scaleX: number, _scaleY: number): void { }
 
-    // LeafHit rewrite
+    // @leafer-ui/hit LeafHit rewrite
 
     public __hitWorld(_point: IRadiusPointData): boolean { return true }
 
     public __hit(_local: IRadiusPointData): boolean { return true }
 
-    public __hitFill(inner: IRadiusPointData): boolean { return this.__hitCanvas?.hitFill(inner, this.__.windingRule) }
+    public __hitFill(_inner: IRadiusPointData): boolean { return true }
 
-    public __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean { return this.__hitCanvas?.hitStroke(inner, strokeWidth) }
+    public __hitStroke(_inner: IRadiusPointData, _strokeWidth: number): boolean { return true }
 
-    public __hitPixel(inner: IRadiusPointData): boolean { return this.__hitCanvas?.hitPixel(inner, this.__layout.renderBounds, this.__hitCanvas.hitScale) }
+    public __hitPixel(_inner: IRadiusPointData): boolean { return true }
 
-    public __drawHitPath(canvas: ILeaferCanvas): void {
-        if (canvas) this.__drawRenderPath(canvas)
-    }
+    public __drawHitPath(_canvas: ILeaferCanvas): void { }
 
     public __updateHitCanvas(): void { }
 
