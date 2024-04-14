@@ -8,7 +8,7 @@ const debug = Debug.get('setAttr')
 
 export const LeafDataProxy: ILeafDataProxyModule = {
 
-    __setAttr(name: string, newValue: IValue, checkFiniteNumber?: boolean): void {
+    __setAttr(name: string, newValue: IValue, checkFiniteNumber?: boolean): boolean {
         if (this.leafer && this.leafer.created) {
             const oldValue = this.__.__getInput(name)
 
@@ -31,11 +31,15 @@ export const LeafDataProxy: ILeafDataProxyModule = {
                 }
 
                 this.leafer.emitEvent(event)
+                return true
+            } else {
+                return false
             }
 
         } else {
             (this.__ as IObject)[name] = newValue
             if (this.__proxyData) this.setProxyAttr(name, newValue)
+            return true
         }
     },
 

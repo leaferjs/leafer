@@ -427,7 +427,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     toHTML?(): string
 
     // ILeafData ->
-    __setAttr(attrName: string, newValue: IValue, checkFiniteNumber?: boolean): void
+    __setAttr(attrName: string, newValue: IValue, checkFiniteNumber?: boolean): boolean
     __getAttr(attrName: string): IValue
     setProxyAttr(name: string, newValue: IValue): void
     getProxyAttr(name: string): IValue

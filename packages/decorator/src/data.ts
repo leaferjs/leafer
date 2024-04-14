@@ -72,8 +72,7 @@ export function rotationType(defaultValue?: IValue, checkFiniteNumber?: boolean)
 export function boundsType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value, checkFiniteNumber)
-            doBoundsType(this)
+            this.__setAttr(key, value, checkFiniteNumber) && doBoundsType(this)
         }
     }))
 }
@@ -109,8 +108,7 @@ export const pathType = boundsType
 export function affectStrokeBoundsType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            doStrokeType(this)
+            this.__setAttr(key, value) && doStrokeType(this)
         }
     }))
 }

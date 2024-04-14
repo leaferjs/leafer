@@ -183,7 +183,7 @@ export class Leaf implements ILeaf {
 
     // LeafDataProxy rewrite
 
-    public __setAttr(_attrName: string, _newValue: IValue): void { }
+    public __setAttr(_attrName: string, _newValue: IValue): boolean { return true }
 
     public __getAttr(_attrName: string): IValue { return undefined }
 
