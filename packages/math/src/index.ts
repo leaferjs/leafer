@@ -1,9 +1,9 @@
 export { IncrementId } from './IncrementId'
 
-export { Point } from './Point'
-export { Bounds } from './Bounds'
+export { Point, tempPoint } from './Point'
+export { Bounds, tempBounds } from './Bounds'
 export { AutoBounds } from './AutoBounds'
-export { Matrix } from './Matrix'
+export { Matrix, tempMatrix } from './Matrix'
 
 export { PointHelper } from './PointHelper'
 export { AroundHelper } from './AroundHelper'

@@ -164,3 +164,5 @@ export class Matrix implements IMatrix {
     }
 
 }
+
+export const tempMatrix = new Matrix()

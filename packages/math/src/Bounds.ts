@@ -171,3 +171,5 @@ export class Bounds implements IBounds {
     }
 
 }
+
+export const tempBounds = new Bounds()

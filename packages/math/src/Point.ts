@@ -94,3 +94,5 @@ export class Point implements IPoint {
     }
 
 }
+
+export const tempPoint = new Point()

@@ -1,5 +1,5 @@
 import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData } from '@leafer/interface'
-import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
+import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
 
@@ -7,7 +7,6 @@ import { Canvas } from './Canvas'
 
 
 const { copy } = MatrixHelper
-const temp = new Bounds()
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
 
 export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
@@ -247,30 +246,30 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
         if (blendMode) this.blendMode = blendMode
         this.fillStyle = color
-        temp.set(bounds).scale(this.pixelRatio)
-        this.fillRect(temp.x, temp.y, temp.width, temp.height)
+        tempBounds.set(bounds).scale(this.pixelRatio)
+        this.fillRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
         if (blendMode) this.blendMode = 'source-over'
     }
 
     public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
         if (blendMode) this.blendMode = blendMode
         this.strokeStyle = color
-        temp.set(bounds).scale(this.pixelRatio)
-        this.strokeRect(temp.x, temp.y, temp.width, temp.height)
+        tempBounds.set(bounds).scale(this.pixelRatio)
+        this.strokeRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
         if (blendMode) this.blendMode = 'source-over'
     }
 
     public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        temp.set(bounds).scale(this.pixelRatio)
-        if (ceilPixel) temp.ceil()
-        this.clearRect(temp.x, temp.y, temp.width, temp.height)
+        tempBounds.set(bounds).scale(this.pixelRatio)
+        if (ceilPixel) tempBounds.ceil()
+        this.clearRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
     }
 
     public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
         this.beginPath()
-        temp.set(bounds).scale(this.pixelRatio)
-        if (ceilPixel) temp.ceil()
-        this.rect(temp.x, temp.y, temp.width, temp.height)
+        tempBounds.set(bounds).scale(this.pixelRatio)
+        if (ceilPixel) tempBounds.ceil()
+        this.rect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
         this.clip()
 
     }
