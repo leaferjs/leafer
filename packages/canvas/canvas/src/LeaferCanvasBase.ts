@@ -2,8 +2,6 @@ import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExp
 import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
-import { FileHelper } from '@leafer/file'
-import { Debug } from '@leafer/debug'
 
 import { Canvas } from './Canvas'
 
@@ -11,7 +9,6 @@ import { Canvas } from './Canvas'
 const { copy } = MatrixHelper
 const temp = new Bounds()
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
-const debug = Debug.get('LeaferCanvasBase')
 
 export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
 
@@ -78,42 +75,17 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.__bindContext()
     }
 
-    public export(filename: IExportFileType | string, options?: IExportOptions | number | boolean): string | Promise<any> {
-        const { quality, blob } = FileHelper.getExportOptions(options)
-        if (filename.includes('.')) {
-            return this.saveAs(filename, quality)
-        } else if (blob) {
-            return this.toBlob(filename as IExportFileType, quality)
-        } else {
-            return this.toDataURL(filename as IExportImageType, quality)
-        }
-    }
+    // @leafer-ui/export rewrite
 
-    public toBlob(type?: IExportFileType, quality?: number): Promise<IBlob> {
-        return new Promise((resolve) => {
-            Platform.origin.canvasToBolb(this.view, type, quality).then((blob) => {
-                resolve(blob)
-            }).catch((e) => {
-                debug.error(e)
-                resolve(null)
-            })
-        })
-    }
+    public export(_filename: IExportFileType | string, _options?: IExportOptions | number | boolean): string | Promise<any> { return undefined }
 
-    public toDataURL(type?: IExportImageType, quality?: number): string | Promise<string> {
-        return Platform.origin.canvasToDataURL(this.view, type, quality)
-    }
+    public toBlob(_type?: IExportFileType, _quality?: number): Promise<IBlob> { return undefined }
 
-    public saveAs(filename: string, quality?: number): Promise<boolean> {
-        return new Promise((resolve) => {
-            Platform.origin.canvasSaveAs(this.view, filename, quality).then(() => {
-                resolve(true)
-            }).catch((e) => {
-                debug.error(e)
-                resolve(false)
-            })
-        })
-    }
+    public toDataURL(_type?: IExportImageType, _quality?: number): string | Promise<string> { return undefined }
+
+    public saveAs(_filename: string, _quality?: number): Promise<boolean> { return undefined }
+
+    // ---
 
     public resize(size: IScreenSizeData): void {
         if (this.isSameSize(size)) return
