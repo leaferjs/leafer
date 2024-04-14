@@ -58,7 +58,7 @@ export class Matrix implements IMatrix {
     public scaleWith(x: number, y?: number): IMatrix {
         M.scale(this, x, y)
         this.scaleX *= x
-        this.scaleY *= y
+        this.scaleY *= y || x
         return this
     }
 
