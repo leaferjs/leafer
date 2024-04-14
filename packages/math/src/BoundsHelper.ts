@@ -161,7 +161,7 @@ export const BoundsHelper = {
         B.scale(to, 1 / matrix.a, 1 / matrix.d)
     },
 
-    getFitMatrix(t: IBoundsData, put: IBoundsData, baseScale: number): IMatrix {
+    getFitMatrix(t: IBoundsData, put: IBoundsData, baseScale = 1): IMatrix {
         const scale = Math.min(baseScale, Math.min(t.width / put.width, t.height / put.height))
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
