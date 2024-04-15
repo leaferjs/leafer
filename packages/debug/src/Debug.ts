@@ -8,6 +8,7 @@ export class Debug {
     static excludeList: string[] = []
 
     // other
+    static showWarn = true
     static showRepaint: boolean
     static showHitView: boolean | string | string[]
     static showBoundsView: boolean | string | string[]
@@ -46,7 +47,7 @@ export class Debug {
     }
 
     warn(...messages: unknown[]): void {
-        console.warn(this.name, ...messages)
+        if (D.showWarn) console.warn(this.name, ...messages)
     }
 
     repeat(name: string, ...messages: unknown[]) {
