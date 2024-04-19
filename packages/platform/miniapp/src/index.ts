@@ -46,9 +46,12 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                             if (toAlbum) {
                                 Platform.miniapp.saveToAlbum(filePath).then(() => {
                                     fs.unlink({ filePath })
+                                    resolve()
                                 })
+                            }else {
+                                resolve()
                             }
-                            resolve()
+                            
                         },
                         fail(error: any) {
                             reject(error)
