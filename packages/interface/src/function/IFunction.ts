@@ -1,3 +1,4 @@
+import { IObject } from '../data/IData'
 import { IPointData } from '../math/IMath'
 
 export interface IFunction {
@@ -6,6 +7,14 @@ export interface IFunction {
 
 export interface INumberFunction {
     (...arg: any): number
+}
+
+export interface IStringFunction {
+    (...arg: any): string
+}
+
+export interface IObjectFunction {
+    (...arg: any): IObject
 }
 
 export interface IPointDataFunction {
