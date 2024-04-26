@@ -62,7 +62,8 @@ export interface ILeafAttrData {
     lazy: IBoolean
     pixelRatio: INumber
 
-    draggable: IBoolean
+    draggable: IBoolean | 'x' | 'y'
+    dragBounds: IBoundsData
 
     path: IPathCommandData | IPathString
     windingRule: IWindingRule
@@ -233,7 +234,8 @@ export interface ILeafInputData {
     lazy?: IBoolean
     pixelRatio?: INumber
 
-    draggable?: IBoolean
+    draggable?: IBoolean | 'x' | 'y'
+    dragBounds?: IBoundsData
 
     path?: IPathCommandData | IPathString
     windingRule?: IWindingRule
@@ -303,7 +305,8 @@ export interface ILeafComputedData {
     windingRule?: IWindingRule
     closed?: boolean
 
-    draggable?: boolean
+    draggable?: boolean | 'x' | 'y'
+    dragBounds?: IBoundsData
 
     editable?: boolean
     editSize?: IEditSize
