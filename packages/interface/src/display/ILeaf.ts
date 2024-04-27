@@ -63,7 +63,7 @@ export interface ILeafAttrData {
     pixelRatio: INumber
 
     draggable: IBoolean | 'x' | 'y'
-    dragBounds: IBoundsData
+    dragBounds?: IBoundsData | 'parent'
 
     path: IPathCommandData | IPathString
     windingRule: IWindingRule
@@ -71,7 +71,6 @@ export interface ILeafAttrData {
 
     editable: IBoolean
     editSize: IEditSize
-    editorStyle: IObject
 
     hittable: IBoolean
     hitFill: IHitType
@@ -235,7 +234,7 @@ export interface ILeafInputData {
     pixelRatio?: INumber
 
     draggable?: IBoolean | 'x' | 'y'
-    dragBounds?: IBoundsData
+    dragBounds?: IBoundsData | 'parent'
 
     path?: IPathCommandData | IPathString
     windingRule?: IWindingRule
@@ -243,7 +242,6 @@ export interface ILeafInputData {
 
     editable?: IBoolean
     editSize?: IEditSize
-    editorStyle?: IObject
 
     hittable?: IBoolean
     hitFill?: IHitType
@@ -306,11 +304,10 @@ export interface ILeafComputedData {
     closed?: boolean
 
     draggable?: boolean | 'x' | 'y'
-    dragBounds?: IBoundsData
+    dragBounds?: IBoundsData | 'parent'
 
     editable?: boolean
     editSize?: IEditSize
-    editorStyle?: IObject
 
     hittable?: boolean
     hitFill?: IHitType
