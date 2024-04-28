@@ -500,13 +500,13 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     setTransform(transform?: IMatrixData, resize?: boolean): void
     transform(transform?: IMatrixData, resize?: boolean): void
 
-    move(x: number, y?: number): void
+    move(x: number | IPointData, y?: number): void
     scaleOf(origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void
     rotateOf(origin: IPointData, rotation: number): void
     skewOf(origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void
 
     transformWorld(worldTransform?: IMatrixData, resize?: boolean): void
-    moveWorld(x: number, y?: number): void
+    moveWorld(x: number | IPointData, y?: number): void
     scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void
     rotateOfWorld(worldOrigin: IPointData, rotation: number): void
     skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean): void

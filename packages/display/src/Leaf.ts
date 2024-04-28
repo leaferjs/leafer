@@ -414,7 +414,7 @@ export class Leaf implements ILeaf {
         transform(this, matrix, resize)
     }
 
-    public move(x: number, y?: number): void {
+    public move(x: number | IPointData, y?: number): void {
         moveLocal(this, x, y)
     }
 
@@ -435,7 +435,7 @@ export class Leaf implements ILeaf {
         transformWorld(this, worldTransform, resize)
     }
 
-    public moveWorld(x: number, y?: number): void {
+    public moveWorld(x: number | IPointData, y?: number): void {
         moveWorld(this, x, y)
     }
 
