@@ -15,6 +15,7 @@ export interface IPickOptions {
     through?: boolean
     target?: IBranch
     findList?: ILeaf[]
+    bottomList?: ILeafList  // 底部可拾取的虚拟元素
     exclude?: ILeafList
     ignoreHittable?: boolean
 }

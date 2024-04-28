@@ -26,6 +26,8 @@ export interface IInteraction extends IControl {
     cursor: ICursorType | ICursorType[]
     readonly hitRadius: number
 
+    bottomList?: ILeafList // 底部可拾取的虚拟元素
+
     shrinkCanvasBounds: IBounds
 
     downData: IPointerEvent

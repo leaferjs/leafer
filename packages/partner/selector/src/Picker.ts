@@ -9,7 +9,7 @@ export class Picker {
     protected target: ILeaf
     protected selector: ISelector
 
-    protected findList: ILeaf[]
+    protected findList: ILeafList
     protected exclude: ILeafList
 
     protected point: IRadiusPointData
@@ -29,12 +29,13 @@ export class Picker {
         this.exclude = options.exclude || null
 
         this.point = { x: hitPoint.x, y: hitPoint.y, radiusX: hitRadius, radiusY: hitRadius }
-        this.findList = options.findList || []
+        this.findList = new LeafList(options.findList)
 
         // path
-        if (!options.findList) this.eachFind(target.children, target.__onlyHitMask)
+        if (!options.findList) this.hitBranch(target)
+        if (!this.findList.length) this.checkBottomList(options.bottomList)
 
-        const list = this.findList
+        const { list } = this.findList
         const leaf = this.getBestMatchLeaf()
         const path = ignoreHittable ? this.getPath(leaf) : this.getHitablePath(leaf)
 
@@ -43,22 +44,29 @@ export class Picker {
         return through ? { path, target: leaf, throughPath: list.length ? this.getThroughPath(list) : path } : { path, target: leaf }
     }
 
+    public checkBottomList(list: ILeafList): void {
+        if (list && list.length) for (let i = 0, len = list.length; i < len; i++) {
+            const leaf = list.list[i]
+            leaf.isBranch ? this.hitBranch(leaf) : this.hitChild(leaf, this.point)
+        }
+    }
+
     public getBestMatchLeaf(): ILeaf {
-        const { findList: targets } = this
-        if (targets.length > 1) {
+        const { list } = this.findList
+        if (list.length > 1) {
             let find: ILeaf
-            this.findList = []
+            this.findList = new LeafList()
             const { x, y } = this.point
             const point = { x, y, radiusX: 0, radiusY: 0 }
-            for (let i = 0, len = targets.length; i < len; i++) {
-                find = targets[i]
+            for (let i = 0, len = list.length; i < len; i++) {
+                find = list[i]
                 if (LeafHelper.worldHittable(find)) {
                     this.hitChild(find, point)
-                    if (this.findList.length) return this.findList[0]
+                    if (this.findList.length) return this.findList.list[0]
                 }
             }
         }
-        return targets[0]
+        return list[0]
     }
 
     public getPath(leaf: ILeaf): LeafList {
@@ -104,6 +112,9 @@ export class Picker {
         return throughPath
     }
 
+    protected hitBranch(branch: ILeaf): void {
+        this.eachFind(branch.children, branch.__onlyHitMask)
+    }
 
     protected eachFind(children: ILeaf[], hitMask: boolean): void {
         let child: ILeaf, hit: boolean
@@ -126,7 +137,7 @@ export class Picker {
 
     protected hitChild(child: ILeaf, point: IRadiusPointData): void {
         if (this.exclude && this.exclude.has(child)) return
-        if (child.__hitWorld(point)) this.findList.push(child)
+        if (child.__hitWorld(point)) this.findList.add(child.pickLeaf || child)
     }
 
     protected clear(): void {
