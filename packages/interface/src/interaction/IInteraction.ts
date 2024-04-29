@@ -3,7 +3,7 @@ import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEven
 import { ILeaf, ICursorType } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IPointData } from '../math/IMath'
-import { ISelector, IPickOptions } from '../selector/ISelector'
+import { ISelector, IPickOptions, IPickBottom } from '../selector/ISelector'
 import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
@@ -26,7 +26,7 @@ export interface IInteraction extends IControl {
     cursor: ICursorType | ICursorType[]
     readonly hitRadius: number
 
-    bottomList?: ILeafList // 底部可拾取的虚拟元素
+    bottomList?: IPickBottom[] // 底部可拾取的虚拟元素
 
     shrinkCanvasBounds: IBounds
 

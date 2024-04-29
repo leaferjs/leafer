@@ -1,4 +1,4 @@
-import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector } from '@leafer/interface'
+import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom } from '@leafer/interface'
 import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 
@@ -32,11 +32,10 @@ export class Picker {
         this.findList = new LeafList(options.findList)
 
         // path
-        if (!options.findList) this.hitBranch(target)
-        if (!this.findList.length) this.checkBottomList(options.bottomList)
+        if (!options.findList) this.hitBranch(target)  // 包含through元素
 
         const { list } = this.findList
-        const leaf = this.getBestMatchLeaf()
+        const leaf = this.getBestMatchLeaf(list, options.bottomList, ignoreHittable)
         const path = ignoreHittable ? this.getPath(leaf) : this.getHitablePath(leaf)
 
         this.clear()
@@ -44,28 +43,28 @@ export class Picker {
         return through ? { path, target: leaf, throughPath: list.length ? this.getThroughPath(list) : path } : { path, target: leaf }
     }
 
-    public checkBottomList(list: ILeafList): void {
-        if (list && list.length) for (let i = 0, len = list.length; i < len; i++) {
-            const leaf = list.list[i]
-            leaf.isBranch ? this.hitBranch(leaf) : this.hitChild(leaf, this.point)
-        }
-    }
-
-    public getBestMatchLeaf(): ILeaf {
-        const { list } = this.findList
-        if (list.length > 1) {
+    public getBestMatchLeaf(list: ILeaf[], bottomList: IPickBottom[], ignoreHittable: boolean): ILeaf {
+        if (list.length) {
             let find: ILeaf
             this.findList = new LeafList()
             const { x, y } = this.point
             const point = { x, y, radiusX: 0, radiusY: 0 }
             for (let i = 0, len = list.length; i < len; i++) {
                 find = list[i]
-                if (LeafHelper.worldHittable(find)) {
+                if (ignoreHittable || LeafHelper.worldHittable(find)) {
                     this.hitChild(find, point)
                     if (this.findList.length) return this.findList.list[0]
                 }
             }
         }
+
+        if (bottomList) { // 底部虚拟元素
+            for (let i = 0, len = bottomList.length; i < len; i++) {
+                this.hitChild(bottomList[i].target, this.point, bottomList[i].proxy)
+                if (this.findList.length) return this.findList.list[0]
+            }
+        }
+
         return list[0]
     }
 
@@ -135,9 +134,9 @@ export class Picker {
         }
     }
 
-    protected hitChild(child: ILeaf, point: IRadiusPointData): void {
+    protected hitChild(child: ILeaf, point: IRadiusPointData, proxy?: ILeaf): void {
         if (this.exclude && this.exclude.has(child)) return
-        if (child.__hitWorld(point)) this.findList.add(child.pickLeaf || child)
+        if (child.__hitWorld(point)) this.findList.add(proxy || child)
     }
 
     protected clear(): void {

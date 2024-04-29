@@ -365,8 +365,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     proxyData?: ILeafInputData
     __proxyData?: ILeafInputData
 
-    pickLeaf?: ILeaf // 拾取元素后用此元素代替
-    emitLeaf?: ILeaf // 同步触发一样事件的元素
+    syncEventer?: ILeaf // 同步触发一样事件的元素
 
     __layout: ILeafLayout
 

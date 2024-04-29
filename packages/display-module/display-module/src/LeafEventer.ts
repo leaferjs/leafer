@@ -88,7 +88,7 @@ export const LeafEventer: ILeafEventerModule = {
             }
         }
 
-        this.emitLeaf && this.emitLeaf.emitEvent(event, capture)
+        this.syncEventer && this.syncEventer.emitEvent(event, capture)
     },
 
     emitEvent(event: IEvent, capture?: boolean): void {
@@ -97,7 +97,7 @@ export const LeafEventer: ILeafEventerModule = {
     },
 
     hasEvent(type: string, capture?: boolean): boolean {
-        if (this.emitLeaf && this.emitLeaf.hasEvent(type, capture)) return true
+        if (this.syncEventer && this.syncEventer.hasEvent(type, capture)) return true
 
         const { __bubbleMap: b, __captureMap: c } = this
         const hasB = b && b[type], hasC = c && c[type]
