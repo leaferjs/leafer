@@ -33,7 +33,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             const url = canvas.toDataURL(mineType(fileType(filename)), quality)
             return Platform.origin.download(url, filename)
         },
-        download(url: string, filename: string,): Promise<void> {
+        download(url: string, filename: string): Promise<void> {
             return new Promise((resolve) => {
                 let el = document.createElement('a')
                 el.href = url

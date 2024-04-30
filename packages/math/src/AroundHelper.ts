@@ -1,4 +1,4 @@
-import { IAround, IPointData, IBoundsData } from '@leafer/interface'
+import { IAround, IPointData, IBoundsData, ISizeData } from '@leafer/interface'
 import { Direction9 } from './Direction'
 
 
@@ -22,12 +22,19 @@ export const AroundHelper = {
 
     get,
 
-    toPoint(around: IAround, bounds: IBoundsData, to?: IPointData, onlySize?: boolean) {
+    toPoint(around: IAround, bounds: IBoundsData, to?: IPointData, onlySize?: boolean, pointBounds?: IBoundsData) {
         to || (to = {} as IPointData)
 
         const point = get(around)
         to.x = point.x * bounds.width
         to.y = point.y * bounds.height
+
+        if (pointBounds) {
+            to.x -= pointBounds.x
+            to.y -= pointBounds.y
+            if (point.x) to.x -= (point.x === 1) ? pointBounds.width : (point.x === 0.5 ? point.x * pointBounds.width : 0)
+            if (point.y) to.y -= (point.y === 1) ? pointBounds.height : (point.y === 0.5 ? point.y * pointBounds.height : 0)
+        }
 
         if (!onlySize) {
             to.x += bounds.x

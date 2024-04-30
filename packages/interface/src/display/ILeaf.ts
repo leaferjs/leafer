@@ -137,7 +137,7 @@ export interface IImageCursor {
     rotation?: number
 }
 
-export type IAround =
+export type IDirection =
     | 'topLeft'
     | 'top'
     | 'topRight'
@@ -147,6 +147,9 @@ export type IAround =
     | 'bottomLeft'
     | 'left'
     | 'center'
+
+export type IAround =
+    | IDirection
     | IPointData
 
 export type ICursorType =
