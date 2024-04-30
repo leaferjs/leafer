@@ -1,4 +1,4 @@
-import { IAround, IPointData, IBoundsData, ISizeData } from '@leafer/interface'
+import { IAround, IPointData, IBoundsData } from '@leafer/interface'
 import { Direction9 } from './Direction'
 
 
