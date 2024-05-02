@@ -60,7 +60,7 @@ export interface ILeafAttrData {
     around: IAround
 
     // auto layout
-    autoLayout: IAutoLayoutType
+    auto: IAutoLayoutType
     gap: IGap
     align: IAutoLayoutAlign
     wrap: IBoolean
@@ -104,7 +104,7 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IAutoLayoutType = 'none' | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse'
+export type IAutoLayoutType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse'
 
 export type IAutoLayoutAlign = IDirection | 'left-baseline' | 'center-baseline' | 'right-baseline'
 
@@ -257,7 +257,7 @@ export interface ILeafInputData {
     around?: IAround
 
     // auto layout
-    autoLayout?: IAutoLayoutType
+    auto?: IAutoLayoutType
     gap?: IGap
     align?: IAutoLayoutAlign
     wrap?: IBoolean
@@ -334,7 +334,7 @@ export interface ILeafComputedData {
     around?: IAround
 
     // auto layout
-    autoLayout?: IAutoLayoutType
+    auto?: IAutoLayoutType
     gap?: IGap
     align?: IAutoLayoutAlign
     wrap?: boolean
