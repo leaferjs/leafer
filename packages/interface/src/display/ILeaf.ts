@@ -4,7 +4,7 @@ import { IEventer } from '../event/IEventer'
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
-import { IObject, INumber, IBoolean, IValue, IString, IPathString } from '../data/IData'
+import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
 import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
@@ -59,10 +59,21 @@ export interface ILeafAttrData {
     scale: INumber | IPointData // helper
     around: IAround
 
+    // auto layout
+    autoLayout: IAutoLayoutType
+    gap: IGap
+    align: IAutoLayoutAlign
+    wrap: IBoolean
+    wrapGap: IGap
+    warpAlign: IWrapAlign
+
+    padding: IFourNumber
+    margin: IFourNumber
+
     lazy: IBoolean
     pixelRatio: INumber
 
-    draggable: IBoolean | 'x' | 'y'
+    draggable: IBoolean | IAxis
     dragBounds?: IBoundsData | 'parent'
 
     path: IPathCommandData | IPathString
@@ -89,6 +100,18 @@ export interface ILeafAttrData {
     selectedStyle: ILeafInputData
     disabledStyle: ILeafInputData
 }
+
+
+export type IAxis = 'x' | 'y'
+
+export type IAutoLayoutType = 'none' | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse'
+
+export type IAutoLayoutAlign = IDirection | 'left-baseline' | 'center-baseline' | 'right-baseline'
+
+export type IGap = INumber | 'auto'
+
+export type IWrapAlign = 'from' | 'center' | 'to'
+
 
 export type IHitType =
     | 'path'
@@ -233,10 +256,21 @@ export interface ILeafInputData {
     scale?: INumber | IPointData // helper
     around?: IAround
 
+    // auto layout
+    autoLayout?: IAutoLayoutType
+    gap?: IGap
+    align?: IAutoLayoutAlign
+    wrap?: IBoolean
+    wrapGap?: IGap
+    warpAlign?: IWrapAlign
+
+    padding?: IFourNumber
+    margin?: IFourNumber
+
     lazy?: IBoolean
     pixelRatio?: INumber
 
-    draggable?: IBoolean | 'x' | 'y'
+    draggable?: IBoolean | IAxis
     dragBounds?: IBoundsData | 'parent'
 
     path?: IPathCommandData | IPathString
@@ -299,6 +333,17 @@ export interface ILeafComputedData {
 
     around?: IAround
 
+    // auto layout
+    autoLayout?: IAutoLayoutType
+    gap?: IGap
+    align?: IAutoLayoutAlign
+    wrap?: boolean
+    wrapGap?: IGap
+    warpAlign?: IWrapAlign
+
+    padding?: IFourNumber
+    margin?: IFourNumber
+
     lazy?: boolean
     pixelRatio?: number
 
@@ -306,7 +351,7 @@ export interface ILeafComputedData {
     windingRule?: IWindingRule
     closed?: boolean
 
-    draggable?: boolean | 'x' | 'y'
+    draggable?: boolean | IAxis
     dragBounds?: IBoundsData | 'parent'
 
     editable?: boolean
