@@ -67,8 +67,12 @@ export interface ILeafAttrData {
     wrapGap: IGap
     warpAlign: IWrapAlign
 
+    joinAuto: IBoolean
+    autoWidth: IBoolean | ILimitSize
+    autoHeight: IBoolean | ILimitSize
     padding: IFourNumber
     margin: IFourNumber
+    boxType: IBoundsType
 
     lazy: IBoolean
     pixelRatio: INumber
@@ -111,6 +115,11 @@ export type IAutoLayoutAlign = IDirection | 'left-baseline' | 'center-baseline' 
 export type IGap = INumber | 'auto'
 
 export type IWrapAlign = 'from' | 'center' | 'to'
+
+export interface ILimitSize {
+    min?: number
+    max?: number
+}
 
 
 export type IHitType =
@@ -264,8 +273,12 @@ export interface ILeafInputData {
     wrapGap?: IGap
     warpAlign?: IWrapAlign
 
+    joinAuto?: IBoolean
+    autoWidth?: IBoolean | ILimitSize
+    autoHeight?: IBoolean | ILimitSize
     padding?: IFourNumber
     margin?: IFourNumber
+    boxType?: IBoundsType
 
     lazy?: IBoolean
     pixelRatio?: INumber
@@ -341,8 +354,12 @@ export interface ILeafComputedData {
     wrapGap?: IGap
     warpAlign?: IWrapAlign
 
+    joinAuto?: boolean
+    autoWidth?: boolean | ILimitSize
+    autoHeight?: boolean | ILimitSize
     padding?: IFourNumber
     margin?: IFourNumber
+    boxType?: IBoundsType
 
     lazy?: boolean
     pixelRatio?: number
