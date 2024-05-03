@@ -14,5 +14,9 @@ export enum Direction9 {
     bottom,
     bottomLeft,
     left,
-    center
+    center,
+    'top-left' = 0,
+    'top-right' = 2,
+    'bottom-right' = 4,
+    'bottom-left' = 6
 }

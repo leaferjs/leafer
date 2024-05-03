@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator, IZoomType } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IAutoLayoutType, IAutoLayoutAlign, IAxis, IGap, IWrapAlign, ILimitSize, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IFlowType, IAlign, IAxis, IGap, IWrapAlign, IAutoSize, IConstraint, IConstraintType, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
@@ -52,5 +52,5 @@ export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, IPo
 
 export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IPointDataMap, IDataTypeHandle } from './data/IData'
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
-export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, ITwoPointBoundsData, IAutoBounds, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
+export { IPoint, IPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, ITwoPointBoundsData, IAutoBounds, IAutoBoxData, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
 export { IFunction, IStringFunction, INumberFunction, IObjectFunction, IPointDataFunction, IAttrDecorator } from './function/IFunction'

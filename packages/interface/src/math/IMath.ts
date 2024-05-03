@@ -106,13 +106,15 @@ export interface ITwoPointBoundsData {
     maxY: number
 }
 
-
-export interface IAutoBoundsData {
+export interface IAutoBoxData {
     top?: number
     right?: number
     bottom?: number
     left?: number
+}
 
+
+export interface IAutoBoundsData extends IAutoBoxData {
     width?: number
     height?: number
 }

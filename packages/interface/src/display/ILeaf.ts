@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -59,30 +59,33 @@ export interface ILeafAttrData {
     scale: INumber | IPointData // helper
     around: IAround
 
-    // auto layout
-    auto: IAutoLayoutType
-    gap: IGap
-    align: IAutoLayoutAlign
-    wrap: IBoolean
-    wrapGap: IGap
-    warpAlign: IWrapAlign
-
-    joinAuto: IBoolean
-    autoWidth: IBoolean | ILimitSize
-    autoHeight: IBoolean | ILimitSize
-    padding: IFourNumber
-    margin: IFourNumber
-    boxType: IBoundsType
-
     lazy: IBoolean
     pixelRatio: INumber
-
-    draggable: IBoolean | IAxis
-    dragBounds?: IBoundsData | 'parent'
 
     path: IPathCommandData | IPathString
     windingRule: IWindingRule
     closed: boolean
+
+    // auto layout
+    flow: IFlowType
+    gap: IGap
+    align: ILayoutAlign
+    wrap: IBoolean
+    wrapGap: IGap
+    warpAlign: IWrapAlign
+
+    inFlow: IBoolean
+    autoWidth: IBoolean | IAutoSize
+    autoHeight: IBoolean | IAutoSize
+    autoBox: IAutoBoxData | IConstraint
+
+    padding: IFourNumber
+    margin: IFourNumber
+    flowBox: IBoundsType
+
+    // interactive
+    draggable: IBoolean | IAxis
+    dragBounds?: IBoundsData | 'parent'
 
     editable: IBoolean
     editSize: IEditSize
@@ -108,19 +111,24 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IAutoLayoutType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse'
-
-export type IAutoLayoutAlign = IDirection | 'left-baseline' | 'center-baseline' | 'right-baseline'
+export type IFlowType = boolean | IAxis | 'reverse-x' | 'reverse-y' | 'x-reverse-z' | 'y-reverse-z'
 
 export type IGap = INumber | 'auto'
 
 export type IWrapAlign = 'from' | 'center' | 'to'
 
-export interface ILimitSize {
+export interface IAutoSize {
     min?: number
     max?: number
 }
 
+
+export interface IConstraint {
+    x: IConstraintType,
+    y: IConstraintType
+}
+
+export type IConstraintType = 'from' | 'center' | 'to' | 'from-to' | 'scale'
 
 export type IHitType =
     | 'path'
@@ -170,18 +178,26 @@ export interface IImageCursor {
 }
 
 export type IDirection =
-    | 'topLeft'
+    | 'top-left'
     | 'top'
-    | 'topRight'
+    | 'top-right'
     | 'right'
-    | 'bottomRight'
+    | 'bottom-right'
     | 'bottom'
-    | 'bottomLeft'
+    | 'bottom-left'
     | 'left'
     | 'center'
 
+export type IAlign = IDirection
+
+export type ILayoutAlign =
+    | IAlign
+    | 'baseline-left'
+    | 'baseline-center'
+    | 'baseline-right'
+
 export type IAround =
-    | IDirection
+    | IAlign
     | IPointData
 
 export type ICursorType =
@@ -265,30 +281,33 @@ export interface ILeafInputData {
     scale?: INumber | IPointData // helper
     around?: IAround
 
-    // auto layout
-    auto?: IAutoLayoutType
-    gap?: IGap
-    align?: IAutoLayoutAlign
-    wrap?: IBoolean
-    wrapGap?: IGap
-    warpAlign?: IWrapAlign
-
-    joinAuto?: IBoolean
-    autoWidth?: IBoolean | ILimitSize
-    autoHeight?: IBoolean | ILimitSize
-    padding?: IFourNumber
-    margin?: IFourNumber
-    boxType?: IBoundsType
-
     lazy?: IBoolean
     pixelRatio?: INumber
-
-    draggable?: IBoolean | IAxis
-    dragBounds?: IBoundsData | 'parent'
 
     path?: IPathCommandData | IPathString
     windingRule?: IWindingRule
     closed?: boolean
+
+    // auto layout
+    flow?: IFlowType
+    gap?: IGap
+    align?: ILayoutAlign
+    wrap?: IBoolean
+    wrapGap?: IGap
+    warpAlign?: IWrapAlign
+
+    inFlow?: IBoolean
+    autoWidth?: IBoolean | IAutoSize
+    autoHeight?: IBoolean | IAutoSize
+    autoBox?: IAutoBoxData | IConstraint
+
+    padding?: IFourNumber
+    margin?: IFourNumber
+    flowBox?: IBoundsType
+
+    // interactive
+    draggable?: IBoolean | IAxis
+    dragBounds?: IBoundsData | 'parent'
 
     editable?: IBoolean
     editSize?: IEditSize
@@ -346,21 +365,6 @@ export interface ILeafComputedData {
 
     around?: IAround
 
-    // auto layout
-    auto?: IAutoLayoutType
-    gap?: IGap
-    align?: IAutoLayoutAlign
-    wrap?: boolean
-    wrapGap?: IGap
-    warpAlign?: IWrapAlign
-
-    joinAuto?: boolean
-    autoWidth?: boolean | ILimitSize
-    autoHeight?: boolean | ILimitSize
-    padding?: IFourNumber
-    margin?: IFourNumber
-    boxType?: IBoundsType
-
     lazy?: boolean
     pixelRatio?: number
 
@@ -368,6 +372,24 @@ export interface ILeafComputedData {
     windingRule?: IWindingRule
     closed?: boolean
 
+    // auto layout
+    flow?: IFlowType
+    gap?: IGap
+    align?: ILayoutAlign
+    wrap?: boolean
+    wrapGap?: IGap
+    warpAlign?: IWrapAlign
+
+    inFlow?: boolean
+    autoWidth?: boolean | IAutoSize
+    autoHeight?: boolean | IAutoSize
+    autoBox?: IAutoBoxData | IConstraint
+
+    padding?: IFourNumber
+    margin?: IFourNumber
+    flowBox?: IBoundsType
+
+    // interactive
     draggable?: boolean | IAxis
     dragBounds?: IBoundsData | 'parent'
 
