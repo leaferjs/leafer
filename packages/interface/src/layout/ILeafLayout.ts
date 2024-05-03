@@ -2,7 +2,7 @@ import { IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '../math
 import { ILeaf } from '../display/ILeaf'
 
 export type ILocationType = 'world' | 'page' | 'local' | 'inner'
-export type IBoundsType = 'content' | 'box' | 'stroke' | 'margin' | 'render'
+export type IBoundsType = 'content' | 'box' | 'stroke' | 'render'
 
 export interface ILeafLayout {
 
@@ -12,13 +12,11 @@ export interface ILeafLayout {
 
     // inner
 
+    contentBounds: IBoundsData // | content | 
+
     boxBounds: IBoundsData    //  | content + padding |
     strokeBounds: IBoundsData  //  | boxBounds + border |  
     renderBounds: IBoundsData //  | strokeBounds + shadow |
-
-    // auto layout
-    marginBounds: IBoundsData //  | strokeBounds + margin |
-    contentBounds: IBoundsData // | content |  
 
     // local
 

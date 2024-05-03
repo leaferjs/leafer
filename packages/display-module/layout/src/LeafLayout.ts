@@ -15,16 +15,14 @@ export class LeafLayout implements ILeafLayout {
 
     // inner
 
+    public contentBounds: IBoundsData
+
     public boxBounds: IBoundsData
     public get strokeBounds(): IBoundsData { return this._strokeBounds || this.boxBounds }
     public get renderBounds(): IBoundsData { return this._renderBounds || this.boxBounds }
 
     public _strokeBounds: IBoundsData
     public _renderBounds: IBoundsData
-
-    // auto layout
-    public marginBounds: IBoundsData
-    public contentBounds: IBoundsData
 
     // local
 
@@ -157,7 +155,6 @@ export class LeafLayout implements ILeafLayout {
                 return this.renderBounds
             case 'content':
                 if (this.contentBounds) return this.contentBounds
-            case 'margin':
             case 'box':
                 return this.boxBounds
             case 'stroke':
@@ -171,7 +168,6 @@ export class LeafLayout implements ILeafLayout {
                 return this.localRenderBounds
             case 'stroke':
                 return this.localStrokeBounds
-            case 'margin':
             case 'content':
             case 'box':
                 return this.leaf.__localBoxBounds
@@ -184,10 +180,8 @@ export class LeafLayout implements ILeafLayout {
                 return this.leaf.__world
             case 'content':
                 if (this.contentBounds) return this.getWorldContentBounds()
-            case 'margin':
             case 'box':
                 return this.getWorldBoxBounds()
-            case 'margin':
             case 'stroke':
                 return this.getWorldStrokeBounds()
         }

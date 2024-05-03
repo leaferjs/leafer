@@ -68,20 +68,20 @@ export interface ILeafAttrData {
 
     // auto layout
     flow: IFlowType
+    padding: IFourNumber
     gap: IGap
-    align: ILayoutAlign
+    align: IFlowAlign
     wrap: IBoolean
     wrapGap: IGap
     warpAlign: IWrapAlign
+
+    flowBox: IFlowBoxType
+    zIndexReverse: IBoolean
 
     inFlow: IBoolean
     autoWidth: IBoolean | IAutoSize
     autoHeight: IBoolean | IAutoSize
     autoBox: IAutoBoxData | IConstraint
-
-    padding: IFourNumber
-    margin: IFourNumber
-    flowBox: IBoundsType
 
     // interactive
     draggable: IBoolean | IAxis
@@ -111,9 +111,11 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IFlowType = boolean | IAxis | 'reverse-x' | 'reverse-y' | 'x-reverse-z' | 'y-reverse-z'
+export type IFlowType = boolean | IAxis | 'reverse-x' | 'reverse-y'
 
-export type IGap = INumber | 'auto'
+export type IFlowBoxType = 'box' | 'stroke'
+
+export type IGap = INumber | 'auto' | (INumber | 'auto')[]
 
 export type IWrapAlign = 'from' | 'center' | 'to'
 
@@ -190,7 +192,7 @@ export type IDirection =
 
 export type IAlign = IDirection
 
-export type ILayoutAlign =
+export type IFlowAlign =
     | IAlign
     | 'baseline-left'
     | 'baseline-center'
@@ -290,20 +292,20 @@ export interface ILeafInputData {
 
     // auto layout
     flow?: IFlowType
+    padding?: IFourNumber
     gap?: IGap
-    align?: ILayoutAlign
+    align?: IFlowAlign
     wrap?: IBoolean
     wrapGap?: IGap
     warpAlign?: IWrapAlign
+
+    flowBox?: IFlowBoxType
+    zIndexReverse?: IBoolean
 
     inFlow?: IBoolean
     autoWidth?: IBoolean | IAutoSize
     autoHeight?: IBoolean | IAutoSize
     autoBox?: IAutoBoxData | IConstraint
-
-    padding?: IFourNumber
-    margin?: IFourNumber
-    flowBox?: IBoundsType
 
     // interactive
     draggable?: IBoolean | IAxis
@@ -374,20 +376,20 @@ export interface ILeafComputedData {
 
     // auto layout
     flow?: IFlowType
+    padding?: IFourNumber
     gap?: IGap
-    align?: ILayoutAlign
+    align?: IFlowAlign
     wrap?: boolean
     wrapGap?: IGap
     warpAlign?: IWrapAlign
+
+    flowBox?: IFlowBoxType
+    zIndexReverse?: boolean
 
     inFlow?: boolean
     autoWidth?: boolean | IAutoSize
     autoHeight?: boolean | IAutoSize
     autoBox?: IAutoBoxData | IConstraint
-
-    padding?: IFourNumber
-    margin?: IFourNumber
-    flowBox?: IBoundsType
 
     // interactive
     draggable?: boolean | IAxis
