@@ -111,7 +111,7 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IFlowType = boolean | IAxis | 'reverse-x' | 'reverse-y'
+export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse'
 
 export type IFlowBoxType = 'box' | 'stroke'
 
@@ -551,6 +551,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateRenderBounds(): void
 
     __updateAutoLayout(): void
+    __updateFlowLayout(): void
     __updateNaturalSize(): void
 
     __updateStrokeSpread(): number

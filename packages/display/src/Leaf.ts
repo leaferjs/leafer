@@ -254,6 +254,9 @@ export class Leaf implements ILeaf {
 
 
     public __updateAutoLayout(): void { }
+
+    public __updateFlowLayout(): void { }
+
     public __updateNaturalSize(): void { }
 
 
