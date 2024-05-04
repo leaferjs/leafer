@@ -71,7 +71,7 @@ export interface ILeafAttrData {
     padding: IFourNumber
     gap: IGap
     align: IFlowAlign
-    wrap: IBoolean
+    wrap: IWrap
     wrapGap: IGap
     warpAlign: IWrapAlign
 
@@ -118,6 +118,8 @@ export type IFlowBoxType = 'box' | 'stroke'
 export type IGap = INumber | 'auto' | (INumber | 'auto')[]
 
 export type IWrapAlign = 'from' | 'center' | 'to'
+
+export type IWrap = boolean | 'reverse'
 
 export interface IAutoSize {
     min?: number
@@ -295,7 +297,7 @@ export interface ILeafInputData {
     padding?: IFourNumber
     gap?: IGap
     align?: IFlowAlign
-    wrap?: IBoolean
+    wrap?: IWrap
     wrapGap?: IGap
     warpAlign?: IWrapAlign
 
@@ -379,7 +381,7 @@ export interface ILeafComputedData {
     padding?: IFourNumber
     gap?: IGap
     align?: IFlowAlign
-    wrap?: boolean
+    wrap?: IWrap
     wrapGap?: IGap
     warpAlign?: IWrapAlign
 
