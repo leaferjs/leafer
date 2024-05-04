@@ -72,11 +72,7 @@ export interface ILeafAttrData {
     gap: IGap
     align: IFlowAlign
     wrap: IWrap
-    wrapGap: IGap
-    warpAlign: IWrapAlign
-
     flowBox: IFlowBoxType
-    zIndexReverse: IBoolean
 
     inFlow: IBoolean
     autoWidth: IBoolean | IAutoSize
@@ -111,7 +107,7 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse'
+export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse' | 'xz-reverse' | 'yz-reverse'
 
 export type IFlowBoxType = 'box' | 'stroke'
 
@@ -298,11 +294,7 @@ export interface ILeafInputData {
     gap?: IGap
     align?: IFlowAlign
     wrap?: IWrap
-    wrapGap?: IGap
-    warpAlign?: IWrapAlign
-
     flowBox?: IFlowBoxType
-    zIndexReverse?: IBoolean
 
     inFlow?: IBoolean
     autoWidth?: IBoolean | IAutoSize
@@ -382,11 +374,7 @@ export interface ILeafComputedData {
     gap?: IGap
     align?: IFlowAlign
     wrap?: IWrap
-    wrapGap?: IGap
-    warpAlign?: IWrapAlign
-
     flowBox?: IFlowBoxType
-    zIndexReverse?: boolean
 
     inFlow?: boolean
     autoWidth?: boolean | IAutoSize
