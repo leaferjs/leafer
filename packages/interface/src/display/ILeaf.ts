@@ -107,7 +107,7 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse' | 'xz-reverse' | 'yz-reverse'
+export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-reverse' | 'y-z-reverse' | 'x-xz-reverse' | 'y-yz-reverse'
 
 export type IFlowBoxType = 'box' | 'stroke'
 
