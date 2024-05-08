@@ -69,7 +69,6 @@ export interface ILeaferAttrData {
     unlockLayout(): void
     lockLayout(): void
 
-    forceFullRender(): void
     forceRender(bounds?: IBoundsData): void
     updateCursor(cursor?: ICursorType): void
     resize(size: IScreenSizeData): void
