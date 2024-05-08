@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator, IZoomType } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IFlowType, IFlowBoxType, IAlign, IAxis, IGap, IWrap, IWrapAlign, IAutoSize, IConstraint, IConstraintType, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IFlowType, IFlowBoxType, IAlign, IAxis, IGap, IPointGap, IWrap, IWrapAlign, IAutoSize, IConstraint, IConstraintType, IHitType, IMaskType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IAround, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
