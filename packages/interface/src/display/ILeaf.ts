@@ -84,7 +84,6 @@ export interface ILeafAttrData {
     dragBounds?: IBoundsData | 'parent'
 
     editable: IBoolean
-    editSize: IEditSize
 
     hittable: IBoolean
     hitFill: IHitType
@@ -306,7 +305,6 @@ export interface ILeafInputData {
     dragBounds?: IBoundsData | 'parent'
 
     editable?: IBoolean
-    editSize?: IEditSize
 
     hittable?: IBoolean
     hitFill?: IHitType
@@ -386,7 +384,6 @@ export interface ILeafComputedData {
     dragBounds?: IBoundsData | 'parent'
 
     editable?: boolean
-    editSize?: IEditSize
 
     hittable?: boolean
     hitFill?: IHitType
