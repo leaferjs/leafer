@@ -7,6 +7,7 @@ export { Matrix, tempMatrix } from './Matrix'
 
 export { PointHelper } from './PointHelper'
 export { AroundHelper } from './AroundHelper'
+export { AlignHelper } from './AlignHelper'
 export { BoundsHelper } from './BoundsHelper'
 export { TwoPointBoundsHelper } from './TwoPointBoundsHelper'
 export { MatrixHelper } from './MatrixHelper'

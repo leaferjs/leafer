@@ -455,6 +455,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
+    readonly __flowBounds: IBoundsData
 
     __worldOpacity: number
 
