@@ -110,7 +110,7 @@ export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse' | 'x-z-rever
 
 export type IFlowBoxType = 'box' | 'stroke'
 
-export type IGap = INumber | 'auto'
+export type IGap = INumber | 'auto' | 'fit'
 
 export interface IPointGap { x: IGap, y: IGap }
 
