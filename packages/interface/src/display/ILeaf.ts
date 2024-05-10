@@ -70,7 +70,7 @@ export interface ILeafAttrData {
     flow: IFlowType
     padding: IFourNumber
     gap: IGap | IPointGap
-    align: IFlowAlign
+    align: IFlowAlign | IFlowWrapAlign
     wrap: IWrap
     flowBox: IFlowBoxType
 
@@ -115,6 +115,8 @@ export type IGap = INumber | 'auto'
 export interface IPointGap { x: IGap, y: IGap }
 
 export type IWrapAlign = 'from' | 'center' | 'to'
+
+export interface IFlowWrapAlign { flow: IFlowAlign, wrap: IWrapAlign }
 
 export type IWrap = boolean | 'reverse'
 
@@ -293,7 +295,7 @@ export interface ILeafInputData {
     flow?: IFlowType
     padding?: IFourNumber
     gap?: IGap | IPointGap
-    align?: IFlowAlign
+    align?: IFlowAlign | IFlowWrapAlign
     wrap?: IWrap
     flowBox?: IFlowBoxType
 
@@ -372,7 +374,7 @@ export interface ILeafComputedData {
     flow?: IFlowType
     padding?: IFourNumber
     gap?: IGap | IPointGap
-    align?: IFlowAlign
+    align?: IFlowAlign | IFlowWrapAlign
     wrap?: IWrap
     flowBox?: IFlowBoxType
 
