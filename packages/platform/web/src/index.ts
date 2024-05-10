@@ -54,7 +54,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 }
                 img.onload = () => { resolve(img) }
                 img.onerror = (e) => { reject(e) }
-                if (!src.startsWith('data:') && !src.startsWith('blob:') && suffix) src += (src.includes("?") ? "&" : "?") + suffix
+                if (suffix && !src.startsWith('data:') && !src.startsWith('blob:')) src += (src.includes("?") ? "&" : "?") + suffix
                 img.src = src
             })
         }
