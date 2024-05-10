@@ -116,7 +116,7 @@ export interface IPointGap { x: IGap, y: IGap }
 
 export type IWrapAlign = 'from' | 'center' | 'to'
 
-export interface IFlowWrapAlign { flow: IFlowAlign, wrap: IWrapAlign }
+export interface IFlowWrapAlign { content: IFlowAlign, wrap: IWrapAlign }
 
 export type IWrap = boolean | 'reverse'
 
