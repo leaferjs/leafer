@@ -33,24 +33,47 @@ export const LeafEventer: ILeafEventerModule = {
         })
     },
 
-    off(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void {
-        let capture: boolean
-        if (options) capture = typeof options === 'boolean' ? options : options.capture
+    off(type?: string | string[], listener?: IEventListener, options?: IEventListenerOptions | boolean): void {
+        if (type) {
 
-        let events: IEventListenerItem[], index: number
-        const map = __getListenerMap(this, capture)
-        const typeList = typeof type === 'string' ? type.split(' ') : type
+            const typeList = typeof type === 'string' ? type.split(' ') : type
 
-        typeList.forEach(type => {
-            if (type) {
-                events = map[type]
-                if (events) {
-                    index = events.findIndex(item => item.listener === listener)
-                    if (index > -1) events.splice(index, 1)
-                    if (!events.length) delete map[type]
-                }
+            if (listener) {
+
+                let capture: boolean
+                if (options) capture = typeof options === 'boolean' ? options : options.capture
+
+                let events: IEventListenerItem[], index: number
+                const map = __getListenerMap(this, capture)
+
+                typeList.forEach(type => {
+                    if (type) {
+                        events = map[type]
+                        if (events) {
+                            index = events.findIndex(item => item.listener === listener)
+                            if (index > -1) events.splice(index, 1)
+                            if (!events.length) delete map[type]
+                        }
+                    }
+                })
+
+            } else {
+
+                // off type
+                const { __bubbleMap: b, __captureMap: c } = this
+                typeList.forEach(type => {
+                    if (b) delete b[type]
+                    if (c) delete c[type]
+                })
+
             }
-        })
+
+        } else {
+
+            this.__bubbleMap = this.__captureMap = undefined  // off all
+
+        }
+
     },
 
     on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId {

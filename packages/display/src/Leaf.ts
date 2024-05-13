@@ -537,7 +537,7 @@ export class Leaf implements ILeaf {
 
     public on(_type: string | string[], _listener: IEventListener, _options?: IEventListenerOptions | boolean): void { }
 
-    public off(_type: string | string[], _listener: IEventListener, _options?: IEventListenerOptions | boolean): void { }
+    public off(_type?: string | string[], _listener?: IEventListener, _options?: IEventListenerOptions | boolean): void { }
 
     public on_(_type: string | string[], _listener: IEventListener, _bind?: IObject, _options?: IEventListenerOptions | boolean): IEventListenerId { return undefined }
 
