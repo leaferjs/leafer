@@ -297,7 +297,7 @@ export interface ILeafInputData {
     gap?: IGap | IPointGap
     align?: IFlowAlign | IFlowWrapAlign
     wrap?: IWrap
-    flowBox?: IFlowBoxType
+    itemBox?: IFlowBoxType
 
     inFlow?: IBoolean
     autoWidth?: IBoolean | IAutoSize
