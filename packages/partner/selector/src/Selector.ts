@@ -1,13 +1,11 @@
-import { ILeaf, ILeafMap, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, IAnswer } from '@leafer/interface'
+import { ILeaf, ILeafMap, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, IEventListenerId, ISelectorConfig, IFindMethod, IAnswer, IFindCondition, IBooleanMap } from '@leafer/interface'
 import { ChildEvent, LayoutEvent, DataHelper, Answer, Platform, PropertyEvent, LeafHelper } from '@leafer/core'
 
 import { Picker } from './Picker'
 
 
-
-
 const { Yes, NoAndSkip, YesAndSkip } = Answer
-
+const idCondition = {} as IFindCondition, classNameCondition = {} as IFindCondition, tagCondition = {} as IFindCondition
 export class Selector implements ISelector {
 
     public target: ILeaf
@@ -27,7 +25,8 @@ export class Selector implements ISelector {
         id: (leaf: ILeaf, name: string) => leaf.id === name ? (this.idMap[name] = leaf, 1) : 0,
         innerId: (leaf: ILeaf, innerId: number) => leaf.innerId === innerId ? (this.innerIdMap[innerId] = leaf, 1) : 0,
         className: (leaf: ILeaf, name: string) => leaf.className === name ? 1 : 0,
-        tag: (leaf: ILeaf, name: string) => leaf.__tag === name ? 1 : 0
+        tag: (leaf: ILeaf, name: string) => leaf.__tag === name ? 1 : 0,
+        tags: (leaf: ILeaf, nameMap: IBooleanMap) => nameMap[leaf.__tag] ? 1 : 0
     }
 
     protected __eventIds: IEventListenerId[]
@@ -40,7 +39,7 @@ export class Selector implements ISelector {
         this.__listenEvents()
     }
 
-    public getBy(condition: number | string | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[] {
+    public getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[] {
         switch (typeof condition) {
             case 'number':
                 const leaf = this.getByInnerId(condition, branch)
@@ -48,12 +47,21 @@ export class Selector implements ISelector {
             case 'string':
                 switch (condition[0]) {
                     case '#':
-                        const leaf = this.getById(condition.substring(1), branch)
-                        return one ? leaf : (leaf ? [leaf] : [])
+                        idCondition.id = condition.substring(1), condition = idCondition; break
                     case '.':
-                        return this.getByMethod(this.methods.className, branch, one, condition.substring(1)) // className
+                        classNameCondition.className = condition.substring(1), condition = classNameCondition; break
                     default:
-                        return this.getByMethod(this.methods.tag, branch, one, condition) // tagName
+                        tagCondition.tag = condition, condition = tagCondition
+                }
+            case 'object':
+                if (condition.id !== undefined) {
+                    const leaf = this.getById(condition.id as string, branch)
+                    return one ? leaf : (leaf ? [leaf] : [])
+                } else if (condition.tag) {
+                    const { tag } = condition, isArray = tag instanceof Array
+                    return this.getByMethod(isArray ? this.methods.tags : this.methods.tag, branch, one, isArray ? DataHelper.toMap(tag) : tag)
+                } else {
+                    return this.getByMethod(this.methods.className, branch, one, condition.className)
                 }
             case 'function':
                 return this.getByMethod(condition as IFindMethod, branch, one, options)

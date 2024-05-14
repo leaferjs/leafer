@@ -31,6 +31,12 @@ export interface ISelectorConfig {
 
 export type IAnswer = 0 | 1 | 2 | 3
 
+export interface IFindCondition {
+    id?: number | string,
+    className?: string,
+    tag?: string | string[]
+}
+
 export interface IFindMethod {
     (leaf: ILeaf, options?: any): IAnswer
 }

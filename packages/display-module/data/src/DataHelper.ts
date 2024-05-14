@@ -1,4 +1,4 @@
-import { IObject } from '@leafer/interface'
+import { IBooleanMap, IObject } from '@leafer/interface'
 
 
 export const DataHelper = {
@@ -30,6 +30,12 @@ export const DataHelper = {
 
     clone(data: unknown): IObject {
         return JSON.parse(JSON.stringify(data))
+    },
+
+    toMap(list: string[]): IBooleanMap {
+        const map = {} as IBooleanMap
+        for (let i = 0, len = list.length; i < len; i++)  map[list[i]] = true
+        return map
     }
 
 }
