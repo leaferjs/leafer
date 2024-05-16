@@ -248,6 +248,8 @@ export class Leaf implements ILeaf {
 
     public __updateBoxBounds(): void { }
 
+    public __updateContentBounds(): void { }
+
     public __updateStrokeBounds(): void { }
 
     public __updateRenderBounds(): void { }
