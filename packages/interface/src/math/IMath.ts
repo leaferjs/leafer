@@ -70,7 +70,7 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     toInnerOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData, baseScale?: number): IMatrix
 
-    spread(fourNumber: IFourNumber, spreadY?: number): IBounds
+    spread(fourNumber: IFourNumber): IBounds
     shrink(fourNumber: IFourNumber): IBounds
     ceil(): IBounds
     unsign(): IBounds

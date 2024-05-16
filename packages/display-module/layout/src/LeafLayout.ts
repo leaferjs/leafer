@@ -6,6 +6,8 @@ import { Platform } from '@leafer/platform'
 
 const { getRelativeWorld } = LeafHelper
 const { toOuterOf, getPoints, copy } = BoundsHelper
+const localContent = '_localContentBounds'
+const worldContent = '_worldContentBounds', worldBox = '_worldBoxBounds', worldStroke = '_worldStrokeBounds'
 
 export class LeafLayout implements ILeafLayout {
 
@@ -15,24 +17,33 @@ export class LeafLayout implements ILeafLayout {
 
     // inner
 
-    public contentBounds: IBoundsData
-
+    public get contentBounds(): IBoundsData { return this._contentBounds || this.boxBounds }
     public boxBounds: IBoundsData
     public get strokeBounds(): IBoundsData { return this._strokeBounds || this.boxBounds }
     public get renderBounds(): IBoundsData { return this._renderBounds || this.boxBounds }
 
+    public _contentBounds: IBoundsData
     public _strokeBounds: IBoundsData
     public _renderBounds: IBoundsData
 
     // local
 
+    public get localContentBounds(): IBoundsData { toOuterOf(this.contentBounds, this.leaf.__localMatrix, this[localContent] || (this[localContent] = {} as IBoundsData)); return this[localContent] }
+    // localBoxBounds: IBoundsData // use leaf.__localBoxBounds
     public get localStrokeBounds(): IBoundsData { return this._localStrokeBounds || this }
     public get localRenderBounds(): IBoundsData { return this._localRenderBounds || this }
 
+    protected _localContentBounds?: IBoundsData
     protected _localStrokeBounds?: IBoundsData
     protected _localRenderBounds?: IBoundsData
 
-    // world temp
+    // world
+
+    public get worldContentBounds(): IBoundsData { toOuterOf(this.contentBounds, this.leaf.__world, this[worldContent] || (this[worldContent] = {} as IBoundsData)); return this[worldContent] }
+    public get worldBoxBounds(): IBoundsData { toOuterOf(this.boxBounds, this.leaf.__world, this[worldBox] || (this[worldBox] = {} as IBoundsData)); return this[worldBox] }
+    public get worldStrokeBounds(): IBoundsData { toOuterOf(this.strokeBounds, this.leaf.__world, this[worldStroke] || (this[worldStroke] = {} as IBoundsData)); return this[worldStroke] }
+    // worldRenderBounds: IBoundsData // use leaf.__world
+
     protected _worldContentBounds: IBoundsData
     protected _worldBoxBounds: IBoundsData
     protected _worldStrokeBounds: IBoundsData
@@ -169,6 +180,7 @@ export class LeafLayout implements ILeafLayout {
             case 'stroke':
                 return this.localStrokeBounds
             case 'content':
+                if (this.contentBounds) return this.localContentBounds
             case 'box':
                 return this.leaf.__localBoxBounds
         }
@@ -178,12 +190,12 @@ export class LeafLayout implements ILeafLayout {
         switch (type) {
             case 'render':
                 return this.leaf.__world
-            case 'content':
-                if (this.contentBounds) return this.getWorldContentBounds()
-            case 'box':
-                return this.getWorldBoxBounds()
             case 'stroke':
-                return this.getWorldStrokeBounds()
+                return this.worldStrokeBounds
+            case 'content':
+                if (this.contentBounds) return this.worldContentBounds
+            case 'box':
+                return this.worldBoxBounds
         }
     }
 
@@ -252,35 +264,11 @@ export class LeafLayout implements ILeafLayout {
         return points
     }
 
-    protected getWorldContentBounds(): IBoundsData {
-        this._worldContentBounds || (this._worldContentBounds = {} as IBoundsData)
-        toOuterOf(this.contentBounds, this.leaf.__world, this._worldContentBounds)
-        return this._worldContentBounds
-    }
-
-    protected getWorldBoxBounds(): IBoundsData {
-        this._worldBoxBounds || (this._worldBoxBounds = {} as IBoundsData)
-        toOuterOf(this.boxBounds, this.leaf.__world, this._worldBoxBounds)
-        return this._worldBoxBounds
-    }
-
-    protected getWorldStrokeBounds(): IBoundsData {
-        this._worldStrokeBounds || (this._worldStrokeBounds = {} as IBoundsData)
-        toOuterOf(this.strokeBounds, this.leaf.__world, this._worldStrokeBounds)
-        return this._worldStrokeBounds
-    }
-
     // 独立 / 引用 boxBounds
 
-    public spreadStrokeCancel(): void {
-        const same = this.renderBounds === this.strokeBounds
-        this._strokeBounds = this.boxBounds
-        this._localStrokeBounds = this.leaf.__localBoxBounds
-        if (same) this.spreadRenderCancel()
-    }
-    public spreadRenderCancel(): void {
-        this._renderBounds = this._strokeBounds
-        this._localRenderBounds = this._localStrokeBounds
+    public shrinkContent(): void {
+        const { x, y, width, height } = this.boxBounds
+        this._contentBounds = { x, y, width, height }
     }
 
     public spreadStroke(): void {
@@ -293,6 +281,21 @@ export class LeafLayout implements ILeafLayout {
         const { x, y, width, height } = this.renderBounds
         this._renderBounds = { x, y, width, height }
         this._localRenderBounds = { x, y, width, height }
+    }
+
+    public shrinkContentCancel(): void {
+        this._contentBounds = undefined
+    }
+
+    public spreadStrokeCancel(): void {
+        const same = this.renderBounds === this.strokeBounds
+        this._strokeBounds = this.boxBounds
+        this._localStrokeBounds = this.leaf.__localBoxBounds
+        if (same) this.spreadRenderCancel()
+    }
+    public spreadRenderCancel(): void {
+        this._renderBounds = this._strokeBounds
+        this._localRenderBounds = this._localStrokeBounds
     }
 
 

@@ -33,13 +33,15 @@ export const BoundsHelper = {
         t.height = bounds.height
     },
 
-    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spreadX: IFourNumber, spreadY?: number): void {
-        if (spreadX instanceof Array) {
-            const four = fourNumber(spreadX)
-            B.set(t, bounds.x - four[3], bounds.y - four[0], bounds.width + four[1] + four[3], bounds.height + four[2] + four[0])
+    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: IFourNumber, isShrink?: boolean): void {
+        if (spread instanceof Array) {
+            const four = fourNumber(spread)
+            isShrink
+                ? B.set(t, bounds.x + four[3], bounds.y + four[0], bounds.width - four[1] - four[3], bounds.height - four[2] - four[0])
+                : B.set(t, bounds.x - four[3], bounds.y - four[0], bounds.width + four[1] + four[3], bounds.height + four[2] + four[0])
         } else {
-            if (!spreadY) spreadY = spreadX
-            B.set(t, bounds.x - spreadX, bounds.y - spreadY, bounds.width + spreadX * 2, bounds.height + spreadY * 2)
+            if (isShrink) spread = -spread
+            B.set(t, bounds.x - spread, bounds.y - spread, bounds.width + spread * 2, bounds.height + spread * 2)
         }
     },
 
@@ -167,18 +169,18 @@ export const BoundsHelper = {
     },
 
 
-    getSpread(t: IBoundsData, spreadX: IFourNumber, spreadY?: number): IBoundsData {
+    getSpread(t: IBoundsData, spread: IFourNumber): IBoundsData {
         const n = {} as IBoundsData
-        B.copyAndSpread(n, t, spreadX, spreadY)
+        B.copyAndSpread(n, t, spread)
         return n
     },
 
-    spread(t: IBoundsData, spreadX: IFourNumber, spreadY = spreadX): void {
-        B.copyAndSpread(t, t, spreadX, spreadY as number)
+    spread(t: IBoundsData, spread: IFourNumber): void {
+        B.copyAndSpread(t, t, spread)
     },
 
-    shrink(t: IBoundsData, fourNumber: IFourNumber): void {
-        B.copyAndSpread(t, t, MathHelper.minus(fourNumber, true))
+    shrink(t: IBoundsData, shrink: IFourNumber): void {
+        B.copyAndSpread(t, t, shrink, true)
     },
 
     ceil(t: IBoundsData): void {

@@ -13,16 +13,23 @@ export interface ILeafLayout {
     // inner
 
     contentBounds: IBoundsData // | content | 
-
     boxBounds: IBoundsData    //  | content + padding |
     strokeBounds: IBoundsData  //  | boxBounds + border |  
     renderBounds: IBoundsData //  | strokeBounds + shadow |
 
     // local
 
-    //localBoxBounds: IBoundsData = leaf.__local
-    localStrokeBounds?: IBoundsData
-    localRenderBounds?: IBoundsData
+    localContentBounds: IBoundsData
+    // localBoxBounds: IBoundsData // use leaf.__localBoxBounds
+    localStrokeBounds: IBoundsData
+    localRenderBounds: IBoundsData
+
+    // world
+
+    worldContentBounds: IBoundsData
+    worldBoxBounds: IBoundsData
+    worldStrokeBounds: IBoundsData
+    // worldRenderBounds: IBoundsData // use leaf.__world
 
     // state
     resized: boolean
@@ -82,8 +89,10 @@ export interface ILeafLayout {
     getLayoutPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[]
 
     // 独立 / 引用 boxBounds
+    shrinkContent(): void
     spreadStroke(): void
     spreadRender(): void
+    shrinkContentCancel(): void
     spreadStrokeCancel(): void
     spreadRenderCancel(): void
 
