@@ -112,11 +112,11 @@ export type IFlowBoxType = 'box' | 'stroke'
 
 export type IGap = INumber | 'auto' | 'fit'
 
-export interface IPointGap { x: IGap, y: IGap }
+export interface IPointGap { x?: IGap, y?: IGap }
 
 export type IAxisAlign = 'from' | 'center' | 'to'
 
-export interface IFlowAxisAlign { content: IFlowAlign, x: IAxisAlign, y: IAxisAlign }
+export interface IFlowAxisAlign { content?: IFlowAlign, rowX?: IAxisAlign, rowY?: IAxisAlign }
 
 export type IWrap = boolean | 'reverse'
 
