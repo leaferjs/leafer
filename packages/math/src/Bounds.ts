@@ -69,7 +69,7 @@ export class Bounds implements IBounds {
     }
 
     public shrink(fourNumber: IFourNumber): IBounds {
-        B.spread(this, MathHelper.minus(fourNumber, true))
+        B.shrink(this, fourNumber)
         return this
     }
 

@@ -72,7 +72,7 @@ export interface ILeafAttrData {
     gap: IGap | IPointGap
     align: IFlowAlign | IFlowAxisAlign
     wrap: IWrap
-    flowBox: IFlowBoxType
+    itemBox: IFlowBoxType
 
     inFlow: IBoolean
     autoWidth: IBoolean | IAutoSize
@@ -376,7 +376,7 @@ export interface ILeafComputedData {
     gap?: IGap | IPointGap
     align?: IFlowAlign | IFlowAxisAlign
     wrap?: IWrap
-    flowBox?: IFlowBoxType
+    itemBox?: IFlowBoxType
 
     inFlow?: boolean
     autoWidth?: boolean | IAutoSize
@@ -457,7 +457,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
-    readonly __flowBounds: IBoundsData
 
     __worldOpacity: number
 

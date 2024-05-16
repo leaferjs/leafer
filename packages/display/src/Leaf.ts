@@ -50,7 +50,6 @@ export class Leaf implements ILeaf {
 
     public get __localMatrix(): IMatrixData { return this.__local || this.__layout }
     public get __localBoxBounds(): IBoundsData { return this.__local || this.__layout }
-    public get __flowBounds(): IBoundsData { return this.__.flowBox === 'box' ? this.__local : this.__layout.localStrokeBounds }
 
     public __worldOpacity: number
 

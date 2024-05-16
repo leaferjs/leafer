@@ -177,6 +177,10 @@ export const BoundsHelper = {
         B.copyAndSpread(t, t, spreadX, spreadY as number)
     },
 
+    shrink(t: IBoundsData, fourNumber: IFourNumber): void {
+        B.copyAndSpread(t, t, MathHelper.minus(fourNumber, true))
+    },
+
     ceil(t: IBoundsData): void {
         const { x, y } = t
         t.x = floor(t.x)
