@@ -5,8 +5,8 @@ const { round, pow, PI } = Math
 export const MathHelper = {
 
     within(value: number, min: number, max: number): number {
-        if (value < min) value = min
-        if (value > max) value = max
+        if (min !== undefined && value < min) value = min
+        if (max !== undefined && value > max) value = max
         return value
     },
 
