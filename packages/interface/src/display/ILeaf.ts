@@ -75,9 +75,14 @@ export interface ILeafAttrData {
     itemBox: IFlowBoxType
 
     inFlow: IBoolean
-    autoWidth: IBoolean | IAutoSize
-    autoHeight: IBoolean | IAutoSize
+    flowWidth: IFlowSize
+    flowHeight: IFlowSize
     autoBox: IAutoBoxData | IConstraint
+
+    minWidth: INumber
+    maxWidth: INumber
+    minHeight: INumber
+    maxHeight: INumber
 
     // interactive
     draggable: IBoolean | IAxis
@@ -120,14 +125,19 @@ export interface IFlowAxisAlign { content?: IFlowAlign, rowX?: IAxisAlign, rowY?
 
 export type IWrap = boolean | 'reverse'
 
-export interface IAutoSize {
-    min?: number
-    max?: number
+export type IFlowSize = INumber | IPercentData
+
+export interface IUnitData {
+    type: 'percent' | 'px'
+    value: number
 }
 
+export interface IPercentData extends IUnitData {
+    type: 'percent'
+}
 
 export interface IConstraint {
-    x: IConstraintType,
+    x: IConstraintType
     y: IConstraintType
 }
 
@@ -300,9 +310,14 @@ export interface ILeafInputData {
     itemBox?: IFlowBoxType
 
     inFlow?: IBoolean
-    autoWidth?: IBoolean | IAutoSize
-    autoHeight?: IBoolean | IAutoSize
+    flowWidth?: IFlowSize
+    flowHeight?: IFlowSize
     autoBox?: IAutoBoxData | IConstraint
+
+    minWidth?: INumber
+    maxWidth?: INumber
+    minHeight?: INumber
+    maxHeight?: INumber
 
     // interactive
     draggable?: IBoolean | IAxis
@@ -379,9 +394,14 @@ export interface ILeafComputedData {
     itemBox?: IFlowBoxType
 
     inFlow?: boolean
-    autoWidth?: boolean | IAutoSize
-    autoHeight?: boolean | IAutoSize
+    flowWidth?: IFlowSize
+    flowHeight?: IFlowSize
     autoBox?: IAutoBoxData | IConstraint
+
+    minWidth?: number
+    maxWidth?: number
+    minHeight?: number
+    maxHeight?: number
 
     // interactive
     draggable?: boolean | IAxis
