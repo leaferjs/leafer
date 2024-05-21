@@ -554,8 +554,8 @@ export class Leaf implements ILeaf {
 
     // ---
 
-    static changeAttr(attrName: string, defaultValue: IValue): void {
-        defineDataProcessor(this.prototype, attrName, defaultValue)
+    static changeAttr(attrName: string, defaultValue: IValue, fn?: IAttrDecorator): void {
+        fn ? this.addAttr(attrName, defaultValue, fn) : defineDataProcessor(this.prototype, attrName, defaultValue)
     }
 
     static addAttr(attrName: string, defaultValue: IValue, fn?: IAttrDecorator): void {

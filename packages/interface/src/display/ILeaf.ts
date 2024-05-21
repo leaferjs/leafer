@@ -500,6 +500,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
 
+    __flowBounds?: IBoundsData // localBoxBounds or localStrokeBounds
+    __widthGrow?: number
+    __heightGrow?: number
+
     readonly __onlyHitMask: boolean
     readonly __ignoreHitWorld: boolean
 
