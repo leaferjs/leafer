@@ -5,6 +5,12 @@ export interface IPointData {
     y: number
 }
 
+export interface IUnitPointData {
+    type?: 'percent' | 'px'
+    x: number
+    y: number
+}
+
 export interface IPoint extends IPointData {
     set(x?: number | IPointData, y?: number): IPoint
     get(): IPointData

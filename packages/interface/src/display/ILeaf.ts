@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutAttr, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, ILayoutData, IUnitPointData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -56,7 +56,13 @@ export interface ILeafAttrData {
     skewX: INumber
     skewY: INumber
 
+    scrollX: INumber
+    scrollY: INumber
+
     scale: INumber | IPointData // helper
+    offset: ILayoutData
+
+    origin: IAlign | IPointData
     around: IAround
 
     lazy: IBoolean
@@ -109,7 +115,9 @@ export interface ILeafAttrData {
 
 export type IAxis = 'x' | 'y'
 
-export type IFlowType = boolean | IAxis | 'x-reverse' | 'y-reverse'
+export type IAxisReverse = 'x-reverse' | 'y-reverse'
+
+export type IFlowType = boolean | IAxis | IAxisReverse
 
 export type IFlowBoxType = 'box' | 'stroke'
 
@@ -206,15 +214,19 @@ export type IDirection =
 
 export type IAlign = IDirection
 
-export type IFlowAlign =
-    | IAlign
+export type IBaseLineAlign =
     | 'baseline-left'
     | 'baseline-center'
     | 'baseline-right'
 
+export type IFlowAlign =
+    | IAlign
+    | IBaseLineAlign
+
+
 export type IAround =
     | IAlign
-    | IPointData
+    | IUnitPointData
 
 export type ICursorType =
     | IImageCursor
@@ -294,7 +306,13 @@ export interface ILeafInputData {
     skewX?: INumber
     skewY?: INumber
 
+    scrollX?: INumber
+    scrollY?: INumber
+
     scale?: INumber | IPointData // helper
+    offset?: ILayoutData
+
+    origin?: IAlign | IPointData
     around?: IAround
 
     lazy?: IBoolean
@@ -377,6 +395,12 @@ export interface ILeafComputedData {
     skewX?: number
     skewY?: number
 
+    scrollX?: number
+    scrollY?: number
+
+    offset?: ILayoutData
+
+    origin?: IAlign | IPointData
     around?: IAround
 
     lazy?: boolean
@@ -503,6 +527,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __flowBounds?: IBoundsData // localBoxBounds or localStrokeBounds
     __widthGrow?: number
     __heightGrow?: number
+    __hasGrow?: boolean
 
     readonly __onlyHitMask: boolean
     readonly __ignoreHitWorld: boolean
