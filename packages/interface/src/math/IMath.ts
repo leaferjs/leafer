@@ -11,6 +11,11 @@ export interface IUnitPointData {
     y: number
 }
 
+export interface IScrollPointData {
+    scrollX: number
+    scrollY: number
+}
+
 export interface IPoint extends IPointData {
     set(x?: number | IPointData, y?: number): IPoint
     get(): IPointData

@@ -1,4 +1,4 @@
-import { ILeafMatrixModule, ILayoutData } from '@leafer/interface'
+import { ILeafMatrixModule, ILayoutData, IScrollPointData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
@@ -9,7 +9,7 @@ export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as ILayoutData)
+        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as ILayoutData, this.parent && this.parent.__ as IScrollPointData)
 
     },
 
@@ -28,14 +28,8 @@ export const LeafMatrix: ILeafMatrixModule = {
 
             }
 
-            local.e = data.x
-            local.f = data.y
-
-            if (data.offset) {
-                const { x, y } = data.offset
-                if (x) local.e += x
-                if (y) local.f += y
-            }
+            local.e = data.x + data.offsetX
+            local.f = data.y + data.offsetY
 
             if (data.around || data.origin) {
                 toPoint(data.around || data.origin, layout.boxBounds, tempPoint)

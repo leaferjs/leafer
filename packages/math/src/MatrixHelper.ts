@@ -1,4 +1,4 @@
-import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData, IMatrixWithScaleData } from '@leafer/interface'
+import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData, IMatrixWithScaleData, IScrollPointData } from '@leafer/interface'
 import { MathHelper, OneRadian, PI_2, getBoundsData, getMatrixData } from './MathHelper'
 
 
@@ -134,8 +134,9 @@ export const MatrixHelper = {
         t.f = child.e * b + child.f * d + f
     },
 
-    multiplyParent(t: IMatrixWithOptionScaleData, parent: IMatrixWithOptionScaleData, to?: IMatrixWithOptionScaleData, abcdChanged?: boolean | number, childScaleData?: IScaleData): void { // = transform
-        const { e, f } = t
+    multiplyParent(t: IMatrixWithOptionScaleData, parent: IMatrixWithOptionScaleData, to?: IMatrixWithOptionScaleData, abcdChanged?: boolean | number, childScaleData?: IScaleData, scrollData?: IScrollPointData): void { // = transform
+        let { e, f } = t
+        if (scrollData) e += scrollData.scrollX, f += scrollData.scrollY
 
         to || (to = t)
 

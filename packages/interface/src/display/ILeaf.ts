@@ -56,11 +56,12 @@ export interface ILeafAttrData {
     skewX: INumber
     skewY: INumber
 
+    scale: INumber | IPointData // helper
+
+    offsetX: INumber
+    offsetY: INumber
     scrollX: INumber
     scrollY: INumber
-
-    scale: INumber | IPointData // helper
-    offset: IPointData
 
     origin: IAlign | IPointData
     around: IAround
@@ -306,11 +307,12 @@ export interface ILeafInputData {
     skewX?: INumber
     skewY?: INumber
 
+    scale?: INumber | IPointData // helper
+
+    offsetX?: INumber
+    offsetY?: INumber
     scrollX?: INumber
     scrollY?: INumber
-
-    scale?: INumber | IPointData // helper
-    offset?: IPointData
 
     origin?: IAlign | IPointData
     around?: IAround
@@ -395,10 +397,10 @@ export interface ILeafComputedData {
     skewX?: number
     skewY?: number
 
+    offsetX?: number
+    offsetY?: number
     scrollX?: number
     scrollY?: number
-
-    offset?: IPointData
 
     origin?: IAlign | IPointData
     around?: IAround
