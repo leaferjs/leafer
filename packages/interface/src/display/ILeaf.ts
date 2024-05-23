@@ -60,7 +60,7 @@ export interface ILeafAttrData {
     scrollY: INumber
 
     scale: INumber | IPointData // helper
-    offset: ILayoutData
+    offset: IPointData
 
     origin: IAlign | IPointData
     around: IAround
@@ -310,7 +310,7 @@ export interface ILeafInputData {
     scrollY?: INumber
 
     scale?: INumber | IPointData // helper
-    offset?: ILayoutData
+    offset?: IPointData
 
     origin?: IAlign | IPointData
     around?: IAround
@@ -398,7 +398,7 @@ export interface ILeafComputedData {
     scrollX?: number
     scrollY?: number
 
-    offset?: ILayoutData
+    offset?: IPointData
 
     origin?: IAlign | IPointData
     around?: IAround

@@ -45,9 +45,10 @@ export const MatrixHelper = {
         t.f += y
     },
 
-    translateInner(t: IMatrixData, x: number, y: number): void {
+    translateInner(t: IMatrixData, x: number, y: number, isMoveOrigin?: boolean): void {
         t.e += t.a * x + t.c * y
         t.f += t.b * x + t.d * y
+        if (isMoveOrigin) t.e -= x, t.f -= y
     },
 
     scale(t: IMatrixData, scaleX: number, scaleY: number = scaleX): void {
@@ -286,7 +287,8 @@ export const MatrixHelper = {
         t.e = x
         t.f = y
 
-        if (origin) M.translateInner(t, -origin.x, -origin.y)
+        if (origin) M.translateInner(t, -origin.x, -origin.y, true)
+
     },
 
     getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): ILayoutData {

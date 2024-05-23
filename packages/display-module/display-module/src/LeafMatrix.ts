@@ -2,7 +2,7 @@ import { ILeafMatrixModule, ILayoutData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
-const { setLayout, multiplyParent, translate, translateInner, defaultWorld } = MatrixHelper
+const { setLayout, multiplyParent, translateInner, defaultWorld } = MatrixHelper
 const { toPoint, tempPoint } = AroundHelper
 
 export const LeafMatrix: ILeafMatrixModule = {
@@ -31,10 +31,15 @@ export const LeafMatrix: ILeafMatrixModule = {
             local.e = data.x
             local.f = data.y
 
+            if (data.offset) {
+                const { x, y } = data.offset
+                if (x) local.e += x
+                if (y) local.f += y
+            }
+
             if (data.around || data.origin) {
                 toPoint(data.around || data.origin, layout.boxBounds, tempPoint)
-                translateInner(local, -tempPoint.x, -tempPoint.y)
-                if (data.origin) translate(local, tempPoint.x, tempPoint.y)
+                translateInner(local, -tempPoint.x, -tempPoint.y, data.origin as unknown as boolean)
             }
 
         }
