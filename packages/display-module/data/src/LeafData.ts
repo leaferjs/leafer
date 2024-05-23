@@ -16,7 +16,7 @@ export class LeafData implements ILeafData {
     public __pathForRender?: IPathCommandData
 
     public get __blendMode(): string {
-        if ((this as ILeafData).eraser) return 'destination-out'
+        if ((this as ILeafData).eraser && (this as ILeafData).eraser !== 'path') return 'destination-out'
         const { blendMode } = (this as ILeafData)
         return blendMode === 'pass-through' ? null : blendMode
     }

@@ -41,9 +41,9 @@ export interface ILeafAttrData {
     locked: IBoolean
     zIndex: INumber
 
-    mask: IBoolean
+    mask: IMaskType
     maskType: IMaskType
-    eraser: IBoolean
+    eraser: IEraserType
 
     // layout data
     x: INumber
@@ -162,9 +162,15 @@ export type IHitType =
     | 'none'
 
 export type IMaskType =
+    | boolean
     | 'path'
     | 'pixel'
     | 'clipping'
+
+export type IEraserType =
+    | boolean
+    | 'path'
+    | 'pixel'
 
 export type IBlendMode =
     | 'pass-through'
@@ -292,9 +298,9 @@ export interface ILeafInputData {
     locked?: IBoolean
     zIndex?: INumber
 
-    mask?: IBoolean
+    mask?: IMaskType
     maskType?: IMaskType
-    eraser?: IBoolean
+    eraser?: IEraserType
 
     // layout data
     x?: INumber
@@ -382,9 +388,9 @@ export interface ILeafComputedData {
     locked?: boolean
     zIndex?: number
 
-    mask?: boolean
+    mask?: boolean | IMaskType
     maskType?: IMaskType
-    eraser?: boolean
+    eraser?: IEraserType
 
     // layout data
     x?: number
@@ -603,6 +609,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateEraser(value?: boolean): void
     __updateMask(value?: boolean): void
     __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __renderEraser(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     // convert
     __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix

@@ -22,6 +22,8 @@ export const BranchRender: IBranchRenderModule = {
 
             if (this.__.__single) {
 
+                if (this.__.eraser === 'path') return this.__renderEraser(canvas, options)
+
                 const tempCanvas = canvas.getSameCanvas(false, true)
 
                 this.__renderBranch(tempCanvas, options)

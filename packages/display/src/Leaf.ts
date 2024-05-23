@@ -283,6 +283,14 @@ export class Leaf implements ILeaf {
 
     public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
+    public __renderEraser(canvas: ILeaferCanvas, options: IRenderOptions): void {  // path eraser
+        canvas.save()
+        this.__clip(canvas, options)
+        const { renderBounds: r } = this.__layout
+        canvas.clearRect(r.x, r.y, r.width, r.height)
+        canvas.restore()
+    }
+
 
     // ---
 
