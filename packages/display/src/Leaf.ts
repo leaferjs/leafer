@@ -198,7 +198,11 @@ export class Leaf implements ILeaf {
 
     public find(_condition: number | string | IFindMethod, _options?: any): ILeaf[] { return undefined }
 
+    public findTag(_tag: string | string[]): ILeaf[] { return undefined }
+
     public findOne(_condition: number | string | IFindMethod, _options?: any): ILeaf { return undefined }
+
+    public findId(_id: number | string): ILeaf { return undefined }
 
     // ---
 
