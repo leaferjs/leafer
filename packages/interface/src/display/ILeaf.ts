@@ -63,8 +63,8 @@ export interface ILeafAttrData {
     scrollX: INumber
     scrollY: INumber
 
-    origin: IAlign | IPointData
-    around: IAround
+    origin: IAlign | IUnitPointData
+    around: IAlign | IUnitPointData
 
     lazy: IBoolean
     pixelRatio: INumber
@@ -320,8 +320,8 @@ export interface ILeafInputData {
     scrollX?: INumber
     scrollY?: INumber
 
-    origin?: IAlign | IPointData
-    around?: IAround
+    origin?: IAlign | IUnitPointData
+    around?: IAlign | IUnitPointData
 
     lazy?: IBoolean
     pixelRatio?: INumber
@@ -408,8 +408,8 @@ export interface ILeafComputedData {
     scrollX?: number
     scrollY?: number
 
-    origin?: IAlign | IPointData
-    around?: IAround
+    origin?: IAlign | IUnitPointData
+    around?: IAlign | IUnitPointData
 
     lazy?: boolean
     pixelRatio?: number

@@ -275,17 +275,9 @@ export class Leaf implements ILeaf {
     // ---
 
 
-    // LeafMask rewrite
-
     public __updateEraser(value?: boolean): void {
         this.__hasEraser = value ? true : this.children.some(item => item.__.eraser)
     }
-
-    public __updateMask(value?: boolean): void {
-        this.__hasMask = value ? true : this.children.some(item => item.__.mask)
-    }
-
-    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __renderEraser(canvas: ILeaferCanvas, options: IRenderOptions): void {  // path eraser
         canvas.save()
@@ -294,6 +286,14 @@ export class Leaf implements ILeaf {
         canvas.clearRect(r.x, r.y, r.width, r.height)
         canvas.restore()
     }
+
+    public __updateMask(value?: boolean): void {
+        this.__hasMask = value ? true : this.children.some(item => item.__.mask)
+    }
+
+    // LeafMask rewrite
+
+    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
 
     // ---
