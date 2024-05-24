@@ -276,7 +276,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public clear(): void {
         const { pixelRatio } = this
-        this.clearRect(0, 0, this.width * pixelRatio, this.height * pixelRatio)
+        this.clearRect(0, 0, this.width * pixelRatio + 2, this.height * pixelRatio + 2)
     }
 
 

@@ -244,8 +244,8 @@ export class Renderer implements IRenderer {
         }
 
         // 需要象征性派发一下渲染事件
-        // this.addBlock(new Bounds(0, 0, 1, 1))
-        // this.changed = true
+        this.addBlock(new Bounds(0, 0, 1, 1))
+        this.changed = true
     }
 
     protected __onLayoutEnd(event: LayoutEvent): void {
