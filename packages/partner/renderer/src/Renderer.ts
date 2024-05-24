@@ -239,8 +239,13 @@ export class Renderer implements IRenderer {
             if (!bounds.includes(this.target.__world) || this.needFill || !e.samePixelRatio) {
                 this.addBlock(this.canvas.bounds)
                 this.target.forceUpdate('surface')
+                return
             }
         }
+
+        // 需要象征性派发一下渲染事件
+        this.addBlock(new Bounds(0, 0, 1, 1))
+        this.changed = true
     }
 
     protected __onLayoutEnd(event: LayoutEvent): void {
