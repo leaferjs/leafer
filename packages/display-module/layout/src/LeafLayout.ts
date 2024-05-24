@@ -18,6 +18,7 @@ export class LeafLayout implements ILeafLayout {
     // inner
 
     public get contentBounds(): IBoundsData { return this._contentBounds || this.boxBounds }
+    public set contentBounds(bounds: IBoundsData) { this._contentBounds = bounds }
     public boxBounds: IBoundsData
     public get strokeBounds(): IBoundsData { return this._strokeBounds || this.boxBounds }
     public get renderBounds(): IBoundsData { return this._renderBounds || this.boxBounds }
