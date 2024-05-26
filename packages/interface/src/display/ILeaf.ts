@@ -41,9 +41,8 @@ export interface ILeafAttrData {
     locked: IBoolean
     zIndex: INumber
 
-    mask: IMaskType
-    maskType: IMaskType
-    eraser: IEraserType
+    mask: IBoolean | IMaskType
+    eraser: IBoolean | IEraserType
 
     // layout data
     x: INumber
@@ -162,13 +161,11 @@ export type IHitType =
     | 'none'
 
 export type IMaskType =
-    | boolean
     | 'path'
     | 'pixel'
     | 'clipping'
 
 export type IEraserType =
-    | boolean
     | 'path'
     | 'pixel'
 
@@ -298,9 +295,8 @@ export interface ILeafInputData {
     locked?: IBoolean
     zIndex?: INumber
 
-    mask?: IMaskType
-    maskType?: IMaskType
-    eraser?: IEraserType
+    mask?: IBoolean | IMaskType
+    eraser?: IBoolean | IEraserType
 
     // layout data
     x?: INumber
@@ -389,8 +385,7 @@ export interface ILeafComputedData {
     zIndex?: number
 
     mask?: boolean | IMaskType
-    maskType?: IMaskType
-    eraser?: IEraserType
+    eraser?: boolean | IEraserType
 
     // layout data
     x?: number

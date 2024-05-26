@@ -132,6 +132,7 @@ export const LeafBounds: ILeafBoundsModule = {
         if (this.isBranch) {
             if (this.leafer) this.leafer.layouter.addExtra(this) // add part render
             if (this.__.flow) this.__updateFlowLayout()
+            // console.log('update flow')
 
             if (hasParentAutoLayout(this)) {
                 updateMatrix(this)

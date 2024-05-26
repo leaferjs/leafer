@@ -163,7 +163,6 @@ export function maskType(defaultValue?: IValue) {
             this.__setAttr(key, value)
             this.__layout.boxChanged || this.__layout.boxChange()
             this.waitParent(() => { this.parent.__updateMask(value) })
-            if (typeof value === 'string') this.maskType = value
         }
     }))
 }
