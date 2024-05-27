@@ -35,7 +35,7 @@ export interface ILeafAttrData {
 
     blendMode: IBlendMode
     opacity: INumber
-    visible: IBoolean
+    visible: IBoolean | 'none'
     selected: IBoolean
     disabled: IBoolean
     locked: IBoolean
@@ -289,7 +289,7 @@ export interface ILeafInputData {
 
     blendMode?: IBlendMode
     opacity?: INumber
-    visible?: IBoolean
+    visible?: IBoolean | 'none'
     selected?: IBoolean
     disabled?: IBoolean
     locked?: IBoolean
@@ -378,7 +378,7 @@ export interface ILeafComputedData {
 
     blendMode?: IBlendMode
     opacity?: number
-    visible?: boolean
+    visible?: boolean | 'none'
     selected?: boolean
     disabled?: boolean
     locked?: boolean
