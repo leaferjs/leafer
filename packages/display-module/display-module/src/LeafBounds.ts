@@ -54,9 +54,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (layout.strokeSpread) {
 
-                if (layout.strokeBounds === layout.boxBounds) {
-                    layout.spreadStroke()
-                }
+                if (layout.strokeBounds === layout.boxBounds) layout.spreadStroke()
 
                 this.__updateStrokeBounds()
                 this.__updateLocalStrokeBounds()
@@ -66,7 +64,7 @@ export const LeafBounds: ILeafBoundsModule = {
             }
 
             layout.strokeChanged = false
-            if (layout.renderSpread) layout.renderChanged = true
+            if (layout.renderSpread || layout.strokeSpread !== layout.strokeBoxSpread) layout.renderChanged = true
 
             if (this.parent) this.parent.__layout.strokeChange()
             layout.resized = true
@@ -79,9 +77,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (layout.renderSpread) {
 
-                if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.strokeBounds) {
-                    layout.spreadRender()
-                }
+                if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.strokeBounds) layout.spreadRender()
 
                 this.__updateRenderBounds()
                 this.__updateLocalRenderBounds()
@@ -132,7 +128,6 @@ export const LeafBounds: ILeafBoundsModule = {
         if (this.isBranch) {
             if (this.leafer) this.leafer.layouter.addExtra(this) // add part render
             if (this.__.flow) this.__updateFlowLayout()
-            // console.log('update flow')
 
             if (hasParentAutoLayout(this)) {
                 updateMatrix(this)
@@ -152,12 +147,13 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateStrokeBounds(): void {
-        copyAndSpread(this.__layout.strokeBounds, this.__layout.boxBounds, this.__layout.strokeSpread)
+        const layout = this.__layout
+        copyAndSpread(layout.strokeBounds, layout.boxBounds, layout.strokeBoxSpread)
     },
 
     __updateRenderBounds(): void {
-        const { renderSpread, strokeBounds, renderBounds } = this.__layout
-        renderSpread > 0 ? copyAndSpread(renderBounds, strokeBounds, renderSpread) : copy(renderBounds, strokeBounds) // Box use -1
-    },
+        const layout = this.__layout
+        layout.renderSpread > 0 ? copyAndSpread(layout.renderBounds, layout.boxBounds, layout.renderSpread) : copy(layout.renderBounds, layout.strokeBounds) // Box use -1
+    }
 
 }

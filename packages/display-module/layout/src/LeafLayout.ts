@@ -82,8 +82,8 @@ export class LeafLayout implements ILeafLayout {
     public affectChildrenSort?: boolean
 
     public strokeSpread: number
-    public renderSpread: number
     public strokeBoxSpread: number
+    public renderSpread: number
     public renderShapeSpread: number
 
     // temp local
