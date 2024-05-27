@@ -36,7 +36,7 @@ export interface IEventer extends ILeafEventer {
     __bubbleMap?: IEventListenerMap
 
     on(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void
-    off(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void
+    off(type?: string | string[], listener?: IEventListener, options?: IEventListenerOptions | boolean): void
     on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId
     off_(id: IEventListenerId | IEventListenerId[]): void
     once(type: string | string[], listener: IEventListener): void
