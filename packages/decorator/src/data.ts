@@ -257,12 +257,22 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     } else if (key === 'width') {
         property.get = function () {
             const v = this[computedKey]
-            return v === undefined ? ((this as ILeafData).__naturalWidth || defaultValue) : v
+            if (v === undefined) {
+                const t = this as ILeafData
+                return t.height && t.__naturalWidth && t.__useNaturalRatio ? t.height * t.__naturalWidth / t.__naturalHeight : t.__naturalWidth || defaultValue
+            } else {
+                return v
+            }
         }
     } else if (key === 'height') {
         property.get = function () {
             const v = this[computedKey]
-            return v === undefined ? ((this as ILeafData).__naturalHeight || defaultValue) : v
+            if (v === undefined) {
+                const t = this as ILeafData
+                return t.width && t.__naturalHeight && t.__useNaturalRatio ? t.width * t.__naturalHeight / t.__naturalWidth : t.__naturalHeight || defaultValue
+            } else {
+                return v
+            }
         }
     }
 

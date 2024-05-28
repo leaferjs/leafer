@@ -15,6 +15,8 @@ export class LeafData implements ILeafData {
     public __pathInputed?: number
     public __pathForRender?: IPathCommandData
 
+    public get __useNaturalRatio() { return true }
+
     public get __blendMode(): string {
         if ((this as ILeafData).eraser && (this as ILeafData).eraser !== 'path') return 'destination-out'
         const { blendMode } = (this as ILeafData)
