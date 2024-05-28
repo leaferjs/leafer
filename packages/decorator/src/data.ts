@@ -147,6 +147,17 @@ export function opacityType(defaultValue?: IValue) {
     }))
 }
 
+export function visibleType(defaultValue?: IValue) {
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            const oldValue = this.visible
+            this.__setAttr(key, value)
+            this.__layout.opacityChanged || this.__layout.opacityChange()
+            if (oldValue === 0 || value === 0) doBoundsType(this) // 0 = display: none
+        }
+    }))
+}
+
 export function sortType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {

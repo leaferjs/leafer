@@ -8,15 +8,15 @@ export const LeafBoundsHelper = {
     },
 
     localBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.eraser ? null : (target.__local || target.__layout)
+        return target.__.eraser || target.__.visible === 0 ? null : (target.__local || target.__layout)
     },
 
     localStrokeBounds(target: ILeaf): IBoundsData {
-        return target.__.eraser ? null : target.__layout.localStrokeBounds
+        return target.__.eraser || target.__.visible === 0 ? null : target.__layout.localStrokeBounds
     },
 
     localRenderBounds(target: ILeaf): IBoundsData {
-        return target.__.eraser ? null : target.__layout.localRenderBounds
+        return target.__.eraser || target.__.visible === 0 ? null : target.__layout.localRenderBounds
     },
 
     maskLocalBoxBounds(target: ILeaf): IBoundsData {
