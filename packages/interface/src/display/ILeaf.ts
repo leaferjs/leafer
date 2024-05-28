@@ -458,6 +458,7 @@ export interface ILeafComputedData {
     __naturalWidth?: number
     __naturalHeight?: number
     readonly __useNaturalRatio: boolean // 宽高存在一个值时，另一个自动值是否采用natural尺寸比例
+    readonly __isLinePath: boolean
     readonly __blendMode: string
 
     __useArrow?: boolean

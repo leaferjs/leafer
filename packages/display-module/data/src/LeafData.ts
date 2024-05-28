@@ -17,6 +17,8 @@ export class LeafData implements ILeafData {
 
     public get __useNaturalRatio() { return true }
 
+    public get __isLinePath(): boolean { return (this as ILeafData).path && (this as ILeafData).path.length === 6 }
+
     public get __blendMode(): string {
         if ((this as ILeafData).eraser && (this as ILeafData).eraser !== 'path') return 'destination-out'
         const { blendMode } = (this as ILeafData)
