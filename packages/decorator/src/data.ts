@@ -17,9 +17,7 @@ export function attr(partDescriptor?: ILeafAttrDescriptor): ILeafAttrDescriptor 
 export function defineLeafAttr(target: ILeaf, key: string, defaultValue?: IValue, partDescriptor?: ILeafAttrDescriptor): void {
     const defaultDescriptor: ILeafAttrDescriptor = {
         get() { return this.__getAttr(key) },
-        set(value: IValue) { this.__setAttr(key, value) },
-        configurable: true,
-        enumerable: true
+        set(value: IValue) { this.__setAttr(key, value) }
     }
     defineKey(target, key, Object.assign(defaultDescriptor, partDescriptor || {}))
     defineDataProcessor(target, key, defaultValue)
@@ -247,9 +245,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
         },
         set(value: IValue) {
             (this as IObject)[computedKey] = value
-        },
-        configurable: true,
-        enumerable: true
+        }
     }
 
     if (defaultValue === undefined) {
@@ -290,7 +286,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
         delete data[setMethodName]
     }
 
-    Object.defineProperty(data, key, property)
+    defineKey(data, key, property)
 
 }
 
