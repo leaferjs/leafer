@@ -259,7 +259,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
             const v = this[computedKey]
             if (v === undefined) {
                 const t = this as ILeafData
-                return t.height && t.__naturalWidth && t.__useNaturalRatio ? t.height * t.__naturalWidth / t.__naturalHeight : t.__naturalWidth || defaultValue
+                return (t as IObject)._height && t.__naturalWidth && t.__useNaturalRatio ? (t as IObject)._height * t.__naturalWidth / t.__naturalHeight : t.__naturalWidth || defaultValue
             } else {
                 return v
             }
@@ -269,7 +269,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
             const v = this[computedKey]
             if (v === undefined) {
                 const t = this as ILeafData
-                return t.width && t.__naturalHeight && t.__useNaturalRatio ? t.width * t.__naturalHeight / t.__naturalWidth : t.__naturalHeight || defaultValue
+                return (t as IObject)._width && t.__naturalHeight && t.__useNaturalRatio ? (t as IObject)._width * t.__naturalHeight / t.__naturalWidth : t.__naturalHeight || defaultValue
             } else {
                 return v
             }
