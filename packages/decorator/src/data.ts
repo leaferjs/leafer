@@ -93,7 +93,9 @@ export function doBoundsType(leaf: ILeaf): void {
 export function pathInputType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            if (this.__.__pathInputed !== 2) this.__.__pathInputed = value ? 1 : 0
+            const data = this.__
+            if (data.__pathInputed !== 2) data.__pathInputed = value ? 1 : 0
+            if (!value) data.__pathForRender = undefined
             this.__setAttr(key, value)
             doBoundsType(this)
         }
