@@ -197,7 +197,7 @@ export type IBlendMode =
     | 'destination-atop'
     | 'xor'
 
-export type IEditSize = 'size' | 'scale'
+export type IEditSize = 'size' | 'font-size' | 'scale'
 export interface IImageCursor {
     url: string
     x?: number
