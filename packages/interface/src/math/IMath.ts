@@ -11,6 +11,11 @@ export interface IUnitPointData {
     y: number
 }
 
+export interface IFromToData {
+    from: IPointData
+    to: IPointData
+}
+
 export interface IScrollPointData {
     scrollX: number
     scrollY: number
