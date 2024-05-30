@@ -5,7 +5,7 @@ import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
 import { ISelector, ISelectorConfig } from '../selector/ISelector'
 import { IInteraction, IInteractionCanvas, IInteractionConfig } from '../interaction/IInteraction'
 import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
-import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData, IBounds } from '../math/IMath'
+import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData, IBounds, IClientPointData } from '../math/IMath'
 import { ICanvasManager } from '../canvas/ICanvasManager'
 import { IHitCanvasManager } from '../canvas/IHitCanvasManager'
 import { IEventListenerId } from '../event/IEventer'
@@ -82,6 +82,8 @@ export interface ILeaferAttrData {
     zoom(zoomType: IZoomType, padding?: IFourNumber, fixedScale?: boolean): IBoundsData
     getValidMove(moveX: number, moveY: number): IPointData
     getValidScale(changeScale: number): number
+
+    getLocalPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData

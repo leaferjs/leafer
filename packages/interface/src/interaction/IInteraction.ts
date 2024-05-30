@@ -2,7 +2,7 @@ import { INumberFunction, IPointDataFunction } from '../function/IFunction'
 import { IPointerEvent, IMoveEvent, IZoomEvent, IRotateEvent, IUIEvent, IKeyEvent } from '../event/IUIEvent'
 import { ILeaf, ICursorType } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
-import { IPointData } from '../math/IMath'
+import { IClientPointData, IPointData } from '../math/IMath'
 import { ISelector, IPickOptions, IPickBottom } from '../selector/ISelector'
 import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
@@ -69,6 +69,8 @@ export interface IInteraction extends IControl {
 
     updateCursor(hoverData?: IPointerEvent): void
     setCursor(cursor: ICursorType | ICursorType[]): void
+
+    getLocal(clientPoint: IClientPointData, updateClient?: boolean): IPointData
 
     emit(type: string, data: IUIEvent, path?: ILeafList, excludePath?: ILeafList): void
 }

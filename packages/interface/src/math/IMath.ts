@@ -21,6 +21,11 @@ export interface IScrollPointData {
     scrollY: number
 }
 
+export interface IClientPointData {
+    clientX: number
+    clientY: number
+}
+
 export interface IPoint extends IPointData {
     set(x?: number | IPointData, y?: number): IPoint
     get(): IPointData
