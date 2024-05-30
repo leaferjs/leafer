@@ -189,6 +189,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     resize(size: IScreenSizeData): void
     updateViewSize(): void
     updateClientBounds(): void
+    getClientBounds(update?: boolean): IBoundsData
 
     // other
     isSameSize(options: ILeaferCanvasConfig): boolean

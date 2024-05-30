@@ -116,6 +116,10 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public updateViewSize(): void { }
     public updateClientBounds(): void { }
+    public getClientBounds(update?: boolean): IBoundsData {
+        if (update) this.updateClientBounds()
+        return this.clientBounds || this.bounds
+    }
 
     public startAutoLayout(_autoBounds: IAutoBounds, _listener: IResizeEventListener): void { }
     public stopAutoLayout(): void { }
