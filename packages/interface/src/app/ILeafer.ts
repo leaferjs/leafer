@@ -56,7 +56,9 @@ export interface ILeaferAttrData {
     config: ILeaferConfig
 
     readonly cursorPoint: IPointData
+    readonly clientBounds: IBoundsData
     leafs: number
+    flows: number
 
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]
