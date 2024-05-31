@@ -58,7 +58,6 @@ export interface ILeaferAttrData {
     readonly cursorPoint: IPointData
     readonly clientBounds: IBoundsData
     leafs: number
-    flows: number
 
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]
@@ -83,7 +82,7 @@ export interface ILeaferAttrData {
     getValidMove(moveX: number, moveY: number): IPointData
     getValidScale(changeScale: number): number
 
-    getLocalPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
+    getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData
