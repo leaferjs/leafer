@@ -157,7 +157,7 @@ export class Renderer implements IRenderer {
         if (includes && !Debug.showRepaint) {
             canvas.clear()
         } else {
-            bounds.spread(1 + 1 / this.canvas.pixelRatio).ceil()
+            bounds.spread(10 + 1 / this.canvas.pixelRatio).ceil()
             canvas.clearWorld(bounds, true)
             canvas.clipWorld(bounds, true)
         }

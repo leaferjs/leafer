@@ -164,13 +164,6 @@ export const LeafHelper = {
             if (parent === p) return true
             p = p.parent
         }
-    },
-
-    hasParentAutoLayout(p: ILeaf): boolean | void {
-        while (p.parent) {
-            p = p.parent
-            if (p.__hasAutoLayout) return true
-        }
     }
 
 }

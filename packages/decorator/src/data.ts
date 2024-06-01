@@ -31,8 +31,7 @@ export function dataType(defaultValue?: IValue) {
 export function positionType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value, checkFiniteNumber)
-            this.__layout.matrixChanged || this.__layout.matrixChange()
+            this.__setAttr(key, value, checkFiniteNumber) && (this.__layout.matrixChanged || this.__layout.matrixChange())
         }
     }))
 }
@@ -40,10 +39,11 @@ export function positionType(defaultValue?: IValue, checkFiniteNumber?: boolean)
 export function autoLayoutType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            this.__layout.matrixChanged || this.__layout.matrixChange()
-            this.__hasAutoLayout = !!value
-            if (!this.__local) this.__layout.createLocal()
+            if (this.__setAttr(key, value)) {
+                this.__layout.matrixChanged || this.__layout.matrixChange()
+                this.__hasAutoLayout = !!value
+                if (!this.__local) this.__layout.createLocal()
+            }
         }
     }))
 }
@@ -51,8 +51,8 @@ export function autoLayoutType(defaultValue?: IValue) {
 export function scaleType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value, checkFiniteNumber)
-            this.__layout.scaleChanged || this.__layout.scaleChange()
+            this.__setAttr(key, value, checkFiniteNumber) && (this.__layout.scaleChanged || this.__layout.scaleChange())
+
         }
     }))
 }
@@ -60,8 +60,7 @@ export function scaleType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
 export function rotationType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value, checkFiniteNumber)
-            this.__layout.rotationChanged || this.__layout.rotationChange()
+            this.__setAttr(key, value, checkFiniteNumber) && (this.__layout.rotationChanged || this.__layout.rotationChange())
         }
 
     }))
@@ -78,9 +77,7 @@ export function boundsType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
 export function naturalBoundsType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            doBoundsType(this)
-            this.__.__removeNaturalSize()
+            this.__setAttr(key, value) && (doBoundsType(this), this.__.__removeNaturalSize())
         }
     }))
 }
@@ -132,8 +129,7 @@ export function affectRenderBoundsType(defaultValue?: IValue) {
 export function surfaceType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            this.__layout.surfaceChanged || this.__layout.surfaceChange()
+            this.__setAttr(key, value) && (this.__layout.surfaceChanged || this.__layout.surfaceChange())
         }
     }))
 }
@@ -141,8 +137,7 @@ export function surfaceType(defaultValue?: IValue) {
 export function opacityType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            this.__layout.opacityChanged || this.__layout.opacityChange()
+            this.__setAttr(key, value) && (this.__layout.opacityChanged || this.__layout.opacityChange())
         }
     }))
 }
@@ -151,9 +146,10 @@ export function visibleType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             const oldValue = this.visible
-            this.__setAttr(key, value)
-            this.__layout.opacityChanged || this.__layout.opacityChange()
-            if (oldValue === 0 || value === 0) doBoundsType(this) // 0 = display: none
+            if (this.__setAttr(key, value)) {
+                this.__layout.opacityChanged || this.__layout.opacityChange()
+                if (oldValue === 0 || value === 0) doBoundsType(this) // 0 = display: none
+            }
         }
     }))
 }
@@ -161,9 +157,10 @@ export function visibleType(defaultValue?: IValue) {
 export function sortType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            this.__layout.surfaceChanged || this.__layout.surfaceChange()
-            this.waitParent(() => { this.parent.__layout.childrenSortChange() })
+            if (this.__setAttr(key, value)) {
+                this.__layout.surfaceChanged || this.__layout.surfaceChange()
+                this.waitParent(() => { this.parent.__layout.childrenSortChange() })
+            }
         }
     }))
 }
@@ -171,9 +168,10 @@ export function sortType(defaultValue?: IValue) {
 export function maskType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: boolean) {
-            this.__setAttr(key, value)
-            this.__layout.boxChanged || this.__layout.boxChange()
-            this.waitParent(() => { this.parent.__updateMask(value) })
+            if (this.__setAttr(key, value)) {
+                this.__layout.boxChanged || this.__layout.boxChange()
+                this.waitParent(() => { this.parent.__updateMask(value) })
+            }
         }
     }))
 }
@@ -181,8 +179,7 @@ export function maskType(defaultValue?: IValue) {
 export function eraserType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: boolean) {
-            this.__setAttr(key, value)
-            this.waitParent(() => { this.parent.__updateEraser(value) })
+            this.__setAttr(key, value) && this.waitParent(() => { this.parent.__updateEraser(value) })
         }
     }))
 }
@@ -190,9 +187,10 @@ export function eraserType(defaultValue?: IValue) {
 export function hitType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value)
-            if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
-            if (this.leafer) this.leafer.updateCursor()
+            if (this.__setAttr(key, value)) {
+                if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
+                if (this.leafer) this.leafer.updateCursor()
+            }
         }
     }))
 }

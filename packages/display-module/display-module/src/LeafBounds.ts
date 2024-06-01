@@ -4,7 +4,7 @@ import { PathBounds } from '@leafer/path'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
 
 
-const { updateMatrix, updateAllMatrix, hasParentAutoLayout } = LeafHelper
+const { updateMatrix, updateAllMatrix } = LeafHelper
 const { updateBounds } = BranchHelper
 const { toOuterOf, copyAndSpread, copy } = BoundsHelper
 const { toBounds } = PathBounds
@@ -32,7 +32,6 @@ export const LeafBounds: ILeafBoundsModule = {
             this.__updateRenderPath()
 
             this.__updateBoxBounds()
-            layout.boxChanged = false
             layout.resized = true
         }
 
@@ -46,6 +45,9 @@ export const LeafBounds: ILeafBoundsModule = {
             if (layout.renderSpread) layout.renderChanged = true
             if (this.parent) this.parent.__layout.boxChange()
         }
+
+
+        layout.boxChanged = false // must after updateLocalBoxBounds()
 
 
         if (layout.strokeChanged) {
@@ -96,7 +98,7 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateLocalBoxBounds(): void {
-        if (this.__hasAutoLayout) this.__updateAutoLayout()
+        if (this.__hasAutoLayout) this.__updateAutoLayout() //  origin / around / flow
         toOuterOf(this.__layout.boxBounds, this.__local, this.__local)
     },
 
@@ -126,15 +128,24 @@ export const LeafBounds: ILeafBoundsModule = {
     __updateAutoLayout(): void {
         this.__layout.matrixChanged = true
         if (this.isBranch) {
-            if (this.leafer) this.leafer.layouter.addExtra(this) // add part render
-            if (this.__.flow) this.__updateFlowLayout()
+            if (this.leafer && this.leafer.ready) this.leafer.layouter.addExtra(this) // add part 
 
-            if (hasParentAutoLayout(this)) {
-                updateMatrix(this)
-            } else {
+            if (this.__.flow) {
+
+                if (this.__layout.boxChanged) this.__updateFlowLayout()
+
                 updateAllMatrix(this)
                 updateBounds(this, this)
+
+                if (this.__.__autoSide) this.__updateBoxBounds()
+
+            } else {
+
+                updateAllMatrix(this)
+                updateBounds(this, this)
+
             }
+
         } else {
             updateMatrix(this)
         }
