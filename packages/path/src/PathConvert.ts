@@ -61,11 +61,11 @@ export const PathConvert = {
             if (StringNumberMap[char]) {
 
                 if (char === '.') {
+                    if (current.dot) { pushData(data, num); num = '' } //  .375.375
                     current.dot++
-                    if (current.dot > 1) {
-                        pushData(data, num); num = '' //  .375.375
-                    }
                 }
+
+                if (num === '0' && char !== '.') { pushData(data, num); num = '' } //  00 01
 
                 num += char
 
