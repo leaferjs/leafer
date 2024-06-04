@@ -76,8 +76,8 @@ export interface ILeafAttrData {
     flow: IFlowType
     padding: IFourNumber
     gap: IGap | IPointGap
-    align: IFlowAlign | IFlowAxisAlign
-    wrap: IWrap
+    flowAlign: IFlowAlign | IFlowAxisAlign
+    flowWrap: IFlowWrap
     itemBox: IFlowBoxType
 
     inFlow: IBoolean
@@ -127,9 +127,9 @@ export interface IPointGap { x?: IGap, y?: IGap }
 
 export type IAxisAlign = 'from' | 'center' | 'to'
 
-export interface IFlowAxisAlign { content?: IFlowAlign, rowX?: IAxisAlign, rowY?: IAxisAlign }
+export interface IFlowAxisAlign { content?: IFlowAlign, x?: IAxisAlign, y?: IAxisAlign }
 
-export type IWrap = boolean | 'reverse'
+export type IFlowWrap = boolean | 'reverse'
 
 export type IAutoSize = IBoolean | INumber | IPercentData
 
@@ -330,8 +330,8 @@ export interface ILeafInputData {
     flow?: IFlowType
     padding?: IFourNumber
     gap?: IGap | IPointGap
-    align?: IFlowAlign | IFlowAxisAlign
-    wrap?: IWrap
+    flowAlign?: IFlowAlign | IFlowAxisAlign
+    flowWrap?: IFlowWrap
     itemBox?: IFlowBoxType
 
     inFlow?: IBoolean
@@ -417,8 +417,8 @@ export interface ILeafComputedData {
     flow?: IFlowType
     padding?: IFourNumber
     gap?: IGap | IPointGap
-    align?: IFlowAlign | IFlowAxisAlign
-    wrap?: IWrap
+    flowAlign?: IFlowAlign | IFlowAxisAlign
+    flowWrap?: IFlowWrap
     itemBox?: IFlowBoxType
 
     inFlow?: boolean
