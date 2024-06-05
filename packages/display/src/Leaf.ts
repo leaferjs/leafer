@@ -478,6 +478,12 @@ export class Leaf implements ILeaf {
 
     public __scaleResize(_scaleX: number, _scaleY: number): void { }
 
+
+    public resizeWidth(_width: number): void { }
+
+    public resizeHeight(_height: number): void { }
+
+
     // @leafer-ui/hit LeafHit rewrite
 
     public __hitWorld(_point: IRadiusPointData): boolean { return true }

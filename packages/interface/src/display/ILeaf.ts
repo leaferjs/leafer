@@ -664,6 +664,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     scaleResize(scaleX: number, scaleY: number, noResize?: boolean): void
     __scaleResize(scaleX: number, scaleY: number): void
 
+    resizeWidth(width: number): void
+    resizeHeight(height: number): void
+
     // ILeafHit ->
     __hitWorld(point: IRadiusPointData): boolean
     __hit(local: IRadiusPointData): boolean
