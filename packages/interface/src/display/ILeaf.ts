@@ -70,7 +70,7 @@ export interface ILeafAttrData {
 
     path: IPathCommandData | IPathString
     windingRule: IWindingRule
-    closed: boolean
+    closed: IBoolean
 
     // auto layout
     flow: IFlowType
@@ -83,6 +83,7 @@ export interface ILeafAttrData {
     inFlow: IBoolean
     autoWidth: IAutoSize
     autoHeight: IAutoSize
+    lockRatio: IBoolean
     autoBox: IAutoBoxData | IConstraint
 
     widthRange: IRangeSize
@@ -324,7 +325,7 @@ export interface ILeafInputData {
 
     path?: IPathCommandData | IPathString
     windingRule?: IWindingRule
-    closed?: boolean
+    closed?: IBoolean
 
     // auto layout
     flow?: IFlowType
@@ -337,6 +338,7 @@ export interface ILeafInputData {
     inFlow?: IBoolean
     autoWidth?: IAutoSize
     autoHeight?: IAutoSize
+    lockRatio?: IBoolean
     autoBox?: IAutoBoxData | IConstraint
 
     widthRange?: IRangeSize
@@ -424,6 +426,7 @@ export interface ILeafComputedData {
     inFlow?: boolean
     autoWidth?: IAutoSize
     autoHeight?: IAutoSize
+    lockRatio?: boolean
     autoBox?: IAutoBoxData | IConstraint
 
     widthRange?: IRangeSize
