@@ -1,4 +1,4 @@
-import { IPathCommandData, IPathCreator, IPathString } from '@leafer/interface'
+import { IPathCommandData, IPathCreator, IPathString, IPointData } from '@leafer/interface'
 import { PathCommandDataHelper } from './PathCommandDataHelper'
 import { PathHelper } from './PathHelper'
 
@@ -96,7 +96,7 @@ export class PathCreator implements IPathCreator { //  tip: rewrited Pen
         return this
     }
 
-    public drawPoints(points: number[], curve?: boolean | number, close?: boolean): PathCreator {
+    public drawPoints(points: number[] | IPointData[], curve?: boolean | number, close?: boolean): PathCreator {
         drawPoints(this.__path, points, curve, close)
         return this
     }
