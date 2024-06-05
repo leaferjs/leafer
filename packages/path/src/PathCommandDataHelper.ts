@@ -99,8 +99,12 @@ export const PathCommandDataHelper = {
         arc(data, x, y, radius, startAngle, endAngle, anticlockwise)
     },
 
-    drawPoints(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
-        BezierHelper.points(data, points, curve, close)
+    drawPoints(data: IPathCommandData, points: number[] | IPointData[], curve?: boolean | number, close?: boolean): void {
+        if (typeof points[0] === 'object') {
+            const ps = points as IPointData[]; points = []
+            ps.forEach(point => (points as number[]).push(point.x, point.y))
+        }
+        BezierHelper.points(data, points as number[], curve, close)
     }
 
 }
