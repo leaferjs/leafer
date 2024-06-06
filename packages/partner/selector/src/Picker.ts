@@ -136,7 +136,11 @@ export class Picker {
 
     protected hitChild(child: ILeaf, point: IRadiusPointData, proxy?: ILeaf): void {
         if (this.exclude && this.exclude.has(child)) return
-        if (child.__hitWorld(point)) this.findList.add(proxy || child)
+        if (child.__hitWorld(point)) {
+            const { parent } = child
+            if (parent && parent.__hasMask && !child.__.mask && !parent.children.some(item => item.__.mask && item.__hitWorld(point))) return
+            this.findList.add(proxy || child)
+        }
     }
 
     protected clear(): void {
