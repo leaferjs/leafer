@@ -188,6 +188,7 @@ export function hitType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
+                this.__layout.hitCanvasChanged = true
                 if (Debug.showHitView) { this.__layout.surfaceChanged || this.__layout.surfaceChange() }
                 if (this.leafer) this.leafer.updateCursor()
             }
