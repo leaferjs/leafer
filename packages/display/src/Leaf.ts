@@ -181,6 +181,10 @@ export class Leaf implements ILeaf {
         return JSON.stringify(this.toJSON())
     }
 
+    public toSVG(): string { return undefined }
+
+    public toHTML(): string { return undefined }
+
     // LeafDataProxy rewrite
 
     public __setAttr(_attrName: string, _newValue: IValue): boolean { return true }
@@ -479,9 +483,15 @@ export class Leaf implements ILeaf {
     public __scaleResize(_scaleX: number, _scaleY: number): void { }
 
 
-    public resizeWidth(_width: number): void { }
+    public resizeWidth(width: number): void {
+        const scale = width / this.boxBounds.width
+        this.scaleResize(scale, this.__.lockRatio ? scale : 1)
+    }
 
-    public resizeHeight(_height: number): void { }
+    public resizeHeight(height: number): void {
+        const scale = height / this.boxBounds.height
+        this.scaleResize(this.__.lockRatio ? scale : 1, scale)
+    }
 
 
     // @leafer-ui/hit LeafHit rewrite

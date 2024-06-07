@@ -568,8 +568,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     get(name?: string | string[] | IObject): ILeafInputData | IValue
     toJSON(): IObject
     toString(): string
-    toSVG?(): string
-    toHTML?(): string
+    toSVG(): string
+    toHTML(): string
 
     // ILeafData ->
     __setAttr(attrName: string, newValue: IValue, checkFiniteNumber?: boolean): boolean
