@@ -569,6 +569,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     toJSON(): IObject
     toString(): string
     toSVG(): string
+    SVG(data: IObject): void
     toHTML(): string
 
     // ILeafData ->
