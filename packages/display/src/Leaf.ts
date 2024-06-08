@@ -484,12 +484,12 @@ export class Leaf implements ILeaf {
 
 
     public resizeWidth(width: number): void {
-        const scale = width / this.boxBounds.width
+        const scale = width / this.__localBoxBounds.width
         this.scaleResize(scale, this.__.lockRatio ? scale : 1)
     }
 
     public resizeHeight(height: number): void {
-        const scale = height / this.boxBounds.height
+        const scale = height / this.__localBoxBounds.height
         this.scaleResize(this.__.lockRatio ? scale : 1, scale)
     }
 
