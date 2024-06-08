@@ -183,7 +183,7 @@ export class Leaf implements ILeaf {
 
     public toSVG(): string { return undefined }
 
-    public SVG(_data: IObject): void { }
+    public __SVG(_data: IObject): void { }
 
     public toHTML(): string { return undefined }
 
