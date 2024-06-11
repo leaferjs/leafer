@@ -581,8 +581,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // find
     find(condition: number | string | IFindMethod, options?: any): ILeaf[]
     findTag(tag: string | string[]): ILeaf[]
-    findOne(condition: number | string | IFindMethod, options?: any): ILeaf
-    findId(id: number | string): ILeaf
+    findOne(condition: number | string | IFindMethod, options?: any): ILeaf | undefined
+    findId(id: number | string): ILeaf | undefined
 
     focus(value?: boolean): void
     forceUpdate(attrName?: string): void

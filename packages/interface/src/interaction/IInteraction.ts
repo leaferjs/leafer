@@ -86,6 +86,7 @@ export interface IInteractionConfig {
     zoom?: IZoomConfig
     move?: IMoveConfig
     eventer?: IObject
+    keyEvent?: boolean
 }
 
 export interface IZoomConfig {
