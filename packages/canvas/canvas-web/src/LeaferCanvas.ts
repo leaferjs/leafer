@@ -20,10 +20,14 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const { style } = this.view
         style.display || (style.display = 'block')
         this.parentView = this.view.parentElement
-        if (this.parentView) this.parentView.style.userSelect = 'none'
+
+        if (this.parentView) {
+            const pStyle = this.parentView.style
+            pStyle.webkitUserSelect = pStyle.userSelect = 'none' // fix safari: use webkitUserSelect
+        }
 
         if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
-            this.view.style.display = 'none'
+            style.display = 'none'
             document.body.appendChild(this.view)
         }
 
