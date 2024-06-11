@@ -1,5 +1,5 @@
-import { ILeaf, IMatrixData, IPointData } from '@leafer/interface'
-import { MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
+import { IAlign, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
+import { MathHelper, MatrixHelper, PointHelper, AroundHelper } from '@leafer/math'
 
 
 const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -149,6 +149,15 @@ export const LeafHelper = {
         } else {
             t.set(layout)
         }
+    },
+
+    getLocalOrigin(t: ILeaf, origin: IPointData | IAlign): IPointData {
+        return PointHelper.tempToOuterOf(L.getInnerOrigin(t, origin), t.localTransform)
+    },
+
+    getInnerOrigin(t: ILeaf, origin: IPointData | IAlign): IPointData {
+        if (typeof origin === 'string') AroundHelper.toPoint(origin, t.boxBounds, origin = {} as IPointData)
+        return origin
     },
 
     getRelativeWorld(t: ILeaf, relative: ILeaf, temp?: boolean): IMatrixData {

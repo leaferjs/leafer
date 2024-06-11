@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -11,8 +11,8 @@ import { ChildEvent } from '@leafer/event'
 const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
-const { tempToOuterOf, copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getRelativeWorld, drop } = LeafHelper
+const { copy } = PointHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getLocalOrigin, getRelativeWorld, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -441,18 +441,17 @@ export class Leaf implements ILeaf {
         moveLocal(this, x, y)
     }
 
-    public scaleOf(origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
-        zoomOfLocal(this, tempToOuterOf(origin, this.localTransform), scaleX, scaleY, resize)
+    public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number, resize?: boolean): void {
+        zoomOfLocal(this, getLocalOrigin(this, origin), scaleX, scaleY, resize)
     }
 
-    public rotateOf(origin: IPointData, rotation: number): void {
-        rotateOfLocal(this, tempToOuterOf(origin, this.localTransform), rotation)
+    public rotateOf(origin: IPointData | IAlign, rotation: number): void {
+        rotateOfLocal(this, getLocalOrigin(this, origin), rotation)
     }
 
-    public skewOf(origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
-        skewOfLocal(this, tempToOuterOf(origin, this.localTransform), skewX, skewY, resize)
+    public skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean): void {
+        skewOfLocal(this, getLocalOrigin(this, origin), skewX, skewY, resize)
     }
-
 
     public transformWorld(worldTransform?: IMatrixData, resize?: boolean): void {
         transformWorld(this, worldTransform, resize)
