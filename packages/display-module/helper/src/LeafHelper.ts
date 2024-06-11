@@ -140,11 +140,15 @@ export const LeafHelper = {
     setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
         const layout = getLayout(transform)
         if (resize) {
-            t.scaleResize(layout.scaleX / t.scaleX, layout.scaleY / t.scaleY, resize !== true)
+            const scaleX = layout.scaleX / t.scaleX
+            const scaleY = layout.scaleY / t.scaleY
             delete layout.scaleX
             delete layout.scaleY
+            t.set(layout)
+            t.scaleResize(scaleX, scaleY, resize !== true)
+        } else {
+            t.set(layout)
         }
-        t.set(layout)
     },
 
     getRelativeWorld(t: ILeaf, relative: ILeaf, temp?: boolean): IMatrixData {
