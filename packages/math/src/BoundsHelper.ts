@@ -264,6 +264,10 @@ export const BoundsHelper = {
         toBounds(tempPointBounds, t)
     },
 
+    setPoint(t: IBoundsData, point: IPointData): void {
+        B.set(t, point.x, point.y)
+    },
+
     addPoint(t: IBoundsData, point: IPointData): void {
         add(t, point as IBoundsData, true)
     },

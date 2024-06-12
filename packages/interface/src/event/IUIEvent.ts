@@ -3,7 +3,7 @@ import { ILeafList } from '../data/IList'
 import { IEvent } from './IEvent'
 import { ILeaferImage } from '../image/ILeaferImage'
 import { ILeaf } from '../display/ILeaf'
-import { IPointData } from '../math/IMath'
+import { IPointData, IBoundsData } from '../math/IMath'
 
 export interface IUIEvent extends IEvent {
     x: number
@@ -55,6 +55,8 @@ export interface IDragEvent extends IPointerEvent {
     getPageTotal?(): IPointData
     getInnerTotal?(relative?: ILeaf): IPointData
     getLocalTotal?(relative?: ILeaf): IPointData
+
+    getPageBounds?(): IBoundsData
 }
 
 export interface IDropEvent extends IPointerEvent {

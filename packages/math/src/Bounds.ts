@@ -114,6 +114,11 @@ export class Bounds implements IBounds {
     }
 
 
+    public setPoint(point: IPointData): IBounds {
+        B.setPoint(this, point)
+        return this
+    }
+
     public setPoints(points: IPointData[]): IBounds {
         B.setPoints(this, points)
         return this
