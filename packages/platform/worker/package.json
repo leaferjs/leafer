@@ -1,6 +1,6 @@
 {
   "name": "@leafer/worker",
-  "version": "1.0.0-rc.25",
+  "version": "1.0.0-rc.26",
   "description": "@leafer/worker",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,11 +18,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "1.0.0-rc.25",
-    "@leafer/canvas-worker": "1.0.0-rc.25",
-    "@leafer/image-worker": "1.0.0-rc.25"
+    "@leafer/core": "1.0.0-rc.26",
+    "@leafer/canvas-worker": "1.0.0-rc.26",
+    "@leafer/image-worker": "1.0.0-rc.26"
   },
   "devDependencies": {
-     "@leafer/interface": "1.0.0-rc.25"
+     "@leafer/interface": "1.0.0-rc.26"
   }
 }
