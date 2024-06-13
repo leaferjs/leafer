@@ -111,6 +111,9 @@ export interface ILeafAttrData {
     focusStyle: ILeafInputData
     selectedStyle: ILeafInputData
     disabledStyle: ILeafInputData
+
+    // 预留给用户使用的数据对象
+    data: IObject
 }
 
 
@@ -367,6 +370,9 @@ export interface ILeafInputData {
     selectedStyle?: ILeafInputData
     disabledStyle?: ILeafInputData
 
+    // 预留给用户使用的数据对象
+    data?: IObject
+
     children?: ILeafInputData[]
 
     // other
@@ -454,6 +460,10 @@ export interface ILeafComputedData {
     focusStyle?: ILeafInputData
     selectedStyle?: ILeafInputData
     disabledStyle?: ILeafInputData
+
+
+    // 预留给用户使用的数据对象
+    data?: IObject
 
     // other
     __childBranchNumber?: number // 存在子分支的个数
@@ -566,6 +576,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     set(data: IObject): void
     get(name?: string | string[] | IObject): ILeafInputData | IValue
+    setAttr(name: string, value: any): void
+    getAttr(name: string): any
+    getComputedAttr(name: string): any
+
     toJSON(): IObject
     toString(): string
     toSVG(): string

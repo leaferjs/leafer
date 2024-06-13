@@ -173,6 +173,11 @@ export class Leaf implements ILeaf {
     public set(_data: IObject): void { }
     public get(_name?: string): ILeafInputData | IValue { return undefined }
 
+    public setAttr(name: string, value: any): void { (this as IObject)[name] = value }
+    public getAttr(name: string): any { return (this as IObject)[name] }
+
+    public getComputedAttr(name: string): any { return (this.__ as IObject)[name] }
+
     public toJSON(): IObject {
         return this.__.__getInputData()
     }
