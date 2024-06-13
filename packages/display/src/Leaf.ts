@@ -474,7 +474,7 @@ export class Leaf implements ILeaf {
     }
 
 
-    // @leafer-ui/scale rewrite
+    // @leafer-in/resize rewrite
 
     public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean): void {
         (this as ILeaf).scaleX *= scaleX;
