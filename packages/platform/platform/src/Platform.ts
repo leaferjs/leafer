@@ -12,7 +12,12 @@ export const Platform: IPlatform = {
         hitCanvasSize: 100,
         maxCacheSize: 2560 * 1600,  // 2k
         maxPatternSize: 4096 * 2160, // 4k
-        suffix: '', // leaf
-        crossOrigin: 'anonymous'
+        crossOrigin: 'anonymous',
+        getRealURL(url: string): string {
+            const { prefix, suffix } = Platform.image
+            if (suffix && !url.startsWith('data:') && !url.startsWith('blob:')) url += (url.includes("?") ? "&" : "?") + suffix
+            if (prefix && url[0] === '/') url = prefix + url
+            return url
+        }
     }
 }

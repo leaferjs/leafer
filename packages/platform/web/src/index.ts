@@ -47,15 +47,14 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         loadImage(src: any): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
                 const img = new Image()
-                const { suffix, crossOrigin } = Platform.image
+                const { crossOrigin } = Platform.image
                 if (crossOrigin) {
                     img.setAttribute('crossOrigin', crossOrigin)
                     img.crossOrigin = crossOrigin
                 }
                 img.onload = () => { resolve(img) }
                 img.onerror = (e) => { reject(e) }
-                if (suffix && !src.startsWith('data:') && !src.startsWith('blob:')) src += (src.includes("?") ? "&" : "?") + suffix
-                img.src = src
+                img.src = Platform.image.getRealURL(src)
             })
         }
     }

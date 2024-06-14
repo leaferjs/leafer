@@ -38,9 +38,8 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         download(_url: string, _filename: string): Promise<void> { return undefined },
         loadImage(src: any): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
-                if (!src.startsWith('data:') && Platform.image.suffix) src += (src.includes("?") ? "&" : "?") + Platform.image.suffix
                 let req = new XMLHttpRequest()
-                req.open('GET', src, true)
+                req.open('GET', Platform.image.getRealURL(src), true)
                 req.responseType = "blob"
                 req.onload = () => {
                     createImageBitmap(req.response).then(img => {

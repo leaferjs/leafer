@@ -48,10 +48,10 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                                     fs.unlink({ filePath })
                                     resolve()
                                 })
-                            }else {
+                            } else {
                                 resolve()
                             }
-                            
+
                         },
                         fail(error: any) {
                             reject(error)
@@ -59,12 +59,12 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                     })
                 })
             },
-            loadImage(url: string): Promise<HTMLImageElement> {
+            loadImage(src: string): Promise<HTMLImageElement> {
                 return new Promise((resolve, reject) => {
                     const img = Platform.canvas.view.createImage()
                     img.onload = () => { resolve(img) }
                     img.onerror = (error: any) => { reject(error) }
-                    img.src = url
+                    img.src = Platform.image.getRealURL(src)
                 })
             },
             noRepeat: 'repeat-x' // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示

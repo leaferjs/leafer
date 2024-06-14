@@ -35,7 +35,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
                 canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage
+                loadImage(src: any) { return loadImage(Platform.image.getRealURL(src)) }
             }
 
             Platform.roundRectPatch = true
@@ -49,7 +49,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(mineType(type), quality),
                 canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(mineType(fileType(filename)), quality)),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage
+                loadImage(src: any) { return loadImage(Platform.image.getRealURL(src)) }
             }
 
         }
