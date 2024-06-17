@@ -599,9 +599,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     findId(id: number | string): ILeaf | undefined
 
     focus(value?: boolean): void
-    forceUpdate(attrName?: string): void
 
     updateLayout(): void
+    forceUpdate(attrName?: string): void
+    forceRender(_bounds?: IBoundsData): void
 
     // ILeafMatrix ->
     __updateWorldMatrix(): void

@@ -224,6 +224,9 @@ export class Leaf implements ILeaf {
 
     // ---
 
+    public updateLayout(): void {
+        this.__layout.update()
+    }
 
     public forceUpdate(attrName?: string): void {
         if (attrName === undefined) attrName = 'width'
@@ -233,10 +236,9 @@ export class Leaf implements ILeaf {
         (this as any)[attrName] = value
     }
 
-    public updateLayout(): void {
-        this.__layout.update()
+    public forceRender(_bounds?: IBoundsData): void {
+        this.forceUpdate('surface')
     }
-
 
     // LeafMatrix rewrite
 
