@@ -9,6 +9,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
     declare public view: HTMLCanvasElement
     declare public parentView: HTMLElement
 
+    public set zIndex(zIndex: number) {
+        const { style } = this.view
+        style.zIndex = zIndex as unknown as string
+        style.position = 'absolute'
+    }
+
     protected resizeObserver: ResizeObserver
     protected autoBounds: IAutoBounds
     protected resizeListener: IResizeEventListener
