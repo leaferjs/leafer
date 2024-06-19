@@ -82,10 +82,10 @@ export interface IInteractionCanvas extends ILeaferCanvas {
 export interface IInteractionConfig {
     wheel?: IWheelConfig
     pointer?: IPointerConfig
-    cursor?: ICursorConfig
     zoom?: IZoomConfig
     move?: IMoveConfig
     eventer?: IObject
+    cursor?: boolean
     keyEvent?: boolean
 }
 
