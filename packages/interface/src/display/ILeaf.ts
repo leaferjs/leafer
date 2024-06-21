@@ -556,6 +556,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __onlyHitMask: boolean
     readonly __ignoreHitWorld: boolean
+    readonly __inLazyBounds: boolean
 
     readonly pathInputed: boolean
 

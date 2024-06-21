@@ -79,6 +79,7 @@ export class Leaf implements ILeaf {
 
     public get __onlyHitMask(): boolean { return this.__hasMask && !this.__.hitChildren }
     public get __ignoreHitWorld(): boolean { return (this.__hasMask || this.__hasEraser) && this.__.hitChildren }
+    public get __inLazyBounds(): boolean { const { leafer } = this; return leafer && leafer.created && leafer.lazyBounds.hit(this.__world) }
 
     public get pathInputed(): boolean { return this.__.__pathInputed as unknown as boolean }
 
