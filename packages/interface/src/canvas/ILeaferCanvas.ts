@@ -159,6 +159,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     hittable?: boolean
 
     zIndex?: number
+    childIndex?: number
 
     bounds: IBounds
     clientBounds: IBoundsData

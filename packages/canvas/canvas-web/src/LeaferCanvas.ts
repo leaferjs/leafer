@@ -12,7 +12,20 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public set zIndex(zIndex: number) {
         const { style } = this.view
         style.zIndex = zIndex as unknown as string
-        style.position = 'absolute'
+        this.setAbsolute(this.view)
+    }
+
+    public set childIndex(index: number) {
+        const { view, parentView } = this
+        if (view && parentView) {
+            const beforeNode = parentView.children[index]
+            if (beforeNode) {
+                this.setAbsolute(beforeNode as HTMLCanvasElement)
+                parentView.insertBefore(view, beforeNode)
+            } else {
+                parentView.appendChild(beforeNode)
+            }
+        }
     }
 
     protected resizeObserver: ResizeObserver
@@ -75,9 +88,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
                 const view = this.view
 
                 if (parent.hasChildNodes()) {
-                    const { style } = view
-                    style.position = 'absolute'
-                    style.top = style.left = '0px'
+                    this.setAbsolute(view)
                     parent.style.position || (parent.style.position = 'relative')
                 }
 
@@ -87,6 +98,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
             debug.error(`no id: ${inputView}`)
             this.__createView()
         }
+    }
+
+    protected setAbsolute(view: HTMLCanvasElement): void {
+        const { style } = view
+        style.position = 'absolute'
+        style.top = style.left = '0px'
     }
 
     public updateViewSize(): void {

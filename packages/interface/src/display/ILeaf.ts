@@ -644,6 +644,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData
     getLayoutBounds(type?: IBoundsType, relative?: ILocationType | ILeaf, unscale?: boolean): ILayoutBoundsData
+    getLayoutPoints(type?: IBoundsType, relative?: ILocationType | ILeaf): IPointData[]
 
     getWorldBounds(inner: IBoundsData, relative?: ILeaf, change?: boolean): IBoundsData
 
