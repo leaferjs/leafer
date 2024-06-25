@@ -135,7 +135,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
             if (parent) {
                 this.resizeObserver.observe(parent)
                 this.checkAutoBounds(parent.getBoundingClientRect())
-            } else debug.warn('no parent, and w = 0 or h = 0')
+            } else {
+                this.checkAutoBounds(this.view)
+                debug.warn('no parent')
+            }
 
         } catch {
 
