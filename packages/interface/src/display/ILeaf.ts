@@ -640,7 +640,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // convert
     __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix
 
-    getWorld(attrName: ILayoutAttr): number // will remove
     getTransform(relative?: ILocationType | ILeaf): IMatrixData
 
     getBounds(type?: IBoundsType, relative?: ILocationType | ILeaf): IBoundsData

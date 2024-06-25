@@ -327,14 +327,6 @@ export class Leaf implements ILeaf {
         }
     }
 
-
-    public getWorld(attrName: ILayoutAttr): number {
-        this.__layout.update()
-        if (attrName === 'x') return this.__world.e
-        if (attrName === 'y') return this.__world.f
-        return this.getLayoutBounds()[attrName]
-    }
-
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {
         return this.__layout.getTransform(relative || 'local')
     }
