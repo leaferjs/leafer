@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, ILayoutAttr, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerOptions, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -484,15 +484,9 @@ export class Leaf implements ILeaf {
     public __scaleResize(_scaleX: number, _scaleY: number): void { }
 
 
-    public resizeWidth(width: number): void {
-        const scale = width / this.__localBoxBounds.width
-        this.scaleResize(scale, this.__.lockRatio ? scale : 1)
-    }
+    public resizeWidth(_width: number): void { }
 
-    public resizeHeight(height: number): void {
-        const scale = height / this.__localBoxBounds.height
-        this.scaleResize(this.__.lockRatio ? scale : 1, scale)
-    }
+    public resizeHeight(_height: number): void { }
 
 
     // @leafer-ui/hit LeafHit rewrite

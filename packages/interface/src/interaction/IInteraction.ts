@@ -109,6 +109,7 @@ export interface IMoveConfig {
 }
 
 export interface IWheelConfig {
+    disabled?: boolean
     zoomMode?: boolean | 'mouse'
     zoomSpeed?: number // 取值范围 0 ～ 1, 默认0.5
     moveSpeed?: number
