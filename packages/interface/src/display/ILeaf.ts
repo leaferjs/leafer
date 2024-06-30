@@ -29,88 +29,88 @@ export interface ICachedLeaf {
 
 export interface ILeafAttrData {
     // layer data
-    id: IString
-    name: IString
-    className: IString
+    id?: IString
+    name?: IString
+    className?: IString
 
-    blendMode: IBlendMode
-    opacity: INumber
-    visible: IBoolean | 0 // 0 = display: none
-    selected: IBoolean
-    disabled: IBoolean
-    locked: IBoolean
-    zIndex: INumber
+    blendMode?: IBlendMode
+    opacity?: INumber
+    visible?: IBoolean | 0 // 0 = display: none
+    selected?: IBoolean
+    disabled?: IBoolean
+    locked?: IBoolean
+    zIndex?: INumber
 
-    mask: IBoolean | IMaskType
-    eraser: IBoolean | IEraserType
+    mask?: IBoolean | IMaskType
+    eraser?: IBoolean | IEraserType
 
     // layout data
-    x: INumber
-    y: INumber
-    width: INumber
-    height: INumber
-    scaleX: INumber
-    scaleY: INumber
-    rotation: INumber
-    skewX: INumber
-    skewY: INumber
+    x?: INumber
+    y?: INumber
+    width?: INumber
+    height?: INumber
+    scaleX?: INumber
+    scaleY?: INumber
+    rotation?: INumber
+    skewX?: INumber
+    skewY?: INumber
 
-    scale: INumber | IPointData // helper
+    scale?: INumber | IPointData // helper
 
-    offsetX: INumber
-    offsetY: INumber
-    scrollX: INumber
-    scrollY: INumber
+    offsetX?: INumber
+    offsetY?: INumber
+    scrollX?: INumber
+    scrollY?: INumber
 
-    origin: IAlign | IUnitPointData
-    around: IAlign | IUnitPointData
+    origin?: IAlign | IUnitPointData
+    around?: IAlign | IUnitPointData
 
-    lazy: IBoolean
-    pixelRatio: INumber
+    lazy?: IBoolean
+    pixelRatio?: INumber
 
-    path: IPathCommandData | IPathString
-    windingRule: IWindingRule
-    closed: IBoolean
+    path?: IPathCommandData | IPathString
+    windingRule?: IWindingRule
+    closed?: IBoolean
 
     // auto layout
-    flow: IFlowType
-    padding: IFourNumber
-    gap: IGap | IPointGap
-    flowAlign: IFlowAlign | IFlowAxisAlign
-    flowWrap: IFlowWrap
-    itemBox: IFlowBoxType
+    flow?: IFlowType
+    padding?: IFourNumber
+    gap?: IGap | IPointGap
+    flowAlign?: IFlowAlign | IFlowAxisAlign
+    flowWrap?: IFlowWrap
+    itemBox?: IFlowBoxType
 
-    inFlow: IBoolean
-    autoWidth: IAutoSize
-    autoHeight: IAutoSize
-    lockRatio: IBoolean
-    autoBox: IAutoBoxData | IConstraint
+    inFlow?: IBoolean
+    autoWidth?: IAutoSize
+    autoHeight?: IAutoSize
+    lockRatio?: IBoolean
+    autoBox?: IAutoBoxData | IConstraint
 
-    widthRange: IRangeSize
-    heightRange: IRangeSize
+    widthRange?: IRangeSize
+    heightRange?: IRangeSize
 
     // interactive
-    draggable: IBoolean | IAxis
+    draggable?: IBoolean | IAxis
     dragBounds?: IBoundsData | 'parent'
 
-    editable: IBoolean
+    editable?: IBoolean
 
-    hittable: IBoolean
-    hitFill: IHitType
-    hitStroke: IHitType
-    hitBox: IBoolean
-    hitChildren: IBoolean
-    hitSelf: IBoolean
-    hitRadius: INumber
+    hittable?: IBoolean
+    hitFill?: IHitType
+    hitStroke?: IHitType
+    hitBox?: IBoolean
+    hitChildren?: IBoolean
+    hitSelf?: IBoolean
+    hitRadius?: INumber
 
-    cursor: ICursorType | ICursorType[]
+    cursor?: ICursorType | ICursorType[]
 
-    normalStyle: ILeafInputData // restore hover / press / focus / selected / disabled style
-    hoverStyle: ILeafInputData
-    pressStyle: ILeafInputData
-    focusStyle: ILeafInputData
-    selectedStyle: ILeafInputData
-    disabledStyle: ILeafInputData
+    normalStyle?: ILeafInputData // restore hover / press / focus / selected / disabled style
+    hoverStyle?: ILeafInputData
+    pressStyle?: ILeafInputData
+    focusStyle?: ILeafInputData
+    selectedStyle?: ILeafInputData
+    disabledStyle?: ILeafInputData
 
     // 预留给用户使用的数据对象
     data: IObject
