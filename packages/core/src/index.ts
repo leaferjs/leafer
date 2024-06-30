@@ -22,5 +22,5 @@ export * from '@leafer/platform'
 
 export * from '@leafer/task'
 
-export const version = "1.0.0-rc.28"
+export const version = "1.0.0"
 export const inviteCode: IObject = {}
