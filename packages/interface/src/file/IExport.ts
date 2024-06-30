@@ -15,8 +15,13 @@ export interface IExportOptions {
     fill?: string
     screenshot?: IBoundsData | boolean
     relative?: ILocationType | ILeaf
+    json?: IJSONOptions
     contextSettings?: ICanvasContext2DSettings
     onCanvas?: IExportOnCanvasFunction
+}
+
+export interface IJSONOptions {
+    matrix?: boolean
 }
 
 export interface IExportResult {

@@ -18,6 +18,7 @@ import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
 import { IPathCommandData } from '../path/IPathCommand'
 import { IWindingRule, IPath2D } from '../canvas/ICanvas'
+import { IJSONOptions } from '../file/IExport'
 
 
 export interface ICachedLeaf {
@@ -581,8 +582,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     getAttr(name: string): any
     getComputedAttr(name: string): any
 
-    toJSON(): IObject
-    toString(): string
+    toJSON(options?: IJSONOptions): IObject
+    toString(options?: IJSONOptions): string
     toSVG(): string
     __SVG(data: IObject): void
     toHTML(): string

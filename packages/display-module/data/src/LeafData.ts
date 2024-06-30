@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject, IValue, IPathCommandData } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue, IPathCommandData, IJSONOptions } from '@leafer/interface'
 
 
 export class LeafData implements ILeafData {
@@ -69,7 +69,7 @@ export class LeafData implements ILeafData {
         if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
     }
 
-    public __getInputData(names?: string[] | IObject): IObject {
+    public __getInputData(names?: string[] | IObject, options?: IJSONOptions): IObject {
         const data: IObject = {}
 
         if (names) {
@@ -97,6 +97,13 @@ export class LeafData implements ILeafData {
                 }
             }
 
+        }
+
+        if (options) {
+            if (options.matrix) {
+                const { a, b, c, d, e, f } = this.__leaf.__localMatrix
+                data.matrix = { a, b, c, d, e, f }
+            }
         }
 
         return data

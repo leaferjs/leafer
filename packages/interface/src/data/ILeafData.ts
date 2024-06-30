@@ -1,4 +1,5 @@
 import { ILeaf, ILeafComputedData } from '../display/ILeaf'
+import { IJSONOptions } from '../file/IExport'
 import { IObject } from './IData'
 
 export interface IDataProcessor {
@@ -12,7 +13,7 @@ export interface IDataProcessor {
     __setInput(name: string, value: any): void
     __getInput(name: string): any
     __removeInput(name: string): void
-    __getInputData(names?: string[] | IObject): IObject
+    __getInputData(names?: string[] | IObject, options?: IJSONOptions): IObject
 
     __setMiddle(name: string, value: any): void
     __getMiddle(name: string): any
