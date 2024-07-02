@@ -310,7 +310,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
     }
 
-    public updateRender(): void { }
+    public updateRender(_bounds?: IBoundsData): void { }
 
     public unrealCanvas(): void { }
 

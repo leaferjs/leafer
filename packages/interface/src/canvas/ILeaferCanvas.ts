@@ -199,7 +199,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas
     recycle(clearBounds?: IBoundsData): void
 
-    updateRender(): void
+    updateRender(bounds: IBoundsData): void
     unrealCanvas(): void
     destroy(): void
 }

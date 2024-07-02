@@ -188,13 +188,13 @@ export class Renderer implements IRenderer {
 
         this.target.__render(this.canvas, options)
 
-        this.renderBounds = realBounds || bounds
+        this.renderBounds = realBounds = realBounds || bounds
         this.renderOptions = options
-        this.totalBounds.isEmpty() ? this.totalBounds = this.renderBounds : this.totalBounds.add(this.renderBounds)
+        this.totalBounds.isEmpty() ? this.totalBounds = realBounds : this.totalBounds.add(realBounds)
 
         if (Debug.showHitView) this.renderHitView(options)
         if (Debug.showBoundsView) this.renderBoundsView(options)
-        this.canvas.updateRender()
+        this.canvas.updateRender(realBounds)
     }
 
     public renderHitView(_options: IRenderOptions): void { }

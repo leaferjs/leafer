@@ -1,4 +1,4 @@
-import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject } from '@leafer/interface'
+import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject, ICanvasContext2D } from '@leafer/interface'
 import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent } from '@leafer/core'
 
 
@@ -10,7 +10,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public resizeListener: IResizeEventListener
 
     public testView: any
-    public testContext: any
+    public testContext: ICanvasContext2D
 
     public init(): void {
         let { view } = this.config
