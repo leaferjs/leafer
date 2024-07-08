@@ -73,10 +73,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
 
-    public startAutoLayout(_autoBounds: IAutoBounds, listener: IResizeEventListener): void {
+    public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
         this.resizeListener = listener
-        this.checkSize = this.checkSize.bind(this)
-        Platform.miniapp.onWindowResize(this.checkSize)
+        if (autoBounds) {
+            this.checkSize = this.checkSize.bind(this)
+            Platform.miniapp.onWindowResize(this.checkSize)
+        }
     }
 
     public checkSize(): void {
@@ -86,12 +88,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
                     const { width, height } = this.clientBounds
                     const { pixelRatio } = this
                     const size = { width, height, pixelRatio }
-                    if (!this.isSameSize(size)) {
-                        const oldSize = {} as IScreenSizeData
-                        DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
-                        this.resize(size)
-                        if (this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
-                    }
+                    if (!this.isSameSize(size)) this.emitResize(size)
                 })
             }, 500)
         }
@@ -101,6 +98,13 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.autoLayout = false
         this.resizeListener = null
         Platform.miniapp.offWindowResize(this.checkSize)
+    }
+
+    protected emitResize(size: IScreenSizeData): void {
+        const oldSize = {} as IScreenSizeData
+        DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
+        this.resize(size)
+        if (this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
     }
 
 }

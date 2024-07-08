@@ -4,7 +4,7 @@ export * from '@leafer/canvas-node'
 export * from '@leafer/image-node'
 
 import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas } from '@leafer/interface'
-import { Platform, Creator, FileHelper } from '@leafer/core'
+import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
 import { LeaferImage } from '@leafer/image-node'
@@ -68,5 +68,5 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
 
 Platform.name = 'node'
 Platform.requestRender = function (render: IFunction): void { setTimeout(render) }
-Platform.devicePixelRatio = 1
+defineKey(Platform, 'devicePixelRatio', { get() { return 1 } })
 Platform.conicGradientSupport = true

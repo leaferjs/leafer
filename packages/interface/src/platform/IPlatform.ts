@@ -15,7 +15,7 @@ export interface IPlatform {
     canvasType?: ICanvasType
     isWorker?: boolean
     isMobile?: boolean
-    devicePixelRatio?: number
+    readonly devicePixelRatio?: number
     intWheelDeltaY?: boolean // firefox / Windows need
     conicGradientSupport?: boolean
     conicGradientRotate90?: boolean // firefox need rotate

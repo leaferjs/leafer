@@ -4,7 +4,7 @@ export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
 
 import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData } from '@leafer/interface'
-import { Platform, Creator, FileHelper } from '@leafer/core'
+import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-miniapp'
 import { LeaferImage } from '@leafer/image-miniapp'
@@ -136,4 +136,5 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
 
 Platform.name = 'miniapp'
 Platform.requestRender = function (render: IFunction): void { Platform.canvas.view.requestAnimationFrame(render) }
-Platform.devicePixelRatio = wx.getSystemInfoSync().pixelRatio
+defineKey(Platform, 'devicePixelRatio', { get() { return Math.max(1, wx.getSystemInfoSync().pixelRatio) } })
+

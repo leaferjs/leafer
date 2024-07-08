@@ -122,29 +122,47 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
-        this.autoBounds = autoBounds
         this.resizeListener = listener
-        try {
 
-            this.resizeObserver = new ResizeObserver((entries) => {
-                this.updateClientBounds()
-                for (const entry of entries) this.checkAutoBounds(entry.contentRect)
-            })
+        if (autoBounds) {
 
-            const parent = this.parentView
-            if (parent) {
-                this.resizeObserver.observe(parent)
-                this.checkAutoBounds(parent.getBoundingClientRect())
-            } else {
-                this.checkAutoBounds(this.view)
-                debug.warn('no parent')
+            // check auto layout
+            this.autoBounds = autoBounds
+            try {
+
+                this.resizeObserver = new ResizeObserver((entries) => {
+                    this.updateClientBounds()
+                    for (const entry of entries) this.checkAutoBounds(entry.contentRect)
+                })
+
+                const parent = this.parentView
+                if (parent) {
+                    this.resizeObserver.observe(parent)
+                    this.checkAutoBounds(parent.getBoundingClientRect())
+                } else {
+                    this.checkAutoBounds(this.view)
+                    debug.warn('no parent')
+                }
+
+            } catch {
+
+                this.imitateResizeObserver()
+
             }
 
-        } catch {
+        } else {
 
-            this.imitateResizeObserver()
+            // check devicePixelRatio change
+            window.addEventListener('resize', () => {
+                const pixelRatio = Platform.devicePixelRatio
+                if (this.pixelRatio !== pixelRatio) {
+                    const { width, height } = this
+                    this.emitResize({ width, height, pixelRatio })
+                }
+            })
 
         }
+
     }
 
     protected imitateResizeObserver(): void {
@@ -157,16 +175,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
     protected checkAutoBounds(parentSize: ISizeData): void {
         const view = this.view
         const { x, y, width, height } = this.autoBounds.getBoundsFrom(parentSize)
-        if (width !== this.width || height !== this.height) {
+        const size = { width, height, pixelRatio: Platform.devicePixelRatio } as IScreenSizeData
+        if (!this.isSameSize(size)) {
             const { style } = view
-            const { pixelRatio } = this
             style.marginLeft = x + 'px'
             style.marginTop = y + 'px'
-            const size = { width, height, pixelRatio }
-            const oldSize = {} as IScreenSizeData
-            DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
-            this.resize(size)
-            if (this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
+            this.emitResize(size)
         }
     }
 
@@ -178,6 +192,14 @@ export class LeaferCanvas extends LeaferCanvasBase {
             this.resizeObserver = null
         }
     }
+
+    protected emitResize(size: IScreenSizeData): void {
+        const oldSize = {} as IScreenSizeData
+        DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
+        this.resize(size)
+        if (this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
+    }
+
 
     public unrealCanvas(): void { // App needs to use
         if (!this.unreal && this.parentView) {
