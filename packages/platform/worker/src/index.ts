@@ -4,7 +4,7 @@ export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
 import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
-import { Platform, Creator, FileHelper } from '@leafer/core'
+import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
 import { LeaferImage } from '@leafer/image-worker'
@@ -61,7 +61,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
 Platform.name = 'web'
 Platform.isWorker = true
 Platform.requestRender = function (render: IFunction): void { requestAnimationFrame(render) }
-Platform.devicePixelRatio = 1
+defineKey(Platform, 'devicePixelRatio', { get() { return 1 } })
 
 
 // same as web
