@@ -1,10 +1,10 @@
 import { ILeaferBase } from '../app/ILeafer'
-import { IEventer } from '../event/IEventer'
+import { IEventer, IEventMap } from '../event/IEventer'
 
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
-import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
+import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber, IFunctionMap } from '../data/IData'
 import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
@@ -105,6 +105,8 @@ export interface ILeafAttrData {
     hitRadius?: INumber
 
     cursor?: ICursorType | ICursorType[]
+
+    event?: IEventMap
 
     normalStyle?: ILeafInputData // restore hover / press / focus / selected / disabled style
     hoverStyle?: ILeafInputData
@@ -363,6 +365,8 @@ export interface ILeafInputData {
     hitRadius?: INumber
 
     cursor?: ICursorType | ICursorType[]
+
+    event?: IEventMap
 
     normalStyle?: ILeafInputData
     hoverStyle?: ILeafInputData

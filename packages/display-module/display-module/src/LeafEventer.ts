@@ -1,14 +1,16 @@
-import { IEventListener, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, ILeafEventerModule } from '@leafer/interface'
+import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, ILeafEventerModule, IEventOption } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
 
 const empty = {}
 
 export const LeafEventer: ILeafEventerModule = {
 
-    on(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void {
+    on(type: string | string[], listener: IEventListener, options?: IEventOption): void {
         let capture: boolean, once: boolean
         if (options) {
-            if (typeof options === 'boolean') {
+            if (options === 'once') {
+                once = true
+            } else if (typeof options === 'boolean') {
                 capture = options
             } else {
                 capture = options.capture
@@ -33,7 +35,7 @@ export const LeafEventer: ILeafEventerModule = {
         })
     },
 
-    off(type?: string | string[], listener?: IEventListener, options?: IEventListenerOptions | boolean): void {
+    off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void {
         if (type) {
 
             const typeList = typeof type === 'string' ? type.split(' ') : type
@@ -41,7 +43,7 @@ export const LeafEventer: ILeafEventerModule = {
             if (listener) {
 
                 let capture: boolean
-                if (options) capture = typeof options === 'boolean' ? options : options.capture
+                if (options) capture = typeof options === 'boolean' ? options : (options === 'once' ? false : options.capture)
 
                 let events: IEventListenerItem[], index: number
                 const map = __getListenerMap(this, capture)
@@ -76,7 +78,7 @@ export const LeafEventer: ILeafEventerModule = {
 
     },
 
-    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId {
+    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId {
         if (bind) listener = listener.bind(bind)
         this.on(type, listener, options)
         return { type, current: this, listener, options }

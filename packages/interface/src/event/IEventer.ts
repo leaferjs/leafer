@@ -12,6 +12,8 @@ export interface IEventListenerOptions {
     once?: boolean
 }
 
+export type IEventOption = IEventListenerOptions | boolean | 'once'
+
 export interface IEventListenerItem extends IEventListenerOptions {
     listener: IEventListener
 }
@@ -20,11 +22,15 @@ export interface IEventListenerMap {
     [name: string]: IEventListenerItem[]
 }
 
+export interface IEventMap {
+    [name: string]: IEventListener | [IEventListener, IEventOption]
+}
+
 export interface IEventListenerId {
     type: string | string[]
     current: ILeaf
     listener: IEventListener
-    options?: IEventListenerOptions | boolean
+    options?: IEventOption
 }
 
 export type InnerId = number
@@ -35,9 +41,9 @@ export interface IEventer extends ILeafEventer {
     __captureMap?: IEventListenerMap
     __bubbleMap?: IEventListenerMap
 
-    on(type: string | string[], listener: IEventListener, options?: IEventListenerOptions | boolean): void
-    off(type?: string | string[], listener?: IEventListener, options?: IEventListenerOptions | boolean): void
-    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId
+    on(type: string | string[], listener: IEventListener, options?: IEventOption): void
+    off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void
+    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId
     off_(id: IEventListenerId | IEventListenerId[]): void
     once(type: string | string[], listener: IEventListener): void
     emit(type: string, event?: IEvent | IObject, capture?: boolean): void

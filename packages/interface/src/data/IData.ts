@@ -1,4 +1,5 @@
 import { IPointData } from '../math/IMath'
+import { IFunction } from '../function/IFunction'
 
 export type INumber = number // number | string    will convert to number
 export type IBoolean = boolean // boolean | string  will convert to boolean
@@ -25,6 +26,11 @@ export interface INumberMap {
 export interface IStringMap {
     [name: string]: string
 }
+
+export interface IFunctionMap {
+    [name: string]: IFunction
+}
+
 
 export interface IPointDataMap {
     [name: string]: IPointData
