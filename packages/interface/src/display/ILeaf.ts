@@ -223,6 +223,12 @@ export type IDirection =
     | 'left'
     | 'center'
 
+export type IDirection4 =
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+
 export type IAlign = IDirection
 
 export type IBaseLineAlign =
