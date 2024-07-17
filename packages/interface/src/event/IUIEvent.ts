@@ -33,6 +33,7 @@ export interface IPointerEvent extends IUIEvent {
     width?: number
     height?: number
     pointerType?: PointerType
+    multiTouch?: boolean
     pressure?: number
     tangentialPressure?: number
     tiltX?: number
