@@ -16,10 +16,17 @@ export interface IInteraction extends IControl {
     selector: ISelector
 
     running: boolean
+
     readonly dragging: boolean
-    readonly isDragEmpty: boolean
-    readonly isHoldRightKey: boolean
+    readonly transforming: boolean
+
     readonly moveMode: boolean
+
+    readonly isDragEmpty: boolean
+    readonly isMobileDragEmpty: boolean
+    readonly isHoldMiddleKey: boolean
+    readonly isHoldRightKey: boolean
+    readonly isHoldSpaceKey: boolean
 
     config: IInteractionConfig
 
@@ -127,7 +134,11 @@ export interface IPointerConfig {
     tapTime?: number
     longPressTime?: number
     transformTime?: number
+
+    // mobile
     hover?: boolean
+    touch?: boolean // 使用touch事件代替pointer事件
+
     dragHover?: boolean
     dragDistance?: number
     swipeDistance?: number
