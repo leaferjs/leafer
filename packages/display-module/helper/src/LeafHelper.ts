@@ -1,5 +1,5 @@
-import { IAlign, ILeaf, IMatrixData, IPointData } from '@leafer/interface'
-import { MathHelper, MatrixHelper, PointHelper, AroundHelper } from '@leafer/math'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis } from '@leafer/interface'
+import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData } from '@leafer/math'
 
 
 const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -149,6 +149,13 @@ export const LeafHelper = {
         } else {
             t.set(layout)
         }
+    },
+
+    getFlipTransform(t: ILeaf, axis: IAxis): IMatrixData {
+        const matrix = getMatrixData()
+        const sign = axis === 'x' ? 1 : -1
+        scaleOfOuter(matrix, L.getLocalOrigin(t, 'center'), -1 * sign, 1 * sign)
+        return matrix
     },
 
     getLocalOrigin(t: ILeaf, origin: IPointData | IAlign): IPointData {

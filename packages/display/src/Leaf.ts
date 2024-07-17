@@ -1,5 +1,5 @@
 import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis } from '@leafer/interface'
-import { BoundsHelper, getMatrixData, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
+import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
@@ -9,10 +9,10 @@ import { ChildEvent } from '@leafer/event'
 
 
 const { LEAF, create } = IncrementId
-const { toInnerPoint, toOuterPoint, scaleOfInner, multiplyParent } = MatrixHelper
+const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { copy } = PointHelper
-const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getLocalOrigin, getRelativeWorld, drop } = LeafHelper
+const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getFlipTransform, getLocalOrigin, getRelativeWorld, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
 @useModule(LeafMatrix)
@@ -477,10 +477,7 @@ export class Leaf implements ILeaf {
     }
 
     public flip(axis: IAxis): void {
-        const matrix = getMatrixData()
-        const sign = axis === 'x' ? 1 : -1
-        scaleOfInner(matrix, getLocalOrigin(this, 'center'), -1 * sign, 1 * sign)
-        transform(this, matrix)
+        transform(this, getFlipTransform(this, axis))
     }
 
 
