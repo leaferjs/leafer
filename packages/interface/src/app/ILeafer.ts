@@ -21,6 +21,7 @@ export type ILeaferType = 'draw' | 'editor' | 'design' | 'board' | 'document' | 
 export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IInteractionConfig, ILayouterConfig {
     start?: boolean
     type?: ILeaferType
+    mobile?: boolean
     realCanvas?: boolean
     lazySpeard?: IFourNumber
 }

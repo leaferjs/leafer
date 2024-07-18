@@ -74,7 +74,7 @@ export interface IZoomEvent extends IUIEvent {
 }
 
 export interface IMoveEvent extends IDragEvent {
-
+    moveType: 'drag' | 'move'
 }
 
 export interface ISwipeEvent extends IDragEvent {

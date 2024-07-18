@@ -21,6 +21,7 @@ export interface IInteraction extends IControl {
     readonly transforming: boolean
 
     readonly moveMode: boolean
+    readonly canHover: boolean
 
     readonly isDragEmpty: boolean
     readonly isMobileDragEmpty: boolean
