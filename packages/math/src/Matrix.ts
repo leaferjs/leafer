@@ -146,13 +146,13 @@ export class Matrix implements IMatrix {
     }
 
 
-    public setLayout(data: ILayoutData, origin?: IPointData): IMatrix {
-        M.setLayout(this, data, origin)
+    public setLayout(data: ILayoutData, origin?: IPointData, around?: IPointData,): IMatrix {
+        M.setLayout(this, data, origin, around)
         return this
     }
 
-    public getLayout(origin?: IPointData, firstSkewY?: boolean): ILayoutData {
-        return M.getLayout(this, origin, firstSkewY)
+    public getLayout(origin?: IPointData, around?: IPointData, firstSkewY?: boolean): ILayoutData {
+        return M.getLayout(this, origin, around, firstSkewY)
     }
 
     public withScale(scaleX?: number, scaleY?: number): IMatrixWithScaleData {

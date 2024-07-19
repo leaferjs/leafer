@@ -45,10 +45,10 @@ export const MatrixHelper = {
         t.f += y
     },
 
-    translateInner(t: IMatrixData, x: number, y: number, isMoveOrigin?: boolean): void {
+    translateInner(t: IMatrixData, x: number, y: number, hasOrigin?: boolean): void {
         t.e += t.a * x + t.c * y
         t.f += t.b * x + t.d * y
-        if (isMoveOrigin) t.e -= x, t.f -= y
+        if (hasOrigin) t.e -= x, t.f -= y
     },
 
     scale(t: IMatrixData, scaleX: number, scaleY: number = scaleX): void {
@@ -245,7 +245,7 @@ export const MatrixHelper = {
         }
     },
 
-    setLayout(t: IMatrixData, layout: ILayoutData, origin?: IPointData, bcChanged?: boolean | number): void {
+    setLayout(t: IMatrixData, layout: ILayoutData, origin?: IPointData, around?: IPointData, bcChanged?: boolean | number): void {
         const { x, y, scaleX, scaleY } = layout
 
         if (bcChanged === undefined) bcChanged = layout.rotation || layout.skewX || layout.skewY
@@ -288,11 +288,11 @@ export const MatrixHelper = {
         t.e = x
         t.f = y
 
-        if (origin) M.translateInner(t, -origin.x, -origin.y, true)
+        if (origin = origin || around) M.translateInner(t, -origin.x, -origin.y, !around)
 
     },
 
-    getLayout(t: IMatrixData, origin?: IPointData, firstSkewY?: boolean): ILayoutData {
+    getLayout(t: IMatrixData, origin?: IPointData, around?: IPointData, firstSkewY?: boolean): ILayoutData {
         const { a, b, c, d, e, f } = t
 
         let x = e, y = f, scaleX: number, scaleY: number, rotation: number, skewX: number, skewY: number
@@ -330,9 +330,10 @@ export const MatrixHelper = {
             rotation = skewX = skewY = 0
         }
 
-        if (origin) {
+        if (origin = around || origin) {
             x += origin.x * a + origin.y * c
             y += origin.x * b + origin.y * d
+            if (!around) x -= origin.x, y -= origin.y
         }
 
         return { x, y, scaleX, scaleY, rotation, skewX, skewY }

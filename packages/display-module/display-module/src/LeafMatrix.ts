@@ -22,7 +22,7 @@ export const LeafMatrix: ILeafMatrixModule = {
             if (layout.affectScaleOrRotation) {
 
                 if (layout.scaleChanged || layout.rotationChanged) {
-                    setLayout(local, data as ILayoutData, null, layout.affectRotation)
+                    setLayout(local, data as ILayoutData, null, null, layout.affectRotation)
                     layout.scaleChanged = layout.rotationChanged = false
                 }
 
@@ -33,7 +33,7 @@ export const LeafMatrix: ILeafMatrixModule = {
 
             if (data.around || data.origin) {
                 toPoint(data.around || data.origin, layout.boxBounds, tempPoint)
-                translateInner(local, -tempPoint.x, -tempPoint.y, data.origin as unknown as boolean)
+                translateInner(local, -tempPoint.x, -tempPoint.y, !data.around)
             }
 
         }

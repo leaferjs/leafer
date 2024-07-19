@@ -163,8 +163,9 @@ export const LeafHelper = {
     },
 
     getInnerOrigin(t: ILeaf, origin: IPointData | IAlign): IPointData {
-        if (typeof origin === 'string') AroundHelper.toPoint(origin, t.boxBounds, origin = {} as IPointData)
-        return origin
+        const innerOrigin = {} as IPointData
+        AroundHelper.toPoint(origin, t.boxBounds, innerOrigin)
+        return innerOrigin
     },
 
     getRelativeWorld(t: ILeaf, relative: ILeaf, temp?: boolean): IMatrixData {

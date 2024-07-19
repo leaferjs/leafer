@@ -221,8 +221,8 @@ export interface IMatrix extends IMatrixWithScaleData {
     toOuterPoint(inner: IPointData, to?: IPointData, distance?: boolean): void
     toInnerPoint(outer: IPointData, to?: IPointData, distance?: boolean): void
 
-    setLayout(data: ILayoutData, origin?: IPointData): IMatrix
-    getLayout(origin?: IPointData, firstSkewY?: boolean): ILayoutData
+    setLayout(data: ILayoutData, origin?: IPointData, around?: IPointData,): IMatrix
+    getLayout(origin?: IPointData, around?: IPointData, firstSkewY?: boolean): ILayoutData
 
     withScale(scaleX?: number, scaleY?: number): IMatrixWithScaleData
 
