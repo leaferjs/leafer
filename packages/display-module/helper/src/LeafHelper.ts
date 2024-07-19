@@ -99,8 +99,12 @@ export const LeafHelper = {
     zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, resize?: boolean): void {
         copy(matrix, t.__localMatrix)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
-        moveByMatrix(t, matrix)
-        t.scaleResize(scaleX, scaleY, resize !== true)
+        if (t.origin || t.around) {
+            L.setTransform(t, matrix, resize)
+        } else {
+            moveByMatrix(t, matrix)
+            t.scaleResize(scaleX, scaleY, resize !== true)
+        }
     },
 
     rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
@@ -110,8 +114,12 @@ export const LeafHelper = {
     rotateOfLocal(t: ILeaf, origin: IPointData, angle: number): void {
         copy(matrix, t.__localMatrix)
         rotateOfOuter(matrix, origin, angle)
-        moveByMatrix(t, matrix)
-        t.rotation = MathHelper.formatRotation(t.rotation + angle)
+        if (t.origin || t.around) {
+            L.setTransform(t, matrix)
+        } else {
+            moveByMatrix(t, matrix)
+            t.rotation = MathHelper.formatRotation(t.rotation + angle)
+        }
     },
 
     skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
@@ -138,7 +146,7 @@ export const LeafHelper = {
     },
 
     setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
-        const layout = getLayout(transform)
+        const layout = getLayout(transform, t.origin && L.getInnerOrigin(t, t.origin), t.around && L.getInnerOrigin(t, t.around))
         if (resize) {
             const scaleX = layout.scaleX / t.scaleX
             const scaleY = layout.scaleY / t.scaleY
@@ -152,10 +160,10 @@ export const LeafHelper = {
     },
 
     getFlipTransform(t: ILeaf, axis: IAxis): IMatrixData {
-        const matrix = getMatrixData()
+        const m = getMatrixData()
         const sign = axis === 'x' ? 1 : -1
-        scaleOfOuter(matrix, L.getLocalOrigin(t, 'center'), -1 * sign, 1 * sign)
-        return matrix
+        scaleOfOuter(m, L.getLocalOrigin(t, 'center'), -1 * sign, 1 * sign)
+        return m
     },
 
     getLocalOrigin(t: ILeaf, origin: IPointData | IAlign): IPointData {
