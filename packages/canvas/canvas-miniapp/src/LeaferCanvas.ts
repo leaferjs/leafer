@@ -39,6 +39,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
         } else {
             this.view = view.view || view
         }
+
+        if (!this.view.getContext) return
+
         this.__createContext()
         const { width, height, pixelRatio } = this.config
         const size = { width: width || view.width, height: height || view.height, pixelRatio }
