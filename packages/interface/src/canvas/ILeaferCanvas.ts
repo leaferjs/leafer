@@ -10,6 +10,7 @@ import { IExportOptions } from '../file/IExport'
 
 export interface ILeaferCanvasConfig extends IAutoBoundsData {
     view?: string | IObject
+    canvas?: string | IObject
     fill?: string
     pixelRatio?: number
     smooth?: boolean

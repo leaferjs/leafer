@@ -13,7 +13,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public testContext: ICanvasContext2D
 
     public init(): void {
-        let { view } = this.config
+        const { config } = this
+        let view = config.view || config.canvas
+
         if (view) {
             if (typeof view === 'string') {
                 if (view[0] !== '#') view = '#' + view
@@ -40,21 +42,21 @@ export class LeaferCanvas extends LeaferCanvasBase {
             this.view = view.view || view
         }
 
-        if (!this.view.getContext) return
+        this.view.getContext ? this.__createContext() : this.unrealCanvas()
 
-        this.__createContext()
         const { width, height, pixelRatio } = this.config
         const size = { width: width || view.width, height: height || view.height, pixelRatio }
         this.resize(size)
 
-        // fix roundRect
-        if (this.context.roundRect) {
-            this.roundRect = function (x: number, y: number, width: number, height: number, radius?: number | number[]): void {
-                this.context.roundRect(x, y, width, height, typeof radius === 'number' ? [radius] : radius)
+        if (this.context) {
+            // fix roundRect
+            if (this.context.roundRect) {
+                this.roundRect = function (x: number, y: number, width: number, height: number, radius?: number | number[]): void {
+                    this.context.roundRect(x, y, width, height, typeof radius === 'number' ? [radius] : radius)
+                }
             }
+            canvasPatch((this.context as IObject).__proto__)
         }
-        canvasPatch((this.context as IObject).__proto__)
-
     }
 
     protected __createView(): void {
@@ -101,6 +103,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.autoLayout = false
         this.resizeListener = null
         Platform.miniapp.offWindowResize(this.checkSize)
+    }
+
+    public unrealCanvas(): void { // App needs to use
+        this.unreal = true
     }
 
     protected emitResize(size: IScreenSizeData): void {

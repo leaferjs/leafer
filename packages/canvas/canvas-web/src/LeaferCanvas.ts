@@ -33,7 +33,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
     protected resizeListener: IResizeEventListener
 
     public init(): void {
-        const { view } = this.config
+        const { config } = this
+        const view = config.view || config.canvas
 
         view ? this.__createViewFrom(view) : this.__createView()
         const { style } = this.view
@@ -52,7 +53,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         this.__createContext()
 
-        if (!this.autoLayout) this.resize(this.config as IScreenSizeData)
+        if (!this.autoLayout) this.resize(config as IScreenSizeData)
     }
 
     public set backgroundColor(color: string) { this.view.style.backgroundColor = color }

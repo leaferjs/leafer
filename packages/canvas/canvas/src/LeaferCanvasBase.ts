@@ -100,7 +100,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
         this.bounds = new Bounds(0, 0, this.width, this.height)
 
-        if (!this.unreal) {
+        if (this.context && !this.unreal) {
             this.updateViewSize()
             this.smooth = this.config.smooth
         }
