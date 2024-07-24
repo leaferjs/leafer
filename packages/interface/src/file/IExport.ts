@@ -2,12 +2,13 @@ import { IBlob, ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ICanvasContext2DSettings } from '../canvas/ICanvas'
 import { ILeaf } from '../display/ILeaf'
 import { ILocationType } from '../layout/ILeafLayout'
-import { IBoundsData } from '../math/IMath'
+import { IBoundsData, IPointData, ISizeData } from '../math/IMath'
 
 export interface IExportOptions {
     quality?: number
     blob?: boolean
-    scale?: number
+    scale?: number | IPointData
+    size?: number | ISizeData
     smooth?: boolean
     pixelRatio?: number
     slice?: boolean
