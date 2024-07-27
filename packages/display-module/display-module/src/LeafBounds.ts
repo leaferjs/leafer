@@ -137,7 +137,7 @@ export const LeafBounds: ILeafBoundsModule = {
                 updateAllMatrix(this)
                 updateBounds(this, this)
 
-                if (this.__.__autoSide) this.__updateBoxBounds()
+                if (this.__.__autoSide) this.__updateBoxBounds(true)
 
             } else {
 

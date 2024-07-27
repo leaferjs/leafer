@@ -83,6 +83,7 @@ export interface ILeaferAttrData {
     getValidScale(changeScale: number): number
 
     getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
+    updateClientBounds(): void
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData

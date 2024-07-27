@@ -119,6 +119,7 @@ export interface ILeafAttrData {
     data: IObject
 }
 
+export type ISide = 'width' | 'height'
 
 export type IAxis = 'x' | 'y'
 
@@ -485,8 +486,8 @@ export interface ILeafComputedData {
 
     readonly __autoWidth?: boolean
     readonly __autoHeight?: boolean
-    readonly __autoSide?: boolean
-    readonly __autoSize?: boolean
+    readonly __autoSide?: boolean // 自动宽或自动高
+    readonly __autoSize?: boolean // 自动宽高
 
     readonly __useNaturalRatio: boolean // 宽高存在一个值时，另一个自动值是否采用natural尺寸比例
     readonly __isLinePath: boolean
@@ -629,7 +630,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateLocalRenderBounds(): void
 
     __updateContentBounds(): void
-    __updateBoxBounds(): void
+    __updateBoxBounds(secondLayout?: boolean): void
     __updateStrokeBounds(): void
     __updateRenderBounds(): void
 

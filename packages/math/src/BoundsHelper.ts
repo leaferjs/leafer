@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -33,15 +33,21 @@ export const BoundsHelper = {
         t.height = bounds.height
     },
 
-    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: IFourNumber, isShrink?: boolean): void {
+    copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: IFourNumber, isShrink?: boolean, side?: ISide): void {
+        const { x, y, width, height } = bounds
         if (spread instanceof Array) {
             const four = fourNumber(spread)
             isShrink
-                ? B.set(t, bounds.x + four[3], bounds.y + four[0], bounds.width - four[1] - four[3], bounds.height - four[2] - four[0])
-                : B.set(t, bounds.x - four[3], bounds.y - four[0], bounds.width + four[1] + four[3], bounds.height + four[2] + four[0])
+                ? B.set(t, x + four[3], y + four[0], width - four[1] - four[3], height - four[2] - four[0])
+                : B.set(t, x - four[3], y - four[0], width + four[1] + four[3], height + four[2] + four[0])
         } else {
             if (isShrink) spread = -spread
-            B.set(t, bounds.x - spread, bounds.y - spread, bounds.width + spread * 2, bounds.height + spread * 2)
+            B.set(t, x - spread, y - spread, width + spread * 2, height + spread * 2)
+        }
+
+        if (side) { // 只扩展/收缩一边
+            if (side === 'width') t.y = y, t.height = height
+            else t.x = x, t.width = width
         }
     },
 
@@ -169,18 +175,18 @@ export const BoundsHelper = {
     },
 
 
-    getSpread(t: IBoundsData, spread: IFourNumber): IBoundsData {
+    getSpread(t: IBoundsData, spread: IFourNumber, side?: ISide): IBoundsData {
         const n = {} as IBoundsData
-        B.copyAndSpread(n, t, spread)
+        B.copyAndSpread(n, t, spread, false, side)
         return n
     },
 
-    spread(t: IBoundsData, spread: IFourNumber): void {
-        B.copyAndSpread(t, t, spread)
+    spread(t: IBoundsData, spread: IFourNumber, side?: ISide): void {
+        B.copyAndSpread(t, t, spread, false, side)
     },
 
-    shrink(t: IBoundsData, shrink: IFourNumber): void {
-        B.copyAndSpread(t, t, shrink, true)
+    shrink(t: IBoundsData, shrink: IFourNumber, side?: ISide): void {
+        B.copyAndSpread(t, t, shrink, true, side)
     },
 
     ceil(t: IBoundsData): void {

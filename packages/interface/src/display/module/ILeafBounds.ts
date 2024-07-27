@@ -10,7 +10,7 @@ export interface ILeafBounds {
     __updateLocalStrokeBounds?(): void
     __updateLocalRenderBounds?(): void
 
-    __updateBoxBounds?(): void
+    __updateBoxBounds?(secondLayout?: boolean): void
     __updateStrokeBounds?(): void
     __updateRenderBounds?(): void
 
