@@ -90,6 +90,7 @@ export interface IInteractionCanvas extends ILeaferCanvas {
 export interface IInteractionConfig {
     wheel?: IWheelConfig
     pointer?: IPointerConfig
+    touch?: ITouchConfig
     zoom?: IZoomConfig
     move?: IMoveConfig
     eventer?: IObject
@@ -147,6 +148,11 @@ export interface IPointerConfig {
     preventDefault?: boolean
     preventDefaultMenu?: boolean
 }
+
+export interface ITouchConfig {
+    preventDefault?: boolean | 'hit'
+}
+
 
 export interface ICursorConfig {
     stop?: boolean
