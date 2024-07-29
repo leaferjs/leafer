@@ -150,7 +150,7 @@ export interface IPointerConfig {
 }
 
 export interface ITouchConfig {
-    preventDefault?: boolean | 'hit'
+    preventDefault?: boolean | 'auto'
 }
 
 

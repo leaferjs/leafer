@@ -17,7 +17,7 @@ import { IControl } from '../control/IControl'
 import { IFunction } from '../function/IFunction'
 
 
-export type ILeaferType = 'draw' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom'
+export type ILeaferType = 'draw' | 'block' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom'
 export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IInteractionConfig, ILayouterConfig {
     start?: boolean
     type?: ILeaferType
