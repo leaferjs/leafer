@@ -1,6 +1,6 @@
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 
-export type ICanvasType = 'skia' | 'napi' | 'canvas' | 'wx'
+export type ICanvasType = 'skia' | 'napi' | 'canvas' | 'miniapp'
 
 // skia
 export interface ISkiaCanvas {
