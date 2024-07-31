@@ -84,6 +84,8 @@ export interface ILeaferAttrData {
 
     getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
     updateClientBounds(): void
+
+    receiveEvent(event: any): void
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData
