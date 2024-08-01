@@ -83,6 +83,7 @@ export interface ILeaferAttrData {
     getValidScale(changeScale: number): number
 
     getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
+    getPagePointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
     updateClientBounds(): void
 
     receiveEvent(event: any): void
