@@ -41,7 +41,7 @@ export class LeaferImage implements ILeaferImage {
         this.hasOpacityPixel = ImageManager.hasOpacityPixel(config)
     }
 
-    public load(onSuccess: IFunction, onError: IFunction): number {
+    public load(onSuccess?: IFunction, onError?: IFunction): number {
         if (!this.loading) {
             this.loading = true
             ImageManager.tasker.add(async () => await Platform.origin.loadImage(this.url).then((img) => {
