@@ -440,6 +440,12 @@ export class Leaf implements ILeaf {
         transform(this, matrix, resize)
     }
 
+
+    public moveInner(x: number | IPointData, y?: number): void {
+        moveWorld(this, x, y, true)
+    }
+
+
     public move(x: number | IPointData, y?: number): void {
         moveLocal(this, x, y)
     }
@@ -455,6 +461,7 @@ export class Leaf implements ILeaf {
     public skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean): void {
         skewOfLocal(this, getLocalOrigin(this, origin), skewX, skewY, resize)
     }
+
 
     public transformWorld(worldTransform?: IMatrixData, resize?: boolean): void {
         transformWorld(this, worldTransform, resize)

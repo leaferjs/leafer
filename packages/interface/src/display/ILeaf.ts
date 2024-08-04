@@ -679,6 +679,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     setTransform(transform?: IMatrixData, resize?: boolean): void
     transform(transform?: IMatrixData, resize?: boolean): void
 
+    moveInner(x: number | IPointData, y?: number): void
+
     move(x: number | IPointData, y?: number): void
     scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number, resize?: boolean): void
     rotateOf(origin: IPointData | IAlign, rotation: number): void

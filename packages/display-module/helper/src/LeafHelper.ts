@@ -2,7 +2,7 @@ import { IAlign, ILeaf, IMatrixData, IPointData, IAxis } from '@leafer/interface
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData } from '@leafer/math'
 
 
-const { copy, toInnerPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
+const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
 const matrix = {} as IMatrixData
 
 export const LeafHelper = {
@@ -76,9 +76,9 @@ export const LeafHelper = {
 
     // transform
 
-    moveWorld(t: ILeaf, x: number | IPointData, y = 0): void {
+    moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean): void {
         const local = typeof x === 'object' ? { ...x } : { x, y }
-        if (t.parent) toInnerPoint(t.parent.worldTransform, local, local, true)
+        isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.worldTransform, local, local, true))
         L.moveLocal(t, local.x, local.y)
     },
 
