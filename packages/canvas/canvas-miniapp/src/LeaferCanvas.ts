@@ -49,6 +49,9 @@ export class LeaferCanvas extends LeaferCanvasBase {
         this.resize(size)
 
         if (this.context) {
+
+            if (this.viewSelect) Platform.renderCanvas = this
+
             // fix roundRect
             if (this.context.roundRect) {
                 this.roundRect = function (x: number, y: number, width: number, height: number, radius?: number | number[]): void {

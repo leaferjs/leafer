@@ -12,6 +12,7 @@ export interface IPlatform {
     toURL(text: string, fileType?: 'text' | 'svg'): string
     requestRender?(render: IFunction): void
     canvas?: ILeaferCanvas
+    renderCanvas?: ILeaferCanvas
     canvasType?: ICanvasType
     isWorker?: boolean
     isMobile?: boolean

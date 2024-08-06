@@ -133,6 +133,8 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
 }
 
 Platform.name = 'miniapp'
-Platform.requestRender = function (render: IFunction): void { Platform.canvas.view.requestAnimationFrame(render) }
+Platform.requestRender = function (render: IFunction): void {
+    const { view } = (Platform.renderCanvas || Platform.canvas)
+    view.requestAnimationFrame ? view.requestAnimationFrame(render) : setTimeout(render, 16) // fix 抖音小程序
+}
 defineKey(Platform, 'devicePixelRatio', { get() { return Math.max(1, wx.getSystemInfoSync().pixelRatio) } })
-
