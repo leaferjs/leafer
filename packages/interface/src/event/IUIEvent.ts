@@ -23,9 +23,15 @@ export interface IUIEvent extends IEvent {
     path?: ILeafList
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
 
-    getPage?(): IPointData
+    getBoxPoint?(relative?: ILeaf): IPointData
+    getInnerPoint?(relative?: ILeaf): IPointData
+    getLocalPoint?(relative?: ILeaf): IPointData
+    getPagePoint?(): IPointData
+
+    // 兼容代码，未来可移除
     getInner?(relative?: ILeaf): IPointData
     getLocal?(relative?: ILeaf): IPointData
+    getPage?(): IPointData
 }
 
 
