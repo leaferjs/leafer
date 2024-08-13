@@ -665,15 +665,18 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     worldToInner(world: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
     innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void
 
+    getBoxPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getBoxPointByInner(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getInnerPointByBox(box: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getInnerPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getLocalPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getLocalPointByInner(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-    getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-    getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getPagePoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPointByBox(box: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
+    getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
     getWorldPointByPage(page: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
-
 
     // transform
     setTransform(transform?: IMatrixData, resize?: boolean): void

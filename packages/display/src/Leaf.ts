@@ -11,7 +11,7 @@ import { ChildEvent } from '@leafer/event'
 const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
-const { copy } = PointHelper
+const { copy, move } = PointHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getFlipTransform, getLocalOrigin, getRelativeWorld, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
@@ -387,9 +387,25 @@ export class Leaf implements ILeaf {
 
     // simple
 
+    public getBoxPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        return this.getBoxPointByInner(this.getInnerPoint(world, relative, distance, change), null, null, true)
+    }
+
+    public getBoxPointByInner(inner: IPointData, _relative?: ILeaf, _distance?: boolean, change?: boolean): IPointData {
+        const point = change ? inner : { ...inner } as IPointData, { x, y } = this.boxBounds
+        move(point, -x, -y)
+        return point
+    }
+
     public getInnerPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         const point = change ? world : {} as IPointData
         this.worldToInner(world, point, distance, relative)
+        return point
+    }
+
+    public getInnerPointByBox(box: IPointData, _relative?: ILeaf, _distance?: boolean, change?: boolean): IPointData {
+        const point = change ? box : { ...box } as IPointData, { x, y } = this.boxBounds
+        move(point, x, y)
         return point
     }
 
@@ -407,21 +423,25 @@ export class Leaf implements ILeaf {
         return this.getWorldPoint(inner, this.parent, distance, change)
     }
 
+    public getPagePoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        const layer = this.leafer ? this.leafer.zoomLayer : this
+        return layer.getInnerPoint(world, relative, distance, change)
+    }
+
     public getWorldPoint(inner: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         const point = change ? inner : {} as IPointData
         this.innerToWorld(inner, point, distance, relative)
         return point
     }
 
+    public getWorldPointByBox(box: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
+        return this.getWorldPoint(this.getInnerPointByBox(box, null, null, change), relative, distance, true)
+    }
+
     public getWorldPointByLocal(local: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
         const point = change ? local : {} as IPointData
         this.localToWorld(local, point, distance, relative)
         return point
-    }
-
-    public getPagePoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
-        const layer = this.leafer ? this.leafer.zoomLayer : this
-        return layer.getInnerPoint(world, relative, distance, change)
     }
 
     public getWorldPointByPage(page: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
