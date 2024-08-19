@@ -53,6 +53,9 @@ export interface IInteraction extends IControl {
 
     multiTouch(data: IUIEvent, list: IKeepTouchData[]): void
 
+    menu(data: IPointerEvent): void
+    menuTap(data: IPointerEvent): void
+
     move(data: IMoveEvent): void
     zoom(data: IZoomEvent): void
     rotate(data: IRotateEvent): void
