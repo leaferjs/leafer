@@ -1,6 +1,8 @@
 import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from '@leafer/interface'
-import { defineKey, getDescriptor } from './object'
+import { DataHelper } from '@leafer/data'
 import { Debug } from '@leafer/debug'
+
+import { defineKey, getDescriptor } from './object'
 
 
 // name
@@ -251,7 +253,16 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
 
     if (defaultValue === undefined) {
         property.get = function () { return this[computedKey] }
-    } else if (key === 'width') {
+    } else if (typeof defaultValue === 'object') {
+        const { clone } = DataHelper
+        property.get = function () {
+            let v = this[computedKey]
+            if (v === undefined) this[computedKey] = v = clone(defaultValue)
+            return v
+        }
+    }
+
+    if (key === 'width') {
         property.get = function () {
             const v = this[computedKey]
             if (v === undefined) {
