@@ -108,6 +108,7 @@ export class Leaf implements ILeaf {
 
 
     public reset(data?: ILeafInputData): void {
+        if (this.leafer) this.leafer.forceRender(this.__world) // fix: add old bounds rendering
 
         this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1 }
         if (data !== null) this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
