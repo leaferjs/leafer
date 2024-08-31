@@ -28,97 +28,6 @@ export interface ICachedLeaf {
 }
 
 
-export interface ILeafAttrData {
-    // layer data
-    id?: IString
-    name?: IString
-    className?: IString
-
-    blendMode?: IBlendMode
-    opacity?: INumber
-    visible?: IBoolean | 0 // 0 = display: none
-    selected?: IBoolean
-    disabled?: IBoolean
-    locked?: IBoolean
-    zIndex?: INumber
-
-    mask?: IBoolean | IMaskType
-    eraser?: IBoolean | IEraserType
-
-    // layout data
-    x?: INumber
-    y?: INumber
-    width?: INumber
-    height?: INumber
-    scaleX?: INumber
-    scaleY?: INumber
-    rotation?: INumber
-    skewX?: INumber
-    skewY?: INumber
-
-    scale?: INumber | IPointData // helper
-
-    offsetX?: INumber
-    offsetY?: INumber
-    scrollX?: INumber
-    scrollY?: INumber
-
-    origin?: IAlign | IUnitPointData
-    around?: IAlign | IUnitPointData
-
-    lazy?: IBoolean
-    pixelRatio?: INumber
-
-    path?: IPathCommandData | IPathString
-    windingRule?: IWindingRule
-    closed?: IBoolean
-
-    // auto layout
-    flow?: IFlowType
-    padding?: IFourNumber
-    gap?: IGap | IPointGap
-    flowAlign?: IFlowAlign | IFlowAxisAlign
-    flowWrap?: IFlowWrap
-    itemBox?: IFlowBoxType
-
-    inFlow?: IBoolean
-    autoWidth?: IAutoSize
-    autoHeight?: IAutoSize
-    lockRatio?: IBoolean
-    autoBox?: IAutoBoxData | IConstraint
-
-    widthRange?: IRangeSize
-    heightRange?: IRangeSize
-
-    // interactive
-    draggable?: IBoolean | IAxis
-    dragBounds?: IBoundsData | 'parent'
-
-    editable?: IBoolean
-
-    hittable?: IBoolean
-    hitFill?: IHitType
-    hitStroke?: IHitType
-    hitBox?: IBoolean
-    hitChildren?: IBoolean
-    hitSelf?: IBoolean
-    hitRadius?: INumber
-
-    cursor?: ICursorType | ICursorType[]
-
-    event?: IEventMap
-
-    normalStyle?: ILeafInputData // restore hover / press / focus / selected / disabled style
-    hoverStyle?: ILeafInputData
-    pressStyle?: ILeafInputData
-    focusStyle?: ILeafInputData
-    selectedStyle?: ILeafInputData
-    disabledStyle?: ILeafInputData
-
-    // 预留给用户使用的数据对象
-    data: IObject
-}
-
 export type ISide = 'width' | 'height'
 
 export type IAxis = 'x' | 'y'
@@ -293,9 +202,9 @@ export type IStateStyleType =
     | 'selectedStyle'
     | 'disabledStyle'
 
-export interface ILeafInputData {
-    tag?: string
 
+
+export interface ILeafAttrData {
     // layer data
     id?: IString
     name?: IString
@@ -303,7 +212,7 @@ export interface ILeafInputData {
 
     blendMode?: IBlendMode
     opacity?: INumber
-    visible?: IBoolean | 0
+    visible?: IBoolean | 0 // 0 = display: none
     selected?: IBoolean
     disabled?: IBoolean
     locked?: IBoolean
@@ -375,21 +284,19 @@ export interface ILeafInputData {
 
     event?: IEventMap
 
-    normalStyle?: ILeafInputData
-    hoverStyle?: ILeafInputData
-    pressStyle?: ILeafInputData
-    focusStyle?: ILeafInputData
-    selectedStyle?: ILeafInputData
-    disabledStyle?: ILeafInputData
-
     // 预留给用户使用的数据对象
     data?: IObject
+}
+
+export interface ILeafInputData extends ILeafAttrData {
+    tag?: string
 
     children?: ILeafInputData[]
 
     // other
     noBounds?: boolean
 }
+
 export interface ILeafComputedData {
     // layer data
     id?: string
@@ -465,13 +372,6 @@ export interface ILeafComputedData {
     hitRadius?: number
 
     cursor?: ICursorType | ICursorType[]
-
-    normalStyle?: ILeafInputData
-    hoverStyle?: ILeafInputData
-    pressStyle?: ILeafInputData
-    focusStyle?: ILeafInputData
-    selectedStyle?: ILeafInputData
-    disabledStyle?: ILeafInputData
 
 
     // 预留给用户使用的数据对象
