@@ -280,6 +280,7 @@ export interface ILeafAttrData {
     hitSelf?: IBoolean
     hitRadius?: INumber
 
+    button?: IBoolean
     cursor?: ICursorType | ICursorType[]
 
     event?: IEventMap
@@ -371,8 +372,8 @@ export interface ILeafComputedData {
     hitSelf?: boolean
     hitRadius?: number
 
+    button?: boolean
     cursor?: ICursorType | ICursorType[]
-
 
     // 预留给用户使用的数据对象
     data?: IObject
