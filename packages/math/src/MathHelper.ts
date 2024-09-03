@@ -67,11 +67,17 @@ export const MathHelper = {
         if (size) {
             scaleData.scaleX = (typeof size === 'number' ? size : size.width) / originSize.width
             scaleData.scaleY = (typeof size === 'number' ? size : size.height) / originSize.height
-        } else if (scale) {
-            scaleData.scaleX = typeof scale === 'number' ? scale : scale.x
-            scaleData.scaleY = typeof scale === 'number' ? scale : scale.y
-        }
+        } else if (scale) MathHelper.assignScale(scaleData, scale)
         return scaleData
+    },
+
+    assignScale(scaleData: IScaleData, scale: number | IPointData): void {
+        if (typeof scale === 'number') {
+            scaleData.scaleX = scaleData.scaleY = scale
+        } else {
+            scaleData.scaleX = scale.x
+            scaleData.scaleY = scale.y
+        }
     }
 
 }

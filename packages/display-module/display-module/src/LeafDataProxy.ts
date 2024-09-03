@@ -50,7 +50,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
         const data = this.__ as IObject
         data[name] = newValue
         if (this.__proxyData) this.setProxyAttr(name, newValue)
-        if (data.normalStyle) this.lockNormalStyle || (data.normalStyle[name] === undefined || (data.normalStyle[name] = newValue))
+        if (data.normalStyle) this.lockNormalStyle || data.normalStyle[name] === undefined || (data.normalStyle[name] = newValue)
     },
 
 
