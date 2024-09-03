@@ -177,7 +177,7 @@ export class Leaf implements ILeaf {
 
     // data
 
-    public set(_data: IObject, _lockNormalStyle?: boolean): void { }
+    public set(_data: IObject, _isTemp?: boolean): void { }
     public get(_name?: string): ILeafInputData | IValue { return undefined }
 
     public setAttr(name: string, value: any): void { (this as IObject)[name] = value }
