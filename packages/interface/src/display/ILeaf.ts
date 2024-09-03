@@ -427,6 +427,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __proxyData?: ILeafInputData
 
     syncEventer?: ILeaf // 同步触发一样事件的元素
+    lockNormalStyle?: boolean
 
     __layout: ILeafLayout
 
@@ -488,7 +489,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __bindLeafer(leafer: ILeaferBase | null): void
 
-    set(data: IObject): void
+    set(data: IObject, lockNormalStyle?: boolean): void
     get(name?: string | string[] | IObject): ILeafInputData | IValue
     setAttr(name: string, value: any): void
     getAttr(name: string): any

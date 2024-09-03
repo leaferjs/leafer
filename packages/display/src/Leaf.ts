@@ -39,6 +39,9 @@ export class Leaf implements ILeaf {
     public get isBranch(): boolean { return false }
     public get isBranchLeaf(): boolean { return false }
 
+    public syncEventer?: ILeaf // 同步触发一样事件的元素
+    public lockNormalStyle?: boolean
+
     public __: ILeafData
     public __layout: ILeafLayout
 
@@ -174,7 +177,7 @@ export class Leaf implements ILeaf {
 
     // data
 
-    public set(_data: IObject): void { }
+    public set(_data: IObject, _lockNormalStyle?: boolean): void { }
     public get(_name?: string): ILeafInputData | IValue { return undefined }
 
     public setAttr(name: string, value: any): void { (this as IObject)[name] = value }
