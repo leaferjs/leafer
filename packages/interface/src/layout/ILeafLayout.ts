@@ -56,6 +56,7 @@ export interface ILeafLayout {
     hitCanvasChanged: boolean
 
     childrenSortChanged?: boolean
+    stateStyleChanged?: boolean // hoverStyle ...
 
     // keep state
     affectScaleOrRotation: boolean

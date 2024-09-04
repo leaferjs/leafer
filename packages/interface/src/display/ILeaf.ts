@@ -283,6 +283,8 @@ export interface ILeafAttrData {
     button?: IBoolean
     cursor?: ICursorType | ICursorType[]
 
+    normalStyle?: IObject
+
     event?: IEventMap
 
     // 预留给用户使用的数据对象
@@ -374,6 +376,8 @@ export interface ILeafComputedData {
 
     button?: boolean
     cursor?: ICursorType | ICursorType[]
+
+    normalStyle?: IObject
 
     // 预留给用户使用的数据对象
     data?: IObject
@@ -515,6 +519,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     focus(value?: boolean): void
 
+    updateState(): void
     updateLayout(): void
     forceUpdate(attrName?: string): void
     forceRender(_bounds?: IBoundsData): void

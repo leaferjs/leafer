@@ -56,8 +56,11 @@ export function updateBounds(boundsList: ILeafLevelList): void {
 
 
 export function updateChange(updateList: ILeafList): void {
+    let layout: ILeafLayout
     updateList.list.forEach(leaf => {
-        if (leaf.__layout.opacityChanged) updateAllWorldOpacity(leaf)
+        layout = leaf.__layout
+        if (layout.opacityChanged) updateAllWorldOpacity(leaf)
+        if (layout.stateStyleChanged) setTimeout(() => layout.stateStyleChanged && leaf.updateState())
         leaf.__updateChange()
     })
 }

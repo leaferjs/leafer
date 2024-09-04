@@ -226,11 +226,14 @@ export class Leaf implements ILeaf {
     // ---
 
 
-    // state
+    // @leafer-in/state rewrite
 
     public focus(_value?: boolean): void { }
 
+    public updateState(): void { }
+
     // ---
+
 
     public updateLayout(): void {
         this.__layout.update()

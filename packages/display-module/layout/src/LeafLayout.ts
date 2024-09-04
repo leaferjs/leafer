@@ -75,6 +75,7 @@ export class LeafLayout implements ILeafLayout {
     public hitCanvasChanged: boolean
 
     public childrenSortChanged?: boolean
+    public stateStyleChanged?: boolean
 
     // keep state
     public affectScaleOrRotation: boolean
