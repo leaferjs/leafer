@@ -19,6 +19,7 @@ import { IFindMethod } from '../selector/ISelector'
 import { IPathCommandData } from '../path/IPathCommand'
 import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 import { IJSONOptions } from '../file/IExport'
+import { IMotionPathData } from '../path/IPathData'
 
 
 export interface ICachedLeaf {
@@ -404,6 +405,7 @@ export interface ILeafComputedData {
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
+    __pathForMotion?: IMotionPathData
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {

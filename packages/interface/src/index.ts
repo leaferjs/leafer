@@ -36,7 +36,7 @@ export { IPlugin } from './plugin/IPlugin'
 export { ILeaferCanvas, ILeaferCanvasView, IHitCanvas, ICanvasAttr, ICanvasStrokeOptions, ICanvasCacheOptions, ILeaferCanvasConfig, IHitCanvasConfig, IBlobFunction, IBlob } from './canvas/ILeaferCanvas'
 export { ISkiaCanvas, ISkiaCanvasExportConfig, ICanvasType, ISkiaNAPICanvas } from './canvas/ISkiaCanvas'
 export { IPathDrawer, IPathCreator } from './path/IPathDrawer'
-export { IPathDistanceData } from './path/IPathData'
+export { IMotionPathData } from './path/IPathData'
 export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData } from './path/IPathCommand'
 
