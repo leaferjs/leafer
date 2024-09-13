@@ -26,8 +26,7 @@ export const PathBounds = {
     toTwoPointBounds(data: IPathCommandData, setPointBounds: ITwoPointBoundsData): void {
         if (!data || !data.length) return setPoint(setPointBounds, 0, 0)
 
-        let command: number
-        let i: number = 0, x: number = 0, y: number = 0, x1: number, y1: number, toX: number, toY: number
+        let i = 0, x = 0, y = 0, x1: number, y1: number, toX: number, toY: number, command: number
 
         const len = data.length
 

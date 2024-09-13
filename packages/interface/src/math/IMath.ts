@@ -6,15 +6,17 @@ export interface IPointData {
     y: number
 }
 
-export interface IUnitPointData {
+export interface IUnitPointData extends IPointData {
     type?: 'percent' | 'px'
-    x: number
-    y: number
 }
 
 export interface IFromToData {
     from: IPointData
     to: IPointData
+}
+
+export interface IRotationPointData extends IPointData {
+    rotation: number
 }
 
 export interface IScrollPointData {

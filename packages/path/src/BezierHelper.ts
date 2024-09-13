@@ -5,6 +5,7 @@ import { PathCommandMap } from './PathCommandMap'
 import { RectHelper } from './RectHelper'
 import { PathHelper } from './PathHelper'
 
+
 const { sin, cos, atan2, ceil, abs, PI, sqrt, pow } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
 const { set } = PointHelper
@@ -158,7 +159,7 @@ export const BezierHelper = {
 
         let fromX = cx + x, fromY = cy + y
 
-        if (data) data.push(L, fromX, fromY)
+        if (data) data.push(data.length ? L : M, fromX, fromY)
         if (setPointBounds) setPoint(setPointBounds, fromX, fromY)
         if (setStartPoint) set(setStartPoint, fromX, fromY)
 
@@ -251,6 +252,7 @@ export const BezierHelper = {
         getPointAndSet(t, fromX, fromY, x1, y1, x2, y2, toX, toY, point)
         return point
     }
+
 }
 
 const { getPointAndSet, toTwoPointBounds, ellipse } = BezierHelper
