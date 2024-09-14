@@ -98,6 +98,7 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateLocalBoxBounds(): void {
+        if (this.__hasMotionPath) this.__updateMotionPath()
         if (this.__hasAutoLayout) this.__updateAutoLayout() //  origin / around / flow
         toOuterOf(this.__layout.boxBounds, this.__local, this.__local)
     },

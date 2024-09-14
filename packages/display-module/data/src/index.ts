@@ -11,3 +11,7 @@ export enum Answer {
 }
 
 export const emptyData: IObject = {}
+
+export function isNull(value: any): boolean {
+    return value === undefined || value === null
+}

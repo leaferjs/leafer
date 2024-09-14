@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData, IRotationPointData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -284,6 +284,10 @@ export interface ILeafAttrData {
     button?: IBoolean
     cursor?: ICursorType | ICursorType[]
 
+    motionPath?: IBoolean
+    motion?: INumber | IUnitData
+    motionRotation?: INumber | IBoolean
+
     normalStyle?: IObject
 
     event?: IEventMap
@@ -378,6 +382,10 @@ export interface ILeafComputedData {
     button?: boolean
     cursor?: ICursorType | ICursorType[]
 
+    motionPath?: boolean
+    motion?: number | IUnitData
+    motionRotation?: number | boolean
+
     normalStyle?: IObject
 
     // 预留给用户使用的数据对象
@@ -465,6 +473,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly __worldFlipped: boolean
 
     __hasAutoLayout?: boolean
+    __hasMotionPath?: boolean
     __hasMask?: boolean
     __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
@@ -637,7 +646,11 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updatePath(): void
     __updateRenderPath(): void
 
-    // 
+    // motion path
+    getMotionPathData(): IMotionPathData
+    getMotionPoint(motionDistance: number | IUnitData): IRotationPointData
+
+    __updateMotionPath(): void
 
     // branch
     children?: ILeaf[]

@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -6,6 +6,7 @@ import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper, WaitHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
+import { needPlugin } from '@leafer/debug'
 
 
 const { LEAF, create } = IncrementId
@@ -578,6 +579,23 @@ export class Leaf implements ILeaf {
     public __updatePath(): void { }
 
     public __updateRenderPath(): void { }
+
+    // ---
+
+
+    // @leafer-in/motion-path rewite
+
+    public getMotionPathData(): IMotionPathData {
+        return needPlugin('path')
+    }
+
+    public getMotionPoint(_motionDistance: number | IUnitData): IRotationPointData {
+        return needPlugin('path')
+    }
+
+    public __updateMotionPath(): void { }
+
+    // ---
 
 
     // Branch rewrite

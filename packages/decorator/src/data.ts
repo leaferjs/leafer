@@ -43,7 +43,7 @@ export function autoLayoutType(defaultValue?: IValue) {
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 this.__layout.matrixChanged || this.__layout.matrixChange()
-                this.__hasAutoLayout = !!value
+                this.__hasAutoLayout = !!(this.origin || this.around || this.flow)
                 if (!this.__local) this.__layout.createLocal()
             }
         }
