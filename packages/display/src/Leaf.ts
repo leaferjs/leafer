@@ -4,7 +4,7 @@ import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
-import { LeafHelper, WaitHelper } from '@leafer/helper'
+import { LeafHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
 import { needPlugin } from '@leafer/debug'
 
@@ -93,9 +93,6 @@ export class Leaf implements ILeaf {
     public __captureMap?: IEventListenerMap
     public __bubbleMap?: IEventListenerMap
 
-    public __parentWait?: IFunction[]
-    public __leaferWait?: IFunction[]
-
     // branch 
     public children?: ILeaf[]
 
@@ -108,6 +105,7 @@ export class Leaf implements ILeaf {
     constructor(data?: ILeafInputData) {
         this.innerId = create(LEAF)
         this.reset(data)
+        if (this.__bubbleMap) this.__emitLifeEvent(ChildEvent.CREATED)
     }
 
 
@@ -137,12 +135,12 @@ export class Leaf implements ILeaf {
 
     public waitParent(item: IFunction, bind?: IObject): void {
         if (bind) item = item.bind(bind)
-        this.parent ? item() : (this.__parentWait ? this.__parentWait.push(item) : this.__parentWait = [item])
+        this.parent ? item() : this.on(ChildEvent.ADD, item, 'once')
     }
 
     public waitLeafer(item: IFunction, bind?: IObject): void {
         if (bind) item = item.bind(bind)
-        this.leafer ? item() : (this.__leaferWait ? this.__leaferWait.push(item) : this.__leaferWait = [item])
+        this.leafer ? item() : this.on(ChildEvent.MOUNTED, item, 'once')
     }
 
     public nextRender(item: IFunction, bind?: IObject, off?: 'off'): void {
@@ -154,9 +152,7 @@ export class Leaf implements ILeaf {
     }
 
     public __bindLeafer(leafer: ILeaferBase | null): void {
-        if (this.isLeafer) {
-            if (leafer !== null) leafer = this as unknown as ILeaferBase
-        }
+        if (this.isLeafer && leafer !== null) leafer = this as unknown as ILeaferBase
 
         if (this.leafer && !leafer) this.leafer.leafs--
 
@@ -165,7 +161,9 @@ export class Leaf implements ILeaf {
         if (leafer) {
             leafer.leafs++
             this.__level = this.parent ? this.parent.__level + 1 : 1
-            if (this.__leaferWait) WaitHelper.run(this.__leaferWait)
+            if (this.__bubbleMap) this.__emitLifeEvent(ChildEvent.MOUNTED)
+        } else {
+            this.__emitLifeEvent(ChildEvent.UNMOUNTED)
         }
 
         if (this.isBranch) {
@@ -645,17 +643,22 @@ export class Leaf implements ILeaf {
     }
 
 
+    public __emitLifeEvent(type: string): void {
+        if (this.hasEvent(type)) this.emitEvent(new ChildEvent(type, this, this.parent))
+    }
+
+
     public destroy(): void {
         if (!this.destroyed) {
             const { parent } = this
             if (parent) this.remove()
             if (this.children) (this as unknown as IBranch).removeAll(true)
-            if (this.hasEvent(ChildEvent.DESTROY)) this.emitEvent(new ChildEvent(ChildEvent.DESTROY, this, parent))
+            this.__emitLifeEvent(ChildEvent.DESTROY)
 
             this.__.destroy()
             this.__layout.destroy()
 
-            this.__captureMap = this.__bubbleMap = this.__parentWait = this.__leaferWait = null
+            this.__captureMap = this.__bubbleMap = null
             this.destroyed = true
         }
     }

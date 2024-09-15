@@ -489,9 +489,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly pathInputed: boolean
 
-    __parentWait?: IFunction[]
-    __leaferWait?: IFunction[]
-
     destroyed: boolean
 
     reset(data?: ILeafInputData): void
@@ -659,6 +656,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf, destroy?: boolean): void
     dropTo(parent: ILeaf, index?: number, resize?: boolean): void
+
+    __emitLifeEvent(type: string): void
 }
 
 export type ILeafAttrDescriptor = IObject & ThisType<ILeaf>

@@ -1,7 +1,7 @@
 import { ILeaf } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
-import { BranchHelper, LeafBoundsHelper, WaitHelper } from '@leafer/helper'
+import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
 
@@ -74,7 +74,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         child.__layout.boxChanged || child.__layout.boxChange() // layouted(removed), need update
         child.__layout.matrixChanged || child.__layout.matrixChange() // layouted(removed), need update
 
-        if (child.__parentWait) WaitHelper.run(child.__parentWait)
+        if (child.__bubbleMap) child.__emitLifeEvent(ChildEvent.ADD)
 
         if (this.leafer) {
             child.__bindLeafer(this.leafer)
@@ -128,6 +128,7 @@ export class Branch extends Leaf { // tip: rewrited Group
     }
 
     protected __realRemoveChild(child: ILeaf): void {
+        child.__emitLifeEvent(ChildEvent.REMOVE)
         child.parent = null
         if (this.leafer) {
             child.__bindLeafer(null)
@@ -140,7 +141,6 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     protected __emitChildEvent(type: string, child: ILeaf): void {
         const event = new ChildEvent(type, child, this)
-        if (child.hasEvent(type)) child.emitEvent(event)
         if (this.hasEvent(type) && !this.isLeafer) this.emitEvent(event)
         this.leafer.emitEvent(event)
     }
