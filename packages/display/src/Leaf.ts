@@ -583,7 +583,7 @@ export class Leaf implements ILeaf {
     // ---
 
 
-    // @leafer-in/motion-path rewite
+    // @leafer-in/motion-path rewrite
 
     public getMotionPathData(): IMotionPathData {
         return needPlugin('path')
