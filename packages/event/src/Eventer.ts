@@ -1,22 +1,30 @@
-import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, InnerId } from '@leafer/interface'
+import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventMap, InnerId } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
-import { IncrementId } from '@leafer/math'
 
 
 const empty = {}
 
 export class Eventer implements IEventer {
 
-    readonly innerId: InnerId
-    __captureMap?: IEventListenerMap
-    __bubbleMap?: IEventListenerMap
-    syncEventer?: IEventer
+    public readonly innerId: InnerId
 
-    constructor() {
-        this.innerId = IncrementId.create('eventer')
-    }
+    public __captureMap?: IEventListenerMap
 
-    on(type: string | string[], listener: IEventListener, options?: IEventOption): void {
+    public __bubbleMap?: IEventListenerMap
+
+    public syncEventer?: IEventer
+
+    public set event(map: IEventMap) { this.on(map) }
+
+
+    public on(type: string | string[] | IEventMap, listener?: IEventListener, options?: IEventOption): void {
+
+        if (!listener) {
+            let event, map = type as IEventMap
+            for (let key in map) event = map[key], event instanceof Array ? this.on(key, event[0], event[1]) : this.on(key, event)
+            return
+        }
+
         let capture: boolean, once: boolean
         if (options) {
             if (options === 'once') {
@@ -31,7 +39,7 @@ export class Eventer implements IEventer {
 
         let events: IEventListenerItem[]
         const map = __getListenerMap(this, capture, true)
-        const typeList = typeof type === 'string' ? type.split(' ') : type
+        const typeList = typeof type === 'string' ? type.split(' ') : type as string[]
         const item = once ? { listener, once } : { listener }
 
         typeList.forEach(type => {
@@ -46,7 +54,7 @@ export class Eventer implements IEventer {
         })
     }
 
-    off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void {
+    public off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void {
         if (type) {
 
             const typeList = typeof type === 'string' ? type.split(' ') : type
@@ -89,24 +97,24 @@ export class Eventer implements IEventer {
 
     }
 
-    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId {
+    public on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId {
         if (bind) listener = listener.bind(bind)
         this.on(type, listener, options)
         return { type, current: this as any, listener, options }
     }
 
-    off_(id: IEventListenerId | IEventListenerId[]): void {
+    public off_(id: IEventListenerId | IEventListenerId[]): void {
         if (!id) return
         const list = id instanceof Array ? id : [id]
         list.forEach(item => item.current.off(item.type, item.listener, item.options))
         list.length = 0
     }
 
-    once(type: string | string[], listener: IEventListener, capture?: boolean): void {
+    public once(type: string | string[], listener: IEventListener, capture?: boolean): void {
         this.on(type, listener, { once: true, capture })
     }
 
-    emit(type: string, event?: IEvent | IObject, capture?: boolean): void {
+    public emit(type: string, event?: IEvent | IObject, capture?: boolean): void {
         if (!event && EventCreator.has(type)) event = EventCreator.get(type, { type, target: this, current: this } as IEvent)
 
         const map = __getListenerMap(this, capture)
@@ -127,12 +135,12 @@ export class Eventer implements IEventer {
         this.syncEventer && this.syncEventer.emitEvent(event, capture)
     }
 
-    emitEvent(event: IEvent, capture?: boolean): void {
+    public emitEvent(event: IEvent, capture?: boolean): void {
         event.current = this
         this.emit(event.type, event, capture)
     }
 
-    hasEvent(type: string, capture?: boolean): boolean {
+    public hasEvent(type: string, capture?: boolean): boolean {
         if (this.syncEventer && this.syncEventer.hasEvent(type, capture)) return true
 
         const { __bubbleMap: b, __captureMap: c } = this
@@ -140,6 +148,9 @@ export class Eventer implements IEventer {
         return !!(capture === undefined ? (hasB || hasC) : (capture ? hasC : hasB))
     }
 
+    public destroy(): void {
+        this.__captureMap = this.__bubbleMap = this.syncEventer = null
+    }
 }
 
 

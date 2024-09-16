@@ -88,7 +88,7 @@ export class Leaf implements ILeaf {
     public get pathInputed(): boolean { return this.__.__pathInputed as unknown as boolean }
 
     // event
-    public set event(map: IEventMap) { let event; for (let key in map) event = map[key], event instanceof Array ? this.on(key, event[0], event[1]) : this.on(key, event) }
+    public set event(map: IEventMap) { this.on(map) }
 
     public __captureMap?: IEventListenerMap
     public __bubbleMap?: IEventListenerMap
@@ -620,7 +620,7 @@ export class Leaf implements ILeaf {
 
     // LeafEventer rewrite
 
-    public on(_type: string | string[], _listener: IEventListener, _options?: IEventOption): void { }
+    public on(_type: string | string[] | IEventMap, _listener?: IEventListener, _options?: IEventOption): void { }
 
     public off(_type?: string | string[], _listener?: IEventListener, _options?: IEventOption): void { }
 
@@ -661,9 +661,9 @@ export class Leaf implements ILeaf {
             this.__emitLifeEvent(ChildEvent.DESTROY)
 
             this.__.destroy()
-            this.__layout.destroy()
+            this.__layout.destroy();
 
-            this.__captureMap = this.__bubbleMap = null
+            (this as ILeaf).destroyEventer()
             this.destroyed = true
         }
     }

@@ -40,8 +40,9 @@ export interface IEventer extends ILeafEventer {
     __captureMap?: IEventListenerMap
     __bubbleMap?: IEventListenerMap
     syncEventer?: IEventer
+    event?: IEventMap
 
-    on(type: string | string[], listener: IEventListener, options?: IEventOption): void
+    on(type: string | string[] | IEventMap, listener?: IEventListener, options?: IEventOption): void
     off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void
     on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId
     off_(id: IEventListenerId | IEventListenerId[]): void
@@ -50,5 +51,5 @@ export interface IEventer extends ILeafEventer {
     emitEvent(event?: IEvent, capture?: boolean): void
     hasEvent(type: string, capture?: boolean): boolean
 
-    destroy?(): void
+    destroy(): void
 }
