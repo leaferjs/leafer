@@ -4,7 +4,6 @@ export { ImageEvent } from './ImageEvent'
 export { ResizeEvent } from './ResizeEvent'
 export { WatchEvent } from './WatchEvent'
 export { LayoutEvent } from './LayoutEvent'
-export { AnimateEvent } from './AnimateEvent'
 export { RenderEvent } from './RenderEvent'
 export { LeaferEvent } from './LeaferEvent'
 

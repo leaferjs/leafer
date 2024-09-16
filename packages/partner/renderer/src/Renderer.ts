@@ -1,5 +1,5 @@
 import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
-import { AnimateEvent, LayoutEvent, RenderEvent, ResizeEvent, ImageManager, Bounds, DataHelper, Platform, Debug, Run } from '@leafer/core'
+import { LayoutEvent, RenderEvent, ResizeEvent, ImageManager, Bounds, DataHelper, Platform, Debug, Run } from '@leafer/core'
 
 
 const debug = Debug.get('Renderer')
@@ -222,7 +222,6 @@ export class Renderer implements IRenderer {
             this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
 
             if (this.running) {
-                this.target.emit(AnimateEvent.FRAME)
                 if (this.changed && this.canvas.view) this.render()
                 this.target.emit(RenderEvent.NEXT)
             }
