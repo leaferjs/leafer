@@ -90,14 +90,10 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     public remove(child?: ILeaf, destroy?: boolean): void {
         if (child) {
-            const index = this.children.indexOf(child)
-            if (index > -1) {
-                this.children.splice(index, 1)
-                if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
-                this.__preRemove()
-                this.__realRemoveChild(child)
-                if (destroy) child.destroy()
-            }
+
+            if ((child as ILeaf).animationOut) child.__runAnimation('out', () => this.__remove(child, destroy))
+            else this.__remove(child, destroy)
+
         } else if (child === undefined) {
             super.remove(null, destroy)
         }
@@ -118,6 +114,17 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     public clear(): void {
         this.removeAll(true)
+    }
+
+    protected __remove(child?: ILeaf, destroy?: boolean): void {
+        const index = this.children.indexOf(child)
+        if (index > -1) {
+            this.children.splice(index, 1)
+            if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 1) - 1
+            this.__preRemove()
+            this.__realRemoveChild(child)
+            if (destroy) child.destroy()
+        }
     }
 
     protected __preRemove(): void {

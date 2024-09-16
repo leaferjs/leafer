@@ -161,6 +161,7 @@ export class Leaf implements ILeaf {
         if (leafer) {
             leafer.leafs++
             this.__level = this.parent ? this.parent.__level + 1 : 1
+            if ((this as ILeaf).animation) this.__runAnimation('in')
             if (this.__bubbleMap) this.__emitLifeEvent(ChildEvent.MOUNTED)
         } else {
             this.__emitLifeEvent(ChildEvent.UNMOUNTED)
@@ -594,6 +595,10 @@ export class Leaf implements ILeaf {
     public __updateMotionPath(): void { }
 
     // ---
+
+
+    // @leafer-in/animate rewrite
+    public __runAnimation(_type: 'in' | 'out', _complete?: IFunction): void { }
 
 
     // Branch rewrite

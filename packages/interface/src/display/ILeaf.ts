@@ -472,8 +472,12 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __worldFlipped: boolean
 
+    animation?: IObject
+    animationOut?: IObject
+
     __hasAutoLayout?: boolean
     __hasMotionPath?: boolean
+
     __hasMask?: boolean
     __hasEraser?: boolean
     __hitCanvas?: IHitCanvas
@@ -649,6 +653,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __updateMotionPath(): void
 
+    __runAnimation(type: 'in' | 'out', complete?: IFunction): void
+
+    __emitLifeEvent(type: string): void
+
     // branch
     children?: ILeaf[]
 
@@ -656,8 +664,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     add(child: ILeaf, index?: number): void
     remove(child?: ILeaf, destroy?: boolean): void
     dropTo(parent: ILeaf, index?: number, resize?: boolean): void
-
-    __emitLifeEvent(type: string): void
 }
 
 export type ILeafAttrDescriptor = IObject & ThisType<ILeaf>
