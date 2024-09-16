@@ -148,12 +148,21 @@ export function visibleType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             const oldValue = this.visible
-            if (this.__setAttr(key, value)) {
-                this.__layout.opacityChanged || this.__layout.opacityChange()
-                if (oldValue === 0 || value === 0) doBoundsType(this) // 0 = display: none
+            if (oldValue === true && value === 0) {
+                if (this.animationOut) return this.__runAnimation('out', () => doVisible(this, key, value, oldValue)) // hide
+            } else if (oldValue === 0 && value === true) {
+                if (this.animation) this.__runAnimation('in') // show
             }
+            doVisible(this, key, value, oldValue)
         }
     }))
+}
+
+function doVisible(leaf: ILeaf, key: string, value: IValue, oldValue: IValue): void {
+    if (leaf.__setAttr(key, value)) {
+        leaf.__layout.opacityChanged || leaf.__layout.opacityChange()
+        if (oldValue === 0 || value === 0) doBoundsType(leaf) // 0 = display: none
+    }
 }
 
 export function sortType(defaultValue?: IValue) {
