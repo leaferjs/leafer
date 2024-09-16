@@ -9,3 +9,4 @@ export { RenderEvent } from './RenderEvent'
 export { LeaferEvent } from './LeaferEvent'
 
 export { Event } from './Event'
+export { Eventer } from './Eventer'

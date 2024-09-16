@@ -36,10 +36,10 @@ export interface IEventListenerId {
 export type InnerId = number
 
 export interface IEventer extends ILeafEventer {
-
     readonly innerId: InnerId
     __captureMap?: IEventListenerMap
     __bubbleMap?: IEventListenerMap
+    syncEventer?: IEventer
 
     on(type: string | string[], listener: IEventListener, options?: IEventOption): void
     off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void
@@ -50,5 +50,5 @@ export interface IEventer extends ILeafEventer {
     emitEvent(event?: IEvent, capture?: boolean): void
     hasEvent(type: string, capture?: boolean): boolean
 
-    destroy(): void
+    destroy?(): void
 }
