@@ -592,6 +592,10 @@ export class Leaf implements ILeaf {
         return needPlugin('path')
     }
 
+    public getMotionTotal(): number {
+        return 0
+    }
+
     public __updateMotionPath(): void { }
 
     // ---

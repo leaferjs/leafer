@@ -23,9 +23,7 @@ export const AroundHelper = {
 
     get,
 
-    toPoint(around: IAround, bounds: IBoundsData, to?: IPointData, onlySize?: boolean, pointBounds?: IBoundsData) {
-        to || (to = {} as IPointData)
-
+    toPoint(around: IAround, bounds: IBoundsData, to: IPointData, onlySize?: boolean, pointBounds?: IBoundsData) {
         const point = get(around)
 
         to.x = point.x

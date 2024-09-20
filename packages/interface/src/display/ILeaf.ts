@@ -650,6 +650,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // motion path
     getMotionPathData(): IMotionPathData
     getMotionPoint(motionDistance: number | IUnitData): IRotationPointData
+    getMotionTotal(): number
 
     __updateMotionPath(): void
 
