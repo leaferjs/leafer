@@ -203,7 +203,7 @@ export class LeafLayout implements ILeafLayout {
 
     public getLayoutBounds(type?: IBoundsType, relative: ILocationType | ILeaf = 'world', unscale?: boolean): ILayoutBoundsData {
         const { leaf } = this
-        let point: IPointData, matrix: IMatrixData, bounds: IBoundsData = this.getInnerBounds(type)
+        let point: IPointData, matrix: IMatrixData, layoutBounds: ILayoutBoundsData, bounds: IBoundsData = this.getInnerBounds(type)
 
         switch (relative) {
             case 'world':
@@ -211,8 +211,9 @@ export class LeafLayout implements ILeafLayout {
                 matrix = leaf.__world
                 break
             case 'local':
+                const { scaleX, scaleY, rotation, skewX, skewY } = leaf.__
+                layoutBounds = { scaleX, scaleY, rotation, skewX, skewY } as ILayoutBoundsData // 更精准，务必保留
                 point = leaf.getLocalPointByInner(bounds)
-                matrix = leaf.__localMatrix
                 break
             case 'inner':
                 point = bounds
@@ -225,7 +226,7 @@ export class LeafLayout implements ILeafLayout {
                 matrix = getRelativeWorld(leaf, relative, true)
         }
 
-        const layoutBounds = MatrixHelper.getLayout(matrix) as ILayoutBoundsData
+        if (!layoutBounds) layoutBounds = MatrixHelper.getLayout(matrix) as ILayoutBoundsData
         copy(layoutBounds, bounds)
         PointHelper.copy(layoutBounds, point)
 

@@ -1,5 +1,3 @@
-import { IObject } from '@leafer/interface'
-
 export * from '@leafer/canvas'
 export * from '@leafer/image'
 
@@ -23,4 +21,3 @@ export * from '@leafer/platform'
 export * from '@leafer/task'
 
 export const version = "1.0.3"
-export const inviteCode: IObject = {}
