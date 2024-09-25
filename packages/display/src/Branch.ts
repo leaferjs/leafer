@@ -4,6 +4,7 @@ import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
+import { UICreator } from '@leafer/platform'
 
 import { Leaf } from './Leaf'
 
@@ -64,6 +65,7 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     public add(child: ILeaf, index?: number): void {
         if (child === this) return
+        child.__ || (child = UICreator.get(child.tag, child))
 
         if (child.parent) child.parent.remove(child)
         child.parent = this
