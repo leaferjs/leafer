@@ -611,7 +611,7 @@ export class Leaf implements ILeaf {
 
     public add(_child: ILeaf | ILeafInputData, _index?: number): void { }
 
-    public remove(_child?: ILeaf, destroy?: boolean): void {
+    public remove(_child?: ILeaf | number | string | IFindMethod, destroy?: boolean): void {
         if (this.parent) this.parent.remove(this, destroy)
     }
 

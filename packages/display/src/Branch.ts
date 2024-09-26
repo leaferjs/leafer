@@ -93,8 +93,12 @@ export class Branch extends Leaf { // tip: rewrited Group
     public remove(child?: ILeaf, destroy?: boolean): void {
         if (child) {
 
-            if ((child as ILeaf).animationOut) child.__runAnimation('out', () => this.__remove(child, destroy))
-            else this.__remove(child, destroy)
+            if (child.__) {
+
+                if ((child as ILeaf).animationOut) child.__runAnimation('out', () => this.__remove(child, destroy))
+                else this.__remove(child, destroy)
+
+            } else this.find(child as any).forEach(item => this.remove(item, destroy)) // 
 
         } else if (child === undefined) {
             super.remove(null, destroy)
