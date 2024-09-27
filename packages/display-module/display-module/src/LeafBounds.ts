@@ -116,7 +116,7 @@ export const LeafBounds: ILeafBoundsModule = {
         const b = this.__layout.boxBounds
         const data = this.__
         if (data.__pathInputed) {
-            toBounds(data.__pathForRender, b)
+            toBounds(data.path, b)
         } else {
             b.x = 0
             b.y = 0
