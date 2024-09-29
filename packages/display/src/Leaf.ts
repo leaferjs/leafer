@@ -36,6 +36,9 @@ export class Leaf implements ILeaf {
     public leafer?: ILeaferBase
     public parent?: ILeaf
 
+    public get leaferIsCreated(): boolean { return this.leafer && this.leafer.created }
+    public get leaferIsReady(): boolean { return this.leafer && this.leafer.ready }
+
     public get isLeafer(): boolean { return false }
     public get isBranch(): boolean { return false }
     public get isBranchLeaf(): boolean { return false }

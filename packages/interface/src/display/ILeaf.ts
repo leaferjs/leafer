@@ -429,6 +429,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     parent?: ILeaf
     zoomLayer?: ILeaf
 
+    readonly leaferIsCreated: boolean
+    readonly leaferIsReady: boolean
+
     readonly isApp?: boolean
     readonly isLeafer?: boolean
     readonly isBranch?: boolean
