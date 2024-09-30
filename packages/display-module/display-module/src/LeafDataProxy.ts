@@ -10,6 +10,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
     __setAttr(name: string, newValue: IValue, checkFiniteNumber?: boolean): boolean {
         if (this.leaferIsCreated) {
+
             const oldValue = this.__.__getInput(name)
 
             if (checkFiniteNumber && !isFinite(newValue) && newValue !== undefined) { // 警告 NaN、Infinity、-Infinity、null、非有效数字
