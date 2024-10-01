@@ -7,6 +7,7 @@ export class RenderEvent extends Event implements IRenderEvent {
 
     static REQUEST = 'render.request'
 
+    static CHILD_START = 'render.child_start' // app 专用
     static START = 'render.start'
 
     static BEFORE = 'render.before'
