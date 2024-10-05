@@ -112,7 +112,7 @@ export class Renderer implements IRenderer {
             this.requestLayout()
 
             if (this.ignore) {
-                this.ignore = this.rendering = false
+                this.ignore = this.rendering = false // 仍保留 updateBlocks 用于下次渲染
                 return
             }
 
