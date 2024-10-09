@@ -43,6 +43,7 @@ export interface IFindMethod {
 
 export interface ISelectorProxy {
     list: ILeaf[]
+    dragHoverExclude: ILeaf[] // drag hover 过程中需排除的元素列表
 }
 
 export interface ISelector {
