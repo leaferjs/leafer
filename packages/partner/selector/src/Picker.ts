@@ -126,7 +126,7 @@ export class Picker {
             if (child.isBranch) {
                 if (hit || child.__ignoreHitWorld) {
                     this.eachFind(child.children, child.__onlyHitMask)
-                    if (child.isBranchLeaf && !this.findList.length) this.hitChild(child, point) // like frame
+                    if (child.isBranchLeaf) this.hitChild(child, point) // Box / Frame
                 }
             } else {
                 if (hit) this.hitChild(child, point)
