@@ -48,7 +48,7 @@ export { InnerId, IEventer, IEventMap, IEventListener, IEventOption, IEventListe
 export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IKeepTouchData } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IKeyEvent, IImageEvent } from './event/IUIEvent'
 export { ICursorTypeMap, ICursorRotate, ICursorRotateMap } from './interaction/ICursor'
-export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, ITouchConfig, IPointerConfig } from './interaction/IInteraction'
+export { IInteraction, IInteractionCanvas, IInteractionConfig, IWheelConfig, ITouchConfig, IMultiTouchConfig, IPointerConfig } from './interaction/IInteraction'
 
 
 export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IFunctionMap, IPointDataMap, IDataTypeHandle } from './data/IData'

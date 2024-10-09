@@ -94,6 +94,7 @@ export interface IInteractionConfig {
     wheel?: IWheelConfig
     pointer?: IPointerConfig
     touch?: ITouchConfig
+    multiTouch?: IMultiTouchConfig
     zoom?: IZoomConfig
     move?: IMoveConfig
     eventer?: IObject
@@ -154,6 +155,10 @@ export interface IPointerConfig {
 
 export interface ITouchConfig {
     preventDefault?: boolean | 'auto'
+}
+
+export interface IMultiTouchConfig {
+    disabled?: boolean
 }
 
 
