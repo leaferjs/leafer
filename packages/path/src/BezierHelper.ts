@@ -14,7 +14,12 @@ const tempPoint = {} as IPointData
 
 export const BezierHelper = {
 
-    points(data: IPathCommandData, points: number[], curve?: boolean | number, close?: boolean): void {
+    points(data: IPathCommandData, originPoints: number[] | IPointData[], curve?: boolean | number, close?: boolean): void {
+
+        let points: number[]
+        if (typeof originPoints[0] === 'object') points = [], (originPoints as IPointData[]).forEach(p => points.push(p.x, p.y))
+        else points = originPoints as number[]
+
         data.push(M, points[0], points[1])
 
         if (curve && points.length > 5) {
