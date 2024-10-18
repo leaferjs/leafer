@@ -8,7 +8,7 @@ import { PathHelper } from './PathHelper'
 
 const { sin, cos, atan2, ceil, abs, PI, sqrt, pow } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
-const { set } = PointHelper
+const { set, toNumberPoints } = PointHelper
 const { M, L, C, Q, Z } = PathCommandMap
 const tempPoint = {} as IPointData
 
@@ -16,9 +16,7 @@ export const BezierHelper = {
 
     points(data: IPathCommandData, originPoints: number[] | IPointData[], curve?: boolean | number, close?: boolean): void {
 
-        let points: number[]
-        if (typeof originPoints[0] === 'object') points = [], (originPoints as IPointData[]).forEach(p => points.push(p.x, p.y))
-        else points = originPoints as number[]
+        let points = toNumberPoints(originPoints)
 
         data.push(M, points[0], points[1])
 

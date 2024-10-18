@@ -157,6 +157,12 @@ export const PointHelper = {
         return to
     },
 
+    toNumberPoints(originPoints: number[] | IPointData[]): number[] {
+        let points = originPoints as number[]
+        if (typeof originPoints[0] === 'object') points = [], (originPoints as IPointData[]).forEach(p => points.push(p.x, p.y))
+        return points
+    },
+
     reset(t: IPointData): void {
         P.reset(t)
     }
