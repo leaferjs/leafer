@@ -12,7 +12,6 @@ export class LeafData implements ILeafData {
     public __naturalWidth?: number
     public __naturalHeight?: number
 
-    public __pathInputed?: number
     public __pathForRender?: IPathCommandData
 
     public get __useNaturalRatio() { return true }
@@ -63,7 +62,7 @@ export class LeafData implements ILeafData {
             if (value !== undefined) return value
         }
 
-        if (name === 'path' && !this.__pathInputed) return // no path mode
+        if (name === 'path' && !(this as ILeafData).__pathInputed) return // no path mode
 
         return (this as IObject)['_' + name]
     }
@@ -92,7 +91,7 @@ export class LeafData implements ILeafData {
                     value = (this as IObject)['_' + key]
                     if (value !== undefined) {
 
-                        if (key === 'path' && !this.__pathInputed) continue // no path mode
+                        if (key === 'path' && !(this as ILeafData).__pathInputed) continue // no path mode
 
                         inputValue = __input ? __input[key] : undefined
                         data[key] = (inputValue === undefined) ? value : inputValue
