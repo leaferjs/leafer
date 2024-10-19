@@ -65,12 +65,16 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     public add(child: ILeaf, index?: number): void {
         if (child === this) return
-        child.__ || (child = UICreator.get(child.tag, child))
+        const noIndex = index === undefined
+        if (!child.__) {
+            if (child instanceof Array) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
+            else child = UICreator.get(child.tag, child) // add JSON
+        }
 
         if (child.parent) child.parent.remove(child)
         child.parent = this
 
-        index === undefined ? this.children.push(child) : this.children.splice(index, 0, child)
+        noIndex ? this.children.push(child) : this.children.splice(index, 0, child)
         if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
 
         child.__layout.boxChanged || child.__layout.boxChange() // layouted(removed), need update
@@ -86,9 +90,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
-    public addMany(...children: ILeaf[]): void {
-        children.forEach(child => this.add(child))
-    }
+    public addMany(...children: ILeaf[]): void { this.add(children as any) }
 
     public remove(child?: ILeaf, destroy?: boolean): void {
         if (child) {

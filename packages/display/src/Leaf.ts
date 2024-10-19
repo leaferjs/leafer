@@ -612,7 +612,7 @@ export class Leaf implements ILeaf {
 
     public __updateSortChildren(): void { }
 
-    public add(_child: ILeaf | ILeafInputData, _index?: number): void { }
+    public add(_child: ILeaf | ILeaf[] | ILeafInputData | ILeafInputData[], _index?: number): void { }
 
     public remove(_child?: ILeaf | number | string | IFindMethod, destroy?: boolean): void {
         if (this.parent) this.parent.remove(this, destroy)

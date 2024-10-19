@@ -665,7 +665,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     children?: ILeaf[]
 
     __updateSortChildren(): void
-    add(child: ILeaf | ILeafInputData, index?: number): void
+    add(child: ILeaf | ILeaf[] | ILeafInputData | ILeafInputData[], index?: number): void
     remove(child?: ILeaf | number | string | IFindMethod, destroy?: boolean): void
     dropTo(parent: ILeaf, index?: number, resize?: boolean): void
 }
