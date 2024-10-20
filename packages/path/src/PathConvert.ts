@@ -1,8 +1,8 @@
-import { IPathCommandData, IPointData } from '@leafer/interface'
+import { IPathCommandData, IPathCommandObject, IPointData } from '@leafer/interface'
 import { MathHelper, StringNumberMap } from '@leafer/math'
 import { Debug } from '@leafer/debug'
 
-import { PathCommandMap as Command, NeedConvertToCanvasCommandMap, NeedConvertToCurveCommandMap, PathCommandLengthMap, PathNumberCommandMap, PathNumberCommandLengthMap } from './PathCommandMap'
+import { PathCommandMap as Command, NeedConvertToCanvasCommandMap, NeedConvertToCurveCommandMap, PathCommandLengthMap, PathNumberCommandMap, PathNumberCommandLengthMap, PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
 import { EllipseHelper } from './EllipseHelper'
 
@@ -301,6 +301,20 @@ export const PathConvert = {
 
         return data
 
+    },
+
+    objectToCanvasData(list: IPathCommandObject[]): IPathCommandData {
+        const data: IPathCommandData = []
+        list.forEach(item => {
+            switch (item.name) {
+                case 'M': data.push(M, item.x, item.y); break
+                case 'L': data.push(L, item.x, item.y); break
+                case 'C': data.push(C, item.x1, item.y1, item.x2, item.y2, item.x, item.y); break
+                case 'Q': data.push(Q, item.x1, item.y1, item.x, item.y); break
+                case 'Z': data.push(Z)
+            }
+        })
+        return data
     },
 
     copyData(data: IPathCommandData, old: IPathCommandData, index: number, count: number): void {

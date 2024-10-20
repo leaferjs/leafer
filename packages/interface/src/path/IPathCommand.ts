@@ -48,3 +48,40 @@ export type ArcToCommandData = [Command, x1, y1, x2, y2, radius]
 export type CanvasPathCommand = 1 | 2 | 5 | 7 | 11 // M | L | C | Q | Z   canvas可以绘制的命令
 
 export type IPathCommandData = number[] // ...(MCommandData | LCommandData | CCommandData | QCommandData | ZCommandData)
+
+
+// 路径命令对象
+export interface MoveToCommandObject {
+    name: 'M'
+    x: number
+    y: number
+}
+export interface LineToCommandObject {
+    name: 'L'
+    x: number
+    y: number
+}
+
+export interface BezierCurveToCommandObject {
+    name: 'C'
+    x1: number
+    y1: number
+    x2: number
+    y2: number
+    x: number
+    y: number
+}
+
+export interface QuadraticCurveToCommandObject {
+    name: 'Q'
+    x1: number
+    y1: number
+    x: number
+    y: number
+}
+
+export interface ClosePathCommandObject {
+    name: 'Z'
+}
+
+export type IPathCommandObject = MoveToCommandObject | LineToCommandObject | BezierCurveToCommandObject | QuadraticCurveToCommandObject | ClosePathCommandObject // M | L | C | Q | Z   canvas可以绘制的命令

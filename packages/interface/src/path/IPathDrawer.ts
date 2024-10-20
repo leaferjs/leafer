@@ -4,8 +4,8 @@ export interface IPathDrawer {
 
     moveTo(x: number, y: number): void
     lineTo(x: number, y: number): void
-    bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): void
-    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): void
+    bezierCurveTo(x1: number, y1: number, x2: number, y2: number, x: number, y: number): void
+    quadraticCurveTo(x1: number, y1: number, x: number, y: number): void
     closePath(): void
 
     arc(x: number, y: number, radius: number, startAngle: number, endAngle: number, anticlockwise?: boolean): void
@@ -24,8 +24,8 @@ export interface IPathCreator extends IPathDrawer {
 
     moveTo(x: number, y: number): IPathCreator
     lineTo(x: number, y: number): IPathCreator
-    bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): IPathCreator
-    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): IPathCreator
+    bezierCurveTo(x1: number, y1: number, x2: number, y2: number, x: number, y: number): IPathCreator
+    quadraticCurveTo(x1: number, y1: number, x: number, y: number): IPathCreator
     closePath(): IPathCreator
 
     arc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator

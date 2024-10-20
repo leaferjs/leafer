@@ -16,7 +16,7 @@ import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
 import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
-import { IPathCommandData } from '../path/IPathCommand'
+import { IPathCommandObject, IPathCommandData } from '../path/IPathCommand'
 import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 import { IJSONOptions } from '../file/IExport'
 import { IMotionPathData } from '../path/IPathData'
@@ -246,7 +246,7 @@ export interface ILeafAttrData {
     lazy?: IBoolean
     pixelRatio?: INumber
 
-    path?: IPathCommandData | IPathString
+    path?: IPathCommandData | IPathCommandObject[] | IPathString
     windingRule?: IWindingRule
     closed?: IBoolean
 
