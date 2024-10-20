@@ -2,7 +2,7 @@ import { IPathCommandData, IPathCommandObject, IPointData } from '@leafer/interf
 import { MathHelper, StringNumberMap } from '@leafer/math'
 import { Debug } from '@leafer/debug'
 
-import { PathCommandMap as Command, NeedConvertToCanvasCommandMap, NeedConvertToCurveCommandMap, PathCommandLengthMap, PathNumberCommandMap, PathNumberCommandLengthMap, PathCommandMap } from './PathCommandMap'
+import { PathCommandMap as Command, NeedConvertToCanvasCommandMap, NeedConvertToCurveCommandMap, PathCommandLengthMap, PathNumberCommandMap, PathNumberCommandLengthMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
 import { EllipseHelper } from './EllipseHelper'
 

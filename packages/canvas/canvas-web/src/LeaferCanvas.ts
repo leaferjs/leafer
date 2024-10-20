@@ -198,7 +198,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const oldSize = {} as IScreenSizeData
         DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
         this.resize(size)
-        if (this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
+        if (this.resizeListener && this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
     }
 
 
