@@ -17,7 +17,7 @@ Object.assign(Creator, {
     watcher: (target, options?) => new Watcher(target, options),
     layouter: (target, options?) => new Layouter(target, options),
     renderer: (target, canvas, options?) => new Renderer(target, canvas, options),
-    selector: (target, options?) => new Selector(target, options)
+    selector: (target?, options?) => new Selector(target, options)
 } as ICreator)
 
 Platform.layout = Layouter.fullLayout

@@ -8,7 +8,7 @@ const { Yes, NoAndSkip, YesAndSkip } = Answer
 const idCondition = {} as IFindCondition, classNameCondition = {} as IFindCondition, tagCondition = {} as IFindCondition
 export class Selector implements ISelector {
 
-    public target: ILeaf
+    public target?: ILeaf // target 不存在时，为临时选择器（不能缓存数据）
 
     public proxy?: ISelectorProxy // editor
 
@@ -22,8 +22,8 @@ export class Selector implements ISelector {
     protected findLeaf: ILeaf
 
     protected methods = {
-        id: (leaf: ILeaf, name: string) => leaf.id === name ? (this.idMap[name] = leaf, 1) : 0,
-        innerId: (leaf: ILeaf, innerId: number) => leaf.innerId === innerId ? (this.innerIdMap[innerId] = leaf, 1) : 0,
+        id: (leaf: ILeaf, name: string) => leaf.id === name ? (this.target && (this.idMap[name] = leaf), 1) : 0,
+        innerId: (leaf: ILeaf, innerId: number) => leaf.innerId === innerId ? (this.target && (this.innerIdMap[innerId] = leaf), 1) : 0,
         className: (leaf: ILeaf, name: string) => leaf.className === name ? 1 : 0,
         tag: (leaf: ILeaf, name: string) => leaf.__tag === name ? 1 : 0,
         tags: (leaf: ILeaf, nameMap: IBooleanMap) => nameMap[leaf.__tag] ? 1 : 0
@@ -36,7 +36,7 @@ export class Selector implements ISelector {
         this.target = target
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
         this.picker = new Picker(target, this)
-        this.__listenEvents()
+        if (target) this.__listenEvents()
     }
 
     public getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[] {
@@ -69,7 +69,7 @@ export class Selector implements ISelector {
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
-        if (Platform.name === 'node') this.target.emit(LayoutEvent.CHECK_UPDATE)
+        if (Platform.name === 'node' && this.target) this.target.emit(LayoutEvent.CHECK_UPDATE)
         return this.picker.getByPoint(hitPoint, hitRadius, options)
     }
 

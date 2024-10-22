@@ -120,7 +120,7 @@ export interface ICreator {
     watcher?(target: ILeaf, options?: IWatcherConfig): IWatcher
     layouter?(target: ILeaf, options?: ILayouterConfig): ILayouter
     renderer?(target: ILeaf, canvas: ILeaferCanvas, options?: IRendererConfig): IRenderer
-    selector?(target: ILeaf, options?: ISelectorConfig): ISelector
+    selector?(target?: ILeaf, options?: ISelectorConfig): ISelector
 
     interaction?(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, options?: IInteractionConfig): IInteraction
 

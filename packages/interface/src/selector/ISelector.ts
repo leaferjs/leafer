@@ -47,7 +47,7 @@ export interface ISelectorProxy {
 }
 
 export interface ISelector {
-    target: ILeaf
+    target?: ILeaf
 
     proxy?: ISelectorProxy
 

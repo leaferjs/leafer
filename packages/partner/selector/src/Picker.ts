@@ -6,7 +6,7 @@ const { hitRadiusPoint } = BoundsHelper
 
 export class Picker {
 
-    protected target: ILeaf
+    protected target?: ILeaf
     protected selector: ISelector
 
     protected findList: ILeafList
@@ -74,7 +74,7 @@ export class Picker {
             path.add(leaf)
             leaf = leaf.parent
         }
-        path.add(this.target)
+        if (this.target) path.add(this.target)
         return path
     }
 

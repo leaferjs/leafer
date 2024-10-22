@@ -117,11 +117,8 @@ export class LeafLayout implements ILeafLayout {
     public update(): void {
         const { leafer } = this.leaf
         if (leafer) {
-            if (leafer.ready) {
-                if (leafer.watcher.changed) leafer.layouter.layout()
-            } else {
-                leafer.start()
-            }
+            if (leafer.ready) leafer.watcher.changed && leafer.layouter.layout()
+            else leafer.start()
         } else {
             let root = this.leaf
             while (root.parent && !root.parent.leafer) { root = root.parent }
