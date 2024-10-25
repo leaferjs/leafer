@@ -115,7 +115,9 @@ export class PathCreator implements IPathCreator { //  tip: rewrited Pen
         return this
     }
 
-    public clearPath = this.beginPath
+    public clearPath(): PathCreator {
+        return this.beginPath()
+    }
 
     public paint(): void { }
 
