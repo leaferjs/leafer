@@ -662,9 +662,9 @@ export class Leaf implements ILeaf {
 
     public destroy(): void {
         if (!this.destroyed) {
-            const { parent } = this
-            if (parent) this.remove()
-            if (this.children) (this as unknown as IBranch).removeAll(true)
+            if (this.parent) this.remove()
+            if (this.children) (this as unknown as IBranch).clear()
+
             this.__emitLifeEvent(ChildEvent.DESTROY)
 
             this.__.destroy()
