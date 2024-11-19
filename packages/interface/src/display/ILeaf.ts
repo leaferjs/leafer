@@ -82,6 +82,7 @@ export type IMaskType =
     | 'path'
     | 'pixel'
     | 'clipping'
+    | 'clipping-path'
 
 export type IEraserType =
     | 'path'
