@@ -71,7 +71,7 @@ export class Renderer implements IRenderer {
         debug.log(target.innerName, '--->')
 
         try {
-            target.app.emit(RenderEvent.CHILD_START, target)
+            if (!target.isApp) target.app.emit(RenderEvent.CHILD_START, target)
             this.emitRender(RenderEvent.START)
             this.renderOnce(callback)
             this.emitRender(RenderEvent.END, this.totalBounds)
