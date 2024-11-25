@@ -81,6 +81,7 @@ export type IHitType =
 export type IMaskType =
     | 'path'
     | 'pixel'
+    | 'grayscale'
     | 'clipping'
     | 'clipping-path'
 

@@ -18,6 +18,9 @@ export const BranchRender: IBranchRenderModule = {
 
 
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
+
+        this.__nowWorld = this.__getNowWorld(options)
+
         if (this.__worldOpacity) {
 
             if (this.__.__single) {
@@ -28,7 +31,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 this.__renderBranch(tempCanvas, options)
 
-                const nowWorld = this.__getNowWorld(options)
+                const nowWorld = this.__nowWorld
 
                 canvas.opacity = this.__.opacity
                 canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, this.__.__blendMode, true)
