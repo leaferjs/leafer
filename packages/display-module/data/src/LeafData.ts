@@ -124,7 +124,7 @@ export class LeafData implements ILeafData {
         const t = this as ILeafData
         if (t.blendMode === 'pass-through') {
             const leaf = this.__leaf
-            if ((t.opacity < 1 && leaf.isBranch) || leaf.__hasEraser || t.eraser) {
+            if ((t.opacity < 1 && (leaf.isBranch || t.__hasMultiPaint)) || leaf.__hasEraser || t.eraser) {
                 t.__single = true
             } else if (t.__single) {
                 t.__single = false

@@ -28,6 +28,7 @@ export interface ILeafDataOptions {
 
 export interface ILeafData extends IDataProcessor, ILeafComputedData {
     __single?: boolean
+    readonly __hasMultiPaint?: boolean // fill 、stroke 、shadow 等同时存在两次以上外观绘制的情况
     __checkSingle(): void
     __removeNaturalSize(): void
 }
