@@ -23,7 +23,7 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
     Platform.origin = {
         createCanvas: (width: number, height: number, _format?: string) => {
             const data = { type: '2d', width, height }
-            app.createOffscreenCanvas ? app.createOffscreenCanvas(data) : app.createOffScreenCanvas(data) // fix: 微信小游戏居然使用的是Screen大写的 wx.createOffScreenCanvas() [踩坑]
+            return app.createOffscreenCanvas ? app.createOffscreenCanvas(data) : app.createOffScreenCanvas(data) // fix: 微信小游戏居然使用的是Screen大写的 wx.createOffScreenCanvas() [踩坑]
         },
         canvasToDataURL: (canvas: IObject, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
         canvasToBolb: (canvas: IObject, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
@@ -137,7 +137,7 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
 
 Platform.name = 'miniapp'
 Platform.requestRender = function (render: IFunction): void {
-    const { view } = (Platform.renderCanvas || Platform.canvas)
+    const { view } = Platform.renderCanvas || Platform.canvas
     view.requestAnimationFrame ? view.requestAnimationFrame(render) : setTimeout(render, 16) // fix 抖音小程序
 }
 defineKey(Platform, 'devicePixelRatio', { get() { return Math.max(1, wx.getSystemInfoSync().pixelRatio) } })
