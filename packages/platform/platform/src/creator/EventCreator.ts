@@ -12,7 +12,7 @@ export const EventCreator = {
         let name: string
         Object.keys(Event).forEach(key => {
             name = Event[key]
-            if (typeof name === 'string') nameList[name] ? debug.repeat(name) : nameList[name] = Event
+            if (typeof name === 'string') nameList[name] && debug.repeat(name), nameList[name] = Event
         })
     },
 

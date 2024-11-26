@@ -10,11 +10,8 @@ export const UICreator = {
 
     register(UI: IObject): void {
         const { __tag: tag } = UI.prototype as ILeaf
-        if (list[tag]) {
-            debug.repeat(tag)
-        } else {
-            list[tag] = UI
-        }
+        if (list[tag]) debug.repeat(tag)
+        list[tag] = UI
     },
 
     get(tag: string, data?: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
