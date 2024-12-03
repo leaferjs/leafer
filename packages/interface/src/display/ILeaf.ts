@@ -287,6 +287,8 @@ export interface ILeafAttrData {
     cursor?: ICursorType | ICursorType[]
 
     motionPath?: IBoolean
+    motionPrecision?: INumber
+
     motion?: INumber | IUnitData
     motionRotation?: INumber | IBoolean
 
@@ -385,6 +387,8 @@ export interface ILeafComputedData {
     cursor?: ICursorType | ICursorType[]
 
     motionPath?: boolean
+    motionPrecision?: number
+
     motion?: number | IUnitData
     motionRotation?: number | boolean
 
