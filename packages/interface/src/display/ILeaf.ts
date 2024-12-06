@@ -419,6 +419,7 @@ export interface ILeafComputedData {
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
+    __pathForArrow?: IPathCommandData
     __pathForMotion?: IMotionPathData
 }
 
