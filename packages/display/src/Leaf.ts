@@ -497,7 +497,7 @@ export class Leaf implements ILeaf {
     }
 
     public moveWorld(x: number | IPointData, y?: number, transition?: any): void {
-        moveWorld(this, x, y, transition)
+        moveWorld(this, x, y, false, transition)
     }
 
     public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {

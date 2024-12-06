@@ -86,7 +86,6 @@ export const LeafHelper = {
         if (typeof x === 'object') y = x.y, x = x.x
         x += t.x
         y += t.y
-
         transition ? t.animate({ x, y }, transition) : (t.x = x, t.y = y)
     },
 
