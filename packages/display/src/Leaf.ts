@@ -470,13 +470,13 @@ export class Leaf implements ILeaf {
         transform(this, matrix, resize)
     }
 
-    public move(x: number | IPointData, y?: number): void {
-        moveLocal(this, x, y)
+    public move(x: number | IPointData, y?: number, transition?: any): void {
+        moveLocal(this, x, y, transition)
     }
 
 
-    public moveInner(x: number | IPointData, y?: number): void {
-        moveWorld(this, x, y, true)
+    public moveInner(x: number | IPointData, y?: number, transition?: any): void {
+        moveWorld(this, x, y, true, transition)
     }
 
     public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number, resize?: boolean): void {
@@ -496,8 +496,8 @@ export class Leaf implements ILeaf {
         transformWorld(this, worldTransform, resize)
     }
 
-    public moveWorld(x: number | IPointData, y?: number): void {
-        moveWorld(this, x, y)
+    public moveWorld(x: number | IPointData, y?: number, transition?: any): void {
+        moveWorld(this, x, y, transition)
     }
 
     public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {

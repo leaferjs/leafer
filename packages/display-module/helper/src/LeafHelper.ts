@@ -76,20 +76,18 @@ export const LeafHelper = {
 
     // transform
 
-    moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean): void {
+    moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: any): void {
         const local = typeof x === 'object' ? { ...x } : { x, y }
         isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.worldTransform, local, local, true))
-        L.moveLocal(t, local.x, local.y)
+        L.moveLocal(t, local.x, local.y, transition)
     },
 
-    moveLocal(t: ILeaf, x: number | IPointData, y = 0): void {
-        if (typeof x === 'object') {
-            t.x += x.x
-            t.y += x.y
-        } else {
-            t.x += x
-            t.y += y
-        }
+    moveLocal(t: ILeaf, x: number | IPointData, y = 0, transition?: any): void {
+        if (typeof x === 'object') y = x.y, x = x.x
+        x += t.x
+        y += t.y
+
+        transition ? t.animate({ x, y }, transition) : (t.x = x, t.y = y)
     },
 
     zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
