@@ -57,7 +57,7 @@ export const MathHelper = {
     },
 
     float(num: number, maxLength?: number): number {
-        const a = maxLength ? pow(10, maxLength) : 1000000000000 // default
+        const a = maxLength !== undefined ? pow(10, maxLength) : 1000000000000 // default
         num = round(num * a) / a
         return num === -0 ? 0 : num
     },
