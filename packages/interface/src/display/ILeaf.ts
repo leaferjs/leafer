@@ -515,7 +515,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __bindLeafer(leafer: ILeaferBase | null): void
 
-    set(data: IObject, isTemp?: boolean): void
+    set(data: IObject, transition?: any): void
     get(name?: string | string[] | IObject): ILeafInputData | IValue
     setAttr(name: string, value: any): void
     getAttr(name: string): any

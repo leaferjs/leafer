@@ -117,7 +117,7 @@ export interface IMoveConfig {
     drag?: boolean | 'auto'
     dragAnimate?: boolean
     dragEmpty?: boolean
-    dragOut?: boolean
+    dragOut?: boolean | number
     autoDistance?: number
 }
 
