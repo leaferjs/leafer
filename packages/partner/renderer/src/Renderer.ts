@@ -30,6 +30,7 @@ export class Renderer implements IRenderer {
     protected renderOptions: IRenderOptions
     protected totalBounds: IBounds
 
+    protected requestTime: number
     protected __eventIds: IEventListenerId[]
 
     protected get needFill(): boolean { return !!(!this.canvas.allowBackgroundColor && this.config.fill) }
@@ -39,19 +40,20 @@ export class Renderer implements IRenderer {
         this.canvas = canvas
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
         this.__listenEvents()
-        this.__requestRender()
     }
 
     public start(): void {
         this.running = true
+        this.update(false)
     }
 
     public stop(): void {
         this.running = false
     }
 
-    public update(): void {
-        this.changed = true
+    public update(change = true): void {
+        this.changed = change
+        this.__requestRender()
     }
 
     public requestLayout(): void {
@@ -59,10 +61,7 @@ export class Renderer implements IRenderer {
     }
 
     public render(callback?: IFunction): void {
-        if (!(this.running && this.canvas.view)) {
-            this.changed = true
-            return
-        }
+        if (!(this.running && this.canvas.view)) return this.update()
 
         const { target } = this
         this.times = 0
@@ -218,16 +217,17 @@ export class Renderer implements IRenderer {
     }
 
     protected __requestRender(): void {
-        const startTime = Date.now()
+        if (this.requestTime) return
+
+        const requestTime = this.requestTime = Date.now()
         Platform.requestRender(() => {
-            this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - startTime)))
+            this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - requestTime)))
+            this.requestTime = 0
 
             if (this.running) {
                 if (this.changed && this.canvas.view) this.render()
                 this.target.emit(RenderEvent.NEXT)
             }
-
-            if (this.target) this.__requestRender()
         })
     }
 
@@ -245,7 +245,7 @@ export class Renderer implements IRenderer {
 
         // 需要象征性派发一下渲染事件
         this.addBlock(new Bounds(0, 0, 1, 1))
-        this.changed = true
+        this.update()
     }
 
     protected __onLayoutEnd(event: LayoutEvent): void {

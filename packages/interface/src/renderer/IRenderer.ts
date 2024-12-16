@@ -36,7 +36,7 @@ export interface IRenderer extends IControl {
 
     config: IRendererConfig
 
-    update(): void
+    update(change?: boolean): void
 
     requestLayout(): void
 
