@@ -5,6 +5,7 @@ import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
 import { UICreator } from '@leafer/platform'
+import { Debug } from '@leafer/debug'
 
 import { Leaf } from './Leaf'
 
@@ -12,7 +13,7 @@ import { Leaf } from './Leaf'
 const { setListWithFn } = BoundsHelper
 const { sort } = BranchHelper
 const { localBoxBounds, localStrokeBounds, localRenderBounds, maskLocalBoxBounds, maskLocalStrokeBounds, maskLocalRenderBounds } = LeafBoundsHelper
-
+const debug = new Debug('Branch')
 
 @useModule(BranchRender)
 export class Branch extends Leaf { // tip: rewrited Group
@@ -64,7 +65,8 @@ export class Branch extends Leaf { // tip: rewrited Group
     }
 
     public add(child: ILeaf, index?: number): void {
-        if (child === this) return
+        if (child === this || child.destroyed) return debug.warn('add self or destroyed')
+
         const noIndex = index === undefined
         if (!child.__) {
             if (child instanceof Array) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
@@ -77,8 +79,9 @@ export class Branch extends Leaf { // tip: rewrited Group
         noIndex ? this.children.push(child) : this.children.splice(index, 0, child)
         if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
 
-        child.__layout.boxChanged || child.__layout.boxChange() // layouted(removed), need update
-        child.__layout.matrixChanged || child.__layout.matrixChange() // layouted(removed), need update
+        const childLayout = child.__layout
+        childLayout.boxChanged || childLayout.boxChange() // layouted(removed), need update
+        childLayout.matrixChanged || childLayout.matrixChange() // layouted(removed), need update
 
         if (child.__bubbleMap) child.__emitLifeEvent(ChildEvent.ADD)
 
