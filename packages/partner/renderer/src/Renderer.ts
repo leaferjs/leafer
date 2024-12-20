@@ -52,7 +52,7 @@ export class Renderer implements IRenderer {
     }
 
     public update(change = true): void {
-        this.changed = change
+        if (!this.changed) this.changed = change
         this.__requestRender()
     }
 
