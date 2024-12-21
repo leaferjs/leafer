@@ -9,15 +9,16 @@ export const DataHelper = {
         return t
     },
 
-    assign(t: IObject, merge: IObject): void {
+    assign(t: IObject, merge: IObject, exclude?: IObject): void {
         let value: unknown
         Object.keys(merge).forEach(key => {
             value = merge[key]
-            if (value?.constructor === Object) {
-                (t[key]?.constructor === Object) ? assign(t[key], merge[key]) : t[key] = merge[key]
-            } else {
-                t[key] = merge[key]
+            if (value?.constructor === Object && t[key]?.constructor === Object) return assign(t[key], merge[key], exclude && exclude[key])
+            if (exclude && (key in exclude)) {
+                if (exclude[key]?.constructor === Object) assign(t[key] = {}, merge[key], exclude[key])
+                return
             }
+            t[key] = merge[key]
         })
     },
 
