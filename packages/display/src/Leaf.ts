@@ -314,8 +314,8 @@ export class Leaf implements ILeaf {
         canvas.restore()
     }
 
-    public __updateMask(value?: boolean): void {
-        this.__hasMask = value ? true : this.children.some(item => item.__.mask)
+    public __updateMask(_value?: boolean): void {
+        this.__hasMask = this.children.some(item => item.__.mask && item.__.visible && item.__.opacity)
     }
 
     // LeafMask rewrite

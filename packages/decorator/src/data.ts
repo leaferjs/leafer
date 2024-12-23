@@ -140,6 +140,7 @@ export function opacityType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             this.__setAttr(key, value) && (this.__layout.opacityChanged || this.__layout.opacityChange())
+            if (this.mask) checkMask(this)
         }
     }))
 }
@@ -154,8 +155,18 @@ export function visibleType(defaultValue?: IValue) {
                 if (this.animation) this.__runAnimation('in') // show
             }
             doVisible(this, key, value, oldValue)
+            if (this.mask) checkMask(this)
         }
     }))
+}
+
+function checkMask(leaf: ILeaf): void { // mask 的透明度和可见性变更，会影响parent
+    const { parent } = leaf
+    if (parent) {
+        const { __hasMask } = parent
+        parent.__updateMask()
+        if (__hasMask !== parent.__hasMask) parent.forceUpdate()
+    }
 }
 
 function doVisible(leaf: ILeaf, key: string, value: IValue, oldValue: IValue): void {
