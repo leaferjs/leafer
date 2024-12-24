@@ -113,7 +113,7 @@ export interface IMoveConfig {
     holdSpaceKey?: boolean
     holdMiddleKey?: boolean
     holdRightKey?: boolean
-    scroll?: boolean | 'limit'
+    scroll?: boolean | 'x' | 'y' | 'limit' | 'x-limit' | 'y-limit'
     drag?: boolean | 'auto'
     dragAnimate?: boolean
     dragEmpty?: boolean
