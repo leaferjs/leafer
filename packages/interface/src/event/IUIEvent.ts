@@ -83,6 +83,11 @@ export interface IMoveEvent extends IDragEvent {
     moveType?: 'drag' | 'move'
 }
 
+export interface IWheelEvent extends IUIEvent {
+    deltaX: number
+    deltaY: number
+}
+
 export interface ISwipeEvent extends IDragEvent {
 
 }

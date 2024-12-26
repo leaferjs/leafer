@@ -81,7 +81,7 @@ export interface IWatchEvent extends IEvent {
 export interface IMultiTouchData {
     move: IPointData,
     scale: number,
-    angle: number,
+    rotation: number,
     center: IPointData
 }
 

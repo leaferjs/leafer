@@ -6,7 +6,7 @@ import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
-import { needPlugin } from '@leafer/debug'
+import { Plugin } from '@leafer/debug'
 
 
 const { LEAF, create } = IncrementId
@@ -588,11 +588,11 @@ export class Leaf implements ILeaf {
     // @leafer-in/motion-path rewrite
 
     public getMotionPathData(): IMotionPathData {
-        return needPlugin('path')
+        return Plugin.need('path')
     }
 
     public getMotionPoint(_motionDistance: number | IUnitData): IRotationPointData {
-        return needPlugin('path')
+        return Plugin.need('path')
     }
 
     public getMotionTotal(): number {

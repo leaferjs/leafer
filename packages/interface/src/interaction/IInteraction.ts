@@ -30,6 +30,8 @@ export interface IInteraction extends IControl {
     readonly isHoldSpaceKey: boolean
 
     config: IInteractionConfig
+    readonly m: IMoveConfig
+    readonly p: IPointerConfig
 
     cursor: ICursorType | ICursorType[]
     readonly hitRadius: number
