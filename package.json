@@ -1,6 +1,6 @@
 {
   "name": "leafer",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "leafer",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -24,6 +24,6 @@
     "engine"
   ],
   "dependencies": {
-    "@leafer/web": "1.2.0"
+    "@leafer/web": "1.2.1"
   }
 }
