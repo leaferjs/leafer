@@ -250,7 +250,7 @@ export class Leaf implements ILeaf {
         (this as any)[attrName] = value
     }
 
-    public forceRender(_bounds?: IBoundsData): void {
+    public forceRender(_bounds?: IBoundsData, _sync?: boolean): void {
         this.forceUpdate('surface')
     }
 

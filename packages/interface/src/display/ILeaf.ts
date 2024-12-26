@@ -547,7 +547,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     updateState(): void
     updateLayout(): void
     forceUpdate(attrName?: string): void
-    forceRender(_bounds?: IBoundsData): void
+    forceRender(bounds?: IBoundsData, sync?: boolean): void
 
     // ILeafMatrix ->
     __updateWorldMatrix(): void
