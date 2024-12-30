@@ -122,13 +122,14 @@ export class Eventer implements IEventer {
         if (list) {
             let item: IEventListenerItem
             for (let i = 0, len = list.length; i < len; i++) {
-                item = list[i]
-                item.listener(event)
-                if (item.once) {
-                    this.off(type, item.listener, capture)
-                    i--, len--
+                if (item = list[i]) { // 防止 list 变化造成的空值
+                    item.listener(event)
+                    if (item.once) {
+                        this.off(type, item.listener, capture)
+                        i--, len--
+                    }
+                    if (event && event.isStopNow) break
                 }
-                if (event && (event as IEvent).isStopNow) break
             }
         }
 
