@@ -1,5 +1,5 @@
 import { IAlign, ILeaf, IMatrixData, IPointData, IAxis } from '@leafer/interface'
-import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData } from '@leafer/math'
+import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 
 
 const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -143,17 +143,22 @@ export const LeafHelper = {
     },
 
     setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
-        const layout = getLayout(transform, t.origin && L.getInnerOrigin(t, t.origin), t.around && L.getInnerOrigin(t, t.around))
+        const data = t.__, originPoint = data.origin && L.getInnerOrigin(t, data.origin)
+        const layout = getLayout(transform, originPoint, data.around && L.getInnerOrigin(t, data.around))
         if (resize) {
-            const scaleX = layout.scaleX / t.scaleX
-            const scaleY = layout.scaleY / t.scaleY
-            delete layout.scaleX
-            delete layout.scaleY
+            const scaleX = layout.scaleX / t.scaleX, scaleY = layout.scaleY / t.scaleY
+            delete layout.scaleX, delete layout.scaleY
+
+            if (originPoint) { // fix origin: resize 方式下 boxBounds 会变化，导致 originPoint 不准确，需偏移至正确的位置
+                BoundsHelper.scale(t.boxBounds, Math.abs(scaleX), Math.abs(scaleY))
+                const changedPoint = L.getInnerOrigin(t, data.origin)
+                PointHelper.move(layout, originPoint.x - changedPoint.x, originPoint.y - changedPoint.y)
+            }
+
             t.set(layout)
-            t.scaleResize(scaleX, scaleY, resize !== true)
-        } else {
-            t.set(layout)
-        }
+            t.scaleResize(scaleX, scaleY, false)
+
+        } else t.set(layout)
     },
 
     getFlipTransform(t: ILeaf, axis: IAxis): IMatrixData {
