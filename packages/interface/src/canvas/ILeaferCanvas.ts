@@ -191,7 +191,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void
     stopAutoLayout(): void
 
-    resize(size: IScreenSizeData): void
+    resize(size: IScreenSizeData, safeResize?: boolean): void
     updateViewSize(): void
     updateClientBounds(): void
     getClientBounds(update?: boolean): IBoundsData

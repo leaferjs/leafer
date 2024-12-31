@@ -86,11 +86,11 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     // ---
 
-    public resize(size: IScreenSizeData): void {
+    public resize(size: IScreenSizeData, safeResize = true): void {
         if (this.isSameSize(size)) return
 
         let takeCanvas: ILeaferCanvas
-        if (this.context && !this.unreal && this.width) {
+        if (this.context && !this.unreal && safeResize && this.width) {
             takeCanvas = this.getSameCanvas()
             takeCanvas.copyWorld(this)
         }

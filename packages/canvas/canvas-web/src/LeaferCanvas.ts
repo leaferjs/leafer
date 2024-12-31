@@ -119,7 +119,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public updateClientBounds(): void {
-        this.clientBounds = this.view.getBoundingClientRect()
+        if (this.view.parentElement) this.clientBounds = this.view.getBoundingClientRect()
     }
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
