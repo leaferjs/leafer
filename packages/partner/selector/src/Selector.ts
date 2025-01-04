@@ -20,7 +20,6 @@ export class Selector implements ISelector {
         this.finder = Creator.finder && Creator.finder()
     }
 
-    // @leafer-ui/node will rewrite
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
         if (this.target) this.target.updateLayout()
         return this.picker.getByPoint(hitPoint, hitRadius, options)

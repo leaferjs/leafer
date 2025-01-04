@@ -482,8 +482,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly __worldFlipped: boolean
 
-    animation?: IObject
-    animationOut?: IObject
+    animation?: IObject | IObject[]
+    animationOut?: IObject | IObject[]
 
     __hasAutoLayout?: boolean
     __hasMotionPath?: boolean
