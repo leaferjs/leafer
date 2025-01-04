@@ -1,12 +1,18 @@
+import { IBooleanMap } from '@leafer/interface'
+
+
+const check = [] as string[]
+
 export const Plugin = {
 
-    list: {} as any,
+    list: {} as IBooleanMap,
 
-    add(name: string) {
+    add(name: string, ...needPlugins: string[]) {
         this.list[name] = true
+        check.push(...needPlugins)
     },
 
-    check(name: string, tip?: boolean): boolean {
+    has(name: string, tip?: boolean): boolean {
         const rs = this.list[name]
         if (!rs && tip) this.need(name)
         return rs
@@ -17,3 +23,5 @@ export const Plugin = {
     }
 
 }
+
+setTimeout(() => check.forEach(name => Plugin.has(name, true)))
