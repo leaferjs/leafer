@@ -48,14 +48,26 @@ export interface ISelectorProxy {
 
 export interface ISelector {
     target?: ILeaf
-
     proxy?: ISelectorProxy
 
     config: ISelectorConfig
 
-    getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
+    picker: IPicker
+    finder?: IFinder
 
-    getBy(condition: number | string | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
+    getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
+    getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
+    destroy(): void
+}
+
+
+export interface IPicker {
+    getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
+    destroy(): void
+}
+
+export interface IFinder {
+    getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
     getByInnerId(innerId: number, branch?: ILeaf): ILeaf
     getById(id: string, branch?: ILeaf): ILeaf
     getByClassName(className: string, branch?: ILeaf): ILeaf[]

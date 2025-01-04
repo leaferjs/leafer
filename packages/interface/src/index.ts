@@ -19,7 +19,7 @@ export { IBranchRender, IBranchRenderModule } from './display/module/IBranchRend
 export { IRenderer, IRendererConfig, IRenderOptions } from './renderer/IRenderer'
 export { IWatcher, IWatchEventData, IWatcherConfig } from './watcher/IWatcher'
 export { ILayouter, ILayoutChangedData, ILayoutBlockData, ILayouterConfig, IPartLayoutConfig } from './layouter/ILayouter'
-export { ISelector, ISelectorConfig, ISelectorProxy, IFindCondition, IFindMethod, IPickResult, IPickOptions, IPickBottom, IAnswer } from './selector/ISelector'
+export { ISelector, ISelectorConfig, ISelectorProxy, IFinder, IFindCondition, IFindMethod, IPickResult, IPicker, IPickOptions, IPickBottom, IAnswer } from './selector/ISelector'
 
 export { ICanvasManager } from './canvas/ICanvasManager'
 export { IHitCanvasManager } from './canvas/IHitCanvasManager'

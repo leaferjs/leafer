@@ -2,7 +2,7 @@ import { ILeaf, ICursorType } from '../display/ILeaf'
 import { IRenderer, IRendererConfig } from '../renderer/IRenderer'
 import { IHitCanvas, ILeaferCanvas, ILeaferCanvasConfig, IHitCanvasConfig } from '../canvas/ILeaferCanvas'
 import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
-import { ISelector, ISelectorConfig } from '../selector/ISelector'
+import { IFinder, ISelector, ISelectorConfig } from '../selector/ISelector'
 import { IInteraction, IInteractionCanvas, IInteractionConfig } from '../interaction/IInteraction'
 import { IWatcher, IWatcherConfig } from '../watcher/IWatcher'
 import { IAutoBounds, IBoundsData, IPointData, IScreenSizeData, IBounds, IClientPointData } from '../math/IMath'
@@ -125,6 +125,7 @@ export interface ICreator {
     layouter?(target: ILeaf, options?: ILayouterConfig): ILayouter
     renderer?(target: ILeaf, canvas: ILeaferCanvas, options?: IRendererConfig): IRenderer
     selector?(target?: ILeaf, options?: ISelectorConfig): ISelector
+    finder?(target?: ILeaf): IFinder
 
     interaction?(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, options?: IInteractionConfig): IInteraction
 

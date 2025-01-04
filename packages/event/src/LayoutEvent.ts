@@ -5,8 +5,6 @@ import { Event } from './Event'
 
 export class LayoutEvent extends Event implements ILayoutEvent {
 
-    static CHECK_UPDATE = 'layout.check_update'
-
     static REQUEST = 'layout.request'
 
     static START = 'layout.start'
