@@ -1,5 +1,5 @@
 import { ILeaf, ISelector, ISelectorProxy, IPickResult, IPickOptions, IPointData, ISelectorConfig, IFinder, IFindMethod, IFindCondition, IPicker } from '@leafer/interface'
-import { Creator, DataHelper, Plugin } from '@leafer/core'
+import { Creator, DataHelper, Plugin, Platform } from '@leafer/core'
 
 import { Picker } from './Picker'
 
@@ -21,7 +21,7 @@ export class Selector implements ISelector {
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
-        if (this.target) this.target.updateLayout()
+        if (Platform.backgrounder && this.target) this.target.updateLayout()
         return this.picker.getByPoint(hitPoint, hitRadius, options)
     }
 

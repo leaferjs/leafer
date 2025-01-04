@@ -60,6 +60,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
 
 Platform.name = 'web'
 Platform.isWorker = true
+Platform.backgrounder = true
 Platform.requestRender = function (render: IFunction): void { requestAnimationFrame(render) }
 defineKey(Platform, 'devicePixelRatio', { get() { return 1 } })
 

@@ -43,6 +43,7 @@ export interface IPlatform {
 
     roundRectPatch?: boolean //  fix: skia-canvas roundRect
     ellipseToCurve?: boolean, // fix: skia 绘制圆环和椭圆弧
+    backgrounder?: boolean, // 后台模式运行，如 node、workder 
 
     event?: {
         stopDefault(origin: IObject): void

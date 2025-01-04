@@ -67,6 +67,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
 }
 
 Platform.name = 'node'
+Platform.backgrounder = true
 Platform.requestRender = function (render: IFunction): void { setTimeout(render, 16) }
 defineKey(Platform, 'devicePixelRatio', { get() { return 1 } })
 Platform.conicGradientSupport = true
