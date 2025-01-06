@@ -19,7 +19,7 @@ export const Plugin = {
     },
 
     need(name: string): any {
-        console.error('need plugin: @leafer-in/' + name)
+        console.error('need plugin: ' + (name.includes('-x') ? '' : '@leafer-in/') + name)
     }
 
 }
