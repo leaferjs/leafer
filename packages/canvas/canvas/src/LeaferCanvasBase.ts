@@ -74,7 +74,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.__bindContext()
     }
 
-    // @leafer-ui/export rewrite
+    // @leafer-in/export rewrite
 
     public export(_filename: IExportFileType | string, _options?: IExportOptions | number | boolean): string | Promise<any> { return undefined }
 
