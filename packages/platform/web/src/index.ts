@@ -12,7 +12,6 @@ import { LeaferImage } from '@leafer/image-web'
 
 const { mineType, fileType } = FileHelper
 
-
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
     image: (options) => new LeaferImage(options)
@@ -46,17 +45,20 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         },
         loadImage(src: any): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
-                const img = new Image()
+                const img = new Platform.origin.Image()
                 const { crossOrigin } = Platform.image
                 if (crossOrigin) {
                     img.setAttribute('crossOrigin', crossOrigin)
                     img.crossOrigin = crossOrigin
                 }
                 img.onload = () => { resolve(img) }
-                img.onerror = (e) => { reject(e) }
+                img.onerror = (e: any) => { reject(e) }
                 img.src = Platform.image.getRealURL(src)
             })
-        }
+        },
+        Image,
+        PointerEvent,
+        DragEvent
     }
 
     Platform.event = {

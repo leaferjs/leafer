@@ -39,6 +39,9 @@ export interface IPlatform {
         download(url: string, filename: string): Promise<void>
         loadImage(url: string): Promise<any>
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
+        Image?: any
+        PointerEvent?: any
+        DragEvent?: any
     },
 
     roundRectPatch?: boolean //  fix: skia-canvas roundRect
