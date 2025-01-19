@@ -3,12 +3,14 @@ import { ICanvasContext2DSettings } from '../canvas/ICanvas'
 import { ILeaf } from '../display/ILeaf'
 import { ILocationType } from '../layout/ILeafLayout'
 import { IBoundsData, IPointData, ISizeData } from '../math/IMath'
+import { IFourNumber } from '../data/IData'
 
 export interface IExportOptions {
     quality?: number
     blob?: boolean
     scale?: number | IPointData
     size?: number | ISizeData
+    padding?: IFourNumber
     smooth?: boolean
     pixelRatio?: number
     slice?: boolean
