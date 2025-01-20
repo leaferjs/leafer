@@ -130,7 +130,7 @@ export const LeafBounds: ILeafBoundsModule = {
         this.__layout.matrixChanged = true
         if (this.isBranch) {
 
-            if (this.leaferIsReady) this.leafer.layouter.addExtra(this) // add part 
+            this.__extraUpdate()
 
             if (this.__.flow) {
 
