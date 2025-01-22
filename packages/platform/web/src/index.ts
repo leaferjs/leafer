@@ -26,7 +26,10 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             canvas.height = height
             return canvas
         },
-        canvasToDataURL: (canvas: HTMLCanvasElement, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
+        canvasToDataURL: (canvas: HTMLCanvasElement, type?: IExportImageType, quality?: number) => {
+            const imageType = mineType(type), url = canvas.toDataURL(imageType, quality)
+            return imageType === 'image/bmp' ? url.replace('image/png;', 'image/bmp;') : url
+        },
         canvasToBolb: (canvas: HTMLCanvasElement, type?: IExportFileType, quality?: number) => new Promise((resolve) => canvas.toBlob(resolve, mineType(type), quality)),
         canvasSaveAs: (canvas: HTMLCanvasElement, filename: string, quality?: any) => {
             const url = canvas.toDataURL(mineType(fileType(filename)), quality)
