@@ -18,11 +18,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/event": "1.3.3",
-    "@leafer/data": "1.3.3",
-    "@leafer/list": "1.3.3"
+    "@leafer/event": "workspace:*",
+    "@leafer/data": "workspace:*",
+    "@leafer/list": "workspace:*"
   },
   "devDependencies": {
-     "@leafer/interface": "1.3.3"
+     "@leafer/interface": "workspace:*"
   }
 }

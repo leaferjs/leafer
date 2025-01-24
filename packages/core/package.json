@@ -25,26 +25,26 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/canvas": "1.3.3",
-    "@leafer/image": "1.3.3",
+    "@leafer/canvas": "workspace:*",
+    "@leafer/image": "workspace:*",
 
-    "@leafer/data": "1.3.3",
-    "@leafer/debug": "1.3.3",
-    "@leafer/decorator": "1.3.3",
-    "@leafer/display": "1.3.3",
-    "@leafer/display-module": "1.3.3",
+    "@leafer/data": "workspace:*",
+    "@leafer/debug": "workspace:*",
+    "@leafer/decorator": "workspace:*",
+    "@leafer/display": "workspace:*",
+    "@leafer/display-module": "workspace:*",
 
-    "@leafer/event": "1.3.3",
+    "@leafer/event": "workspace:*",
 
-    "@leafer/file": "1.3.3",
-    "@leafer/helper": "1.3.3",
-    "@leafer/layout": "1.3.3",
-    "@leafer/list": "1.3.3",
-    "@leafer/math": "1.3.3",
+    "@leafer/file": "workspace:*",
+    "@leafer/helper": "workspace:*",
+    "@leafer/layout": "workspace:*",
+    "@leafer/list": "workspace:*",
+    "@leafer/math": "workspace:*",
 
-    "@leafer/path": "1.3.3",
-    "@leafer/platform": "1.3.3",
+    "@leafer/path": "workspace:*",
+    "@leafer/platform": "workspace:*",
 
-    "@leafer/task": "1.3.3"
+    "@leafer/task": "workspace:*"
   }
 }

@@ -18,17 +18,17 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/math": "1.3.3",
-    "@leafer/data": "1.3.3",
-    "@leafer/layout": "1.3.3",
-    "@leafer/display-module": "1.3.3",
-    "@leafer/event": "1.3.3",
-    "@leafer/decorator": "1.3.3",
-    "@leafer/helper": "1.3.3",
-    "@leafer/debug": "1.3.3",
-    "@leafer/platform": "1.3.3"
+    "@leafer/math": "workspace:*",
+    "@leafer/data": "workspace:*",
+    "@leafer/layout": "workspace:*",
+    "@leafer/display-module": "workspace:*",
+    "@leafer/event": "workspace:*",
+    "@leafer/decorator": "workspace:*",
+    "@leafer/helper": "workspace:*",
+    "@leafer/debug": "workspace:*",
+    "@leafer/platform": "workspace:*"
   },
   "devDependencies": {
-     "@leafer/interface": "1.3.3"
+     "@leafer/interface": "workspace:*"
   }
 }
