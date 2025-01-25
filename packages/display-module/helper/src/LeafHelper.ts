@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 
 
@@ -76,73 +76,76 @@ export const LeafHelper = {
 
     // transform
 
-    moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: any): void {
+    moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: ITransition): void {
         const local = typeof x === 'object' ? { ...x } : { x, y }
         isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.worldTransform, local, local, true))
         L.moveLocal(t, local.x, local.y, transition)
     },
 
-    moveLocal(t: ILeaf, x: number | IPointData, y = 0, transition?: any): void {
+    moveLocal(t: ILeaf, x: number | IPointData, y = 0, transition?: ITransition): void {
         if (typeof x === 'object') y = x.y, x = x.x
         x += t.x
         y += t.y
         transition ? t.animate({ x, y }, transition) : (t.x = x, t.y = y)
     },
 
-    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
-        L.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize)
+    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
+        L.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize, transition)
     },
 
-    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number = scaleX, resize?: boolean): void {
-        copy(matrix, t.__localMatrix)
+    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number | ITransition = scaleX, resize?: boolean, transition?: ITransition): void {
+        const o = t.__localMatrix
+        if (typeof scaleY !== 'number') {
+            if (scaleY) transition = scaleY
+            scaleY = scaleX
+        }
+        copy(matrix, o)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         if (t.origin || t.around) {
-            L.setTransform(t, matrix, resize)
+            L.setTransform(t, matrix, resize, transition)
         } else {
-            moveByMatrix(t, matrix)
-            t.scaleResize(scaleX, scaleY, resize !== true)
+            const x = t.x + matrix.e - o.e, y = t.y + matrix.f - o.f
+            if (transition && !resize) t.animate({ x, y, scaleX: t.scaleX * scaleX, scaleY: t.scaleY * scaleY }, transition)
+            else t.x = x, t.y = y, t.scaleResize(scaleX, scaleY, resize !== true)
         }
     },
 
-    rotateOfWorld(t: ILeaf, origin: IPointData, angle: number): void {
-        L.rotateOfLocal(t, getTempLocal(t, origin), angle)
+    rotateOfWorld(t: ILeaf, origin: IPointData, angle: number, transition?: ITransition): void {
+        L.rotateOfLocal(t, getTempLocal(t, origin), angle, transition)
     },
 
-    rotateOfLocal(t: ILeaf, origin: IPointData, angle: number): void {
-        copy(matrix, t.__localMatrix)
+    rotateOfLocal(t: ILeaf, origin: IPointData, angle: number, transition?: ITransition): void {
+        const o = t.__localMatrix
+        copy(matrix, o)
         rotateOfOuter(matrix, origin, angle)
-        if (t.origin || t.around) {
-            L.setTransform(t, matrix)
-        } else {
-            moveByMatrix(t, matrix)
-            t.rotation = MathHelper.formatRotation(t.rotation + angle)
-        }
+        if (t.origin || t.around) L.setTransform(t, matrix, false, transition)
+        else t.set({ x: t.x + matrix.e - o.e, y: t.y + matrix.f - o.f, rotation: MathHelper.formatRotation(t.rotation + angle) }, transition)
     },
 
-    skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
-        L.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY, resize)
+    skewOfWorld(t: ILeaf, origin: IPointData, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void {
+        L.skewOfLocal(t, getTempLocal(t, origin), skewX, skewY, resize, transition)
     },
 
-    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0, resize?: boolean): void {
+    skewOfLocal(t: ILeaf, origin: IPointData, skewX: number, skewY: number = 0, resize?: boolean, transition?: ITransition): void {
         copy(matrix, t.__localMatrix)
         skewOfOuter(matrix, origin, skewX, skewY)
-        L.setTransform(t, matrix, resize)
+        L.setTransform(t, matrix, resize, transition)
     },
 
-    transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
+    transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
         copy(matrix, t.worldTransform)
         multiplyParent(matrix, transform)
         if (t.parent) divideParent(matrix, t.parent.worldTransform)
-        L.setTransform(t, matrix, resize)
+        L.setTransform(t, matrix, resize, transition)
     },
 
-    transform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
+    transform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
         copy(matrix, t.localTransform)
         multiplyParent(matrix, transform)
-        L.setTransform(t, matrix, resize)
+        L.setTransform(t, matrix, resize, transition)
     },
 
-    setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean): void {
+    setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
         const data = t.__, originPoint = data.origin && L.getInnerOrigin(t, data.origin)
         const layout = getLayout(transform, originPoint, data.around && L.getInnerOrigin(t, data.around))
         if (resize) {
@@ -158,7 +161,7 @@ export const LeafHelper = {
             t.set(layout)
             t.scaleResize(scaleX, scaleY, false)
 
-        } else t.set(layout)
+        } else t.set(layout, transition)
     },
 
     getFlipTransform(t: ILeaf, axis: IAxis): IMatrixData {
@@ -201,12 +204,6 @@ export const LeafHelper = {
 
 const L = LeafHelper
 const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange } = L
-
-function moveByMatrix(t: ILeaf, matrix: IMatrixData): void {
-    const { e, f } = t.__localMatrix
-    t.x += matrix.e - e
-    t.y += matrix.f - f
-}
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {
     t.__layout.update()

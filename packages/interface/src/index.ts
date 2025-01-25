@@ -55,3 +55,5 @@ export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, I
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
 export { IPoint, IPointData, IFromToData, IUnitPointData, IRotationPointData, IScrollPointData, IClientPointData, IRadiusPointData, ISize, ISizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, ITwoPointBoundsData, IAutoBounds, IAutoBoxData, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
 export { IFunction, IStringFunction, INumberFunction, IObjectFunction, IPointDataFunction, IAttrDecorator } from './function/IFunction'
+
+export { ITransition, IAnimateEasing, ICubicBezierEasing, IStepsEasing, IAnimateEasingFunction, IAnimateEasingName, IAnimateEnding, IAnimateEvents, IAnimateEventFunction, ICustomEasingFunction, IAnimateOptions } from './animate/ITransition'

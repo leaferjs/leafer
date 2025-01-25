@@ -20,6 +20,7 @@ import { IPathCommandObject, IPathCommandData } from '../path/IPathCommand'
 import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 import { IJSONOptions } from '../file/IExport'
 import { IMotionPathData } from '../path/IPathData'
+import { ITransition } from '../animate/ITransition'
 
 
 export interface ICachedLeaf {
@@ -515,7 +516,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __bindLeafer(leafer: ILeaferBase | null): void
 
-    set(data: IObject, transition?: any): void
+    set(data: IObject, transition?: ITransition): void
     get(name?: string | string[] | IObject): ILeafInputData | IValue
     setAttr(name: string, value: any): void
     getAttr(name: string): any
@@ -613,22 +614,22 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     getWorldPointByPage(page: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
     // transform
-    setTransform(transform?: IMatrixData, resize?: boolean): void
-    transform(transform?: IMatrixData, resize?: boolean): void
-    move(x: number | IPointData, y?: number, transition?: any): void
+    setTransform(transform?: IMatrixData, resize?: boolean, transition?: ITransition): void
+    transform(transform?: IMatrixData, resize?: boolean, transition?: ITransition): void
+    move(x: number | IPointData, y?: number, transition?: ITransition): void
 
-    moveInner(x: number | IPointData, y?: number, transition?: any): void
-    scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number, resize?: boolean): void
+    moveInner(x: number | IPointData, y?: number, transition?: ITransition): void
+    scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void
     rotateOf(origin: IPointData | IAlign, rotation: number): void
-    skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean): void
+    skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void
 
-    transformWorld(worldTransform?: IMatrixData, resize?: boolean): void
-    moveWorld(x: number | IPointData, y?: number, transition?: any): void
-    scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void
-    rotateOfWorld(worldOrigin: IPointData, rotation: number): void
-    skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean): void
+    transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition): void
+    moveWorld(x: number | IPointData, y?: number, transition?: ITransition): void
+    scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void
+    rotateOfWorld(worldOrigin: IPointData, rotation: number, transition?: ITransition): void
+    skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void
 
-    flip(axis: IAxis): void
+    flip(axis: IAxis, transition?: ITransition): void
 
     scaleResize(scaleX: number, scaleY: number, noResize?: boolean): void
     __scaleResize(scaleX: number, scaleY: number): void

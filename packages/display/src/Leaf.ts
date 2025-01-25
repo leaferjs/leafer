@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -466,58 +466,58 @@ export class Leaf implements ILeaf {
 
     // transform 
 
-    public setTransform(matrix: IMatrixData, resize?: boolean): void {
-        setTransform(this, matrix, resize)
+    public setTransform(matrix: IMatrixData, resize?: boolean, transition?: ITransition): void {
+        setTransform(this, matrix, resize, transition)
     }
 
-    public transform(matrix: IMatrixData, resize?: boolean): void {
-        transform(this, matrix, resize)
+    public transform(matrix: IMatrixData, resize?: boolean, transition?: ITransition): void {
+        transform(this, matrix, resize, transition)
     }
 
-    public move(x: number | IPointData, y?: number, transition?: any): void {
+    public move(x: number | IPointData, y?: number, transition?: ITransition): void {
         moveLocal(this, x, y, transition)
     }
 
 
-    public moveInner(x: number | IPointData, y?: number, transition?: any): void {
+    public moveInner(x: number | IPointData, y?: number, transition?: ITransition): void {
         moveWorld(this, x, y, true, transition)
     }
 
-    public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number, resize?: boolean): void {
-        zoomOfLocal(this, getLocalOrigin(this, origin), scaleX, scaleY, resize)
+    public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
+        zoomOfLocal(this, getLocalOrigin(this, origin), scaleX, scaleY, resize, transition)
     }
 
-    public rotateOf(origin: IPointData | IAlign, rotation: number): void {
-        rotateOfLocal(this, getLocalOrigin(this, origin), rotation)
+    public rotateOf(origin: IPointData | IAlign, rotation: number, transition?: ITransition): void {
+        rotateOfLocal(this, getLocalOrigin(this, origin), rotation, transition)
     }
 
-    public skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean): void {
-        skewOfLocal(this, getLocalOrigin(this, origin), skewX, skewY, resize)
+    public skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void {
+        skewOfLocal(this, getLocalOrigin(this, origin), skewX, skewY, resize, transition)
     }
 
 
-    public transformWorld(worldTransform?: IMatrixData, resize?: boolean): void {
-        transformWorld(this, worldTransform, resize)
+    public transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition): void {
+        transformWorld(this, worldTransform, resize, transition)
     }
 
-    public moveWorld(x: number | IPointData, y?: number, transition?: any): void {
+    public moveWorld(x: number | IPointData, y?: number, transition?: ITransition): void {
         moveWorld(this, x, y, false, transition)
     }
 
-    public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number, resize?: boolean): void {
-        zoomOfWorld(this, worldOrigin, scaleX, scaleY, resize)
+    public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
+        zoomOfWorld(this, worldOrigin, scaleX, scaleY, resize, transition)
     }
 
     public rotateOfWorld(worldOrigin: IPointData, rotation: number): void {
         rotateOfWorld(this, worldOrigin, rotation)
     }
 
-    public skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean): void {
-        skewOfWorld(this, worldOrigin, skewX, skewY, resize)
+    public skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void {
+        skewOfWorld(this, worldOrigin, skewX, skewY, resize, transition)
     }
 
-    public flip(axis: IAxis): void {
-        transform(this, getFlipTransform(this, axis))
+    public flip(axis: IAxis, transition?: ITransition): void {
+        transform(this, getFlipTransform(this, axis), false, transition)
     }
 
 
