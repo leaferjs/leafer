@@ -77,7 +77,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
 Platform.name = 'web'
 Platform.isMobile = 'ontouchstart' in window
 Platform.requestRender = function (render: IFunction): void { window.requestAnimationFrame(render) }
-defineKey(Platform, 'devicePixelRatio', { get() { return Math.max(1, devicePixelRatio) } })
+defineKey(Platform, 'devicePixelRatio', { get() { return devicePixelRatio } })
 
 
 // same as worker

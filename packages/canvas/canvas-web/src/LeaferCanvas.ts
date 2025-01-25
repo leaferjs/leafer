@@ -1,4 +1,4 @@
-import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener } from '@leafer/interface'
+import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IFunction } from '@leafer/interface'
 import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug } from '@leafer/core'
 
 
@@ -31,6 +31,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     protected resizeObserver: ResizeObserver
     protected autoBounds: IAutoBounds
     protected resizeListener: IResizeEventListener
+    protected windowListener: IFunction
 
     public init(): void {
         const { config } = this
@@ -154,7 +155,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         } else {
 
             // check devicePixelRatio change
-            window.addEventListener('resize', () => {
+            window.addEventListener('resize', this.windowListener = () => {
                 const pixelRatio = Platform.devicePixelRatio
                 if (this.pixelRatio !== pixelRatio) {
                     const { width, height } = this
@@ -187,11 +188,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public stopAutoLayout(): void {
         this.autoLayout = false
-        this.resizeListener = null
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect()
-            this.resizeObserver = null
-        }
+        if (this.resizeObserver) this.resizeObserver.disconnect()
+        this.resizeListener = this.resizeObserver = null
     }
 
     protected emitResize(size: IScreenSizeData): void {
@@ -215,6 +213,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public destroy(): void {
         if (this.view) {
             this.stopAutoLayout()
+            if (this.windowListener) {
+                window.removeEventListener('resize', this.windowListener)
+                this.windowListener = null
+            }
             if (!this.unreal) {
                 const view = this.view
                 if (view.parentElement) view.remove()
