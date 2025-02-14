@@ -21,8 +21,9 @@ export class Selector implements ISelector {
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {
-        if (Platform.backgrounder && this.target) this.target.updateLayout()
-        return this.picker.getByPoint(hitPoint, hitRadius, options)
+        const { target, picker } = this
+        if (Platform.backgrounder) target && target.updateLayout()
+        return picker.getByPoint(hitPoint, hitRadius, options)
     }
 
     // @leafer-in/find will rewrite
