@@ -88,8 +88,8 @@ if (userAgent.indexOf("Firefox") > -1) {
     Platform.conicGradientRotate90 = true
     Platform.intWheelDeltaY = true
     Platform.syncDomFont = true
-} else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
-    Platform.fullImageShadow = true
+} else if (userAgent.indexOf("AppleWebKit") > -1) {
+    Platform.fullImageShadow = true // 苹果内核渲染阴影
 }
 
 if (userAgent.indexOf('Windows') > -1) {
