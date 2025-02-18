@@ -6,8 +6,8 @@ import { BezierHelper } from './BezierHelper'
 
 
 const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = PathCommandMap
-const { getMinDistanceFrom, getThetaFrom } = PointHelper
-const { tan, min } = Math
+const { getMinDistanceFrom, getRadianFrom } = PointHelper
+const { tan, min, abs } = Math
 const startPoint = {} as IPointData
 
 export const PathCommandDataHelper = {
@@ -77,8 +77,11 @@ export const PathCommandDataHelper = {
     },
 
     arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number, lastX?: number, lastY?: number): void {
-        if (lastX !== undefined) radius = min(radius, getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2) / (2 * tan(getThetaFrom(lastX, lastY, x1, y1, x2, y2) / 2)))
-        data.push(U, x1, y1, x2, y2, isNaN(radius) ? 0 : radius)
+        if (lastX !== undefined) {
+            const d = getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2)
+            radius = min(radius, min(d / 2, d / 2 * abs(tan(getRadianFrom(lastX, lastY, x1, y1, x2, y2) / 2))))
+        }
+        data.push(U, x1, y1, x2, y2, radius)
     },
 
     // new
