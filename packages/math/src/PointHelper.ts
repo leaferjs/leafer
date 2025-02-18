@@ -5,7 +5,7 @@ import { MatrixHelper as M } from './MatrixHelper'
 
 
 const { toInnerPoint, toOuterPoint } = M
-const { sin, cos, abs, sqrt, atan2, min, PI } = Math
+const { sin, cos, abs, sqrt, atan2, acos, hypot, min, max, PI } = Math
 
 
 export const PointHelper = {
@@ -142,6 +142,13 @@ export const PointHelper = {
         let toAngle = atan2(toY - toOriginY, toX - toOriginX)
         const radian = toAngle - fromAngle
         return radian < -PI ? radian + PI2 : radian
+    },
+
+    // 计算三点之间的夹角(正数)
+    getThetaFrom(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
+        const s1x = x2 - x1, s1y = y2 - y1, s2x = x3 - x2, s2y = y3 - y2
+        const cosTheta = (s1x * s2x + s1y * s2y) / (hypot(s1x, s1y) * hypot(s2x, s2y))
+        return acos(max(-1, min(1, cosTheta))) // 计算夹角θ
     },
 
     getAtan2(t: IPointData, to: IPointData): number {
