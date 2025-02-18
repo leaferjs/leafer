@@ -15,6 +15,7 @@ import { IAppBase } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
 import { IControl } from '../control/IControl'
 import { IFunction } from '../function/IFunction'
+import { ITransition } from '../animate/ITransition'
 
 
 export type ILeaferType = 'draw' | 'block' | 'viewport' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom'
@@ -24,8 +25,6 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
     mobile?: boolean
     realCanvas?: boolean
     grow?: boolean | 'box' | 'render'
-    growWidth?: boolean
-    growHeight?: boolean
     lazySpeard?: IFourNumber
 }
 
@@ -84,7 +83,7 @@ export interface ILeaferAttrData {
     waitViewReady(item: IFunction, bind?: IObject): void
     waitViewCompleted(item: IFunction, bind?: IObject): void
 
-    zoom(zoomType: IZoomType, padding?: IFourNumber, fixedScale?: boolean): IBoundsData
+    zoom(zoomType: IZoomType, padding?: IFourNumber, fixedScale?: boolean, transition?: ITransition): IBoundsData
     getValidMove(moveX: number, moveY: number): IPointData
     getValidScale(changeScale: number): number
 
