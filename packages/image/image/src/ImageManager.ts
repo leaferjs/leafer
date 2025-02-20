@@ -1,27 +1,18 @@
 import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType } from '@leafer/interface'
 import { Creator } from '@leafer/platform'
-import { FileHelper } from '@leafer/file'
+import { FileHelper, Resource } from '@leafer/file'
 import { TaskProcessor } from '@leafer/task'
 
 
 export const ImageManager: IImageManager = {
 
-    map: {},
-
     recycledList: [],
-
-    tasker: new TaskProcessor(),
 
     patternTasker: new TaskProcessor(),
 
-    get isComplete() { return I.tasker.isComplete },
-
     get(config: ILeaferImageConfig): ILeaferImage {
-        let image = I.map[config.url]
-        if (!image) {
-            image = Creator.image(config)
-            I.map[config.url] = image
-        }
+        let image: ILeaferImage = Resource.get(config.url)
+        if (!image) Resource.set(config.url, image = Creator.image(config))
         image.use++
         return image
     },
@@ -36,7 +27,7 @@ export const ImageManager: IImageManager = {
         if (list.length > 100) { // cache 100
             list.forEach(image => {
                 if (!image.use && image.url) {
-                    delete I.map[image.url]
+                    Resource.remove(image.url)
                     image.destroy()
                 }
             })
@@ -61,7 +52,6 @@ export const ImageManager: IImageManager = {
     },
 
     destroy(): void {
-        I.map = {}
         I.recycledList = []
     }
 

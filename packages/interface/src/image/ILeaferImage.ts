@@ -3,11 +3,13 @@ import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType } from '../file/IFileType'
 import { IMatrixData } from '../math/IMath'
+import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 
 export interface ILeaferImageConfig {
     url: string
     thumb?: string
     format?: IExportFileType
+    view?: IObject | ILeaferImage | ILeaferCanvas
 }
 
 export interface ILeaferImageOnLoaded {

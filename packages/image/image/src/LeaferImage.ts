@@ -1,5 +1,6 @@
 import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
+import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
 
 import { ImageManager } from './ImageManager'
@@ -36,21 +37,20 @@ export class LeaferImage implements ILeaferImage {
 
     constructor(config: ILeaferImageConfig) {
         this.innerId = create(IMAGE)
-        this.config = config || { url: '' }
-        this.isSVG = ImageManager.isFormat('svg', config)
-        this.hasOpacityPixel = ImageManager.hasOpacityPixel(config)
+        this.config = config || (config = { url: '' })
+        if (config.view) {
+            const { view } = config
+            this.setView(view.config ? view.view : view)
+        }
+
+        ImageManager.isFormat('svg', config) && (this.isSVG = true)
+        ImageManager.hasOpacityPixel(config) && (this.hasOpacityPixel = true)
     }
 
     public load(onSuccess?: IFunction, onError?: IFunction): number {
         if (!this.loading) {
             this.loading = true
-            ImageManager.tasker.add(async () => await Platform.origin.loadImage(this.url).then((img) => {
-                this.ready = true
-                this.width = img.naturalWidth || img.width
-                this.height = img.naturalHeight || img.height
-                this.view = img
-                this.onComplete(true)
-            }).catch((e) => {
+            Resource.tasker.add(async () => await Platform.origin.loadImage(this.url as string).then(img => this.setView(img)).catch((e) => {
                 this.error = e
                 this.onComplete(false)
             }))
@@ -66,6 +66,14 @@ export class LeaferImage implements ILeaferImage {
             if (error) error({ type: 'stop' })
         }
         l[index] = l[index + 1] = undefined
+    }
+
+    protected setView(img: any): void {
+        this.ready = true
+        this.width = img.naturalWidth || img.width
+        this.height = img.naturalHeight || img.height
+        this.view = img
+        this.onComplete(true)
     }
 
     protected onComplete(isSuccess: boolean): void {
