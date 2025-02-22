@@ -14,7 +14,7 @@ export const LeafRender: ILeafRenderModule = {
                 if (this.__.eraser === 'path') return this.__renderEraser(canvas, options)
 
                 const tempCanvas = canvas.getSameCanvas(true, true)
-                this.__draw(tempCanvas, options)
+                this.__draw(tempCanvas, options, canvas)
 
                 if (this.__worldFlipped) {
                     canvas.copyWorldByReset(tempCanvas, this.__nowWorld, null, this.__.__blendMode, true)

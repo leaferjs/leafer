@@ -6,7 +6,7 @@ export type ILeafRenderModule = ILeafRender & ThisType<ILeaf>
 
 export interface ILeafRender {
     __render?(canvas: ILeaferCanvas, options: IRenderOptions): void
-    __draw?(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __draw?(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
     __drawFast?(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __clip?(_canvas: ILeaferCanvas, _options: IRenderOptions): void

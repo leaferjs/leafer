@@ -206,7 +206,10 @@ export type IStateStyleType =
     | 'selectedStyle'
     | 'disabledStyle'
 
-
+export interface IFilter extends IObject {
+    type: string
+    visible?: boolean
+}
 
 export interface ILeafAttrData {
     // layer data
@@ -224,6 +227,7 @@ export interface ILeafAttrData {
 
     mask?: IBoolean | IMaskType
     eraser?: IBoolean | IEraserType
+    filter?: IFilter | IFilter[]
 
     // layout data
     x?: INumber
@@ -326,6 +330,7 @@ export interface ILeafComputedData {
 
     mask?: boolean | IMaskType
     eraser?: boolean | IEraserType
+    filter?: IFilter[]
 
     // layout data
     x?: number
@@ -649,7 +654,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // ILeafRender ->
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void
     __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
-    __draw(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void
     __renderShape(canvas: ILeaferCanvas, options: IRenderOptions, ignoreFill?: boolean, ignoreStroke?: boolean): void
