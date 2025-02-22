@@ -92,6 +92,10 @@ export class LeaferImage implements ILeaferImage {
         this.loading = false
     }
 
+    public getFull(_filters?: IObject): any {
+        return this.view
+    }
+
     public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): any {
         width || (width = this.width)
         height || (height = this.height)

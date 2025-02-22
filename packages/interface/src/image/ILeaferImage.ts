@@ -33,7 +33,7 @@ export interface ILeaferImage {
     readonly innerId: InnerId
     readonly url: string
 
-    view: unknown
+    view: any
     width: number
     height: number
 
@@ -50,7 +50,8 @@ export interface ILeaferImage {
 
     load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError): number
     unload(index: number, stopEvent?: boolean): void
-    getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): unknown
+    getFull(filters?: IObject): any
+    getCanvas(width: number, height: number, opacity?: number, filters?: IObject): any
     getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: IObject): ICanvasPattern
     destroy(): void
 }
