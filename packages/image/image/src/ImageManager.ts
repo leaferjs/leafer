@@ -6,6 +6,8 @@ import { TaskProcessor } from '@leafer/task'
 
 export const ImageManager: IImageManager = {
 
+    maxRecycled: 100,
+
     recycledList: [],
 
     patternTasker: new TaskProcessor(),
@@ -24,13 +26,8 @@ export const ImageManager: IImageManager = {
 
     clearRecycled(): void {
         const list = I.recycledList
-        if (list.length > 100) { // cache 100
-            list.forEach(image => {
-                if (!image.use && image.url) {
-                    Resource.remove(image.url)
-                    image.destroy()
-                }
-            })
+        if (list.length > I.maxRecycled) {
+            list.forEach(image => (!image.use && image.url) && Resource.remove(image.url))
             list.length = 0
         }
     },

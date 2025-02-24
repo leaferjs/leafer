@@ -27,7 +27,11 @@ export const Resource: IResource = {
     },
 
     remove(key: string) {
-        delete R.map[key]
+        const r = R.map[key]
+        if (r) {
+            if (r.destroy) r.destroy()
+            delete R.map[key]
+        }
     },
 
     // image
