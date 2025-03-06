@@ -653,9 +653,9 @@ export class Leaf implements ILeaf {
         fn ? this.addAttr(attrName, defaultValue, fn) : defineDataProcessor(this.prototype, attrName, defaultValue)
     }
 
-    static addAttr(attrName: string, defaultValue: IValue | IValueFunction, fn?: IAttrDecorator): void {
+    static addAttr(attrName: string, defaultValue: IValue | IValueFunction, fn?: IAttrDecorator, helpValue?: IValue): void {
         if (!fn) fn = boundsType
-        fn(defaultValue)(this.prototype, attrName)
+        fn(defaultValue, helpValue)(this.prototype, attrName)
     }
 
 
