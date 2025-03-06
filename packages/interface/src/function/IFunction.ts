@@ -1,4 +1,4 @@
-import { IObject } from '../data/IData'
+import { IObject, IValue } from '../data/IData'
 import { IPointData } from '../math/IMath'
 
 export interface IFunction {
@@ -15,6 +15,10 @@ export interface IStringFunction {
 
 export interface IObjectFunction {
     (...arg: any): IObject
+}
+
+export interface IValueFunction {
+    (leaf: any): IValue
 }
 
 export interface IPointDataFunction {

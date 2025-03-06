@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
@@ -255,11 +255,12 @@ function getSetMethodName(key: string): string {
 
 
 // define leaf.__[key] getter/setter
-export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: IValue): void {
+export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: IValue | IValueFunction): void {
 
     const data = target.__DataProcessor.prototype
     const computedKey = '_' + key
     const setMethodName = getSetMethodName(key)
+    const { clone } = DataHelper
 
     const property: IObject & ThisType<ILeafData> = {
         get() {
@@ -273,8 +274,13 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
 
     if (defaultValue === undefined) {
         property.get = function () { return this[computedKey] }
+    } else if (typeof defaultValue === 'function') {
+        property.get = function () {
+            let v = this[computedKey]
+            if (v === undefined) this[computedKey] = v = defaultValue(this)
+            return v
+        }
     } else if (typeof defaultValue === 'object') {
-        const { clone } = DataHelper
         property.get = function () {
             let v = this[computedKey]
             if (v === undefined) this[computedKey] = v = clone(defaultValue)
