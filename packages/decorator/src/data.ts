@@ -1,5 +1,4 @@
 import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction } from '@leafer/interface'
-import { DataHelper } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 import { defineKey, getDescriptor } from './object'
@@ -260,7 +259,6 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     const data = target.__DataProcessor.prototype
     const computedKey = '_' + key
     const setMethodName = getSetMethodName(key)
-    const { clone } = DataHelper
 
     const property: IObject & ThisType<ILeafData> = {
         get() {
