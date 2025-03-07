@@ -89,6 +89,7 @@ export interface ILeaferAttrData {
 
     getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
     getPagePointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
+    getClientPointByWorld(worldPoint: IPointData): IPointData
     updateClientBounds(): void
 
     receiveEvent(event: any): void
