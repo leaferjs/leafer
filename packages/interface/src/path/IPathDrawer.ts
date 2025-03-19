@@ -1,4 +1,5 @@
 import { IPathCommandData } from './IPathCommand'
+import { IPointData } from '../math/IMath'
 export interface IPathDrawer {
     beginPath?(): void
 
@@ -38,7 +39,7 @@ export interface IPathCreator extends IPathDrawer {
     // new
     drawEllipse(x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
     drawArc(x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): IPathCreator
-    drawPoints(points: number[], curve?: boolean | number, close?: boolean): IPathCreator
+    drawPoints(points: number[] | IPointData[], curve?: boolean | number, close?: boolean): IPathCreator
 
     clearPath(): IPathCreator
 }
