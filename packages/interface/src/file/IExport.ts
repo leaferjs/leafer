@@ -20,6 +20,7 @@ export interface IExportOptions {
     relative?: ILocationType | ILeaf
     json?: IJSONOptions
     contextSettings?: ICanvasContext2DSettings
+    canvas?: ILeaferCanvas
     onCanvas?: IExportOnCanvasFunction
 }
 
