@@ -275,8 +275,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     } else if (typeof defaultValue === 'function') {
         property.get = function () {
             let v = this[computedKey]
-            if (v === undefined) this[computedKey] = v = defaultValue((this as ILeafData).__leaf)
-            return v
+            return v === undefined ? defaultValue((this as ILeafData).__leaf) : v
         }
     }
 
