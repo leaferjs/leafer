@@ -51,7 +51,6 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     constructor(config?: ILeaferCanvasConfig, manager?: ICanvasManager) {
         super()
         if (!config) config = minSize
-        if (!config.pixelRatio) config.pixelRatio = Platform.devicePixelRatio
 
         this.manager = manager
         this.innerId = IncrementId.create(IncrementId.CNAVAS)
@@ -59,7 +58,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         const { width, height, pixelRatio } = config
         this.autoLayout = !width || !height
 
-        this.size.pixelRatio = pixelRatio
+        this.size.pixelRatio = pixelRatio | Platform.devicePixelRatio
         this.config = config
 
         this.init()
@@ -307,7 +306,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public isSameSize(size: IScreenSizeData): boolean {
-        return this.width === size.width && this.height === size.height && this.pixelRatio === size.pixelRatio
+        return this.width === size.width && this.height === size.height && (!size.pixelRatio || this.pixelRatio === size.pixelRatio)
     }
 
     // 需要有 manager变量

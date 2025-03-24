@@ -157,7 +157,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
             // check devicePixelRatio change
             window.addEventListener('resize', this.windowListener = () => {
                 const pixelRatio = Platform.devicePixelRatio
-                if (this.pixelRatio !== pixelRatio) {
+                if (!this.config.pixelRatio && this.pixelRatio !== pixelRatio) {
                     const { width, height } = this
                     this.emitResize({ width, height, pixelRatio })
                 }
@@ -177,7 +177,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     protected checkAutoBounds(parentSize: ISizeData): void {
         const view = this.view
         const { x, y, width, height } = this.autoBounds.getBoundsFrom(parentSize)
-        const size = { width, height, pixelRatio: Platform.devicePixelRatio } as IScreenSizeData
+        const size = { width, height, pixelRatio: this.config.pixelRatio ? this.pixelRatio : Platform.devicePixelRatio } as IScreenSizeData
         if (!this.isSameSize(size)) {
             const { style } = view
             style.marginLeft = x + 'px'
