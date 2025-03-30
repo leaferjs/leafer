@@ -15,3 +15,7 @@ export const emptyData: IObject = {}
 export function isNull(value: any): boolean {
     return value === undefined || value === null
 }
+
+export function isEmptyData(value: any): boolean {
+    return JSON.stringify(value) === '{}'
+}
