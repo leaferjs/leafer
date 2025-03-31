@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
 
 const { round, pow, PI } = Math
 
@@ -62,11 +62,12 @@ export const MathHelper = {
         return num === -0 ? 0 : num
     },
 
-    getScaleData(scale: number | IPointData, size: number | ISizeData, originSize: ISizeData, scaleData?: IScaleData): IScaleData {
+    getScaleData(scale: number | IPointData, size: number | IOptionSizeData, originSize: ISizeData, scaleData?: IScaleData): IScaleData {
         if (!scaleData) scaleData = {} as IScaleData
         if (size) {
-            scaleData.scaleX = (typeof size === 'number' ? size : size.width) / originSize.width
-            scaleData.scaleY = (typeof size === 'number' ? size : size.height) / originSize.height
+            const scaleX = (typeof size === 'number' ? size : size.width || 0) / originSize.width, scaleY = (typeof size === 'number' ? size : size.height || 0) / originSize.height
+            scaleData.scaleX = scaleX || scaleY || 1
+            scaleData.scaleY = scaleY || scaleX || 1
         } else if (scale) MathHelper.assignScale(scaleData, scale)
         return scaleData
     },

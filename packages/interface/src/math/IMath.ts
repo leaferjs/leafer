@@ -63,6 +63,12 @@ export interface ISizeData {
     width: number
     height: number
 }
+
+export interface IOptionSizeData {
+    width?: number
+    height?: number
+}
+
 export interface ISize extends ISizeData {
 
 }
