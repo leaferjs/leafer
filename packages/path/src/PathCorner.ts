@@ -5,7 +5,7 @@ import { PathCommandMap as Command, PathNumberCommandLengthMap } from './PathCom
 import { PathCommandDataHelper } from './PathCommandDataHelper'
 
 
-const { M, L, C, Z } = Command
+const { M, L, Z } = Command
 const { getCenterX, getCenterY } = PointHelper
 const { arcTo } = PathCommandDataHelper
 

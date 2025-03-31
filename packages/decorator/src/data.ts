@@ -286,25 +286,26 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
         }
     }
 
+    const isBox = target.isBranchLeaf // 仅用于 width / height
     if (key === 'width') {
         property.get = function () {
             const v = this[computedKey]
             if (v === undefined) {
-                const t = this as ILeafData
-                return (t as IObject)._height && t.__naturalWidth && t.__useNaturalRatio ? (t as IObject)._height * t.__naturalWidth / t.__naturalHeight : t.__naturalWidth || defaultValue
-            } else {
-                return v
-            }
+                const t = this as ILeafData, naturalWidth = t.__naturalWidth, leaf = t.__leaf
+                if (!defaultValue || leaf.pathInputed) return leaf.boxBounds.width
+                if (naturalWidth) return (t as IObject)._height && t.__useNaturalRatio ? (t as IObject)._height * naturalWidth / t.__naturalHeight : naturalWidth
+                return (isBox && leaf.children.length) ? leaf.boxBounds.width : defaultValue // 返回 Box / Group / Text 等的实际宽度
+            } else return v
         }
     } else if (key === 'height') {
         property.get = function () {
             const v = this[computedKey]
             if (v === undefined) {
-                const t = this as ILeafData
-                return (t as IObject)._width && t.__naturalHeight && t.__useNaturalRatio ? (t as IObject)._width * t.__naturalHeight / t.__naturalWidth : t.__naturalHeight || defaultValue
-            } else {
-                return v
-            }
+                const t = this as ILeafData, naturalHeight = t.__naturalHeight, leaf = t.__leaf
+                if (!defaultValue || leaf.pathInputed) return leaf.boxBounds.height
+                if (naturalHeight) return (t as IObject)._width && t.__useNaturalRatio ? (t as IObject)._width * naturalHeight / t.__naturalWidth : naturalHeight
+                return (isBox && leaf.children.length) ? leaf.boxBounds.height : defaultValue // 返回 Box / Group / Text 等的实际高度
+            } else return v
         }
     }
 
