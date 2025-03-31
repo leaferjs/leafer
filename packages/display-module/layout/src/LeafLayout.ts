@@ -122,7 +122,11 @@ export class LeafLayout implements ILeafLayout {
         } else {
             let root = this.leaf
             while (root.parent && !root.parent.leafer) { root = root.parent }
-            Platform.layout(root)
+            const r = root as any
+            if (r.__fullLayouting) return // fix: 循环
+            r.__fullLayouting = true
+            Platform.layout(r)
+            delete r.__fullLayouting
         }
     }
 
