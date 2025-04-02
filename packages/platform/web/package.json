@@ -18,11 +18,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "workspace:*",
-    "@leafer/canvas-web": "workspace:*",
-    "@leafer/image-web": "workspace:*"
+    "@leafer/core": "1.5.3",
+    "@leafer/canvas-web": "1.5.3",
+    "@leafer/image-web": "1.5.3"
   },
   "devDependencies": {
-     "@leafer/interface": "workspace:*"
+     "@leafer/interface": "1.5.3"
   }
 }

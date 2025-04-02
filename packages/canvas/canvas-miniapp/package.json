@@ -18,13 +18,13 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/canvas": "workspace:*",
-    "@leafer/data": "workspace:*",
-    "@leafer/event": "workspace:*",
-    "@leafer/platform": "workspace:*",
-    "@leafer/debug": "workspace:*"
+    "@leafer/canvas": "1.5.3",
+    "@leafer/data": "1.5.3",
+    "@leafer/event": "1.5.3",
+    "@leafer/platform": "1.5.3",
+    "@leafer/debug": "1.5.3"
   },
   "devDependencies": {
-     "@leafer/interface": "workspace:*"
+     "@leafer/interface": "1.5.3"
   }
 }

@@ -18,10 +18,10 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/layouter": "workspace:*",
-    "@leafer/debug": "workspace:*"
+    "@leafer/layouter": "1.5.3",
+    "@leafer/debug": "1.5.3"
   },
   "devDependencies": {
-     "@leafer/interface": "workspace:*"
+     "@leafer/interface": "1.5.3"
   }
 }

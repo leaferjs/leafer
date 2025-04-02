@@ -18,15 +18,15 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/file": "workspace:*",
-    "@leafer/list": "workspace:*",
-    "@leafer/math": "workspace:*",
-    "@leafer/data": "workspace:*",
-    "@leafer/path": "workspace:*",
-    "@leafer/debug": "workspace:*",
-    "@leafer/platform": "workspace:*"
+    "@leafer/file": "1.5.3",
+    "@leafer/list": "1.5.3",
+    "@leafer/math": "1.5.3",
+    "@leafer/data": "1.5.3",
+    "@leafer/path": "1.5.3",
+    "@leafer/debug": "1.5.3",
+    "@leafer/platform": "1.5.3"
   },
   "devDependencies": {
-     "@leafer/interface": "workspace:*"
+     "@leafer/interface": "1.5.3"
   }
 }
