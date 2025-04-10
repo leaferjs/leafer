@@ -13,6 +13,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     canvas?: string | IObject
     fill?: string
     pixelRatio?: number
+    pixelSnap?: boolean // 是否对齐像素，避免图片存在浮点坐标导致模糊
     smooth?: boolean
     hittable?: boolean
     webgl?: boolean
