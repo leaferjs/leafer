@@ -117,6 +117,7 @@ export type IBlendMode =
     | 'destination-out'
     | 'destination-atop'
     | 'xor'
+    | 'copy'
 
 export type IEditSize = 'size' | 'font-size' | 'scale'
 export interface IImageCursor {
