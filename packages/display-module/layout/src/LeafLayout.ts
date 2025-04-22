@@ -102,10 +102,12 @@ export class LeafLayout implements ILeafLayout {
 
     constructor(leaf: ILeaf) {
         this.leaf = leaf
-        this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
         if (this.leaf.__local) this._localRenderBounds = this._localStrokeBounds = this.leaf.__local
-        this.boxChange()
-        this.matrixChange()
+        if (leaf.__world) {
+            this.boxBounds = { x: 0, y: 0, width: 0, height: 0 }
+            this.boxChange()
+            this.matrixChange()
+        }
     }
 
     public createLocal(): void {

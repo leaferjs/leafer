@@ -115,10 +115,13 @@ export class Leaf implements ILeaf {
     public reset(data?: ILeafInputData): void {
         if (this.leafer) this.leafer.forceRender(this.__world) // fix: add old bounds rendering
 
-        this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1 }
-        if (data !== null) this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
+        if (data as any !== 0) {  // 设为 0 时可用于 text boxStyle 节省开销
+            this.__world = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0, scaleX: 1, scaleY: 1 }
 
-        this.__worldOpacity = 1
+            if (data !== null) this.__local = { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, x: 0, y: 0, width: 0, height: 0 }
+
+            this.__worldOpacity = 1
+        }
 
         this.__ = new this.__DataProcessor(this)
         this.__layout = new this.__LayoutProcessor(this)
@@ -561,7 +564,7 @@ export class Leaf implements ILeaf {
 
     public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+    public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions, _originCanvas?: ILeaferCanvas): void { }
 
 
     public __clip(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
