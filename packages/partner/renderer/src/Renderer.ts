@@ -1,4 +1,4 @@
-import { ILeaf, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
+import { ILeaf, ILeaferBase, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
 import { LayoutEvent, RenderEvent, ResizeEvent, ImageManager, Bounds, DataHelper, Platform, Debug, Run } from '@leafer/core'
 
 
@@ -60,6 +60,13 @@ export class Renderer implements IRenderer {
         this.target.emit(LayoutEvent.REQUEST)
     }
 
+    public checkRender(): void {
+        if (this.running) {
+            if (this.changed && this.canvas.view) this.render()
+            this.target.emit(RenderEvent.NEXT)
+        }
+    }
+
     public render(callback?: IFunction): void {
         if (!(this.running && this.canvas.view)) return this.update()
 
@@ -70,7 +77,6 @@ export class Renderer implements IRenderer {
         debug.log(target.innerName, '--->')
 
         try {
-            if (!target.isApp) target.app.emit(RenderEvent.CHILD_START, target)
             this.emitRender(RenderEvent.START)
             this.renderOnce(callback)
             this.emitRender(RenderEvent.END, this.totalBounds)
@@ -217,17 +223,27 @@ export class Renderer implements IRenderer {
     }
 
     protected __requestRender(): void {
+        const target = this.target as ILeaferBase
+        if (target.parentApp) return target.parentApp.renderer.update(false) // App 模式下统一走 app 控制渲染帧
         if (this.requestTime) return
 
         const requestTime = this.requestTime = Date.now()
         Platform.requestRender(() => {
+
             this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - requestTime)))
             this.requestTime = 0
 
-            if (this.running) {
-                if (this.changed && this.canvas.view) this.render()
-                this.target.emit(RenderEvent.NEXT)
+            if (target.isApp) {
+                target.emit(RenderEvent.CHILD_START, target);
+                (target.children as ILeaferBase[]).forEach(leafer => {
+                    leafer.renderer.FPS = this.FPS
+                    leafer.renderer.checkRender()
+                })
+                target.emit(RenderEvent.CHILD_END, target)
             }
+
+            this.checkRender()
+
         })
     }
 

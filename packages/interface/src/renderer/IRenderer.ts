@@ -40,6 +40,7 @@ export interface IRenderer extends IControl {
 
     requestLayout(): void
 
+    checkRender(): void
     render(callback?: IFunction): void
     renderAgain(): void
     renderOnce(callback?: IFunction): void
