@@ -99,9 +99,6 @@ export class Leaf implements ILeaf {
     // branch 
     public children?: ILeaf[]
 
-    // other
-    public noBounds?: boolean
-
     public destroyed: boolean
 
 

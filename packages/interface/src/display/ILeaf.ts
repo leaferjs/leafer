@@ -310,9 +310,6 @@ export interface ILeafInputData extends ILeafAttrData {
     tag?: string
 
     children?: ILeafInputData[]
-
-    // other
-    noBounds?: boolean
 }
 
 export interface ILeafComputedData {
