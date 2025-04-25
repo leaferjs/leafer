@@ -1,4 +1,4 @@
-import { IResizeEvent, IScreenSizeData } from '@leafer/interface'
+import { ILeaf, INumberMap, IResizeEvent, IScreenSizeData } from '@leafer/interface'
 
 import { Event } from './Event'
 
@@ -6,6 +6,8 @@ import { Event } from './Event'
 export class ResizeEvent extends Event implements IResizeEvent {
 
     static RESIZE: string = 'resize'
+
+    static resizingKeys: INumberMap // resize编辑中的元素 LeafList 键表
 
     readonly width: number
     readonly height: number
@@ -36,6 +38,10 @@ export class ResizeEvent extends Event implements IResizeEvent {
             super(size)
         }
         this.old = oldSize
+    }
+
+    static isResizing(leaf: ILeaf): boolean {
+        return this.resizingKeys && this.resizingKeys[leaf.innerId] !== undefined
     }
 
 }

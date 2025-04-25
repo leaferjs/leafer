@@ -6,7 +6,7 @@ import { TaskProcessor } from '@leafer/task'
 
 export const ImageManager: IImageManager = {
 
-    maxRecycled: 100,
+    maxRecycled: 10,
 
     recycledList: [],
 
