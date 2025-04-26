@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfPixelData } from '@leafer/interface'
 import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -6,7 +6,7 @@ import { DataHelper } from '@leafer/data'
 import { Canvas } from './Canvas'
 
 
-const { copy } = MatrixHelper
+const { copy, multiplyParent } = MatrixHelper, { round } = Math
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
 
 export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
@@ -126,32 +126,24 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public setCursor(_cursor: ICursorType | ICursorType[]): void { }
 
-    public setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void {
-        const { pixelRatio } = this
-        const w = this.worldTransform
-        if (parentMatrix) {
+    public setWorld(matrix: IMatrixWithOptionHalfPixelData, parentMatrix?: IMatrixData): void {
+        const { pixelRatio } = this.size, w = this.worldTransform
 
-            const { a, b, c, d, e, f } = parentMatrix
-            this.setTransform(
-                w.a = ((matrix.a * a) + (matrix.b * c)) * pixelRatio,
-                w.b = ((matrix.a * b) + (matrix.b * d)) * pixelRatio,
-                w.c = ((matrix.c * a) + (matrix.d * c)) * pixelRatio,
-                w.d = ((matrix.c * b) + (matrix.d * d)) * pixelRatio,
-                w.e = (((matrix.e * a) + (matrix.f * c) + e)) * pixelRatio,
-                w.f = (((matrix.e * b) + (matrix.f * d) + f)) * pixelRatio
-            )
+        if (parentMatrix) multiplyParent(matrix, parentMatrix, w)
 
-        } else {
+        w.a = matrix.a * pixelRatio
+        w.b = matrix.b * pixelRatio
+        w.c = matrix.c * pixelRatio
+        w.d = matrix.d * pixelRatio
+        w.e = matrix.e * pixelRatio
+        w.f = matrix.f * pixelRatio
 
-            this.setTransform(
-                w.a = matrix.a * pixelRatio,
-                w.b = matrix.b * pixelRatio,
-                w.c = matrix.c * pixelRatio,
-                w.d = matrix.d * pixelRatio,
-                w.e = matrix.e * pixelRatio,
-                w.f = matrix.f * pixelRatio
-            )
+        if (this.config.pixelSnap) {
+            if (matrix.half) w.e = round(w.e + 0.5) - 0.5, w.f = round(w.f + 0.5) - 0.5
+            else w.e = round(w.e), w.f = round(w.f)
         }
+
+        this.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
     }
 
     public useWorldTransform(worldTransform?: IMatrixData): void {

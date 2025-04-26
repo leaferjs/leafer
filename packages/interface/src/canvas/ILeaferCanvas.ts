@@ -13,7 +13,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     canvas?: string | IObject
     fill?: string
     pixelRatio?: number
-    pixelSnap?: boolean // 是否对齐像素，避免图片存在浮点坐标导致模糊
+    pixelSnap?: boolean // 是否对齐像素，避免图片/居中线条存在浮点坐标导致模糊
     smooth?: boolean
     hittable?: boolean
     webgl?: boolean
@@ -150,10 +150,10 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     manager: ICanvasManager
 
-    width: number
-    height: number
+    readonly width: number
+    readonly height: number
 
-    pixelRatio: number
+    readonly pixelRatio: number
     readonly pixelWidth: number
     readonly pixelHeight: number
 
@@ -198,7 +198,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     getClientBounds(update?: boolean): IBoundsData
 
     // other
-    isSameSize(options: ILeaferCanvasConfig): boolean
+    isSameSize(canvas: IScreenSizeData): boolean
     getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas
     recycle(clearBounds?: IBoundsData): void
 

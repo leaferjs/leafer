@@ -334,9 +334,10 @@ export class Leaf implements ILeaf {
     public __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData {
         if (options.matrix) {
             if (!this.__cameraWorld) this.__cameraWorld = {} as IMatrixWithBoundsScaleData
-            const cameraWorld = this.__cameraWorld
-            multiplyParent(this.__world, options.matrix, cameraWorld, undefined, this.__world)
+            const cameraWorld = this.__cameraWorld, world = this.__world
+            multiplyParent(world, options.matrix, cameraWorld, undefined, world)
             toOuterOf(this.__layout.renderBounds, cameraWorld, cameraWorld)
+            cameraWorld.half !== world.half && (cameraWorld.half = world.half)
             return cameraWorld
         } else {
             return this.__world

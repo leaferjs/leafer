@@ -102,6 +102,7 @@ export interface IInteractionConfig {
     eventer?: IObject
     cursor?: boolean
     keyEvent?: boolean
+    pointRound?: boolean // 是否对交互操作坐标进行取整
 }
 
 export interface IZoomConfig {
