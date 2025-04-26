@@ -5,7 +5,7 @@ import { MatrixHelper as M } from './MatrixHelper'
 
 
 const { toInnerPoint, toOuterPoint } = M
-const { sin, cos, abs, sqrt, atan2, min, PI } = Math
+const { sin, cos, abs, sqrt, atan2, min, round, PI } = Math
 
 
 export const PointHelper = {
@@ -33,6 +33,11 @@ export const PointHelper = {
     copyFrom(t: IPointData, x: number, y: number): void {
         t.x = x
         t.y = y
+    },
+
+    round(t: IPointData): void {
+        t.x = round(t.x)
+        t.y = round(t.y)
     },
 
     move(t: IPointData, x: number, y: number): void {
