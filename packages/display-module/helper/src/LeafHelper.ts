@@ -3,7 +3,7 @@ import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, Bou
 
 
 const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
-const matrix = {} as IMatrixData
+const matrix = {} as IMatrixData, { round } = Math
 
 export const LeafHelper = {
 
@@ -86,6 +86,7 @@ export const LeafHelper = {
         if (typeof x === 'object') y = x.y, x = x.x
         x += t.x
         y += t.y
+        if (t.leafer && t.leafer.config.pointSnap) x = round(x), y = round(y)
         transition ? t.animate({ x, y }, transition) : (t.x = x, t.y = y)
     },
 
