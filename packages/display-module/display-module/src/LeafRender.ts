@@ -1,4 +1,5 @@
 import { ILeaferCanvas, IRenderOptions, ILeafRenderModule } from '@leafer/interface'
+import { Debug } from '@leafer/debug'
 
 
 export const LeafRender: ILeafRenderModule = {
@@ -29,6 +30,8 @@ export const LeafRender: ILeafRenderModule = {
                 this.__draw(canvas, options)
 
             }
+
+            if (Debug.showBounds) Debug.drawBounds(this, canvas, options)
 
         }
     },

@@ -28,6 +28,9 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public get pixelWidth(): number { return this.width * this.pixelRatio }
     public get pixelHeight(): number { return this.height * this.pixelRatio }
 
+    public get pixelSnap(): boolean { return this.config.pixelSnap }
+    public set pixelSnap(value: boolean) { this.config.pixelSnap = value }
+
     public get allowBackgroundColor(): boolean { return this.view && this.parentView }
 
     public bounds: IBounds
@@ -127,7 +130,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public setCursor(_cursor: ICursorType | ICursorType[]): void { }
 
     public setWorld(matrix: IMatrixWithOptionHalfPixelData, parentMatrix?: IMatrixData): void {
-        const { pixelRatio } = this.size, w = this.worldTransform
+        const { pixelRatio, pixelSnap } = this, w = this.worldTransform
 
         if (parentMatrix) multiplyParent(matrix, parentMatrix, w)
 
@@ -138,8 +141,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         w.e = matrix.e * pixelRatio
         w.f = matrix.f * pixelRatio
 
-        if (this.config.pixelSnap) {
-            if (matrix.half) w.e = round(w.e + 0.5) - 0.5, w.f = round(w.f + 0.5) - 0.5
+        if (pixelSnap) {
+            if (matrix.half && pixelRatio === 1) w.e = round(w.e - 0.5) + 0.5, w.f = round(w.f - 0.5) + 0.5
             else w.e = round(w.e), w.f = round(w.f)
         }
 
@@ -303,12 +306,12 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     // 需要有 manager变量
     public getSameCanvas(useSameWorldTransform?: boolean, useSameSmooth?: boolean): ILeaferCanvas {
-        const canvas = this.manager ? this.manager.get(this.size) : Creator.canvas({ ...this.size })
+        const { size, pixelSnap } = this, canvas = this.manager ? this.manager.get(size) : Creator.canvas({ ...size })
         canvas.save()
-
 
         if (useSameWorldTransform) copy(canvas.worldTransform, this.worldTransform), canvas.useWorldTransform()
         if (useSameSmooth) canvas.smooth = this.smooth
+        canvas.pixelSnap !== pixelSnap && (canvas.pixelSnap = pixelSnap)
 
         return canvas
     }

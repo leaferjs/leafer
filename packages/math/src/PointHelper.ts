@@ -35,9 +35,9 @@ export const PointHelper = {
         t.y = y
     },
 
-    round(t: IPointData): void {
-        t.x = round(t.x)
-        t.y = round(t.y)
+    round(t: IPointData, halfPixel?: boolean): void {
+        t.x = halfPixel ? round(t.x - 0.5) + 0.5 : round(t.x)
+        t.y = halfPixel ? round(t.y - 0.5) + 0.5 : round(t.y)
     },
 
     move(t: IPointData, x: number, y: number): void {

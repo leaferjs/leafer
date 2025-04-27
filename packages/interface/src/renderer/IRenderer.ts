@@ -48,9 +48,6 @@ export interface IRenderer extends IControl {
     clipRender(bounds: IBounds): void
     fullRender(): void
 
-    renderHitView(options: IRenderOptions): void
-    renderBoundsView(options: IRenderOptions): void
-
     addBlock(block: IBounds): void
     mergeBlocks(): void
 }

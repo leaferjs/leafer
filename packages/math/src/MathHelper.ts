@@ -79,8 +79,17 @@ export const MathHelper = {
             scaleData.scaleX = scale.x
             scaleData.scaleY = scale.y
         }
-    }
+    },
 
+    randInt,
+
+    randColor(opacity?: number): string {
+        return `rgba(${randInt(255)},${randInt(255)},${randInt(255)},${opacity || 1})`
+    }
+}
+
+function randInt(num: number): number {
+    return Math.round(Math.random() * num)
 }
 
 export const OneRadian = PI / 180

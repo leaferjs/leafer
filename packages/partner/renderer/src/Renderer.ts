@@ -26,6 +26,8 @@ export class Renderer implements IRenderer {
         maxFPS: 60
     }
 
+    static clipSpread = 10
+
     protected renderBounds: IBounds
     protected renderOptions: IRenderOptions
     protected totalBounds: IBounds
@@ -152,23 +154,15 @@ export class Renderer implements IRenderer {
 
     public clipRender(block: IBounds): void {
         const t = Run.start('PartRender')
-        const { canvas } = this
-
-        const bounds = block.getIntersect(canvas.bounds)
-        const includes = block.includes(this.target.__world)
-        const realBounds = new Bounds(bounds)
+        const { canvas } = this, bounds = block.getIntersect(canvas.bounds), realBounds = new Bounds(bounds)
 
         canvas.save()
 
-        if (includes && !Debug.showRepaint) {
-            canvas.clear()
-        } else {
-            bounds.spread(10 + 1 / this.canvas.pixelRatio).ceil()
-            canvas.clearWorld(bounds, true)
-            canvas.clipWorld(bounds, true)
-        }
+        bounds.spread(Renderer.clipSpread).ceil()
+        canvas.clearWorld(bounds, true)
+        canvas.clipWorld(bounds, true)
 
-        this.__render(bounds, includes, realBounds)
+        this.__render(bounds, block.includes(this.target.__world), realBounds)
         canvas.restore()
 
         Run.end(t)
@@ -187,25 +181,19 @@ export class Renderer implements IRenderer {
     }
 
     protected __render(bounds: IBounds, includes?: boolean, realBounds?: IBounds,): void {
-        const options: IRenderOptions = bounds.includes(this.target.__world) ? { includes } : { bounds, includes }
+        const { canvas } = this, options: IRenderOptions = includes ? { includes } : { bounds, includes }
 
-        if (this.needFill) this.canvas.fillWorld(bounds, this.config.fill)
-        if (Debug.showRepaint) this.canvas.strokeWorld(bounds, 'red')
+        if (this.needFill) canvas.fillWorld(bounds, this.config.fill)
+        if (Debug.showRepaint) Debug.drawRepaint(canvas, bounds)
 
-        this.target.__render(this.canvas, options)
+        this.target.__render(canvas, options)
 
         this.renderBounds = realBounds = realBounds || bounds
         this.renderOptions = options
         this.totalBounds.isEmpty() ? this.totalBounds = realBounds : this.totalBounds.add(realBounds)
 
-        if (Debug.showHitView) this.renderHitView(options)
-        if (Debug.showBoundsView) this.renderBoundsView(options)
-        this.canvas.updateRender(realBounds)
+        canvas.updateRender(realBounds)
     }
-
-    public renderHitView(_options: IRenderOptions): void { }
-
-    public renderBoundsView(_options: IRenderOptions): void { }
 
     public addBlock(block: IBounds): void {
         if (!this.updateBlocks) this.updateBlocks = []

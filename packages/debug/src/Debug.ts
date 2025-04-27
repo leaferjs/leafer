@@ -1,5 +1,8 @@
-import { IBooleanMap } from '@leafer/interface'
+import { IBooleanMap, IBoundsData, ILeaferCanvas, IRenderOptions, ILeaf } from '@leafer/interface'
+import { MathHelper } from '@leafer/math'
 
+
+const { randColor } = MathHelper
 export class Debug {
 
     static enable: boolean
@@ -9,9 +12,8 @@ export class Debug {
 
     // other
     static showWarn = true
-    static showRepaint: boolean
-    static showHitView: boolean | string | string[]
-    static showBoundsView: boolean | string | string[]
+    static showRepaint: boolean | string
+    static showBounds: boolean | string | 'hit'
 
     public name: string
 
@@ -31,6 +33,21 @@ export class Debug {
 
     static set exclude(name: string | string[]) {
         this.excludeList = getNameList(name)
+    }
+
+    static drawRepaint(canvas: ILeaferCanvas, bounds: IBoundsData): void {
+        const color = randColor()
+        canvas.fillWorld(bounds, color.replace('1)', '.1)'))
+        canvas.strokeWorld(bounds, color)
+    }
+
+    static drawBounds(leaf: ILeaf, canvas: ILeaferCanvas, _options: IRenderOptions): void {
+        const showHit = Debug.showBounds === 'hit', w = leaf.__nowWorld, color = randColor()
+        if (showHit) canvas.setWorld(w), leaf.__drawHitPath(canvas), canvas.fillStyle = color.replace('1)', '.2)'), canvas.fill()
+
+        canvas.resetTransform()
+        canvas.setStroke(color, 2)
+        showHit ? canvas.stroke() : canvas.strokeWorld(w, color)
     }
 
 
