@@ -219,12 +219,16 @@ export interface ILeafAttrData {
     className?: IString
 
     blendMode?: IBlendMode
+
     opacity?: INumber
     visible?: IBoolean | 0 // 0 = display: none
     selected?: IBoolean
     disabled?: IBoolean
     locked?: IBoolean
     zIndex?: INumber
+
+    dim?: IBoolean | INumber // 是否弱化内容，可设置具体透明度
+    bright?: IBoolean // 突出显示内容，不受dim影响
 
     mask?: IBoolean | IMaskType
     eraser?: IBoolean | IEraserType
@@ -325,6 +329,9 @@ export interface ILeafComputedData {
     disabled?: boolean
     locked?: boolean
     zIndex?: number
+
+    dim?: boolean | number // 是否弱化内容，可设置具体透明度
+    bright?: boolean // 突出显示内容，不受dim影响
 
     mask?: boolean | IMaskType
     eraser?: boolean | IEraserType

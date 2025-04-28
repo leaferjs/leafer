@@ -23,9 +23,14 @@ export const BranchRender: IBranchRenderModule = {
 
         if (this.__worldOpacity) {
 
-            if (this.__.__single) {
+            const data = this.__
 
-                if (this.__.eraser === 'path') return this.__renderEraser(canvas, options)
+            if (data.dim) options.dimOpacity = data.dim === true ? 0.1 : data.dim
+            else if (data.bright) options.dimOpacity && (options.dimOpacity = 0)
+
+            if (data.__single) {
+
+                if (data.eraser === 'path') return this.__renderEraser(canvas, options)
 
                 const tempCanvas = canvas.getSameCanvas(false, true)
 
@@ -33,8 +38,8 @@ export const BranchRender: IBranchRenderModule = {
 
                 const nowWorld = this.__nowWorld
 
-                canvas.opacity = this.__.opacity
-                canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, this.__.__blendMode, true)
+                canvas.opacity = options.dimOpacity ? data.opacity * options.dimOpacity : data.opacity
+                canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, data.__blendMode, true)
 
                 tempCanvas.recycle(nowWorld)
 

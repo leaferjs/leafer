@@ -10,6 +10,7 @@ export interface IRenderOptions {
     hideBounds?: IBounds,
     matrix?: IMatrixWithScaleData,
     inCamera?: boolean
+    dimOpacity?: number
 }
 
 export interface IRendererConfig {
