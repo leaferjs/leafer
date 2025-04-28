@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfPixelData } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfData } from '@leafer/interface'
 import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -129,7 +129,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public setCursor(_cursor: ICursorType | ICursorType[]): void { }
 
-    public setWorld(matrix: IMatrixWithOptionHalfPixelData, parentMatrix?: IMatrixData): void {
+    public setWorld(matrix: IMatrixWithOptionHalfData, parentMatrix?: IMatrixData): void {
         const { pixelRatio, pixelSnap } = this, w = this.worldTransform
 
         if (parentMatrix) multiplyParent(matrix, parentMatrix, w)

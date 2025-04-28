@@ -247,10 +247,10 @@ export interface IMatrixWithOptionScaleData extends IMatrixData {
     scaleY?: number
 }
 
-export interface IMatrixWithOptionHalfPixelData extends IMatrixData {
+export interface IMatrixWithOptionHalfData extends IMatrixData {
     half?: number // hasHalfPixel, 是否存在半像素（奇数线宽的居中线条），可以半像素为起点绘制，防止模糊
 }
 
-export interface IMatrixWithBoundsScaleData extends IMatrixWithOptionHalfPixelData, IBoundsData, IScaleData { }
+export interface IMatrixWithBoundsScaleData extends IMatrixWithOptionHalfData, IBoundsData, IScaleData { }
 
 export interface IMatrixWithLayoutData extends IMatrixData, ILayoutBoundsData { }
