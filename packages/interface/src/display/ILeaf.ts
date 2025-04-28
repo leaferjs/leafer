@@ -228,7 +228,7 @@ export interface ILeafAttrData {
     zIndex?: INumber
 
     dim?: IBoolean | INumber // 是否弱化内容，可设置具体透明度
-    bright?: IBoolean // 突出显示内容，不受dim影响
+    dimskip?: IBoolean //  跳过弱化，突出显示内容，不受dim影响
 
     mask?: IBoolean | IMaskType
     eraser?: IBoolean | IEraserType
@@ -331,7 +331,7 @@ export interface ILeafComputedData {
     zIndex?: number
 
     dim?: boolean | number // 是否弱化内容，可设置具体透明度
-    bright?: boolean // 突出显示内容，不受dim影响
+    dimskip?: boolean //  跳过弱化，突出显示内容，不受dim影响
 
     mask?: boolean | IMaskType
     eraser?: boolean | IEraserType

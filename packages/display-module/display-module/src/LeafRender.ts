@@ -10,7 +10,7 @@ export const LeafRender: ILeafRenderModule = {
             const data = this.__
 
             canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
-            canvas.opacity = options.dimOpacity && !data.bright ? data.opacity * options.dimOpacity : data.opacity
+            canvas.opacity = options.dimOpacity && !data.dimskip ? data.opacity * options.dimOpacity : data.opacity
 
             if (this.__.__single) {
 
