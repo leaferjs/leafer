@@ -24,6 +24,25 @@
     "engine"
   ],
   "dependencies": {
-    "@leafer/web": "1.5.3"
+    "leafer-ui": "1.5.3",
+    "@leafer/web": "1.5.3",
+    "@leafer-in/editor": "1.5.3",
+    "@leafer-in/text-editor": "1.5.3",
+    "@leafer-in/viewport": "1.5.3",
+    "@leafer-in/view": "1.5.3",
+    "@leafer-in/scroll": "1.5.3",
+    "@leafer-in/html": "1.5.3",
+    "@leafer-in/arrow": "1.5.3",
+    "@leafer-in/flow": "1.5.3",
+    "@leafer-in/animate": "1.5.3",
+    "@leafer-in/motion-path": "1.5.3",
+    "@leafer-in/state": "1.5.3",
+    "@leafer-in/robot": "1.5.3",
+    "@leafer-in/find": "1.5.3",
+    "@leafer-in/export": "1.5.3",
+    "@leafer-in/filter": "1.5.3",
+    "@leafer-in/color": "1.5.3",
+    "@leafer-in/resize": "1.5.3",
+    "@leafer-in/interface": "1.5.3"
   }
 }
