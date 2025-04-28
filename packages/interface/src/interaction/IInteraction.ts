@@ -128,6 +128,8 @@ export interface IWheelConfig {
     zoomMode?: boolean | 'mouse'
     zoomSpeed?: number // 取值范围 0 ～ 1, 默认0.5
     moveSpeed?: number
+    positiveDeltaSpeed?: number // 正数delta的滚动速度，可设为负数进行反向delta
+    negativeDeltaSpeed?: number // 负数delta的滚动速度，可设为负数进行反向delta
     rotateSpeed?: number // 取值范围 0 ～ 1, 默认0.5
     delta?: IPointData  // 以chrome为基准, 鼠标滚动一格的距离
     getScale?: INumberFunction
