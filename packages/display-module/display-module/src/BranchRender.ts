@@ -25,7 +25,7 @@ export const BranchRender: IBranchRenderModule = {
 
             const data = this.__
 
-            if (data.dim) options.dimOpacity = data.dim === true ? 0.1 : data.dim
+            if (data.dim) options.dimOpacity = data.dim === true ? 0.2 : data.dim
             else if (data.bright) options.dimOpacity && (options.dimOpacity = 0)
 
             if (data.__single) {
