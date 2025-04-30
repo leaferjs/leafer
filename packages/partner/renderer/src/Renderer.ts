@@ -64,6 +64,16 @@ export class Renderer implements IRenderer {
 
     public checkRender(): void {
         if (this.running) {
+            const { target } = this
+            if (target.isApp) {
+                target.emit(RenderEvent.CHILD_START, target);
+                (target.children as ILeaferBase[]).forEach(leafer => {
+                    leafer.renderer.FPS = this.FPS
+                    leafer.renderer.checkRender()
+                })
+                target.emit(RenderEvent.CHILD_END, target)
+            }
+
             if (this.changed && this.canvas.view) this.render()
             this.target.emit(RenderEvent.NEXT)
         }
@@ -212,23 +222,14 @@ export class Renderer implements IRenderer {
 
     protected __requestRender(): void {
         const target = this.target as ILeaferBase
-        if (target.parentApp) return target.parentApp.renderer.update(false) // App 模式下统一走 app 控制渲染帧
-        if (this.requestTime) return
+        if (this.requestTime || !target) return
+        if (target.parentApp) return target.parentApp.requestRender(false) // App 模式下统一走 app 控制渲染帧
 
         const requestTime = this.requestTime = Date.now()
         Platform.requestRender(() => {
 
             this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - requestTime)))
             this.requestTime = 0
-
-            if (target.isApp) {
-                target.emit(RenderEvent.CHILD_START, target);
-                (target.children as ILeaferBase[]).forEach(leafer => {
-                    leafer.renderer.FPS = this.FPS
-                    leafer.renderer.checkRender()
-                })
-                target.emit(RenderEvent.CHILD_END, target)
-            }
 
             this.checkRender()
 
