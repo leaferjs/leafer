@@ -172,7 +172,7 @@ export class Renderer implements IRenderer {
         canvas.clearWorld(bounds, true)
         canvas.clipWorld(bounds, true)
 
-        this.__render(bounds, block.includes(this.target.__world), realBounds)
+        this.__render(bounds, realBounds)
         canvas.restore()
 
         Run.end(t)
@@ -184,14 +184,14 @@ export class Renderer implements IRenderer {
 
         canvas.save()
         canvas.clear()
-        this.__render(canvas.bounds, true)
+        this.__render(canvas.bounds)
         canvas.restore()
 
         Run.end(t)
     }
 
-    protected __render(bounds: IBounds, includes?: boolean, realBounds?: IBounds,): void {
-        const { canvas } = this, options: IRenderOptions = includes ? { includes } : { bounds, includes }
+    protected __render(bounds: IBounds, realBounds?: IBounds): void {
+        const { canvas } = this, includes = bounds.includes(this.target.__world), options: IRenderOptions = includes ? { includes } : { bounds, includes }
 
         if (this.needFill) canvas.fillWorld(bounds, this.config.fill)
         if (Debug.showRepaint) Debug.drawRepaint(canvas, bounds)
