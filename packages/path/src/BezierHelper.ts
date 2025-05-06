@@ -254,7 +254,12 @@ export const BezierHelper = {
         const point = {} as IPointData
         getPointAndSet(t, fromX, fromY, x1, y1, x2, y2, toX, toY, point)
         return point
-    }
+    },
+
+    getDerivative(t: number, fromV: number, v1: number, v2: number, toV: number): number { // 导数
+        const o = 1 - t
+        return 3 * o * o * (v1 - fromV) + 6 * o * t * (v2 - v1) + 3 * t * t * (toV - v2)
+    },
 
 }
 
