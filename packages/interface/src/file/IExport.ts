@@ -13,6 +13,7 @@ export interface IExportOptions {
     padding?: IFourNumber
     smooth?: boolean
     pixelRatio?: number
+    clip?: IBoundsData
     slice?: boolean
     trim?: boolean
     fill?: string
