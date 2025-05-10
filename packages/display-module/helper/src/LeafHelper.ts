@@ -53,11 +53,15 @@ export const LeafHelper = {
         }
     },
 
-    updateAllChange(leaf: ILeaf): void {
-        updateAllWorldOpacity(leaf)
-
+    updateChange(leaf: ILeaf): void {
+        const layout = leaf.__layout
+        if (layout.stateStyleChanged) leaf.updateState()
+        if (layout.opacityChanged) updateAllWorldOpacity(leaf)
         leaf.__updateChange()
+    },
 
+    updateAllChange(leaf: ILeaf): void {
+        updateChange(leaf)
         if (leaf.isBranch) {
             const { children } = leaf
             for (let i = 0, len = children.length; i < len; i++) {
@@ -204,7 +208,7 @@ export const LeafHelper = {
 }
 
 const L = LeafHelper
-const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange } = L
+const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange, updateChange } = L
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {
     t.__layout.update()

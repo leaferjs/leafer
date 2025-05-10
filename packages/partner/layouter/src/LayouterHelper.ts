@@ -2,7 +2,7 @@ import { ILeafLayout, ILeafLevelList, ILeafList, ILeaf } from '@leafer/interface
 import { BranchHelper, LeafHelper } from '@leafer/core'
 
 
-const { updateAllMatrix, updateBounds: updateOneBounds, updateAllWorldOpacity } = LeafHelper
+const { updateAllMatrix, updateBounds: updateOneBounds, updateChange: updateOneChange } = LeafHelper
 const { pushAllChildBranch, pushAllParent } = BranchHelper
 
 
@@ -56,11 +56,5 @@ export function updateBounds(boundsList: ILeafLevelList): void {
 
 
 export function updateChange(updateList: ILeafList): void {
-    let layout: ILeafLayout
-    updateList.list.forEach(leaf => {
-        layout = leaf.__layout
-        if (layout.opacityChanged) updateAllWorldOpacity(leaf)
-        if (layout.stateStyleChanged) setTimeout(() => layout.stateStyleChanged && leaf.updateState())
-        leaf.__updateChange()
-    })
+    updateList.list.forEach(updateOneChange)
 }
