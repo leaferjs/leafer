@@ -6,6 +6,8 @@ import { IBoundsData, ISizeData } from '../math/IMath'
 import { IObject } from '../data/IData'
 import { ICanvasType } from '../canvas/ISkiaCanvas'
 import { ISelector } from '../selector/ISelector'
+import { IProgressFunction } from '../event/IProgress'
+
 
 export interface IPlatform {
     name?: 'web' | 'node' | 'miniapp'
@@ -37,7 +39,8 @@ export interface IPlatform {
         canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
         download(url: string, filename: string): Promise<void>
-        loadImage(url: string): Promise<any>
+        loadImage(url: string, progressFn?: IProgressFunction): Promise<any>
+        loadImageWithProgress?(url: string, progressFn?: IProgressFunction): Promise<any>
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
         Image?: any
         PointerEvent?: any

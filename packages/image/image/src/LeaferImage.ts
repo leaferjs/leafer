@@ -1,4 +1,4 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, IProgressData } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
@@ -27,6 +27,8 @@ export class LeaferImage implements ILeaferImage {
     public error: IObject
     public loading: boolean
 
+    public progress: IProgressData
+
     public use = 0
 
     public config: ILeaferImageConfig
@@ -50,7 +52,9 @@ export class LeaferImage implements ILeaferImage {
     public load(onSuccess?: IFunction, onError?: IFunction): number {
         if (!this.loading) {
             this.loading = true
-            Resource.tasker.add(async () => await Platform.origin.loadImage(this.url as string).then(img => this.setView(img)).catch((e) => {
+            let { loadImage, loadImageWithProgress } = Platform.origin, onProgress = this.config.showProgress && loadImageWithProgress && this.onProgress.bind(this)
+            if (onProgress) loadImage = loadImageWithProgress
+            Resource.tasker.add(async () => await loadImage(this.url, onProgress).then(img => this.setView(img)).catch((e) => {
                 this.error = e
                 this.onComplete(false)
             }))
@@ -74,6 +78,10 @@ export class LeaferImage implements ILeaferImage {
         this.height = img.naturalHeight || img.height
         this.view = img
         this.onComplete(true)
+    }
+
+    protected onProgress(progress: IProgressData): void {
+        this.progress = progress
     }
 
     protected onComplete(isSuccess: boolean): void {

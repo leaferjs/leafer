@@ -48,6 +48,8 @@ export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IEx
 export { InnerId, IEventer, IEventMap, IEventListener, IEventOption, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
 export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IKeepTouchData } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IWheelEvent, IKeyEvent, IImageEvent } from './event/IUIEvent'
+export { IProgressData, IProgressFunction } from './event/IProgress'
+
 export { ICursorTypeMap, ICursorRotate, ICursorRotateMap } from './interaction/ICursor'
 export { IInteraction, IInteractionCanvas, IInteractionConfig, IMoveConfig, ICursorConfig, IZoomConfig, IWheelConfig, ITouchConfig, IMultiTouchConfig, IPointerConfig } from './interaction/IInteraction'
 export { ITransformer } from './interaction/ITransformer'

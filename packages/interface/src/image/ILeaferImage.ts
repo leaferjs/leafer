@@ -4,11 +4,13 @@ import { InnerId } from '../event/IEventer'
 import { IExportFileType } from '../file/IFileType'
 import { IMatrixData } from '../math/IMath'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
+import { IProgressData } from '../event/IProgress'
 
 export interface ILeaferImageConfig {
     url: string
     thumb?: string
     format?: IExportFileType
+    showProgress?: boolean // 是否显示进度
     view?: IObject | ILeaferImage | ILeaferCanvas
 }
 
@@ -44,6 +46,7 @@ export interface ILeaferImage {
     ready: boolean
     error: IObject
     loading: boolean
+    progress: IProgressData // 加载进度
 
     use: number
     config: ILeaferImageConfig
