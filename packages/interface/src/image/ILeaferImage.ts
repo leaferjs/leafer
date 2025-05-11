@@ -46,6 +46,7 @@ export interface ILeaferImage {
     ready: boolean
     error: IObject
     loading: boolean
+    isPlacehold?: boolean // 是否显示占位符，一般在加载100ms后自动判断
     progress: IProgressData // 加载进度
 
     use: number
