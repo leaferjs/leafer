@@ -132,7 +132,7 @@ export interface ICreator {
 
     interaction?(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, options?: IInteractionConfig): IInteraction
 
-    editor?(options?: IObject): ILeaf
+    editor?(options?: IObject, app?: IAppBase): ILeaf
 }
 
 export interface IUICreator {
