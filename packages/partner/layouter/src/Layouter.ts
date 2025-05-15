@@ -187,11 +187,12 @@ export class Layouter implements ILayouter {
     }
 
     protected __listenEvents(): void {
-        const { target } = this
         this.__eventIds = [
-            target.on_(LayoutEvent.REQUEST, this.layout, this),
-            target.on_(LayoutEvent.AGAIN, this.layoutAgain, this),
-            target.on_(WatchEvent.DATA, this.__onReceiveWatchData, this)
+            this.target.on_([
+                [LayoutEvent.REQUEST, this.layout, this],
+                [LayoutEvent.AGAIN, this.layoutAgain, this],
+                [WatchEvent.DATA, this.__onReceiveWatchData, this]
+            ])
         ]
     }
 

@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -91,7 +91,7 @@ export class Leaf implements ILeaf {
     public get pathInputed(): boolean { return this.__.__pathInputed as unknown as boolean }
 
     // event
-    public set event(map: IEventMap) { this.on(map) }
+    public set event(map: IEventParamsMap) { this.on(map) }
 
     public __captureMap?: IEventListenerMap
     public __bubbleMap?: IEventListenerMap
@@ -631,15 +631,15 @@ export class Leaf implements ILeaf {
 
     // LeafEventer rewrite
 
-    public on(_type: string | string[] | IEventMap, _listener?: IEventListener, _options?: IEventOption): void { }
+    public on(_type: string | string[] | IEventParams[] | IEventParamsMap, _listener?: IEventListener, _options?: IEventOption): void { }
 
     public off(_type?: string | string[], _listener?: IEventListener, _options?: IEventOption): void { }
 
-    public on_(_type: string | string[], _listener: IEventListener, _bind?: IObject, _options?: IEventOption): IEventListenerId { return undefined }
+    public on_(_type: string | string[] | IEventParams[], _listener?: IEventListener, _bind?: IObject, _options?: IEventOption): IEventListenerId { return undefined }
 
     public off_(_id: IEventListenerId | IEventListenerId[]): void { }
 
-    public once(_type: string | string[], _listener: IEventListener, _capture?: boolean): void { }
+    public once(_type: string | string[] | IEventParams[], _listener?: IEventListener, _captureOrBind?: boolean | IObject, _capture?: boolean): void { }
 
     public emit(_type: string, _event?: IEvent | IObject, _capture?: boolean): void { }
 

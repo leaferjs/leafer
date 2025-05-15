@@ -1,4 +1,4 @@
-import { ICreator, IObject, IAppBase, ILeaf } from '@leafer/interface'
+import { ICreator, IObject, ILeaf } from '@leafer/interface'
 import { Plugin } from '@leafer/debug'
 
 

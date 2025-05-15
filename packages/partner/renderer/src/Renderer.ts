@@ -273,12 +273,13 @@ export class Renderer implements IRenderer {
     }
 
     protected __listenEvents(): void {
-        const { target } = this
         this.__eventIds = [
-            target.on_(RenderEvent.REQUEST, this.update, this),
-            target.on_(LayoutEvent.END, this.__onLayoutEnd, this),
-            target.on_(RenderEvent.AGAIN, this.renderAgain, this),
-            target.on_(ResizeEvent.RESIZE, this.__onResize, this)
+            this.target.on_([
+                [RenderEvent.REQUEST, this.update, this],
+                [LayoutEvent.END, this.__onLayoutEnd, this],
+                [RenderEvent.AGAIN, this.renderAgain, this],
+                [ResizeEvent.RESIZE, this.__onResize, this]
+            ])
         ]
     }
 

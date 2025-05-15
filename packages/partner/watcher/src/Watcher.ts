@@ -88,18 +88,16 @@ export class Watcher implements IWatcher {
         this.target.emitEvent(new WatchEvent(WatchEvent.DATA, { updatedList: this.updatedList }))
         this.__updatedList = new LeafList()
         this.totalTimes++
-        this.changed = false
-        this.hasVisible = false
-        this.hasRemove = false
-        this.hasAdd = false
+        this.changed = this.hasVisible = this.hasRemove = this.hasAdd = false
     }
 
     protected __listenEvents(): void {
-        const { target } = this
         this.__eventIds = [
-            target.on_(PropertyEvent.CHANGE, this.__onAttrChange, this),
-            target.on_([ChildEvent.ADD, ChildEvent.REMOVE], this.__onChildEvent, this),
-            target.on_(WatchEvent.REQUEST, this.__onRquestData, this)
+            this.target.on_([
+                [PropertyEvent.CHANGE, this.__onAttrChange, this],
+                [[ChildEvent.ADD, ChildEvent.REMOVE], this.__onChildEvent, this],
+                [WatchEvent.REQUEST, this.__onRquestData, this]
+            ])
         ]
     }
 
@@ -111,8 +109,7 @@ export class Watcher implements IWatcher {
         if (this.target) {
             this.stop()
             this.__removeListenEvents()
-            this.target = null
-            this.__updatedList = null
+            this.target = this.__updatedList = null
         }
     }
 

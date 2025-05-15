@@ -1,5 +1,5 @@
 import { ILeaferBase } from '../app/ILeafer'
-import { IEventer, IEventMap } from '../event/IEventer'
+import { IEventer, IEventParamsMap } from '../event/IEventer'
 
 import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
@@ -304,7 +304,7 @@ export interface ILeafAttrData {
 
     normalStyle?: IObject
 
-    event?: IEventMap
+    event?: IEventParamsMap
 
     // 预留给用户使用的数据对象
     data?: IObject

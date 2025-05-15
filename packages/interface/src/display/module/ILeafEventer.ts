@@ -1,5 +1,5 @@
 import { ILeaf } from '../ILeaf'
-import { IEventListener, IEventListenerId, IEventListenerOptions, IEventMap } from '../../event/IEventer'
+import { IEventListener, IEventListenerId, IEventListenerOptions, IEventParamsMap } from '../../event/IEventer'
 import { } from '@leafer/interface'
 import { IEvent } from '../../event/IEvent'
 import { IObject } from '../../data/IData'
@@ -7,7 +7,7 @@ import { IObject } from '../../data/IData'
 export type ILeafEventerModule = ILeafEventer & ThisType<ILeaf>
 
 export interface ILeafEventer {
-    on?(type: string | string[] | IEventMap, listener?: IEventListener, options?: IEventListenerOptions | boolean): void
+    on?(type: string | string[] | IEventParamsMap, listener?: IEventListener, options?: IEventListenerOptions | boolean): void
     off?(type?: string | string[], listener?: IEventListener, options?: IEventListenerOptions | boolean): void
     on_?(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventListenerOptions | boolean): IEventListenerId
     off_?(id: IEventListenerId | IEventListenerId[]): void

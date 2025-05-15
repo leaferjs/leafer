@@ -22,14 +22,16 @@ export interface IEventListenerMap {
     [name: string]: IEventListenerItem[]
 }
 
-export interface IEventMap {
+export interface IEventParamsMap {
     [name: string]: IEventListener | [IEventListener, IEventOption]
 }
 
+export type IEventParams = any[]
+
 export interface IEventListenerId {
-    type: string | string[]
+    type: string | string[] | IEventParams[]
     current: ILeaf
-    listener: IEventListener
+    listener?: IEventListener
     options?: IEventOption
 }
 
@@ -40,13 +42,13 @@ export interface IEventer extends ILeafEventer {
     __captureMap?: IEventListenerMap
     __bubbleMap?: IEventListenerMap
     syncEventer?: IEventer
-    event?: IEventMap
+    event?: IEventParamsMap
 
-    on(type: string | string[] | IEventMap, listener?: IEventListener, options?: IEventOption): void
+    on(type: string | string[] | IEventParams[] | IEventParamsMap, listener?: IEventListener, options?: IEventOption): void
     off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void
-    on_(type: string | string[], listener: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId
+    on_(type: string | string[] | IEventParams[], listener?: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId
     off_(id: IEventListenerId | IEventListenerId[]): void
-    once(type: string | string[], listener: IEventListener): void
+    once(type: string | string[] | IEventParams[], listener?: IEventListener, captureOrBind?: boolean | IObject, capture?: boolean): void
     emit(type: string, event?: IEvent | IObject, capture?: boolean): void
     emitEvent(event?: IEvent, capture?: boolean): void
     hasEvent(type: string, capture?: boolean): boolean
