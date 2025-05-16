@@ -4,7 +4,7 @@ import { LeafHelper } from '@leafer/helper'
 import { Platform } from '@leafer/platform'
 
 
-const { getRelativeWorld } = LeafHelper
+const { getRelativeWorld, updateBounds } = LeafHelper
 const { toOuterOf, getPoints, copy } = BoundsHelper
 const localContent = '_localContentBounds'
 const worldContent = '_worldContentBounds', worldBox = '_worldBoxBounds', worldStroke = '_worldStrokeBounds'
@@ -118,12 +118,13 @@ export class LeafLayout implements ILeafLayout {
     }
 
     public update(): void {
-        const { leafer } = this.leaf
+        const { leaf } = this, { leafer } = leaf
+        if (leaf.isApp) return updateBounds(leaf)
         if (leafer) {
             if (leafer.ready) leafer.watcher.changed && leafer.layouter.layout()
             else leafer.start()
         } else {
-            let root = this.leaf
+            let root = leaf
             while (root.parent && !root.parent.leafer) { root = root.parent }
             const r = root as any
             if (r.__fullLayouting) return // fix: 循环

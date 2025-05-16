@@ -19,7 +19,7 @@ export const Plugin = {
     },
 
     need(name: string): any {
-        console.error('please install plugin: ' + (name.includes('-x') ? '' : '@leafer-in/') + name)
+        console.error('please install and import plugin: ' + (name.includes('-x') ? '' : '@leafer-in/') + name)
     }
 
 }

@@ -153,11 +153,8 @@ export class Layouter implements ILayouter {
     static fullLayout(target: ILeaf): void {
         updateAllMatrix(target, true)
 
-        if (target.isBranch) {
-            BranchHelper.updateBounds(target)
-        } else {
-            LeafHelper.updateBounds(target)
-        }
+        if (target.isBranch) BranchHelper.updateBounds(target)
+        else LeafHelper.updateBounds(target)
 
         updateAllChange(target)
     }
