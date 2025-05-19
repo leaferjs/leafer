@@ -179,6 +179,11 @@ export const BoundsHelper = {
         return isCover ? Math.max(sw, sh) : Math.min(sw, sh)
     },
 
+    toPutPoint(t: ISizeData, put: ISizeData, putScale = 1, to: IPointData): void { // 结合 getPutScale 使用
+        to.x = (t.width - put.width * putScale) / 2
+        to.y = (t.height - put.height * putScale) / 2
+    },
+
     getSpread(t: IBoundsData, spread: IFourNumber, side?: ISide): IBoundsData {
         const n = {} as IBoundsData
         B.copyAndSpread(n, t, spread, false, side)
