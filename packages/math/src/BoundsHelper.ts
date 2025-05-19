@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, ISizeData } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -174,6 +174,10 @@ export const BoundsHelper = {
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
 
+    getPutScale(t: IBoundsData, put: ISizeData, isCover?: boolean): number {
+        const sw = t.width / put.width, sh = t.height / put.height
+        return isCover ? Math.max(sw, sh) : Math.min(sw, sh)
+    },
 
     getSpread(t: IBoundsData, spread: IFourNumber, side?: ISide): IBoundsData {
         const n = {} as IBoundsData
