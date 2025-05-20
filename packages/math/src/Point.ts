@@ -26,7 +26,7 @@ export class Point implements IPoint {
     }
 
 
-    public move(x: number, y: number): IPoint {
+    public move(x: number | IPointData, y?: number): IPoint {
         P.move(this, x, y)
         return this
     }
