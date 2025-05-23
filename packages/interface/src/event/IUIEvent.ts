@@ -71,11 +71,11 @@ export interface IDropEvent extends IPointerEvent {
     data?: IObject
 }
 
-export interface IRotateEvent extends IUIEvent {
+export interface IRotateEvent extends IPointerEvent {
     rotation: number
 }
 
-export interface IZoomEvent extends IUIEvent {
+export interface IZoomEvent extends IPointerEvent {
     scale: number
 }
 
