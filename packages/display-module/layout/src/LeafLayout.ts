@@ -372,7 +372,7 @@ export class LeafLayout implements ILeafLayout {
 
     public childrenSortChange(): void {
         if (!this.childrenSortChanged) {
-            this.childrenSortChanged = true
+            this.childrenSortChanged = this.affectChildrenSort = true
             this.leaf.forceUpdate('surface')
         }
     }
