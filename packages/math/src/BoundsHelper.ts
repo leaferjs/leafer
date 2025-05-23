@@ -1,9 +1,10 @@
-import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, ISizeData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData } from '@leafer/interface'
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
 import { PointHelper as P } from './PointHelper'
 import { MathHelper, getBoundsData } from './MathHelper'
+import { AlignHelper } from './AlignHelper'
 
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
@@ -14,10 +15,11 @@ const { floor, ceil } = Math
 let right: number, bottom: number, boundsRight: number, boundsBottom: number
 const point = {} as IPointData
 const toPoint = {} as IPointData
+const tempBounds = {} as IBoundsData
 
 export const BoundsHelper = {
 
-    tempBounds: {} as IBoundsData,
+    tempBounds,
 
     set(t: IBoundsData, x = 0, y = 0, width = 0, height = 0): void {
         t.x = x
@@ -89,8 +91,8 @@ export const BoundsHelper = {
     },
 
 
-    scale(t: IBoundsData, scaleX: number, scaleY = scaleX): void {
-        P.scale(t, scaleX, scaleY)
+    scale(t: IBoundsData, scaleX: number, scaleY = scaleX, onlySize?: boolean): void {
+        onlySize || P.scale(t, scaleX, scaleY)
         t.width *= scaleX
         t.height *= scaleY
     },
@@ -102,9 +104,9 @@ export const BoundsHelper = {
     },
 
     tempToOuterOf(t: IBoundsData, matrix: IMatrixData): IBoundsData {
-        B.copy(B.tempBounds, t)
-        B.toOuterOf(B.tempBounds, matrix)
-        return B.tempBounds
+        B.copy(tempBounds, t)
+        B.toOuterOf(tempBounds, matrix)
+        return tempBounds
     },
 
     getOuterOf(t: IBoundsData, matrix: IMatrixData): IBoundsData {
@@ -170,18 +172,21 @@ export const BoundsHelper = {
     },
 
     getFitMatrix(t: IBoundsData, put: IBoundsData, baseScale = 1): IMatrix {
-        const scale = Math.min(baseScale, Math.min(t.width / put.width, t.height / put.height))
+        const scale = Math.min(baseScale, B.getFitScale(t, put))
         return new Matrix(scale, 0, 0, scale, -put.x * scale, -put.y * scale)
     },
 
-    getPutScale(t: IBoundsData, put: ISizeData, isCover?: boolean): number {
+    getFitScale(t: ISizeData, put: ISizeData, isCoverMode?: boolean): number {
         const sw = t.width / put.width, sh = t.height / put.height
-        return isCover ? Math.max(sw, sh) : Math.min(sw, sh)
+        return isCoverMode ? Math.max(sw, sh) : Math.min(sw, sh)
     },
 
-    toPutPoint(t: ISizeData, put: ISizeData, putScale = 1, to: IPointData): void { // 结合 getPutScale 使用
-        to.x = (t.width - put.width * putScale) / 2
-        to.y = (t.height - put.height * putScale) / 2
+    put(t: ISizeData, put: ISizeData, align: IAlign = 'center', putScale: number | 'fit' | 'cover' = 1, changeSize = true, to?: IPointData): void {
+        to || (to = put as unknown as IPointData)
+        if (typeof putScale === 'string') putScale = B.getFitScale(t, put, putScale === 'cover')
+        tempBounds.width = changeSize ? put.width *= putScale : put.width * putScale
+        tempBounds.height = changeSize ? put.height *= putScale : put.height * putScale
+        AlignHelper.toPoint(align, tempBounds, t as IBoundsData, to, true, true)
     },
 
     getSpread(t: IBoundsData, spread: IFourNumber, side?: ISide): IBoundsData {

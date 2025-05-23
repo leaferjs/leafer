@@ -1,5 +1,5 @@
 import { IFourNumber, IObject } from '../data/IData'
-import { ISide } from '../display/ILeaf'
+import { IAlign, ISide } from '../display/ILeaf'
 
 export interface IPointData {
     x: number
@@ -94,11 +94,12 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     clone(): IBounds
 
     move(x: number, y: number): IBounds
-    scale(scaleX: number, scaleY?: number): IBounds
+    scale(scaleX: number, scaleY?: number, onlySize?: boolean): IBounds
     scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IBounds
     toOuterOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     toInnerOf(matrix: IMatrixData, to?: IBoundsData): IBounds
     getFitMatrix(put: IBoundsData, baseScale?: number): IMatrix
+    put(put: IBoundsData, align?: IAlign, putScale?: number | 'fit' | 'cover'): void
 
     spread(fourNumber: IFourNumber, side?: ISide): IBounds
     shrink(fourNumber: IFourNumber, side?: ISide): IBounds

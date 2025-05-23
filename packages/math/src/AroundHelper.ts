@@ -23,28 +23,25 @@ export const AroundHelper = {
 
     get,
 
-    toPoint(around: IAround, bounds: IBoundsData, to: IPointData, onlySize?: boolean, pointBounds?: IBoundsData) {
+    toPoint(around: IAround, box: IBoundsData, to: IPointData, onlyBoxSize?: boolean, content?: IBoundsData, onlyContentSize?: boolean) {
         const point = get(around)
 
         to.x = point.x
         to.y = point.y
 
-        if (point.type === 'percent') {
-            to.x *= bounds.width
-            to.y *= bounds.height
 
-            if (pointBounds) { // align
-                to.x -= pointBounds.x
-                to.y -= pointBounds.y
-                if (point.x) to.x -= (point.x === 1) ? pointBounds.width : (point.x === 0.5 ? point.x * pointBounds.width : 0)
-                if (point.y) to.y -= (point.y === 1) ? pointBounds.height : (point.y === 0.5 ? point.y * pointBounds.height : 0)
+        if (point.type === 'percent') {
+            to.x *= box.width
+            to.y *= box.height
+
+            if (content) { // align
+                if (!onlyContentSize) to.x -= content.x, to.y -= content.y
+                if (point.x) to.x -= (point.x === 1) ? content.width : (point.x === 0.5 ? point.x * content.width : 0)
+                if (point.y) to.y -= (point.y === 1) ? content.height : (point.y === 0.5 ? point.y * content.height : 0)
             }
         }
 
-        if (!onlySize) {
-            to.x += bounds.x
-            to.y += bounds.y
-        }
+        if (!onlyBoxSize) to.x += box.x, to.y += box.y
     }
 }
 
