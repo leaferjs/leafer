@@ -2,6 +2,7 @@ import { ILeafBoundsModule } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 import { PathBounds } from '@leafer/path'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
+import { BoundsEvent } from '@leafer/event'
 
 
 const { updateMatrix, updateAllMatrix } = LeafHelper
@@ -13,12 +14,17 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateWorldBounds(): void {
 
-        toOuterOf(this.__layout.renderBounds, this.__world, this.__world)
+        const layout = this.__layout
 
-        if (this.__layout.resized) {
-            this.__onUpdateSize()
-            this.__layout.resized = false
+        toOuterOf(layout.renderBounds, this.__world, this.__world)
+
+        if (layout.resized) {
+            if (layout.resized === 'inner') this.__onUpdateSize() // scale变化不用更新
+            if (this.__hasLocalEvent) BoundsEvent.emitLocal(this)
+            layout.resized = undefined
         }
+
+        if (this.__hasWorldEvent) BoundsEvent.emitWorld(this)
 
     },
 
@@ -32,14 +38,14 @@ export const LeafBounds: ILeafBoundsModule = {
             this.__updateRenderPath()
 
             this.__updateBoxBounds()
-            layout.resized = true
+            layout.resized = 'inner'
         }
 
 
         if (layout.localBoxChanged) { // position change
 
             if (this.__local) this.__updateLocalBoxBounds()
-            layout.localBoxChanged = false
+            layout.localBoxChanged = undefined
 
             if (layout.strokeSpread) layout.strokeChanged = true
             if (layout.renderSpread) layout.renderChanged = true
@@ -47,7 +53,7 @@ export const LeafBounds: ILeafBoundsModule = {
         }
 
 
-        layout.boxChanged = false // must after updateLocalBoxBounds()
+        layout.boxChanged = undefined // must after updateLocalBoxBounds()
 
 
         if (layout.strokeChanged) {
@@ -65,11 +71,11 @@ export const LeafBounds: ILeafBoundsModule = {
                 layout.spreadStrokeCancel()
             }
 
-            layout.strokeChanged = false
+            layout.strokeChanged = undefined
             if (layout.renderSpread || layout.strokeSpread !== layout.strokeBoxSpread) layout.renderChanged = true
 
             if (this.parent) this.parent.__layout.strokeChange()
-            layout.resized = true
+            layout.resized = 'inner'
         }
 
 
@@ -88,12 +94,13 @@ export const LeafBounds: ILeafBoundsModule = {
                 layout.spreadRenderCancel()
             }
 
-            layout.renderChanged = false
+            layout.renderChanged = undefined
 
             if (this.parent) this.parent.__layout.renderChange()
         }
 
-        layout.boundsChanged = false
+        layout.resized || (layout.resized = 'local')
+        layout.boundsChanged = undefined
 
     },
 

@@ -52,7 +52,7 @@ export class LeafLayout implements ILeafLayout {
 
     // state
 
-    public resized: boolean
+    public resized: 'scale' | 'inner' | 'local'
     public waitAutoLayout: boolean
 
     // matrix changed

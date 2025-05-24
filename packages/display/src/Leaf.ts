@@ -96,6 +96,9 @@ export class Leaf implements ILeaf {
     public __captureMap?: IEventListenerMap
     public __bubbleMap?: IEventListenerMap
 
+    public __hasLocalEvent?: boolean
+    public __hasWorldEvent?: boolean
+
     // branch 
     public children?: ILeaf[]
 

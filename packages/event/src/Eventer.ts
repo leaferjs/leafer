@@ -1,8 +1,11 @@
 import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventParamsMap, InnerId, IEventParams, IFunction } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
 
+import { BoundsEvent, boundsEventMap } from './BoundsEvent'
+
 
 const empty = {}
+
 
 export class Eventer implements IEventer {
 
@@ -11,6 +14,9 @@ export class Eventer implements IEventer {
     public __captureMap?: IEventListenerMap
 
     public __bubbleMap?: IEventListenerMap
+
+    public __hasLocalEvent?: boolean
+    public __hasWorldEvent?: boolean
 
     public syncEventer?: IEventer
 
@@ -51,6 +57,8 @@ export class Eventer implements IEventer {
                 } else {
                     map[type] = [item]
                 }
+
+                if (boundsEventMap[type]) BoundsEvent.checkHas(this, type, 'on')
             }
         })
     }
@@ -75,6 +83,7 @@ export class Eventer implements IEventer {
                             index = events.findIndex(item => item.listener === listener)
                             if (index > -1) events.splice(index, 1)
                             if (!events.length) delete map[type]
+                            if (boundsEventMap[type]) BoundsEvent.checkHas(this, type, 'off')
                         }
                     }
                 })

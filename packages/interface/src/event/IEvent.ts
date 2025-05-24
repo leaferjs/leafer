@@ -44,6 +44,10 @@ export interface IChildEvent extends IEvent {
     child?: ILeaf
 }
 
+export interface IBoundsEvent extends IEvent {
+
+}
+
 export interface IResizeEvent extends IEvent {
     readonly width: number
     readonly height: number

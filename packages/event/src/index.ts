@@ -1,6 +1,7 @@
 export { ChildEvent } from './ChildEvent'
 export { PropertyEvent } from './PropertyEvent'
 export { ImageEvent } from './ImageEvent'
+export { BoundsEvent } from './BoundsEvent'
 export { ResizeEvent } from './ResizeEvent'
 export { WatchEvent } from './WatchEvent'
 export { LayoutEvent } from './LayoutEvent'

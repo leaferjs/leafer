@@ -41,6 +41,8 @@ export interface IEventer extends ILeafEventer {
     readonly innerId: InnerId
     __captureMap?: IEventListenerMap
     __bubbleMap?: IEventListenerMap
+    __hasLocalEvent?: boolean
+    __hasWorldEvent?: boolean
     syncEventer?: IEventer
     event?: IEventParamsMap
 
