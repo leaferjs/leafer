@@ -24,16 +24,18 @@ export class BoundsEvent extends Event implements IBoundsEvent {
     }
 
     static emitLocal(leaf: ILeaf) {
-        const { resized } = leaf.__layout
-        if (resized !== 'local') {
-            leaf.emit(RESIZE, leaf)
-            if (resized === 'inner') leaf.emit(INNER, leaf)
+        if (leaf.leaferIsReady) {
+            const { resized } = leaf.__layout
+            if (resized !== 'local') {
+                leaf.emit(RESIZE, leaf)
+                if (resized === 'inner') leaf.emit(INNER, leaf)
+            }
+            leaf.emit(LOCAL, leaf)
         }
-        leaf.emit(LOCAL, leaf)
     }
 
     static emitWorld(leaf: ILeaf) {
-        leaf.emit(WORLD, this)
+        if (leaf.leaferIsReady) leaf.emit(WORLD, this)
     }
 
 }
