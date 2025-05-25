@@ -32,8 +32,8 @@ export const ImageManager: IImageManager = {
         }
     },
 
-    hasOpacityPixel(config: ILeaferImageConfig): boolean {
-        return FileHelper.opacityTypes.some(item => I.isFormat(item, config))
+    hasAlphaPixel(config: ILeaferImageConfig): boolean {
+        return FileHelper.alphaPixelTypes.some(item => I.isFormat(item, config))
     },
 
     isFormat(format: IExportFileType, config: ILeaferImageConfig): boolean {

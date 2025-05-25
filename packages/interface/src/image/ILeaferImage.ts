@@ -40,7 +40,7 @@ export interface ILeaferImage {
     height: number
 
     isSVG: boolean
-    hasOpacityPixel: boolean
+    hasAlphaPixel: boolean
 
     readonly completed: boolean
     ready: boolean

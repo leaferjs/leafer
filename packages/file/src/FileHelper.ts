@@ -2,7 +2,7 @@ import { IExportFileType, IStringMap, IExportOptions } from '@leafer/interface'
 
 export const FileHelper = {
 
-    opacityTypes: ['png', 'webp', 'svg'] as IExportFileType[],
+    alphaPixelTypes: ['png', 'webp', 'svg'] as IExportFileType[],
 
     upperCaseTypeMap: {} as IStringMap,
 
@@ -35,4 +35,4 @@ export const FileHelper = {
 
 const F = FileHelper
 
-F.opacityTypes.forEach(type => F.upperCaseTypeMap[type] = type.toUpperCase())
+F.alphaPixelTypes.forEach(type => F.upperCaseTypeMap[type] = type.toUpperCase())

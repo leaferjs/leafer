@@ -19,7 +19,7 @@ export class LeaferImage implements ILeaferImage {
     public height: number
 
     public isSVG: boolean
-    public hasOpacityPixel: boolean // check png / svg / webp
+    public hasAlphaPixel: boolean // check png / svg / webp
 
     public get completed() { return this.ready || !!this.error }
 
@@ -46,7 +46,7 @@ export class LeaferImage implements ILeaferImage {
         }
 
         ImageManager.isFormat('svg', config) && (this.isSVG = true)
-        ImageManager.hasOpacityPixel(config) && (this.hasOpacityPixel = true)
+        ImageManager.hasAlphaPixel(config) && (this.hasAlphaPixel = true)
     }
 
     public load(onSuccess?: IFunction, onError?: IFunction): number {
