@@ -37,6 +37,11 @@ export const DataHelper = {
         const map = {} as IBooleanMap
         for (let i = 0, len = list.length; i < len; i++)  map[list[i]] = true
         return map
+    },
+
+    stintSet(data: IObject, attrName: string, value: any): void {
+        value || (value = undefined)
+        data[attrName] !== value && (data[attrName] = value) // 只有值不一样时才设置，节省内存开销
     }
 
 }
