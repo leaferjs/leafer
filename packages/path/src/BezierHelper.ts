@@ -44,6 +44,8 @@ export const BezierHelper = {
                 ba = sqrt(pow(bX - aX, 2) + pow(bY - aY, 2))
                 cb = sqrt(pow(cX - bX, 2) + pow(cY - bY, 2))
 
+                if (!ba && !cb) continue
+
                 d = ba + cb
                 ba = (t * ba) / d
                 cb = (t * cb) / d
