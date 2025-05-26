@@ -52,7 +52,7 @@ export class Layouter implements ILayouter {
     }
 
     public layout(): void {
-        if (!this.running) return
+        if (this.layouting || !this.running) return
         const { target } = this
         this.times = 0
 
