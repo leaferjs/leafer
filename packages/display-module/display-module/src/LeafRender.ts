@@ -42,7 +42,7 @@ export const LeafRender: ILeafRenderModule = {
         if (this.__worldOpacity) {
             canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
             this.__drawRenderPath(canvas)
-            this.windingRule ? canvas.clip(this.windingRule) : canvas.clip()
+            canvas.clipUI(this)
         }
     },
 

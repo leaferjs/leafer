@@ -1,4 +1,4 @@
-import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfData } from '@leafer/interface'
+import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IWindingRuleData, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfData } from '@leafer/interface'
 import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper } from '@leafer/data'
@@ -272,17 +272,21 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        this.setTempBounds(bounds, ceilPixel)
-        this.clearRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
-    }
-
     public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
         this.beginPath()
         this.setTempBounds(bounds, ceilPixel)
         this.rect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
         this.clip()
 
+    }
+
+    public clipUI(ruleData: IWindingRuleData): void {
+        ruleData.windingRule ? this.clip(ruleData.windingRule) : this.clip()
+    }
+
+    public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
+        this.setTempBounds(bounds, ceilPixel)
+        this.clearRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
     }
 
     public clear(): void {
