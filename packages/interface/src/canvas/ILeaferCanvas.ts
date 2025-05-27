@@ -138,7 +138,7 @@ interface ICanvasMethod {
     fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
     strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
     clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void
-    clipUI(ruleData?: IWindingRuleData): void
+    clipUI(ruleData: IWindingRuleData): void
 
     clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void
     clear(): void
