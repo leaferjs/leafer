@@ -11,6 +11,7 @@ export interface IRenderOptions {
     matrix?: IMatrixWithScaleData,
     inCamera?: boolean
     dimOpacity?: number
+    exporting?: boolean // 是否通过 export() 导出渲染
 }
 
 export interface IRendererConfig {
