@@ -104,10 +104,13 @@ export function pathInputType(defaultValue?: IValue) {
 export const pathType = boundsType
 
 
-export function affectStrokeBoundsType(defaultValue?: IValue) {
+export function affectStrokeBoundsType(defaultValue?: IValue, useStroke?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value) && doStrokeType(this)
+            if (this.__setAttr(key, value)) {
+                doStrokeType(this)
+                if (useStroke) this.__.__useStroke = true
+            }
         }
     }))
 }

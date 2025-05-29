@@ -424,6 +424,7 @@ export interface ILeafComputedData {
     readonly __isLinePath: boolean
     readonly __blendMode: string
 
+    __useStroke?: boolean
     __useArrow?: boolean
     __useEffect?: boolean
 

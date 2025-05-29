@@ -14,6 +14,7 @@ export class LeafData implements ILeafData {
 
     public __pathForRender?: IPathCommandData
 
+    public __useStroke?: boolean
     public get __useNaturalRatio() { return true }
 
     public get __isLinePath(): boolean {
