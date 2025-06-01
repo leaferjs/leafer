@@ -83,7 +83,7 @@ export interface ILeaferAttrData {
     waitViewReady(item: IFunction, bind?: IObject): void
     waitViewCompleted(item: IFunction, bind?: IObject): void
 
-    zoom(zoomType: IZoomType, padding?: IFourNumber, fixedScale?: boolean, transition?: ITransition): IBoundsData
+    zoom(zoomType: IZoomType, optionsOrPadding?: IZoomOptions | IFourNumber, scroll?: 'x' | 'y' | boolean, transition?: ITransition): IBoundsData
     getValidMove(moveX: number, moveY: number): IPointData
     getValidScale(changeScale: number): number
 
@@ -96,6 +96,12 @@ export interface ILeaferAttrData {
 }
 
 export type IZoomType = 'in' | 'out' | 'fit' | 'fit-width' | 'fit-height' | number | ILeaf | ILeaf[] | IBoundsData
+
+export interface IZoomOptions {
+    padding?: IFourNumber
+    scroll?: 'x' | 'y' | boolean
+    transition?: ITransition
+}
 
 export interface ILeaferBase extends IZoomView, IControl, ILeaferAttrData {
     readonly isApp: boolean
