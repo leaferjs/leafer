@@ -1,4 +1,4 @@
-import { ILeaf, ICursorType } from '../display/ILeaf'
+import { ILeaf, ICursorType, IAlign } from '../display/ILeaf'
 import { IRenderer, IRendererConfig } from '../renderer/IRenderer'
 import { IHitCanvas, ILeaferCanvas, ILeaferCanvasConfig, IHitCanvasConfig } from '../canvas/ILeaferCanvas'
 import { ILayouter, ILayouterConfig } from '../layouter/ILayouter'
@@ -101,6 +101,7 @@ export interface IZoomOptions {
     padding?: IFourNumber
     scroll?: 'x' | 'y' | boolean
     transition?: ITransition
+    origin?: IPointData | IAlign
 }
 
 export interface ILeaferBase extends IZoomView, IControl, ILeaferAttrData {
