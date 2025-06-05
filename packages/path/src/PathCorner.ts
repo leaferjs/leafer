@@ -12,7 +12,8 @@ const { arcTo } = PathCommandDataHelper
 export const PathCorner = {
 
     smooth(data: IPathCommandData, cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {
-        let command: number, commandLen
+
+        let command: number, lastCommand: number, commandLen
         let i = 0, x = 0, y = 0, startX = 0, startY = 0, secondX = 0, secondY = 0, lastX = 0, lastY = 0
 
         const len = data.length
@@ -51,8 +52,10 @@ export const PathCorner = {
                     lastY = y
                     break
                 case Z:  //closepath()
-                    arcTo(smooth, startX, startY, secondX, secondY, cornerRadius, lastX, lastY) // use arcTo(x1, y1, x2, y2, radius)
-                    smooth.push(Z)
+                    if (lastCommand !== Z) { // fix: 重复的 Z 导致的问题
+                        arcTo(smooth, startX, startY, secondX, secondY, cornerRadius, lastX, lastY) // use arcTo(x1, y1, x2, y2, radius)
+                        smooth.push(Z)
+                    }
                     i += 1
                     break
                 default:
@@ -60,6 +63,7 @@ export const PathCorner = {
                     for (let j = 0; j < commandLen; j++) smooth.push(data[i + j])
                     i += commandLen
             }
+            lastCommand = command
         }
 
         if (command !== Z) {
