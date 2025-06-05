@@ -12,6 +12,11 @@ export interface IRenderOptions {
     inCamera?: boolean
     dimOpacity?: number
     exporting?: boolean // 是否通过 export() 导出渲染
+
+    // 只渲染外形
+    shape?: boolean
+    ignoreFill?: boolean, // 绘制外形时忽略fill
+    ignoreStroke?: boolean // 绘制外形时忽略stroke
 }
 
 export interface IRendererConfig {

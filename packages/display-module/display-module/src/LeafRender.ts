@@ -5,6 +5,9 @@ import { Debug } from '@leafer/debug'
 export const LeafRender: ILeafRenderModule = {
 
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
+
+        if (options.shape) return this.__renderShape(canvas, options)
+
         if (this.__worldOpacity) {
 
             const data = this.__
@@ -19,11 +22,8 @@ export const LeafRender: ILeafRenderModule = {
                 const tempCanvas = canvas.getSameCanvas(true, true)
                 this.__draw(tempCanvas, options, canvas)
 
-                if (this.__worldFlipped) {
-                    canvas.copyWorldByReset(tempCanvas, this.__nowWorld, null, data.__blendMode, true)
-                } else {
-                    canvas.copyWorldToInner(tempCanvas, this.__nowWorld, this.__layout.renderBounds, data.__blendMode)
-                }
+                if (this.__worldFlipped) canvas.copyWorldByReset(tempCanvas, this.__nowWorld, null, data.__blendMode, true)
+                else canvas.copyWorldToInner(tempCanvas, this.__nowWorld, this.__layout.renderBounds, data.__blendMode)
 
                 tempCanvas.recycle(this.__nowWorld)
 
@@ -35,6 +35,14 @@ export const LeafRender: ILeafRenderModule = {
 
             if (Debug.showBounds) Debug.drawBounds(this, canvas, options)
 
+        }
+    },
+
+    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void {
+        if (this.__worldOpacity) {
+            canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
+
+            this.__drawShape(canvas, options)
         }
     },
 

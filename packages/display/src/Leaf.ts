@@ -569,7 +569,9 @@ export class Leaf implements ILeaf {
 
     public __clip(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
-    public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions, _ignoreFill?: boolean, _ignoreStroke?: boolean): void { }
+    public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+
+    public __drawShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
 
     public __updateWorldOpacity(): void { }

@@ -663,7 +663,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void
-    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions, ignoreFill?: boolean, ignoreStroke?: boolean): void
+    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __drawShape(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     __updateWorldOpacity(): void
     __updateChange(): void
