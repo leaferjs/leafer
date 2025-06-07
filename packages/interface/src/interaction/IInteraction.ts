@@ -138,6 +138,7 @@ export interface IWheelConfig {
 }
 
 export interface IPointerConfig {
+    type?: 'mouse' | 'pointer' | 'touch'
     snap?: boolean // 交互操作坐标是否对齐屏幕像素，避免出现小数
 
     hitRadius?: number
