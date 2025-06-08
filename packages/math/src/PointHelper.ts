@@ -1,11 +1,11 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
-import { OneRadian, PI2, getPointData } from './MathHelper'
+import { OneRadian, getPointData } from './MathHelper'
 
 import { MatrixHelper as M } from './MatrixHelper'
 
 
 const { toInnerPoint, toOuterPoint } = M
-const { sin, cos, abs, sqrt, atan2, min, round, PI } = Math
+const { sin, cos, abs, sqrt, atan2, min, round } = Math
 
 
 export const PointHelper = {
@@ -143,10 +143,11 @@ export const PointHelper = {
 
     getRadianFrom(fromX: number, fromY: number, originX: number, originY: number, toX: number, toY: number, toOriginX?: number, toOriginY?: number): number {
         if (toOriginX === undefined) toOriginX = originX, toOriginY = originY
-        let fromAngle = atan2(fromY - originY, fromX - originX)
-        let toAngle = atan2(toY - toOriginY, toX - toOriginX)
-        const radian = toAngle - fromAngle
-        return radian < -PI ? radian + PI2 : radian
+        const a = fromX - originX
+        const b = fromY - originY
+        const c = toX - toOriginX
+        const d = toY - toOriginY
+        return Math.atan2(a * d - b * c, a * c + b * d)
     },
 
     getAtan2(t: IPointData, to: IPointData): number {
