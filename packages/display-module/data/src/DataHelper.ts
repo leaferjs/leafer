@@ -39,7 +39,7 @@ export const DataHelper = {
         return map
     },
 
-    stintSet(data: IObject, attrName: string, value: any): void {
+    stintSet<T extends object, K extends keyof T>(data: T, attrName: K, value: T[K]): void {
         value || (value = undefined)
         data[attrName] !== value && (data[attrName] = value) // 只有值不一样时才设置，节省内存开销
     }

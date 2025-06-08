@@ -20,6 +20,8 @@
   "dependencies": {
     "@leafer/task": "1.6.7",
     "@leafer/file": "1.6.7",
+    "@leafer/data": "1.6.7",
+    "@leafer/math": "1.6.7",
     "@leafer/platform": "1.6.7"
   },
   "devDependencies": {

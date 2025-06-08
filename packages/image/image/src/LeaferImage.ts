@@ -2,6 +2,7 @@ import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixD
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
+import { DataHelper } from '@leafer/data'
 
 import { ImageManager } from './ImageManager'
 
@@ -129,10 +130,10 @@ export class LeaferImage implements ILeaferImage {
         try {
             if (transform && pattern.setTransform) {
                 pattern.setTransform(transform) // maybe error 
-                transform = null
+                transform = undefined
             }
         } catch { }
-        if (paint) paint.transform = transform
+        if (paint) DataHelper.stintSet(paint, 'transform', transform)
         return pattern
     }
 

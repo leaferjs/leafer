@@ -285,6 +285,8 @@ export const MatrixHelper = {
             t.d = scaleY
         }
 
+        // translate
+
         t.e = x
         t.f = y
 
