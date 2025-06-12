@@ -1,5 +1,6 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
+import { Platform } from '@leafer/platform'
 
 
 const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -76,6 +77,12 @@ export const LeafHelper = {
             t = t.parent
         }
         return true
+    },
+
+    copyCanvasByWorld(leaf: ILeaf, currentCanvas: ILeaferCanvas, fromCanvas: ILeaferCanvas, fromWorld?: IBoundsData, blendMode?: string, onlyResetTransform?: boolean): void {
+        if (!fromWorld) fromWorld = leaf.__nowWorld
+        if (leaf.__worldFlipped || Platform.fullImageShadow) currentCanvas.copyWorldByReset(fromCanvas, fromWorld, leaf.__nowWorld, blendMode, onlyResetTransform)
+        else currentCanvas.copyWorldToInner(fromCanvas, fromWorld as IMatrixWithBoundsData, leaf.__layout.renderBounds, blendMode)
     },
 
     // transform

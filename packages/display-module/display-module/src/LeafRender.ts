@@ -1,4 +1,5 @@
 import { ILeaferCanvas, IRenderOptions, ILeafRenderModule } from '@leafer/interface'
+import { LeafHelper } from '@leafer/helper'
 import { Debug } from '@leafer/debug'
 
 
@@ -22,8 +23,7 @@ export const LeafRender: ILeafRenderModule = {
                 const tempCanvas = canvas.getSameCanvas(true, true)
                 this.__draw(tempCanvas, options, canvas)
 
-                if (this.__worldFlipped) canvas.copyWorldByReset(tempCanvas, this.__nowWorld, null, data.__blendMode, true)
-                else canvas.copyWorldToInner(tempCanvas, this.__nowWorld, this.__layout.renderBounds, data.__blendMode)
+                LeafHelper.copyCanvasByWorld(this, canvas, tempCanvas, this.__nowWorld, data.__blendMode, true)
 
                 tempCanvas.recycle(this.__nowWorld)
 
