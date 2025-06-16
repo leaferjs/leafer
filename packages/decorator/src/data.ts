@@ -2,7 +2,7 @@ import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescri
 import { DataHelper, isEmptyData } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
-import { defineKey, getDescriptor } from './object'
+import { defineKey, getDescriptor, createDescriptor } from './object'
 
 
 // name
@@ -264,15 +264,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     const computedKey = '_' + key
     const setMethodName = getSetMethodName(key)
 
-    const property: IObject & ThisType<ILeafData> = {
-        get() {
-            const v = (this as IObject)[computedKey]
-            return v === undefined ? defaultValue : v
-        },
-        set(value: IValue) {
-            (this as IObject)[computedKey] = value
-        }
-    }
+    const property: IObject & ThisType<ILeafData> = createDescriptor(key, defaultValue)
 
     if (defaultValue === undefined) {
         property.get = function () { return this[computedKey] }
