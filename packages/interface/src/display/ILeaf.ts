@@ -519,6 +519,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly pathInputed: boolean
 
+    readonly isAutoWidth?: boolean
+    readonly isAutoHeight?: boolean
+
     destroyed: boolean
 
     reset(data?: ILeafInputData): void
