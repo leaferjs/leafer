@@ -42,6 +42,12 @@ export const AroundHelper = {
         }
 
         if (!onlyBoxSize) to.x += box.x, to.y += box.y
+    },
+
+    getPoint(around: IAround, box: IBoundsData, to?: IPointData): IPointData {
+        if (!to) to = {} as IPointData
+        AroundHelper.toPoint(around, box, to, true)
+        return to
     }
 }
 
