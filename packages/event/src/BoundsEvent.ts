@@ -27,7 +27,7 @@ export class BoundsEvent extends Event implements IBoundsEvent {
         if (leaf.leaferIsReady) {
             const { resized } = leaf.__layout
             if (resized !== 'local') {
-                leaf.emit(RESIZE, leaf)
+                leaf.emit(RESIZE, leaf) //  inner / scale
                 if (resized === 'inner') leaf.emit(INNER, leaf)
             }
             leaf.emit(LOCAL, leaf)

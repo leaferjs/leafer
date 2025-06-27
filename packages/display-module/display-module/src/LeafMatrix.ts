@@ -21,7 +21,7 @@ export const LeafMatrix: ILeafMatrixModule = {
 
             if (layout.affectScaleOrRotation) {
 
-                if ((layout.scaleChanged && (layout.resized = 'scale')) || layout.rotationChanged) {
+                if ((layout.scaleChanged && (layout.resized || (layout.resized = 'scale'))) || layout.rotationChanged) {
                     setLayout(local, data as ILayoutData, null, null, layout.affectRotation)
                     layout.scaleChanged = layout.rotationChanged = undefined
                 }

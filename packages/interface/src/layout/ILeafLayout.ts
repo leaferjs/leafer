@@ -32,7 +32,7 @@ export interface ILeafLayout {
     // worldRenderBounds: IBoundsData // use leaf.__world
 
     // state
-    resized: 'scale' | 'inner' | 'local' // (scale | inner） > local 
+    resized: 'inner' | 'scale' | 'local' // inner > scale > local,  设置了inner之后不能被覆盖
     waitAutoLayout: boolean
 
     // matrix changed
