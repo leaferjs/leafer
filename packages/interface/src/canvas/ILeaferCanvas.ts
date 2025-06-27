@@ -118,8 +118,8 @@ interface ICanvasMethod {
     hitPixel(radiusPoint: IRadiusPointData, offset?: IPointData, scale?: number): boolean
 
 
-    setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void
-    setStrokeOptions(options: ICanvasStrokeOptions): void
+    setStroke(strokeStyle: string | object, strokeWidth: number, options?: ICanvasStrokeOptions, childOptions?: ICanvasStrokeOptions): void
+    setStrokeOptions(options: ICanvasStrokeOptions, childOptions?: ICanvasStrokeOptions): void
 
     setWorld(matrix: IMatrixData, parentMatrix?: IMatrixData): void
     useWorldTransform(worldTransform?: IMatrixData): void

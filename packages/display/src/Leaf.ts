@@ -347,6 +347,12 @@ export class Leaf implements ILeaf {
         }
     }
 
+    public getClampRenderScale(): number {
+        let { scaleX } = this.__nowWorld || this.__world
+        if (scaleX < 0) scaleX = -scaleX
+        return scaleX > 1 ? scaleX : 1
+    }
+
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {
         return this.__layout.getTransform(relative || 'local')
     }

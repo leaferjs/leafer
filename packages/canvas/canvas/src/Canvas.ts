@@ -3,10 +3,12 @@ import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId,
 function contextAttr(realName?: string) {
     return (target: Canvas, key: string) => {
         if (!realName) realName = key
-        Object.defineProperty(target, key, {
-            get() { return (this.context as IObject)[realName] },
-            set(value: unknown) { (this.context as IObject)[realName] = value }
-        } as ThisType<Canvas>)
+        const property = {
+            get() { return ((this as unknown as Canvas).context as IObject)[realName] },
+            set(value: unknown) { ((this as unknown as Canvas).context as IObject)[realName] = value }
+        }
+        if (key === 'strokeCap') (property as any).set = function (value: unknown) { ((this as unknown as Canvas).context as IObject)[realName] = value === 'none' ? 'butt' : value }
+        Object.defineProperty(target, key, property)
     }
 }
 

@@ -604,6 +604,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // convert
     __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix
+    getClampRenderScale(): number // 获取当前渲染元素的缩放比例，限制最小为1
 
     getTransform(relative?: ILocationType | ILeaf): IMatrixData
 

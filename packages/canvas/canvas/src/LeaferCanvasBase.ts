@@ -155,18 +155,26 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (w) this.setTransform(w.a, w.b, w.c, w.d, w.e, w.f)
     }
 
-    public setStroke(color: string | object, strokeWidth: number, options?: ICanvasStrokeOptions): void {
+    public setStroke(color: string | object, strokeWidth: number, options?: ICanvasStrokeOptions, childOptions?: ICanvasStrokeOptions): void {
         if (strokeWidth) this.strokeWidth = strokeWidth
         if (color) this.strokeStyle = color
-        if (options) this.setStrokeOptions(options)
+        if (options) this.setStrokeOptions(options, childOptions)
     }
 
-    public setStrokeOptions(options: ICanvasStrokeOptions): void {
-        this.strokeCap = options.strokeCap === 'none' ? 'butt' : options.strokeCap
-        this.strokeJoin = options.strokeJoin
-        this.dashPattern = options.dashPattern
-        this.dashOffset = options.dashOffset
-        this.miterLimit = options.miterLimit
+    public setStrokeOptions(options: ICanvasStrokeOptions, childOptions?: ICanvasStrokeOptions): void {
+        let { strokeCap, strokeJoin, dashPattern, dashOffset, miterLimit } = options
+        if (childOptions) {
+            if (childOptions.strokeCap) strokeCap = childOptions.strokeCap
+            if (childOptions.strokeJoin) strokeJoin = childOptions.strokeJoin
+            if (childOptions.dashPattern !== undefined) dashPattern = childOptions.dashPattern
+            if (childOptions.dashOffset !== undefined) dashOffset = childOptions.dashOffset
+            if (childOptions.miterLimit) miterLimit = childOptions.miterLimit
+        }
+        this.strokeCap = strokeCap
+        this.strokeJoin = strokeJoin
+        this.dashPattern = dashPattern
+        this.dashOffset = dashOffset
+        this.miterLimit = miterLimit
     }
 
     public saveBlendMode(blendMode: IBlendMode): void {
