@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -6,9 +6,11 @@ import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
+import { ImageManager } from '@leafer/image'
 import { Plugin } from '@leafer/debug'
 
 
+const tempScaleData = {} as IScaleData
 const { LEAF, create } = IncrementId
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
@@ -351,6 +353,14 @@ export class Leaf implements ILeaf {
         let { scaleX } = this.__nowWorld || this.__world
         if (scaleX < 0) scaleX = -scaleX
         return scaleX > 1 ? scaleX : 1
+    }
+
+    public getRenderScaleData(abs?: boolean, scaleFixed?: boolean): IScaleData {
+        const { scaleX, scaleY } = ImageManager.patternLocked ? this.__world : this.__nowWorld
+        if (scaleFixed) tempScaleData.scaleX = tempScaleData.scaleY = 1
+        else if (abs) tempScaleData.scaleX = scaleX < 0 ? -scaleX : scaleX, tempScaleData.scaleY = scaleY < 0 ? -scaleY : scaleY
+        else tempScaleData.scaleX = scaleX, tempScaleData.scaleY = scaleY
+        return tempScaleData
     }
 
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {

@@ -5,7 +5,7 @@ import { ILeaferCanvas, IHitCanvas } from '../canvas/ILeaferCanvas'
 import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
-import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData, IRotationPointData } from '../math/IMath'
+import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData, IRotationPointData, IScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
@@ -605,6 +605,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // convert
     __getNowWorld(options: IRenderOptions): IMatrixWithBoundsScaleData // when render use other matrix
     getClampRenderScale(): number // 获取当前渲染元素的缩放比例，限制最小为1
+    getRenderScaleData(abs?: boolean, scaleFixed?: boolean): IScaleData // 当前渲染的比例数据，必须马上分解使用
 
     getTransform(relative?: ILocationType | ILeaf): IMatrixData
 

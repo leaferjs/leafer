@@ -25,6 +25,7 @@
     "@leafer/event": "1.7.0",
     "@leafer/decorator": "1.7.0",
     "@leafer/helper": "1.7.0",
+    "@leafer/image": "1.7.0",
     "@leafer/debug": "1.7.0",
     "@leafer/platform": "1.7.0"
   },
