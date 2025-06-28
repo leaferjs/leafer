@@ -62,8 +62,7 @@ export const BranchRender: IBranchRenderModule = {
 
             const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
-                if (excludeRenderBounds(children[i], options)) continue
-                children[i].__render(canvas, options)
+                excludeRenderBounds(children[i], options) || children[i].__render(canvas, options)
             }
 
         }
@@ -74,8 +73,7 @@ export const BranchRender: IBranchRenderModule = {
         if (this.__worldOpacity) {
             const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
-                if (excludeRenderBounds(children[i], options)) continue
-                children[i].__clip(canvas, options)
+                excludeRenderBounds(children[i], options) || children[i].__clip(canvas, options)
             }
         }
     }
