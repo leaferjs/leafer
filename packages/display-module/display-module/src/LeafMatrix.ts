@@ -9,7 +9,8 @@ export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        multiplyParent(this.__local || this.__layout, this.parent ? this.parent.__world : defaultWorld, this.__world, !!this.__layout.affectScaleOrRotation, this.__ as ILayoutData, this.parent && this.parent.__ as IScrollPointData)
+        const { parent, __layout } = this
+        multiplyParent(this.__local || __layout, parent ? parent.__world : defaultWorld, this.__world, !!__layout.affectScaleOrRotation, this.__ as ILayoutData, parent && (parent.scrollY || parent.scrollY) && parent.__ as IScrollPointData)
 
     },
 
