@@ -25,8 +25,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public get height(): number { return this.size.height }
 
     public get pixelRatio(): number { return this.size.pixelRatio }
-    public get pixelWidth(): number { return this.width * this.pixelRatio }
-    public get pixelHeight(): number { return this.height * this.pixelRatio }
+    public get pixelWidth(): number { return this.width * this.pixelRatio || 0 } // 防止出现 NaN
+    public get pixelHeight(): number { return this.height * this.pixelRatio || 0 }
 
     public get pixelSnap(): boolean { return this.config.pixelSnap }
     public set pixelSnap(value: boolean) { this.config.pixelSnap = value }
