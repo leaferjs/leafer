@@ -35,6 +35,7 @@ export interface IExportResult {
     height?: number
     renderBounds?: IBoundsData
     trimBounds?: IBoundsData
+    error?: any
 }
 
 export interface IExportResultFunction {
