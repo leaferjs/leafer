@@ -258,7 +258,7 @@ export interface ILeafAttrData {
     lazy?: IBoolean
     pixelRatio?: INumber
 
-    spread?: INumber // 扩大渲染边界
+    renderSpread?: INumber // 扩大渲染边界
 
     path?: IPathCommandData | IPathCommandObject[] | IPathString
     windingRule?: IWindingRule
@@ -361,7 +361,7 @@ export interface ILeafComputedData {
     lazy?: boolean
     pixelRatio?: number
 
-    spread?: number
+    renderSpread?: number
 
     path?: IPathCommandData
     windingRule?: IWindingRule
