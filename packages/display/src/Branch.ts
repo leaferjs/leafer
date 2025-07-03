@@ -5,6 +5,7 @@ import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
 import { UICreator } from '@leafer/platform'
+import { isArray } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 import { Leaf } from './Leaf'
@@ -69,7 +70,7 @@ export class Branch extends Leaf { // tip: rewrited Group
 
         const noIndex = index === undefined
         if (!child.__) {
-            if (child instanceof Array) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
+            if (isArray(child)) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
             else child = UICreator.get(child.tag, child) // add JSON
         }
 

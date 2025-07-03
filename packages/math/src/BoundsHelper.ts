@@ -1,4 +1,6 @@
 import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData } from '@leafer/interface'
+import { isArray } from '@leafer/data'
+
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
 import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
@@ -37,7 +39,7 @@ export const BoundsHelper = {
 
     copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: IFourNumber, isShrink?: boolean, side?: ISide): void {
         const { x, y, width, height } = bounds
-        if (spread instanceof Array) {
+        if (isArray(spread)) {
             const four = fourNumber(spread)
             isShrink
                 ? B.set(t, x + four[3], y + four[0], width - four[1] - four[3], height - four[2] - four[0])

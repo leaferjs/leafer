@@ -1,4 +1,5 @@
 import { ILeafData, ILeaf, IObject, IValue, IPathCommandData, IJSONOptions } from '@leafer/interface'
+import { isArray } from './data'
 
 
 export class LeafData implements ILeafData {
@@ -77,7 +78,7 @@ export class LeafData implements ILeafData {
 
         if (names) {
 
-            if (names instanceof Array) {
+            if (isArray(names)) {
                 for (let name of names) data[name] = this.__getInput(name)
             } else {
                 for (let name in names) data[name] = this.__getInput(name)

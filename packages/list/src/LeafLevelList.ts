@@ -1,4 +1,5 @@
 import { ILeaf, ILeafArrayMap, ILeafLevelList, ILeafListItemCallback, INumberMap } from '@leafer/interface'
+import { isArray } from '@leafer/data'
 
 export class LeafLevelList implements ILeafLevelList {
 
@@ -11,7 +12,7 @@ export class LeafLevelList implements ILeafLevelList {
 
     constructor(item?: ILeaf | ILeaf[]) {
         this.reset()
-        if (item) item instanceof Array ? this.addList(item) : this.add(item)
+        if (item) isArray(item) ? this.addList(item) : this.add(item)
     }
 
     public has(leaf: ILeaf): boolean {

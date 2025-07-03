@@ -1,4 +1,5 @@
 import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
+import { isArray } from '@leafer/data'
 
 const { round, pow, PI } = Math
 
@@ -13,7 +14,7 @@ export const MathHelper = {
 
     fourNumber(num: number | number[], maxValue?: number): number[] { // top right bottom left || topLeft, topRight, bottomRight, bottomLeft
         let data: number[]
-        if (num instanceof Array) {
+        if (isArray(num)) {
             switch (num.length) {
                 case 4:
                     data = maxValue === undefined ? num : [...num]

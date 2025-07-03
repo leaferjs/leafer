@@ -1,5 +1,5 @@
 import { IBounds, ILayoutBlockData, ILeafList, ILeaf } from '@leafer/interface'
-import { Bounds, LeafBoundsHelper, LeafList } from '@leafer/core'
+import { Bounds, LeafBoundsHelper, LeafList, isArray } from '@leafer/core'
 
 
 const { worldBounds } = LeafBoundsHelper
@@ -13,7 +13,7 @@ export class LayoutBlockData implements ILayoutBlockData {
     public afterBounds: IBounds = new Bounds()
 
     constructor(list: ILeafList | ILeaf[]) {
-        if (list instanceof Array) list = new LeafList(list)
+        if (isArray(list)) list = new LeafList(list)
         this.updatedList = list
     }
 

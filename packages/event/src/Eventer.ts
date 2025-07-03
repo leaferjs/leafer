@@ -1,5 +1,6 @@
 import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventParamsMap, InnerId, IEventParams, IFunction } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
+import { isArray } from '@leafer/data'
 
 import { BoundsEvent, boundsEventMap } from './BoundsEvent'
 
@@ -27,8 +28,8 @@ export class Eventer implements IEventer {
 
         if (!listener) {
             let event: IFunction | [IFunction, IEventOption]
-            if (type instanceof Array) (type as IEventParams[]).forEach(item => this.on(item[0], item[1], item[2]))
-            else for (let key in type as IEventParamsMap) (event = (type as IEventParamsMap)[key]) instanceof Array ? this.on(key, event[0], event[1]) : this.on(key, event)
+            if (isArray(type)) (type as IEventParams[]).forEach(item => this.on(item[0], item[1], item[2]))
+            else for (let key in type as IEventParamsMap) isArray(event = (type as IEventParamsMap)[key]) ? this.on(key, event[0], event[1]) : this.on(key, event)
             return
         }
 
@@ -108,23 +109,23 @@ export class Eventer implements IEventer {
     }
 
     public on_(type: string | string[] | IEventParams[], listener?: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId {
-        if (!listener) (type instanceof Array) && (type as IEventParams[]).forEach(item => this.on(item[0], item[2] ? item[1] = item[1].bind(item[2]) : item[1], item[3]))
+        if (!listener) isArray(type) && (type as IEventParams[]).forEach(item => this.on(item[0], item[2] ? item[1] = item[1].bind(item[2]) : item[1], item[3]))
         else this.on(type, bind ? listener = listener.bind(bind) : listener, options)
         return { type, current: this as any, listener, options }
     }
 
     public off_(id: IEventListenerId | IEventListenerId[]): void {
         if (!id) return
-        const list = id instanceof Array ? id : [id]
+        const list = isArray(id) ? id : [id]
         list.forEach(item => {
-            if (!item.listener) (item.type instanceof Array) && (item.type as IEventParams[]).forEach(v => item.current.off(v[0], v[1], v[3]))
+            if (!item.listener) isArray(item.type) && (item.type as IEventParams[]).forEach(v => item.current.off(v[0], v[1], v[3]))
             else item.current.off(item.type as string | string[], item.listener, item.options)
         })
         list.length = 0
     }
 
     public once(type: string | string[] | IEventParams[], listener?: IEventListener, captureOrBind?: boolean | IObject, capture?: boolean): void {
-        if (!listener) return (type instanceof Array) && (type as IEventParams[]).forEach(item => this.once(item[0], item[1], item[2], item[3]))
+        if (!listener) return isArray(type) && (type as IEventParams[]).forEach(item => this.once(item[0], item[1], item[2], item[3]))
         if (typeof captureOrBind === 'object') listener = listener.bind(captureOrBind)
         else capture = captureOrBind
         this.on(type, listener, { once: true, capture })
