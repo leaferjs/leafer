@@ -1,6 +1,7 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
-import { OneRadian, getPointData } from './MathHelper'
+import { isObject } from '@leafer/data'
 
+import { OneRadian, getPointData } from './MathHelper'
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -41,7 +42,7 @@ export const PointHelper = {
     },
 
     move(t: IPointData, x: number | IPointData, y?: number): void {
-        if (typeof x === 'object') t.x += x.x, t.y += x.y
+        if (isObject(x)) t.x += x.x, t.y += x.y
         else t.x += x, t.y += y
     },
 
@@ -165,7 +166,7 @@ export const PointHelper = {
 
     toNumberPoints(originPoints: number[] | IPointData[]): number[] {
         let points = originPoints as number[]
-        if (typeof originPoints[0] === 'object') points = [], (originPoints as IPointData[]).forEach(p => points.push(p.x, p.y))
+        if (isObject(originPoints[0])) points = [], (originPoints as IPointData[]).forEach(p => points.push(p.x, p.y))
         return points
     },
 

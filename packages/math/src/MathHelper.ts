@@ -1,12 +1,12 @@
 import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
-import { isArray } from '@leafer/data'
+import { isArray, isObject } from '@leafer/data'
 
 const { round, pow, PI } = Math
 
 export const MathHelper = {
 
     within(value: number, min: number | IRangeSize, max?: number): number {
-        if (typeof min === 'object') max = min.max, min = min.min
+        if (isObject(min)) max = min.max, min = min.min
         if (min !== undefined && value < min) value = min
         if (max !== undefined && value > max) value = max
         return value

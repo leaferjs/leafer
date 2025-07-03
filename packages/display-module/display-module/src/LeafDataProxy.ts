@@ -1,5 +1,6 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
 import { PropertyEvent } from '@leafer/event'
+import { isObject } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
@@ -18,7 +19,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
                 newValue = undefined // must
             }
 
-            if (typeof newValue === 'object' || oldValue !== newValue) {
+            if (isObject(newValue) || oldValue !== newValue) {
 
                 this.__realSetAttr(name, newValue)
 

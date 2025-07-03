@@ -1,4 +1,6 @@
 import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData, IFourNumber, ISide, IAlign } from '@leafer/interface'
+import { isObject } from '@leafer/data'
+
 import { BoundsHelper as B } from './BoundsHelper'
 
 
@@ -19,7 +21,7 @@ export class Bounds implements IBounds {
     }
 
     public set(x?: number | IBoundsData, y?: number, width?: number, height?: number): IBounds {
-        typeof x === 'object' ? B.copy(this, x) : B.set(this, x, y, width, height)
+        isObject(x) ? B.copy(this, x) : B.set(this, x, y, width, height)
         return this
     }
 

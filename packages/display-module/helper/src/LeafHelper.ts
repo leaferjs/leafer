@@ -1,6 +1,7 @@
 import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
+import { isObject } from '@leafer/data'
 
 
 const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -88,13 +89,13 @@ export const LeafHelper = {
     // transform
 
     moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: ITransition): void {
-        const local = typeof x === 'object' ? { ...x } : { x, y }
+        const local = isObject(x) ? { ...x } : { x, y }
         isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.worldTransform, local, local, true))
         L.moveLocal(t, local.x, local.y, transition)
     },
 
     moveLocal(t: ILeaf, x: number | IPointData, y = 0, transition?: ITransition): void {
-        if (typeof x === 'object') y = x.y, x = x.x
+        if (isObject(x)) y = x.y, x = x.x
         x += t.x
         y += t.y
         if (t.leafer && t.leafer.config.pointSnap) x = round(x), y = round(y)

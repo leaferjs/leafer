@@ -1,4 +1,6 @@
 import { IMatrix, IMatrixData, IPointData, ILayoutData, IMatrixWithScaleData } from '@leafer/interface'
+import { isObject } from '@leafer/data'
+
 import { MatrixHelper as M } from './MatrixHelper'
 
 
@@ -19,7 +21,7 @@ export class Matrix implements IMatrix {
     }
 
     public set(a?: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): IMatrix {
-        typeof a === 'object' ? M.copy(this, a) : M.set(this, a, b, c, d, e, f)
+        isObject(a) ? M.copy(this, a) : M.set(this, a, b, c, d, e, f)
         return this
     }
 

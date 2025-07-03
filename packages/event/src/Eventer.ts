@@ -1,6 +1,6 @@
 import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventParamsMap, InnerId, IEventParams, IFunction } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
-import { isArray } from '@leafer/data'
+import { isArray, isObject } from '@leafer/data'
 
 import { BoundsEvent, boundsEventMap } from './BoundsEvent'
 
@@ -126,7 +126,7 @@ export class Eventer implements IEventer {
 
     public once(type: string | string[] | IEventParams[], listener?: IEventListener, captureOrBind?: boolean | IObject, capture?: boolean): void {
         if (!listener) return isArray(type) && (type as IEventParams[]).forEach(item => this.once(item[0], item[1], item[2], item[3]))
-        if (typeof captureOrBind === 'object') listener = listener.bind(captureOrBind)
+        if (isObject(captureOrBind)) listener = listener.bind(captureOrBind)
         else capture = captureOrBind
         this.on(type, listener, { once: true, capture })
     }

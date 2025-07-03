@@ -15,8 +15,12 @@ export function isNull(value: any): boolean {
 
 export const { isArray } = Array
 
-export function isObject<T extends object>(value: any): value is T { // 检测 {} 对象
-    return value && typeof value === 'object' && !isArray(value) // fix: null is object
+export function isObject<T extends object>(value: any): value is T {
+    return value && typeof value === 'object' // fix: null is object
+}
+
+export function isData<T extends object>(value: any): value is T { // 检测 {} 对象
+    return isObject(value) && !isArray(value) // 排除数组
 }
 
 export function isEmptyData(value: any): boolean {

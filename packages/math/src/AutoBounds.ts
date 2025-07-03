@@ -1,4 +1,6 @@
 import { IAutoBounds, IAutoBoundsData, IBounds, ISizeData } from '@leafer/interface'
+import { isObject } from '@leafer/data'
+
 import { Bounds } from './Bounds'
 
 
@@ -13,7 +15,7 @@ export class AutoBounds implements IAutoBounds {
     public height: number
 
     constructor(top?: number | IAutoBoundsData, right?: number, bottom?: number, left?: number, width?: number, height?: number) {
-        typeof top === 'object' ? this.copy(top) : this.set(top, right, bottom, left, width, height)
+        isObject(top) ? this.copy(top) : this.set(top, right, bottom, left, width, height)
     }
 
     set(top = 0, right = 0, bottom = 0, left = 0, width = 0, height = 0): void {

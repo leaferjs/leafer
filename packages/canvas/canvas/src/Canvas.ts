@@ -1,4 +1,6 @@
 import { ICanvasAttr, ITextMetrics, ICanvasContext2D, IPath2D, IObject, InnerId, IMatrixData, IFunction, IWindingRule, IBlendMode } from '@leafer/interface'
+import { isObject } from '@leafer/data'
+
 
 function contextAttr(realName?: string) {
     return (target: Canvas, key: string) => {
@@ -155,7 +157,7 @@ export class Canvas implements ICanvasAttr {
     public restore(): void { }
 
     public transform(a: number | IMatrixData, b?: number, c?: number, d?: number, e?: number, f?: number): void {
-        if (typeof a === 'object') {
+        if (isObject(a)) {
             this.context.transform(a.a, a.b, a.c, a.d, a.e, a.f)
         } else {
             this.context.transform(a, b, c, d, e, f)

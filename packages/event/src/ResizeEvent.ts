@@ -1,4 +1,5 @@
 import { ILeaf, INumberMap, IResizeEvent, IScreenSizeData } from '@leafer/interface'
+import { isObject } from '@leafer/data'
 
 import { Event } from './Event'
 
@@ -31,7 +32,7 @@ export class ResizeEvent extends Event implements IResizeEvent {
     readonly old: IScreenSizeData
 
     constructor(size: IScreenSizeData | string, oldSize?: IScreenSizeData) {
-        if (typeof size === 'object') {
+        if (isObject(size)) {
             super(ResizeEvent.RESIZE)
             Object.assign(this, size)
         } else {

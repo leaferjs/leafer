@@ -1,4 +1,6 @@
 import { IPoint, IPointData, IMatrixData } from '@leafer/interface'
+import { isObject } from '@leafer/data'
+
 import { PointHelper as P } from './PointHelper'
 
 export class Point implements IPoint {
@@ -11,7 +13,7 @@ export class Point implements IPoint {
     }
 
     public set(x?: number | IPointData, y?: number): IPoint {
-        typeof x === 'object' ? P.copy(this, x) : P.set(this, x, y)
+        isObject(x) ? P.copy(this, x) : P.set(this, x, y)
         return this
     }
 
