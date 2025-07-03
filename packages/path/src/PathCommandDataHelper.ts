@@ -1,5 +1,6 @@
 import { IPathCommandData, IPointData } from '@leafer/interface'
 import { MathHelper, PointHelper } from '@leafer/math'
+import { isNumber } from '@leafer/data'
 
 import { PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
@@ -45,7 +46,7 @@ export const PathCommandDataHelper = {
     },
 
     roundRect(data: IPathCommandData, x: number, y: number, width: number, height: number, cornerRadius: number | number[]): void {
-        if (typeof cornerRadius === 'number') {
+        if (isNumber(cornerRadius)) {
             data.push(X, x, y, width, height, cornerRadius)
         } else {
             const fourCorners = MathHelper.fourNumber(cornerRadius)

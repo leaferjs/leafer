@@ -1,5 +1,5 @@
 import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject, ICanvasContext2D } from '@leafer/interface'
-import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent, isString } from '@leafer/core'
+import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent, isString, isNumber } from '@leafer/core'
 
 
 export class LeaferCanvas extends LeaferCanvasBase {
@@ -55,7 +55,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
             // fix roundRect
             if (this.context.roundRect) {
                 this.roundRect = function (x: number, y: number, width: number, height: number, radius?: number | number[]): void {
-                    this.context.roundRect(x, y, width, height, typeof radius === 'number' ? [radius] : radius)
+                    this.context.roundRect(x, y, width, height, isNumber(radius) ? [radius] : radius)
                 }
             }
             canvasPatch((this.context as IObject).__proto__)

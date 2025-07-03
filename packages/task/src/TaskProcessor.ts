@@ -1,5 +1,5 @@
 import { IFunction, ITaskProcessor, ITaskProcessorConfig, ITaskOptions, ITaskItem } from '@leafer/interface'
-import { DataHelper } from '@leafer/data'
+import { DataHelper, isNumber } from '@leafer/data'
 
 import { TaskItem } from './TaskItem'
 
@@ -62,7 +62,7 @@ export class TaskProcessor implements ITaskProcessor {
         const task = new TaskItem(taskCallback)
         task.parent = this
 
-        if (typeof options === 'number') {
+        if (isNumber(options)) {
             delay = options
         } else if (options) {
             parallel = options.parallel

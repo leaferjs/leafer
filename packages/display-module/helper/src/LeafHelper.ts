@@ -1,7 +1,7 @@
 import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
-import { isObject } from '@leafer/data'
+import { isObject, isNumber } from '@leafer/data'
 
 
 const { copy, toInnerPoint, toOuterPoint, scaleOfOuter, rotateOfOuter, skewOfOuter, multiplyParent, divideParent, getLayout } = MatrixHelper
@@ -108,7 +108,7 @@ export const LeafHelper = {
 
     zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number | ITransition = scaleX, resize?: boolean, transition?: ITransition): void {
         const o = t.__localMatrix
-        if (typeof scaleY !== 'number') {
+        if (!isNumber(scaleY)) {
             if (scaleY) transition = scaleY
             scaleY = scaleX
         }

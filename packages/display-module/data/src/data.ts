@@ -17,6 +17,10 @@ export function isString<T extends string>(value: any): value is T {
     return typeof value === 'string'
 }
 
+export function isNumber<T extends number>(value: any): value is T {
+    return typeof value === 'number'
+}
+
 export const { isArray } = Array
 
 export function isObject<T extends object>(value: any): value is T {
