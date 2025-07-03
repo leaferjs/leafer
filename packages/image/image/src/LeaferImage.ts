@@ -1,13 +1,14 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, IProgressData } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, IProgressData, IFourNumber } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
-import { IncrementId } from '@leafer/math'
+import { IncrementId, MathHelper } from '@leafer/math'
 import { DataHelper } from '@leafer/data'
 
 import { ImageManager } from './ImageManager'
 
 
 const { IMAGE, create } = IncrementId
+const noPadding = [0, 0, 0, 0]
 
 export class LeaferImage implements ILeaferImage {
 
@@ -105,7 +106,7 @@ export class LeaferImage implements ILeaferImage {
         return this.view
     }
 
-    public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject): any {
+    public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject, padding?: IFourNumber): any {
         width || (width = this.width)
         height || (height = this.height)
 
@@ -115,10 +116,12 @@ export class LeaferImage implements ILeaferImage {
             if (data) return data
         }
 
-        const canvas = Platform.origin.createCanvas(width, height)
+        const [top, right, bottom, left] = padding ? MathHelper.fourNumber(padding) : noPadding
+
+        const canvas = Platform.origin.createCanvas(width + left + right, height + top + bottom)
         const ctx = canvas.getContext('2d')
         if (opacity) ctx.globalAlpha = opacity
-        ctx.drawImage(this.view, 0, 0, width, height)
+        ctx.drawImage(this.view, left, top, width, height)
 
         this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
 
