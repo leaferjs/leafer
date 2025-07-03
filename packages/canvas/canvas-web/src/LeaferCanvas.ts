@@ -1,5 +1,5 @@
 import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IFunction } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug } from '@leafer/core'
+import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug, isString } from '@leafer/core'
 
 
 const debug = Debug.get('LeaferCanvas')
@@ -68,7 +68,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     protected __createViewFrom(inputView: string | object): void {
-        let find: unknown = (typeof inputView === 'string') ? document.getElementById(inputView) : inputView as HTMLElement
+        let find: unknown = isString(inputView) ? document.getElementById(inputView) : inputView as HTMLElement
         if (find) {
             if (find instanceof HTMLCanvasElement) {
 

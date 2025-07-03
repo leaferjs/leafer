@@ -1,4 +1,5 @@
 import { IBooleanMap, IBoundsData, ILeaferCanvas, IRenderOptions, ILeaf } from '@leafer/interface'
+import { isString } from '@leafer/data'
 import { MathHelper } from '@leafer/math'
 
 
@@ -85,7 +86,7 @@ export class Debug {
 
 function getNameList(name: string | string[]): string[] {
     if (!name) name = []
-    else if (typeof name === 'string') name = [name]
+    else if (isString(name)) name = [name]
     return name
 }
 

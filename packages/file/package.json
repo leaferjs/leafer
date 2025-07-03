@@ -18,6 +18,9 @@
     "leaferjs"
   ],
   "dependencies": {
+    "@leafer/platform": "1.8.0",
+    "@leafer/task": "1.8.0",
+    "@leafer/data": "1.8.0",
     "@leafer/debug": "1.8.0"
   },
   "devDependencies": {

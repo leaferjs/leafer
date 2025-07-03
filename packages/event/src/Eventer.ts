@@ -1,6 +1,6 @@
 import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventParamsMap, InnerId, IEventParams, IFunction } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
-import { isArray, isObject } from '@leafer/data'
+import { isArray, isObject, isString } from '@leafer/data'
 
 import { BoundsEvent, boundsEventMap } from './BoundsEvent'
 
@@ -47,7 +47,7 @@ export class Eventer implements IEventer {
 
         let events: IEventListenerItem[]
         const map = __getListenerMap(this, capture, true)
-        const typeList = typeof type === 'string' ? type.split(' ') : type as string[]
+        const typeList = isString(type) ? type.split(' ') : type as string[]
         const item = once ? { listener, once } : { listener }
 
         typeList.forEach(type => {
@@ -67,7 +67,7 @@ export class Eventer implements IEventer {
     public off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void {
         if (type) {
 
-            const typeList = typeof type === 'string' ? type.split(' ') : type
+            const typeList = isString(type) ? type.split(' ') : type
 
             if (listener) {
 

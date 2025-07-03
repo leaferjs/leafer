@@ -1,4 +1,6 @@
 import { IAround, IPointData, IBoundsData, IUnitPointData } from '@leafer/interface'
+import { isString } from '@leafer/data'
+
 import { Direction9 } from './Direction'
 
 
@@ -52,5 +54,5 @@ export const AroundHelper = {
 }
 
 function get(around: IAround): IUnitPointData {
-    return typeof around === 'string' ? directionData[Direction9[around]] : around
+    return isString(around) ? directionData[Direction9[around]] : around
 }

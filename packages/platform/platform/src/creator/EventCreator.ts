@@ -1,4 +1,5 @@
 import { IEvent, IObject } from '@leafer/interface'
+import { isString } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
@@ -12,7 +13,7 @@ export const EventCreator = {
         let name: string
         Object.keys(Event).forEach(key => {
             name = Event[key]
-            if (typeof name === 'string') nameList[name] && debug.repeat(name), nameList[name] = Event
+            if (isString(name)) nameList[name] && debug.repeat(name), nameList[name] = Event
         })
     },
 

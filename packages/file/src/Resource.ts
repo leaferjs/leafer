@@ -2,6 +2,7 @@ import { ILeaferImage, IResource, IObject, ILeaferCanvas, IExportFileType, ILeaf
 
 import { Creator } from '@leafer/platform'
 import { TaskProcessor } from '@leafer/task'
+import { isString } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
@@ -45,7 +46,7 @@ export const Resource: IResource = {
 
     setImage(key: string, value: string | IObject | ILeaferImage | ILeaferCanvas, format?: IExportFileType): ILeaferImage {
         let config: ILeaferImageConfig
-        if (typeof value === 'string') config = { url: value }
+        if (isString(value)) config = { url: value }
         else if (!value.url) config = { url: key, view: value }
         if (config) format && (config.format = format), value = Creator.image(config)
         R.set(key, value)

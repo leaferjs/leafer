@@ -1,5 +1,5 @@
 import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData } from '@leafer/interface'
-import { isArray } from '@leafer/data'
+import { isArray, isString } from '@leafer/data'
 
 import { Matrix } from './Matrix'
 import { MatrixHelper as M } from './MatrixHelper'
@@ -185,7 +185,7 @@ export const BoundsHelper = {
 
     put(t: ISizeData, put: ISizeData, align: IAlign = 'center', putScale: number | 'fit' | 'cover' = 1, changeSize = true, to?: IPointData): void {
         to || (to = put as unknown as IPointData)
-        if (typeof putScale === 'string') putScale = B.getFitScale(t, put, putScale === 'cover')
+        if (isString(putScale)) putScale = B.getFitScale(t, put, putScale === 'cover')
         tempBounds.width = changeSize ? put.width *= putScale : put.width * putScale
         tempBounds.height = changeSize ? put.height *= putScale : put.height * putScale
         AlignHelper.toPoint(align, tempBounds, t as IBoundsData, to, true, true)

@@ -1,4 +1,6 @@
 import { IPathCommandData, IPathCreator, IPathString, IPointData } from '@leafer/interface'
+import { isString } from '@leafer/data'
+
 import { PathCommandDataHelper } from './PathCommandDataHelper'
 import { PathHelper } from './PathHelper'
 
@@ -18,7 +20,7 @@ export class PathCreator implements IPathCreator { //  tip: rewrited Pen
 
     public set(path?: IPathCommandData | IPathString): PathCreator {
         if (path) {
-            this.__path = typeof path === 'string' ? PathHelper.parse(path) : path
+            this.__path = isString(path) ? PathHelper.parse(path) : path
         } else {
             this.__path = []
         }

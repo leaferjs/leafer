@@ -1,5 +1,5 @@
 import { IResizeEventListener, IAutoBounds, IScreenSizeData, IFunction, IMiniappSelect, IObject, ICanvasContext2D } from '@leafer/interface'
-import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent } from '@leafer/core'
+import { LeaferCanvasBase, canvasPatch, canvasSizeAttrs, Platform, DataHelper, ResizeEvent, isString } from '@leafer/core'
 
 
 export class LeaferCanvas extends LeaferCanvasBase {
@@ -17,7 +17,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         let view = config.view || config.canvas
 
         if (view) {
-            if (typeof view === 'string') {
+            if (isString(view)) {
                 if (view[0] !== '#') view = '#' + view
                 this.viewSelect = Platform.miniapp.select(view)
             } else if (view.fields) {
