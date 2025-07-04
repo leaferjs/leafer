@@ -1,4 +1,5 @@
 import { IObject, IValue } from '@leafer/interface'
+import { isUndefined } from '@leafer/data'
 
 export function defineKey<T>(target: T, key: string, descriptor: IObject & ThisType<T>, noConfigurable?: boolean): void {
     if (!noConfigurable) descriptor.configurable = descriptor.enumerable = true
@@ -12,7 +13,7 @@ export function getDescriptor(object: IObject, name: string) {
 export function createDescriptor(key: string, defaultValue?: IValue) {
     const privateKey = '_' + key
     return {
-        get() { const v = (this as IObject)[privateKey]; return v === undefined ? defaultValue : v },
+        get() { const v = (this as IObject)[privateKey]; return isUndefined(v) ? defaultValue : v },
         set(value: IValue) { (this as IObject)[privateKey] = value }
     }
 }

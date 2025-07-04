@@ -1,6 +1,6 @@
 import { IEventListener, IEventListenerMap, IEventListenerItem, IEventListenerId, IEvent, IObject, IEventTarget, IEventOption, IEventer, IEventParamsMap, InnerId, IEventParams, IFunction } from '@leafer/interface'
 import { EventCreator } from '@leafer/platform'
-import { isArray, isObject, isString } from '@leafer/data'
+import { isArray, isObject, isString, isUndefined } from '@leafer/data'
 
 import { BoundsEvent, boundsEventMap } from './BoundsEvent'
 
@@ -163,7 +163,7 @@ export class Eventer implements IEventer {
 
         const { __bubbleMap: b, __captureMap: c } = this
         const hasB = b && b[type], hasC = c && c[type]
-        return !!(capture === undefined ? (hasB || hasC) : (capture ? hasC : hasB))
+        return !!(isUndefined(capture) ? (hasB || hasC) : (capture ? hasC : hasB))
     }
 
     public destroy(): void {

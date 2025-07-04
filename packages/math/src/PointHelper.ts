@@ -1,5 +1,5 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
-import { isObject } from '@leafer/data'
+import { isObject, isUndefined } from '@leafer/data'
 
 import { OneRadian, getPointData } from './MathHelper'
 import { MatrixHelper as M } from './MatrixHelper'
@@ -23,7 +23,7 @@ export const PointHelper = {
 
     setRadius(t: IRadiusPointData, x: number, y?: number): void {
         t.radiusX = x
-        t.radiusY = y === undefined ? x : y
+        t.radiusY = isUndefined(y) ? x : y
     },
 
     copy(t: IPointData, point: IPointData): void {
@@ -143,7 +143,7 @@ export const PointHelper = {
     },
 
     getRadianFrom(fromX: number, fromY: number, originX: number, originY: number, toX: number, toY: number, toOriginX?: number, toOriginY?: number): number {
-        if (toOriginX === undefined) toOriginX = originX, toOriginY = originY
+        if (isUndefined(toOriginX)) toOriginX = originX, toOriginY = originY
         const a = fromX - originX
         const b = fromY - originY
         const c = toX - toOriginX

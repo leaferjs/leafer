@@ -1,5 +1,5 @@
 import { IAutoBounds, ISizeData, IScreenSizeData, IResizeEventListener, IFunction } from '@leafer/interface'
-import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug, isString } from '@leafer/core'
+import { LeaferCanvasBase, canvasSizeAttrs, ResizeEvent, DataHelper, Platform, Debug, isString, isUndefined } from '@leafer/core'
 
 
 const debug = Debug.get('LeaferCanvas')
@@ -196,7 +196,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const oldSize = {} as IScreenSizeData
         DataHelper.copyAttrs(oldSize, this, canvasSizeAttrs)
         this.resize(size)
-        if (this.resizeListener && this.width !== undefined) this.resizeListener(new ResizeEvent(size, oldSize))
+        if (this.resizeListener && !isUndefined(this.width)) this.resizeListener(new ResizeEvent(size, oldSize))
     }
 
 

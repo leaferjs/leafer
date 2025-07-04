@@ -1,4 +1,5 @@
 import { ILeaf, IObject } from '@leafer/interface'
+import { isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
@@ -17,7 +18,7 @@ export const UICreator = {
     get(tag: string, data?: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
         if (!list[tag]) debug.error('not register ' + tag)
         const ui = new list[tag](data)
-        if (x !== undefined) {
+        if (!isUndefined(x)) {
             ui.x = x
             if (y) ui.y = y
             if (width) ui.width = width

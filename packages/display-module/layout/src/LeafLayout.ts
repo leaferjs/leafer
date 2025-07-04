@@ -1,5 +1,6 @@
 import { ILeaf, ILeafLayout, ILocationType, IBoundsType, IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '@leafer/interface'
 import { Bounds, BoundsHelper, MatrixHelper, PointHelper } from '@leafer/math'
+import { isUndefined } from '@leafer/data'
 import { LeafHelper } from '@leafer/helper'
 import { Platform } from '@leafer/platform'
 
@@ -268,7 +269,7 @@ export class LeafLayout implements ILeafLayout {
             default:
                 relativeLeaf = relative
         }
-        if (relativeLeaf !== undefined) points.forEach(point => leaf.innerToWorld(point, null, false, relativeLeaf))
+        if (!isUndefined(relativeLeaf)) points.forEach(point => leaf.innerToWorld(point, null, false, relativeLeaf))
         return points
     }
 

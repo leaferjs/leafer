@@ -18,6 +18,7 @@
     "leaferjs"
   ],
   "dependencies": {
+    "@leafer/data": "1.8.0",
     "@leafer/math": "1.8.0",
     "@leafer/helper": "1.8.0",
     "@leafer/platform": "1.8.0"

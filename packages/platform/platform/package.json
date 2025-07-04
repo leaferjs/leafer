@@ -18,7 +18,7 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/layouter": "1.8.0",
+    "@leafer/data": "1.8.0",
     "@leafer/debug": "1.8.0"
   },
   "devDependencies": {

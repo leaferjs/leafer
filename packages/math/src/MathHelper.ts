@@ -1,5 +1,5 @@
 import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
-import { isArray, isObject, isNumber } from '@leafer/data'
+import { isArray, isObject, isNumber, isUndefined } from '@leafer/data'
 
 const { round, pow, PI } = Math
 
@@ -7,8 +7,8 @@ export const MathHelper = {
 
     within(value: number, min: number | IRangeSize, max?: number): number {
         if (isObject(min)) max = min.max, min = min.min
-        if (min !== undefined && value < min) value = min
-        if (max !== undefined && value > max) value = max
+        if (!isUndefined(min) && value < min) value = min
+        if (!isUndefined(max) && value > max) value = max
         return value
     },
 
@@ -17,7 +17,7 @@ export const MathHelper = {
         if (isArray(num)) {
             switch (num.length) {
                 case 4:
-                    data = maxValue === undefined ? num : [...num]
+                    data = isUndefined(maxValue) ? num : [...num]
                     break
                 case 2:
                     data = [num[0], num[1], num[0], num[1]]
@@ -58,7 +58,7 @@ export const MathHelper = {
     },
 
     float(num: number, maxLength?: number): number {
-        const a = maxLength !== undefined ? pow(10, maxLength) : 1000000000000 // default
+        const a = !isUndefined(maxLength) ? pow(10, maxLength) : 1000000000000 // default
         num = round(num * a) / a
         return num === -0 ? 0 : num
     },

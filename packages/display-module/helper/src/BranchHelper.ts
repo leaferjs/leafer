@@ -1,5 +1,5 @@
 import { ILeaf, ILeafLevelList, ILeafList } from '@leafer/interface'
-
+import { isUndefined } from '@leafer/data'
 import { LeafHelper } from './LeafHelper'
 
 const { updateBounds } = LeafHelper
@@ -32,7 +32,7 @@ export const BranchHelper = {
         const { keys } = (leafList as ILeafList)
         if (keys) {
             while (leaf.parent) {
-                if (keys[leaf.parent.innerId] === undefined) {
+                if (isUndefined(keys[leaf.parent.innerId])) {
                     leafList.add(leaf.parent)
                     leaf = leaf.parent
                 } else {

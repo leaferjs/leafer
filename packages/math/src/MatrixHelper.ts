@@ -1,4 +1,6 @@
 import { IMatrixData, IPointData, ILayoutData, IMatrixWithLayoutData, IMatrixWithOptionScaleData, IScaleData, IMatrixWithScaleData, IScrollPointData } from '@leafer/interface'
+import { isUndefined } from '@leafer/data'
+
 import { MathHelper, OneRadian, PI_2, getBoundsData, getMatrixData } from './MathHelper'
 
 
@@ -140,7 +142,7 @@ export const MatrixHelper = {
 
         to || (to = t)
 
-        if (abcdChanged === undefined) abcdChanged = t.a !== 1 || t.b || t.c || t.d !== 1
+        if (isUndefined(abcdChanged)) abcdChanged = t.a !== 1 || t.b || t.c || t.d !== 1
 
         if (abcdChanged) {
             const { a, b, c, d } = t
@@ -248,7 +250,7 @@ export const MatrixHelper = {
     setLayout(t: IMatrixData, layout: ILayoutData, origin?: IPointData, around?: IPointData, bcChanged?: boolean | number): void {
         const { x, y, scaleX, scaleY } = layout
 
-        if (bcChanged === undefined) bcChanged = layout.rotation || layout.skewX || layout.skewY
+        if (isUndefined(bcChanged)) bcChanged = layout.rotation || layout.skewX || layout.skewY
 
         if (bcChanged) {
 

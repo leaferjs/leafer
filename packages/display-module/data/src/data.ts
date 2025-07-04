@@ -9,6 +9,10 @@ export enum Answer {
 
 export const emptyData: IObject = {}
 
+export function isUndefined(value: any): boolean {
+    return value === undefined
+}
+
 export function isNull(value: any): boolean {
     return value === undefined || value === null
 }

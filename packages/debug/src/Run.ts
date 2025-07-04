@@ -1,4 +1,6 @@
 import { IncrementId } from '@leafer/math'
+import { isUndefined } from '@leafer/data'
+
 import { Debug } from './Debug'
 
 
@@ -38,7 +40,7 @@ export const Run = {
 
     endOfName(name: string, microsecond?: boolean): void {
         const id = R.nameToIdMap[name]
-        if (id !== undefined) R.end(id, microsecond)
+        if (!isUndefined(id)) R.end(id, microsecond)
     }
 }
 

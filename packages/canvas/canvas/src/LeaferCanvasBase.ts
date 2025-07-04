@@ -1,7 +1,7 @@
 import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IWindingRuleData, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfData } from '@leafer/interface'
 import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
-import { DataHelper } from '@leafer/data'
+import { DataHelper, isUndefined } from '@leafer/data'
 
 import { Canvas } from './Canvas'
 
@@ -166,8 +166,8 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (childOptions) {
             if (childOptions.strokeCap) strokeCap = childOptions.strokeCap
             if (childOptions.strokeJoin) strokeJoin = childOptions.strokeJoin
-            if (childOptions.dashPattern !== undefined) dashPattern = childOptions.dashPattern
-            if (childOptions.dashOffset !== undefined) dashOffset = childOptions.dashOffset
+            if (!isUndefined(childOptions.dashPattern)) dashPattern = childOptions.dashPattern
+            if (!isUndefined(childOptions.dashOffset)) dashOffset = childOptions.dashOffset
             if (childOptions.miterLimit) miterLimit = childOptions.miterLimit
         }
         this.strokeCap = strokeCap

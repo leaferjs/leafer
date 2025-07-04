@@ -1,5 +1,5 @@
 import { ILeaf, ILeafList, ILeafListItemCallback, INumberMap } from '@leafer/interface'
-import { isArray } from '@leafer/data'
+import { isArray, isUndefined } from '@leafer/data'
 
 export class LeafList implements ILeafList {
 
@@ -14,7 +14,7 @@ export class LeafList implements ILeafList {
     }
 
     public has(leaf: ILeaf): boolean {
-        return leaf && this.keys[leaf.innerId] !== undefined
+        return leaf && !isUndefined(this.keys[leaf.innerId])
     }
 
     public indexAt(index: number): ILeaf {
@@ -23,13 +23,13 @@ export class LeafList implements ILeafList {
 
     public indexOf(leaf: ILeaf): number {
         const index = this.keys[leaf.innerId]
-        return index === undefined ? -1 : index
+        return isUndefined(index) ? -1 : index
     }
 
 
     public add(leaf: ILeaf): void {
         const { list, keys } = this
-        if (keys[leaf.innerId] === undefined) {
+        if (isUndefined(keys[leaf.innerId])) {
             list.push(leaf)
             keys[leaf.innerId] = list.length - 1
         }
@@ -37,7 +37,7 @@ export class LeafList implements ILeafList {
 
     public addAt(leaf: ILeaf, index = 0): void {
         const { keys } = this
-        if (keys[leaf.innerId] === undefined) {
+        if (isUndefined(keys[leaf.innerId])) {
             const { list } = this
             for (let i = index, len = list.length; i < len; i++)  keys[list[i].innerId]++
             if (index === 0) {
@@ -59,7 +59,7 @@ export class LeafList implements ILeafList {
         const { list } = this
         let findIndex: number
         for (let i = 0, len = list.length; i < len; i++) {
-            if (findIndex !== undefined) {
+            if (!isUndefined(findIndex)) {
                 this.keys[list[i].innerId] = i - 1 // update rest keys
             } else if (list[i].innerId === leaf.innerId) {
                 findIndex = i
@@ -67,7 +67,7 @@ export class LeafList implements ILeafList {
             }
         }
 
-        if (findIndex !== undefined) list.splice(findIndex, 1)
+        if (!isUndefined(findIndex)) list.splice(findIndex, 1)
     }
 
 

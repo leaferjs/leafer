@@ -1,6 +1,6 @@
 import { IPathCommandData, IPointData } from '@leafer/interface'
 import { MathHelper, PointHelper } from '@leafer/math'
-import { isNumber } from '@leafer/data'
+import { isNumber, isUndefined, isNull } from '@leafer/data'
 
 import { PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
@@ -59,26 +59,26 @@ export const PathCommandDataHelper = {
     },
 
     ellipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        if (rotation === undefined) {
+        if (isNull(rotation)) {
             data.push(F, x, y, radiusX, radiusY)
         } else {
-            if (startAngle === undefined) startAngle = 0
-            if (endAngle === undefined) endAngle = 360
+            if (isNull(startAngle)) startAngle = 0
+            if (isNull(endAngle)) endAngle = 360
             data.push(G, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise ? 1 : 0)
         }
     },
 
     arc(data: IPathCommandData, x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        if (startAngle === undefined) {
+        if (isNull(startAngle)) {
             data.push(P, x, y, radius)
         } else {
-            if (endAngle === undefined) endAngle = 360
+            if (isNull(endAngle)) endAngle = 360
             data.push(O, x, y, radius, startAngle, endAngle, anticlockwise ? 1 : 0)
         }
     },
 
     arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number, lastX?: number, lastY?: number): void {
-        if (lastX !== undefined) {
+        if (!isUndefined(lastX)) {
             const d = getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2)
             radius = min(radius, min(d / 2, d / 2 * abs(tan(getRadianFrom(lastX, lastY, x1, y1, x2, y2) / 2))))
         }
@@ -88,13 +88,13 @@ export const PathCommandDataHelper = {
     // new
 
     drawEllipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        BezierHelper.ellipse(null, x, y, radiusX, radiusY, rotation === undefined ? 0 : rotation, startAngle === undefined ? 0 : startAngle, endAngle === undefined ? 360 : endAngle, anticlockwise, null, null, startPoint)
+        BezierHelper.ellipse(null, x, y, radiusX, radiusY, isNull(rotation) ? 0 : rotation, isNull(startAngle) ? 0 : startAngle, isNull(endAngle) ? 360 : endAngle, anticlockwise, null, null, startPoint)
         data.push(M, startPoint.x, startPoint.y)
         ellipse(data, x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
     },
 
     drawArc(data: IPathCommandData, x: number, y: number, radius: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
-        BezierHelper.arc(null, x, y, radius, startAngle === undefined ? 0 : startAngle, endAngle === undefined ? 360 : endAngle, anticlockwise, null, null, startPoint)
+        BezierHelper.arc(null, x, y, radius, isNull(startAngle) ? 0 : startAngle, isNull(endAngle) ? 360 : endAngle, anticlockwise, null, null, startPoint)
         data.push(M, startPoint.x, startPoint.y)
         arc(data, x, y, radius, startAngle, endAngle, anticlockwise)
     },

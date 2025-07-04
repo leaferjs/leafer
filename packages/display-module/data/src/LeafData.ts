@@ -1,5 +1,5 @@
 import { ILeafData, ILeaf, IObject, IValue, IPathCommandData, IJSONOptions } from '@leafer/interface'
-import { isArray } from './data'
+import { isArray, isUndefined } from './data'
 
 
 export class LeafData implements ILeafData {
@@ -36,7 +36,7 @@ export class LeafData implements ILeafData {
     public __get(name: string): any {
         if (this.__input) {
             const value = this.__input[name]
-            if (value !== undefined) return value
+            if (!isUndefined(value)) return value
         }
         return (this as IObject)[name]
     }
@@ -47,7 +47,7 @@ export class LeafData implements ILeafData {
         for (let key in this) {
             if (key[0] !== '_') {
                 inputValue = __input ? __input[key] : undefined
-                data[key] = (inputValue === undefined) ? this[key] : inputValue
+                data[key] = isUndefined(inputValue) ? this[key] : inputValue
             }
         }
         return data
@@ -61,7 +61,7 @@ export class LeafData implements ILeafData {
     public __getInput(name: string): any {
         if (this.__input) {
             const value = this.__input[name]
-            if (value !== undefined) return value
+            if (!isUndefined(value)) return value
         }
 
         if (name === 'path' && !(this as ILeafData).__pathInputed) return // no path mode
@@ -70,7 +70,7 @@ export class LeafData implements ILeafData {
     }
 
     public __removeInput(name: string): void {
-        if (this.__input && this.__input[name] !== undefined) this.__input[name] = undefined
+        if (this.__input && !isUndefined(this.__input[name])) this.__input[name] = undefined
     }
 
     public __getInputData(names?: string[] | IObject, options?: IJSONOptions): IObject {
@@ -91,12 +91,12 @@ export class LeafData implements ILeafData {
             for (let key in this) {
                 if (key[0] !== '_') {
                     value = (this as IObject)['_' + key]
-                    if (value !== undefined) {
+                    if (!isUndefined(value)) {
 
                         if (key === 'path' && !(this as ILeafData).__pathInputed) continue // no path mode
 
                         inputValue = __input ? __input[key] : undefined
-                        data[key] = (inputValue === undefined) ? value : inputValue
+                        data[key] = isUndefined(inputValue) ? value : inputValue
                     }
                 }
             }

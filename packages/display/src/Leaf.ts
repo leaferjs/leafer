@@ -1,6 +1,6 @@
 import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
-import { LeafData } from '@leafer/data'
+import { LeafData, isUndefined } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
@@ -247,10 +247,10 @@ export class Leaf implements ILeaf {
     }
 
     public forceUpdate(attrName?: string): void {
-        if (attrName === undefined) attrName = 'width'
+        if (isUndefined(attrName)) attrName = 'width'
         else if (attrName === 'surface') attrName = 'blendMode'
         const value = this.__.__getInput(attrName);
-        (this.__ as any)[attrName] = value === undefined ? null : undefined;
+        (this.__ as any)[attrName] = isUndefined(value) ? null : undefined;
         (this as any)[attrName] = value
     }
 

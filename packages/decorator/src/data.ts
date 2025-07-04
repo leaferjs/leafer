@@ -1,5 +1,5 @@
 import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction } from '@leafer/interface'
-import { DataHelper, isEmptyData, isObject } from '@leafer/data'
+import { DataHelper, isEmptyData, isObject, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 import { defineKey, getDescriptor, createDescriptor } from './object'
@@ -266,7 +266,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
 
     const property: IObject & ThisType<ILeafData> = createDescriptor(key, defaultValue)
 
-    if (defaultValue === undefined) {
+    if (isUndefined(defaultValue)) {
         property.get = function () { return this[computedKey] }
     } else if (typeof defaultValue === 'function') {
         property.get = function () {

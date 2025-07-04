@@ -1,5 +1,5 @@
 import { ILeaf, INumberMap, IResizeEvent, IScreenSizeData } from '@leafer/interface'
-import { isObject } from '@leafer/data'
+import { isObject, isUndefined } from '@leafer/data'
 
 import { Event } from './Event'
 
@@ -42,7 +42,7 @@ export class ResizeEvent extends Event implements IResizeEvent {
     }
 
     static isResizing(leaf: ILeaf): boolean {
-        return this.resizingKeys && this.resizingKeys[leaf.innerId] !== undefined
+        return this.resizingKeys && !isUndefined(this.resizingKeys[leaf.innerId])
     }
 
 }

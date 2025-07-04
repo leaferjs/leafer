@@ -1,5 +1,5 @@
 import { IFunction, ITaskProcessor, ITaskProcessorConfig, ITaskOptions, ITaskItem } from '@leafer/interface'
-import { DataHelper, isNumber } from '@leafer/data'
+import { DataHelper, isNumber, isUndefined } from '@leafer/data'
 
 import { TaskItem } from './TaskItem'
 
@@ -74,7 +74,7 @@ export class TaskProcessor implements ITaskProcessor {
         if (time) task.time = time
         if (parallel === false) task.parallel = false
 
-        if (delay === undefined) {
+        if (isUndefined(delay)) {
             this.push(task, start)
         } else {
             this.delayNumber++

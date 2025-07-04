@@ -5,7 +5,7 @@ import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
 import { UICreator } from '@leafer/platform'
-import { isArray } from '@leafer/data'
+import { isArray, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 import { Leaf } from './Leaf'
@@ -68,7 +68,7 @@ export class Branch extends Leaf { // tip: rewrited Group
     public add(child: ILeaf, index?: number): void {
         if (child === this || child.destroyed) return debug.warn('add self or destroyed')
 
-        const noIndex = index === undefined
+        const noIndex = isUndefined(index)
         if (!child.__) {
             if (isArray(child)) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
             else child = UICreator.get(child.tag, child) // add JSON
@@ -106,7 +106,7 @@ export class Branch extends Leaf { // tip: rewrited Group
 
             } else this.find(child as any).forEach(item => this.remove(item, destroy)) // 
 
-        } else if (child === undefined) {
+        } else if (isUndefined(child)) {
             super.remove(null, destroy)
         }
     }

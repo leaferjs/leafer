@@ -1,5 +1,5 @@
 import { ILeaf, ILeafArrayMap, ILeafLevelList, ILeafListItemCallback, INumberMap } from '@leafer/interface'
-import { isArray } from '@leafer/data'
+import { isArray, isUndefined } from '@leafer/data'
 
 export class LeafLevelList implements ILeafLevelList {
 
@@ -16,11 +16,11 @@ export class LeafLevelList implements ILeafLevelList {
     }
 
     public has(leaf: ILeaf): boolean {
-        return this.keys[leaf.innerId] !== undefined
+        return !isUndefined(this.keys[leaf.innerId])
     }
 
     public without(leaf: ILeaf): boolean {
-        return this.keys[leaf.innerId] === undefined
+        return isUndefined(this.keys[leaf.innerId])
     }
 
     public sort(reverse?: boolean): void {

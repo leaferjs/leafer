@@ -1,5 +1,5 @@
 import { IBooleanMap, IObject } from '@leafer/interface'
-
+import { isUndefined } from './data'
 
 export const DataHelper = {
 
@@ -24,7 +24,7 @@ export const DataHelper = {
 
     copyAttrs(t: IObject, from: IObject, include: string[]): IObject {
         include.forEach(key => {
-            if (from[key] !== undefined) t[key] = from[key]
+            if (!isUndefined(from[key])) t[key] = from[key]
         })
         return t
     },

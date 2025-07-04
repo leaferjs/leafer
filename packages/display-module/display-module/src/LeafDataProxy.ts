@@ -1,6 +1,6 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
 import { PropertyEvent } from '@leafer/event'
-import { isObject } from '@leafer/data'
+import { isObject, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
@@ -14,7 +14,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
             const oldValue = this.__.__getInput(name)
 
-            if (checkFiniteNumber && !isFinite(newValue) && newValue !== undefined) { // 警告 NaN、Infinity、-Infinity、null、非有效数字
+            if (checkFiniteNumber && !isFinite(newValue) && !isUndefined(newValue)) { // 警告 NaN、Infinity、-Infinity、null、非有效数字
                 debug.warn(this.innerName, name, newValue)
                 newValue = undefined // must
             }
@@ -52,7 +52,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
         const data = this.__ as IObject
         data[name] = newValue
         if (this.__proxyData) this.setProxyAttr(name, newValue)
-        if (data.normalStyle) this.lockNormalStyle || data.normalStyle[name] === undefined || (data.normalStyle[name] = newValue)
+        if (data.normalStyle) this.lockNormalStyle || isUndefined(data.normalStyle[name]) || (data.normalStyle[name] = newValue)
     },
 
 
