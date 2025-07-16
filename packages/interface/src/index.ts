@@ -1,6 +1,6 @@
 export { IAppBase } from './app/IApp'
 export { ILeaferBase, ILeaferAttrData, ILeaferType, ILeaferTypeCreator, ILeaferTypeFunction, ILeaferTypeList, ILeaferConfig, ICreator, IUICreator, IZoomType, IZoomOptions } from './app/ILeafer'
-export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IFlowType, IFlowBoxType, IAlign, IAxisAlign, IFlowAlign, IFlowAxisAlign, ISide, IAxis, IGap, IPointGap, IAxisReverse, IBaseLineAlign, IFlowWrap, IAutoSize, IRangeSize, IPercentData, IUnitData, IConstraint, IConstraintType, IHitType, IMaskType, IEraserType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IDirection4, IAround, IFilter, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
+export { ILeaf, ILeafAttrData, ILeafComputedData, ILeafInputData, ICachedLeaf, IFlowType, IFlowBoxType, IAlign, IAxisAlign, IFlowAlign, IFlowAxisAlign, ISide, IAxis, IGap, IPointGap, IAxisReverse, IBaseLineAlign, IFlowWrap, IAutoSize, IRangeSize, IPercentData, IUnitData, IConstraint, IConstraintType, IScaleFixed, IHitType, IMaskType, IEraserType, IBlendMode, IEditSize, IImageCursor, ICursorType, IStateStyleType, IDirection, IDirection4, IAround, IFilter, ILeafAttrDescriptor, ILeafAttrDescriptorFn } from './display/ILeaf'
 export { IBranch } from './display/IBranch'
 export { IZoomView } from './display/IView'
 
