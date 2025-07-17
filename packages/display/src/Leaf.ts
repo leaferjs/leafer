@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -355,11 +355,12 @@ export class Leaf implements ILeaf {
         return scaleX > 1 ? scaleX : 1
     }
 
-    public getRenderScaleData(abs?: boolean, scaleFixed?: boolean): IScaleData {
-        const { scaleX, scaleY } = ImageManager.patternLocked ? this.__world : this.__nowWorld
-        if (scaleFixed) tempScaleData.scaleX = tempScaleData.scaleY = 1
-        else if (abs) tempScaleData.scaleX = scaleX < 0 ? -scaleX : scaleX, tempScaleData.scaleY = scaleY < 0 ? -scaleY : scaleY
-        else tempScaleData.scaleX = scaleX, tempScaleData.scaleY = scaleY
+    public getRenderScaleData(abs?: boolean, scaleFixed?: IScaleFixed): IScaleData {
+        let { scaleX, scaleY } = ImageManager.patternLocked ? this.__world : this.__nowWorld
+        if (abs) scaleX < 0 && (scaleX = -scaleX), scaleY < 0 && (scaleY = -scaleY)
+        if (scaleFixed === true || (scaleFixed === 'zoom-in' && scaleX > 1 && scaleY > 1)) scaleX = scaleY = 1
+        tempScaleData.scaleX = scaleX
+        tempScaleData.scaleY = scaleY
         return tempScaleData
     }
 
