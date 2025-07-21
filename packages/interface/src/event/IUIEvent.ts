@@ -97,6 +97,8 @@ export interface IKeyEvent extends IUIEvent {
     key?: string
 }
 
+export type IShortcutKeys = string
+
 export interface IImageEvent extends IEvent {
     image?: ILeaferImage
     attrName?: string
