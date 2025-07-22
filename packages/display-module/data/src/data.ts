@@ -25,6 +25,12 @@ export function isNumber<T extends number>(value: any): value is T {
     return typeof value === 'number'
 }
 
+const numberReg = /^-?\d+(?:\.\d+)?$/
+
+export function tryToNumber(value: any): number {
+    return (typeof value === 'string' && numberReg.test(value)) ? +value : value
+}
+
 export const { isArray } = Array
 
 export function isObject<T extends object>(value: any): value is T {
