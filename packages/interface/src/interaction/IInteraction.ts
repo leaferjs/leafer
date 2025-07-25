@@ -9,7 +9,7 @@ import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IObject } from '../data/IData'
-import { ITransition } from '../animate/ITransition'
+
 
 export interface IInteraction extends IControl {
     target: ILeaf
@@ -153,7 +153,7 @@ export interface IPointerConfig {
     hover?: boolean
     touch?: boolean // 使用touch事件代替pointer事件
 
-    dragLimitAnimate?: ITransition //拖拽限制可在拖拽结束时进行动画归位
+    dragLimitAnimate?: boolean | number //拖拽限制可在拖拽结束时进行动画归位
     dragHover?: boolean
     dragDistance?: number
     swipeDistance?: number

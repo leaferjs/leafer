@@ -211,6 +211,20 @@ export const LeafHelper = {
             if (parent === p) return true
             p = p.parent
         }
+    },
+
+    // 简单动画操作
+
+    animateMove(t: ILeaf, move: IPointData, speed = 0.3) {
+        if (!move.x && !move.y) return
+        if (Math.abs(move.x) < 1 && Math.abs(move.y) < 1) {
+            t.move(move)
+        } else {
+            const x = move.x * speed, y = move.y * speed
+            move.x -= x, move.y -= y
+            t.move(x, y)
+            Platform.requestRender(() => L.animateMove(t, move, speed))
+        }
     }
 
 }
