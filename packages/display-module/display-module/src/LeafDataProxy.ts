@@ -1,10 +1,9 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
-import { PropertyEvent } from '@leafer/event'
-import { isObject, isUndefined } from '@leafer/data'
+import { PropertyEvent, LeaferEvent, leaferTransformAttrMap } from '@leafer/event'
+import { isObject, isFinite, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
 
-const { isFinite } = Number
 const debug = Debug.get('setAttr')
 
 export const LeafDataProxy: ILeafDataProxyModule = {
@@ -28,6 +27,11 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
                 if (this.isLeafer) {
                     this.emitEvent(new PropertyEvent(PropertyEvent.LEAFER_CHANGE, this, name, oldValue, newValue))
+                    const transformEventName = leaferTransformAttrMap[name]
+                    if (transformEventName) {
+                        this.emitEvent(new LeaferEvent(transformEventName, this))
+                        this.emitEvent(new LeaferEvent(LeaferEvent.TRANSFORM, this))
+                    }
                 } else {
                     if (this.hasEvent(CHANGE)) this.emitEvent(event)
                 }

@@ -1,4 +1,4 @@
-import { ILeaferEvent } from '@leafer/interface'
+import { ILeaferEvent, IStringMap } from '@leafer/interface'
 
 import { Event } from './Event'
 
@@ -20,4 +20,23 @@ export class LeaferEvent extends Event implements ILeaferEvent {
 
     static END = 'leafer.end'
 
+    // 变换操作
+    static TRANSFORM = 'leafer.transform'
+    static MOVE = 'leafer.move'
+    static SCALE = 'leafer.scale'
+    static ROTATE = 'leafer.rotate'
+    static SKEW = 'leafer.skew'
+}
+
+
+const { MOVE, SCALE, ROTATE, SKEW } = LeaferEvent
+
+export const leaferTransformAttrMap: IStringMap = {
+    x: MOVE,
+    y: MOVE,
+    scaleX: SCALE,
+    scaleY: SCALE,
+    rotation: ROTATE,
+    skewX: SKEW,
+    skewY: SKEW
 }

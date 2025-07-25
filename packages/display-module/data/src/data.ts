@@ -21,6 +21,8 @@ export function isString<T extends string>(value: any): value is T {
     return typeof value === 'string'
 }
 
+export const { isFinite } = Number
+
 export function isNumber<T extends number>(value: any): value is T {
     return typeof value === 'number'
 }
