@@ -138,7 +138,21 @@ export class Picker {
         if (this.exclude && this.exclude.has(child)) return
         if (child.__hitWorld(point)) {
             const { parent } = child
-            if (parent && parent.__hasMask && !child.__.mask && !parent.children.some(item => item.__.mask && item.__hitWorld(point))) return
+            if (parent && parent.__hasMask && !child.__.mask) {
+
+                let findMasks: ILeaf[] = [], item: ILeaf
+                const { children } = parent
+
+                for (let i = 0, len = children.length; i < len; i++) {
+                    item = children[i]
+                    if (item.__.mask) findMasks.push(item)
+                    if (item === child) {
+                        if (findMasks && !findMasks.every(value => value.__hitWorld(point))) return // 遮罩上层的元素，与遮罩相交的区域才能响应事件
+                        break
+                    }
+                }
+
+            }
             this.findList.add(proxy || child)
         }
     }
