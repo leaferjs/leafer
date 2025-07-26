@@ -24,8 +24,9 @@ import { ITransition } from '../animate/ITransition'
 
 
 export interface ICachedLeaf {
-    canvas: ILeaferCanvas,
-    matrix?: IMatrix,
+    canvas: ILeaferCanvas, // 完整的元素缓存画布
+    matrix?: IMatrix, // 包含导出时附加的 options.matrix
+    fitMatrix?: IMatrix, // 不包含导出时附加的 options.matrix
     bounds: IBoundsData
 }
 
