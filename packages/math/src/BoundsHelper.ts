@@ -266,7 +266,7 @@ export const BoundsHelper = {
     setListWithFn(t: IBoundsData, list: IObject[], boundsDataFn: IBoundsDataFn, addMode = false): void {
         let bounds: IBoundsData, first = true
         for (let i = 0, len = list.length; i < len; i++) {
-            bounds = boundsDataFn ? boundsDataFn(list[i]) : list[i] as IBoundsData
+            bounds = boundsDataFn ? boundsDataFn(list[i], i) : list[i] as IBoundsData
             if (bounds && (bounds.width || bounds.height)) {
                 if (first) {
                     first = false

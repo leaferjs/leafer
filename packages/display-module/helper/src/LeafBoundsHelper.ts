@@ -19,16 +19,16 @@ export const LeafBoundsHelper = {
         return target.__.eraser || target.__.visible === 0 ? null : target.__layout.localRenderBounds
     },
 
-    maskLocalBoxBounds(target: ILeaf): IBoundsData {
-        return target.__.mask ? target.__localBoxBounds : null
+    maskLocalBoxBounds(target: ILeaf, index: number): IBoundsData {
+        return checkMask(target, index) && target.__localBoxBounds
     },
 
-    maskLocalStrokeBounds(target: ILeaf): IBoundsData {
-        return target.__.mask ? target.__layout.localStrokeBounds : null
+    maskLocalStrokeBounds(target: ILeaf, index: number): IBoundsData {
+        return checkMask(target, index) && target.__layout.localStrokeBounds
     },
 
-    maskLocalRenderBounds(target: ILeaf): IBoundsData {
-        return target.__.mask ? target.__layout.localRenderBounds : null
+    maskLocalRenderBounds(target: ILeaf, index: number): IBoundsData {
+        return checkMask(target, index) && target.__layout.localRenderBounds
     },
 
     excludeRenderBounds(child: ILeaf, options: IRenderOptions): boolean {
@@ -37,4 +37,13 @@ export const LeafBoundsHelper = {
         return false
     }
 
+}
+
+
+let findMask: number
+
+function checkMask(target: ILeaf, index: number): boolean {
+    if (!index) findMask = 0
+    if (target.__.mask) findMask = 1
+    return findMask < 0 ? null : (findMask && (findMask = -1), true) // 第一个 mask 元素之后的元素 bounds 可以忽略，返回 null
 }

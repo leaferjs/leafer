@@ -85,7 +85,7 @@ export interface IOffsetBoundsData extends IBoundsData {
 }
 
 export interface IBoundsDataFn {
-    (target: any): IBoundsData
+    (target: any, index?: number): IBoundsData
 }
 
 export interface IBounds extends IBoundsData, ITwoPointBoundsData {
