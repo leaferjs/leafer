@@ -663,6 +663,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     resizeHeight(height: number): void
 
     // ILeafHit ->
+    hit(world: IPointData, hitRadius?: number): boolean
     __hitWorld(point: IRadiusPointData): boolean
     __hit(local: IRadiusPointData): boolean
     __hitFill(inner: IRadiusPointData): boolean

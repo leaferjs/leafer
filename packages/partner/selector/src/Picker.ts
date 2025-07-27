@@ -1,10 +1,10 @@
-import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom } from '@leafer/interface'
+import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker } from '@leafer/interface'
 import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 
 const { hitRadiusPoint } = BoundsHelper
 
-export class Picker {
+export class Picker implements IPicker {
 
     protected target?: ILeaf
     protected selector: ISelector
@@ -32,7 +32,7 @@ export class Picker {
         this.findList = new LeafList(options.findList)
 
         // path
-        if (!options.findList) this.hitBranch(target)  // 包含through元素
+        if (!options.findList) this.hitBranch(target.isBranchLeaf ? { children: [target] } as ILeaf : target)  // 包含through元素
 
         const { list } = this.findList
         const leaf = this.getBestMatchLeaf(list, options.bottomList, ignoreHittable)
@@ -41,6 +41,10 @@ export class Picker {
         this.clear()
 
         return through ? { path, target: leaf, throughPath: list.length ? this.getThroughPath(list) : path } : { path, target: leaf }
+    }
+
+    public hitPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): boolean {
+        return !!this.getByPoint(hitPoint, hitRadius, options).target // 后期需进行优化 ！！！
     }
 
     public getBestMatchLeaf(list: ILeaf[], bottomList: IPickBottom[], ignoreHittable: boolean): ILeaf {

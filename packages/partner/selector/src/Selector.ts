@@ -26,6 +26,10 @@ export class Selector implements ISelector {
         return picker.getByPoint(hitPoint, hitRadius, options)
     }
 
+    public hitPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): boolean {
+        return this.picker.hitPoint(hitPoint, hitRadius, options)
+    }
+
     // @leafer-in/find will rewrite
     public getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[] {
         return this.finder ? this.finder.getBy(condition, branch, one, options) : Plugin.need('find')

@@ -56,6 +56,7 @@ export interface ISelector {
     finder?: IFinder
 
     getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
+    hitPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): boolean
     getBy(condition: number | string | IFindCondition | IFindMethod, branch?: ILeaf, one?: boolean, options?: any): ILeaf | ILeaf[]
     destroy(): void
 }
@@ -63,6 +64,7 @@ export interface ISelector {
 
 export interface IPicker {
     getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult
+    hitPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): boolean
     destroy(): void
 }
 

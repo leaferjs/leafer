@@ -558,6 +558,8 @@ export class Leaf implements ILeaf {
 
     // @leafer-ui/hit LeafHit rewrite
 
+    public hit(_world: IPointData, _hitRadius?: number): boolean { return true }
+
     public __hitWorld(_point: IRadiusPointData): boolean { return true }
 
     public __hit(_local: IRadiusPointData): boolean { return true }
