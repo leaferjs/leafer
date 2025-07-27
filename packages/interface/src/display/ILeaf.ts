@@ -297,6 +297,7 @@ export interface ILeafAttrData {
     hitChildren?: IBoolean
     hitSelf?: IBoolean
     hitRadius?: INumber
+    hitBest?: INumber // 是否参与最佳碰撞检测（多个元素的外边缘检测到碰撞了，会优先拾取实体碰撞到的元素）
 
     button?: IBoolean
     cursor?: ICursorType | ICursorType[]
@@ -400,6 +401,7 @@ export interface ILeafComputedData {
     hitChildren?: boolean
     hitSelf?: boolean
     hitRadius?: number
+    hitBest?: number // 是否参与最佳碰撞检测（多个元素的外边缘检测到碰撞了，会优先拾取实体碰撞到的元素）
 
     button?: boolean
     cursor?: ICursorType | ICursorType[]

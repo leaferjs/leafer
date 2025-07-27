@@ -51,7 +51,7 @@ export class Picker {
             const point = { x, y, radiusX: 0, radiusY: 0 }
             for (let i = 0, len = list.length; i < len; i++) {
                 find = list[i]
-                if (ignoreHittable || LeafHelper.worldHittable(find)) {
+                if (find.__.hitBest && (ignoreHittable || LeafHelper.worldHittable(find))) {
                     this.hitChild(find, point)
                     if (this.findList.length) return this.findList.list[0]
                 }
@@ -65,7 +65,7 @@ export class Picker {
             }
         }
 
-        return list[0]
+        return ignoreHittable ? list[0] : list.find(item => LeafHelper.worldHittable(item))
     }
 
     public getPath(leaf: ILeaf): LeafList {
