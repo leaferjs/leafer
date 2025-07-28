@@ -31,6 +31,7 @@ export interface IPlatform {
     syncDomFont?: boolean // firefox need
 
     selector?: ISelector // 公共查找选择器
+    getSelector?(leaf: ILeaf): ISelector
     layout?(target: ILeaf): void
 
     origin?: {

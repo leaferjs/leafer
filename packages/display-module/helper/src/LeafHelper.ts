@@ -80,6 +80,10 @@ export const LeafHelper = {
         return true
     },
 
+    draggable(t: ILeaf): boolean {
+        return (t.draggable || t.editable) && t.hitSelf && !t.locked
+    },
+
     copyCanvasByWorld(leaf: ILeaf, currentCanvas: ILeaferCanvas, fromCanvas: ILeaferCanvas, fromWorld?: IBoundsData, blendMode?: string, onlyResetTransform?: boolean): void {
         if (!fromWorld) fromWorld = leaf.__nowWorld
         if (leaf.__worldFlipped || Platform.fullImageShadow) currentCanvas.copyWorldByReset(fromCanvas, fromWorld, leaf.__nowWorld, blendMode, onlyResetTransform)

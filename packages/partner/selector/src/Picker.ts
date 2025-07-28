@@ -55,9 +55,12 @@ export class Picker implements IPicker {
             const point = { x, y, radiusX: 0, radiusY: 0 }
             for (let i = 0, len = list.length; i < len; i++) {
                 find = list[i]
-                if (find.__.hitBest && (ignoreHittable || LeafHelper.worldHittable(find))) {
+                if (ignoreHittable || LeafHelper.worldHittable(find)) {
                     this.hitChild(find, point)
-                    if (this.findList.length) return this.findList.list[0]
+                    if (this.findList.length) {
+                        if (find.isBranchLeaf && list.some(item => item !== find && LeafHelper.hasParent(item, find))) break // 优先选中 Frame / Box 内的子元素
+                        return this.findList.list[0]
+                    }
                 }
             }
         }
