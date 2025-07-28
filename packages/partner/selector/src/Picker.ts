@@ -48,27 +48,31 @@ export class Picker implements IPicker {
     }
 
     public getBestMatchLeaf(list: ILeaf[], bottomList: IPickBottom[], ignoreHittable: boolean): ILeaf {
+        const findList = this.findList = new LeafList()
+
         if (list.length) {
             let find: ILeaf
-            this.findList = new LeafList()
             const { x, y } = this.point
             const point = { x, y, radiusX: 0, radiusY: 0 }
             for (let i = 0, len = list.length; i < len; i++) {
                 find = list[i]
                 if (ignoreHittable || LeafHelper.worldHittable(find)) {
                     this.hitChild(find, point)
-                    if (this.findList.length) {
-                        if (find.isBranchLeaf && list.some(item => item !== find && LeafHelper.hasParent(item, find))) break // 优先选中 Frame / Box 内的子元素
-                        return this.findList.list[0]
+                    if (findList.length) {
+                        if (find.isBranchLeaf && list.some(item => item !== find && LeafHelper.hasParent(item, find))) {
+                            findList.reset()
+                            break // Frame / Box 同时碰撞到子元素时，忽略自身，优先选中子元素
+                        }
+                        return findList.list[0]
                     }
                 }
             }
         }
 
-        if (bottomList) { // 底部虚拟元素
+        if (bottomList) { // 底部虚拟元素，一般为编辑器的虚拟框
             for (let i = 0, len = bottomList.length; i < len; i++) {
                 this.hitChild(bottomList[i].target, this.point, bottomList[i].proxy)
-                if (this.findList.length) return this.findList.list[0]
+                if (findList.length) return findList.list[0]
             }
         }
 
