@@ -61,7 +61,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         const { width, height, pixelRatio } = config
         this.autoLayout = !width || !height
 
-        this.size.pixelRatio = pixelRatio | Platform.devicePixelRatio
+        this.size.pixelRatio = pixelRatio || Platform.devicePixelRatio
         this.config = config
 
         this.init()
