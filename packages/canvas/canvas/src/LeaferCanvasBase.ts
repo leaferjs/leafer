@@ -1,12 +1,12 @@
 import { IBounds, ILeaferCanvas, ICanvasStrokeOptions, ILeaferCanvasConfig, IWindingRuleData, IExportOptions, IMatrixData, IBoundsData, IAutoBounds, IScreenSizeData, IResizeEventListener, IMatrixWithBoundsData, IPointData, InnerId, ICanvasManager, IWindingRule, IBlendMode, IExportImageType, IExportFileType, IBlob, ICursorType, ILeaferCanvasView, IRadiusPointData, IObject, IMatrixWithOptionHalfData } from '@leafer/interface'
-import { Bounds, tempBounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
+import { Bounds, BoundsHelper, MatrixHelper, IncrementId } from '@leafer/math'
 import { Creator, Platform } from '@leafer/platform'
 import { DataHelper, isUndefined } from '@leafer/data'
 
 import { Canvas } from './Canvas'
 
 
-const { copy, multiplyParent } = MatrixHelper, { round } = Math
+const { copy, multiplyParent } = MatrixHelper, { round } = Math, tempPixelBounds = new Bounds(), tempPixelBounds2 = new Bounds()
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
 
 export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
@@ -210,50 +210,52 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
 
-    public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode): void {
+    public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, ceilPixel: boolean = true): void {
         if (blendMode) this.blendMode = blendMode
         if (from) {
-            const { pixelRatio } = this
-            if (!to) to = from
-            this.drawImage(canvas.view as HTMLCanvasElement, from.x * pixelRatio, from.y * pixelRatio, from.width * pixelRatio, from.height * pixelRatio, to.x * pixelRatio, to.y * pixelRatio, to.width * pixelRatio, to.height * pixelRatio)
+            this.setTempPixelBounds(from, ceilPixel)
+            if (!to) to = tempPixelBounds // to = from
+            else this.setTempPixelBounds2(to, ceilPixel), to = tempPixelBounds2
+
+            this.drawImage(canvas.view as HTMLCanvasElement, tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height, to.x, to.y, to.width, to.height)
         } else {
             this.drawImage(canvas.view as HTMLCanvasElement, 0, 0)
         }
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: IBlendMode): void {
-        if (blendMode) this.blendMode = blendMode
+    public copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: IBlendMode, ceilPixel: boolean = true): void {
         if (fromWorld.b || fromWorld.c) {
             this.save()
             this.resetTransform()
-            this.copyWorld(canvas, fromWorld, BoundsHelper.tempToOuterOf(toInnerBounds, fromWorld))
+            this.copyWorld(canvas, fromWorld, BoundsHelper.tempToOuterOf(toInnerBounds, fromWorld), blendMode, ceilPixel)
             this.restore()
         } else {
-            const { pixelRatio } = this
-            this.drawImage(canvas.view as HTMLCanvasElement, fromWorld.x * pixelRatio, fromWorld.y * pixelRatio, fromWorld.width * pixelRatio, fromWorld.height * pixelRatio, toInnerBounds.x, toInnerBounds.y, toInnerBounds.width, toInnerBounds.height)
+            if (blendMode) this.blendMode = blendMode
+            this.setTempPixelBounds(fromWorld, ceilPixel)
+            this.drawImage(canvas.view as HTMLCanvasElement, tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height, toInnerBounds.x, toInnerBounds.y, toInnerBounds.width, toInnerBounds.height)
+            if (blendMode) this.blendMode = 'source-over'
         }
-        if (blendMode) this.blendMode = 'source-over'
     }
 
-    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, onlyResetTransform?: boolean): void {
+    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, onlyResetTransform?: boolean, ceilPixel: boolean = true): void {
         this.resetTransform()
-        this.copyWorld(canvas, from, to, blendMode)
+        this.copyWorld(canvas, from, to, blendMode, ceilPixel)
         if (!onlyResetTransform) this.useWorldTransform() // restore world transform
     }
 
     public useGrayscaleAlpha(bounds: IBoundsData): void { // 先实现功能，后期需通过 shader 优化性能
-        this.setTempBounds(bounds, true, true)
+        this.setTempPixelBounds(bounds, true, true)
 
         let alpha: number, pixel: number
-        const { context } = this, imageData = context.getImageData(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height), { data } = imageData
+        const { context } = this, imageData = context.getImageData(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height), { data } = imageData
 
         for (let i = 0, len = data.length; i < len; i += 4) {
             pixel = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114
             if (alpha = data[i + 3]) data[i + 3] = alpha === 255 ? pixel : alpha * (pixel / 255)
         }
 
-        context.putImageData(imageData, tempBounds.x, tempBounds.y)
+        context.putImageData(imageData, tempPixelBounds.x, tempPixelBounds.y)
     }
 
     public useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void {
@@ -264,26 +266,26 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         this.copyWorld(eraserCanvas, fromBounds, toBounds, 'destination-out')
     }
 
-    public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
+    public fillWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode, ceilPixel?: boolean): void {
         if (blendMode) this.blendMode = blendMode
         this.fillStyle = color
-        this.setTempBounds(bounds)
-        this.fillRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
+        this.setTempPixelBounds(bounds, ceilPixel)
+        this.fillRect(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height)
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode): void {
+    public strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: IBlendMode, ceilPixel?: boolean): void {
         if (blendMode) this.blendMode = blendMode
         this.strokeStyle = color
-        this.setTempBounds(bounds)
-        this.strokeRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
+        this.setTempPixelBounds(bounds, ceilPixel)
+        this.strokeRect(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height)
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
+    public clipWorld(bounds: IBoundsData, ceilPixel: boolean = true): void {
         this.beginPath()
-        this.setTempBounds(bounds, ceilPixel)
-        this.rect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
+        this.setTempPixelBounds(bounds, ceilPixel)
+        this.rect(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height)
         this.clip()
 
     }
@@ -292,9 +294,9 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         ruleData.windingRule ? this.clip(ruleData.windingRule) : this.clip()
     }
 
-    public clearWorld(bounds: IBoundsData, ceilPixel?: boolean): void {
-        this.setTempBounds(bounds, ceilPixel)
-        this.clearRect(tempBounds.x, tempBounds.y, tempBounds.width, tempBounds.height)
+    public clearWorld(bounds: IBoundsData, ceilPixel: boolean = true): void {
+        this.setTempPixelBounds(bounds, ceilPixel)
+        this.clearRect(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height)
     }
 
     public clear(): void {
@@ -305,11 +307,19 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     // other
 
-    protected setTempBounds(bounds: IBoundsData, ceil?: boolean, intersect?: boolean): void {
-        tempBounds.set(bounds)
-        if (intersect) tempBounds.intersect(this.bounds)
-        tempBounds.scale(this.pixelRatio)
-        if (ceil) tempBounds.ceil()
+    protected setTempPixelBounds(bounds: IBoundsData, ceil?: boolean, intersect?: boolean): void {
+        this.copyToPixelBounds(tempPixelBounds, bounds, ceil, intersect)
+    }
+
+    protected setTempPixelBounds2(bounds: IBoundsData, ceil?: boolean, intersect?: boolean): void {
+        this.copyToPixelBounds(tempPixelBounds2, bounds, ceil, intersect)
+    }
+
+    protected copyToPixelBounds(pixelBounds: IBounds, bounds: IBoundsData, ceil?: boolean, intersect?: boolean): void {
+        pixelBounds.set(bounds)
+        if (intersect) pixelBounds.intersect(this.bounds)
+        pixelBounds.scale(this.pixelRatio)
+        if (ceil) pixelBounds.ceil()
     }
 
     public isSameSize(size: IScreenSizeData): boolean {
@@ -331,7 +341,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     public recycle(clearBounds?: IBoundsData): void {
         if (!this.recycled) {
             this.restore()
-            clearBounds ? this.clearWorld(clearBounds, true) : this.clear()
+            clearBounds ? this.clearWorld(clearBounds) : this.clear()
             this.manager ? this.manager.recycle(this) : this.destroy()
         }
     }

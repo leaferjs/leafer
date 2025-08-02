@@ -168,9 +168,9 @@ export class Renderer implements IRenderer {
 
         canvas.save()
 
-        bounds.spread(Renderer.clipSpread).ceil()
-        canvas.clearWorld(bounds, true)
-        canvas.clipWorld(bounds, true)
+        bounds.spread(Renderer.clipSpread).ceil() // 局部渲染区域需扩大一些，避免出现残影
+        canvas.clearWorld(bounds)
+        canvas.clipWorld(bounds)
 
         this.__render(bounds, realBounds)
         canvas.restore()

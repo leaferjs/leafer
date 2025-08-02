@@ -127,16 +127,16 @@ interface ICanvasMethod {
     setWorldShadow(x: number, y: number, blur: number, color?: string): void
     setWorldBlur(blur: number): void
 
-    copyWorld(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string): void
-    copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: string, onlyResetTransform?: boolean): void
-    copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: string): void
+    copyWorld(canvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData, blendMode?: string, ceilPixel?: boolean): void
+    copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: string, onlyResetTransform?: boolean, ceilPixel?: boolean): void
+    copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: string, ceilPixel?: boolean): void
 
     useGrayscaleAlpha(bounds: IBoundsData): void
     useMask(maskCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
     useEraser(eraserCanvas: ILeaferCanvas, fromBounds?: IBoundsData, toBounds?: IBoundsData): void
 
-    fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
-    strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string): void
+    fillWorld(bounds: IBoundsData, color: string | object, blendMode?: string, ceilPixel?: boolean): void
+    strokeWorld(bounds: IBoundsData, color: string | object, blendMode?: string, ceilPixel?: boolean): void
     clipWorld(bounds: IBoundsData, ceilPixel?: boolean): void
     clipUI(ruleData: IWindingRuleData): void
 
