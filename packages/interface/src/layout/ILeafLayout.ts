@@ -31,6 +31,12 @@ export interface ILeafLayout {
     worldStrokeBounds: IBoundsData
     // worldRenderBounds: IBoundsData // use leaf.__world
 
+    // Box 元素专用
+
+    childrenBoxBounds?: IBoundsData
+    childrenStrokeBounds?: IBoundsData
+    childrenRenderBounds?: IBoundsData
+
     // state
     resized: 'inner' | 'scale' | 'local' // inner > scale > local,  设置了inner之后不能被覆盖
     waitAutoLayout: boolean
