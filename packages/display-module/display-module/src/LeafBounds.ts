@@ -1,4 +1,4 @@
-import { ILeafBoundsModule } from '@leafer/interface'
+import { ILeafBoundsModule, IBoundsData } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 import { PathBounds } from '@leafer/path'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
@@ -119,7 +119,7 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
 
-    __updateBoxBounds(): void {
+    __updateBoxBounds(_secondLayout?: boolean, _bounds?: IBoundsData): void {
         const b = this.__layout.boxBounds
         const data = this.__
         if (data.__pathInputed) {
@@ -166,12 +166,12 @@ export const LeafBounds: ILeafBoundsModule = {
         data.__naturalHeight = layout.boxBounds.height
     },
 
-    __updateStrokeBounds(): void {
+    __updateStrokeBounds(_bounds?: IBoundsData): void {
         const layout = this.__layout
         copyAndSpread(layout.strokeBounds, layout.boxBounds, layout.strokeBoxSpread)
     },
 
-    __updateRenderBounds(): void {
+    __updateRenderBounds(_bounds?: IBoundsData): void {
         const layout = this.__layout
         layout.renderSpread > 0 ? copyAndSpread(layout.renderBounds, layout.boxBounds, layout.renderSpread) : copy(layout.renderBounds, layout.strokeBounds) // Box use -1
     }

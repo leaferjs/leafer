@@ -103,6 +103,7 @@ export class Leaf implements ILeaf {
 
     // branch 
     public children?: ILeaf[]
+    public topChildren?: ILeaf[]
 
     public destroyed: boolean
 
@@ -285,13 +286,13 @@ export class Leaf implements ILeaf {
 
     // box
 
-    public __updateBoxBounds(): void { }
+    public __updateBoxBounds(_secondLayout?: boolean, _bounds?: IBoundsData): void { }
 
     public __updateContentBounds(): void { }
 
-    public __updateStrokeBounds(): void { }
+    public __updateStrokeBounds(_bounds?: IBoundsData): void { }
 
-    public __updateRenderBounds(): void { }
+    public __updateRenderBounds(_bounds?: IBoundsData): void { }
 
 
     public __updateAutoLayout(): void { }

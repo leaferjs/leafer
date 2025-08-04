@@ -1,4 +1,4 @@
-import { ILeaf } from '@leafer/interface'
+import { IBoundsData, ILeaf } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
@@ -37,16 +37,16 @@ export class Branch extends Leaf { // tip: rewrited Group
         return 0
     }
 
-    public __updateBoxBounds(): void {
-        setListWithFn(this.__layout.boxBounds, this.children, this.__hasMask ? maskLocalBoxBounds : localBoxBounds)
+    public __updateBoxBounds(_secondLayout?: boolean, bounds?: IBoundsData): void {
+        setListWithFn(bounds || this.__layout.boxBounds, this.children, this.__hasMask ? maskLocalBoxBounds : localBoxBounds)
     }
 
-    public __updateStrokeBounds(): void {
-        setListWithFn(this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalStrokeBounds : localStrokeBounds)
+    public __updateStrokeBounds(bounds?: IBoundsData): void {
+        setListWithFn(bounds || this.__layout.strokeBounds, this.children, this.__hasMask ? maskLocalStrokeBounds : localStrokeBounds)
     }
 
-    public __updateRenderBounds(): void {
-        setListWithFn(this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
+    public __updateRenderBounds(bounds?: IBoundsData): void {
+        setListWithFn(bounds || this.__layout.renderBounds, this.children, this.__hasMask ? maskLocalRenderBounds : localRenderBounds)
     }
 
 
