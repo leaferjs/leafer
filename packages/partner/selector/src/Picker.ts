@@ -136,6 +136,7 @@ export class Picker implements IPicker {
 
             if (child.isBranch) {
                 if (hit || child.__ignoreHitWorld) {
+                    if (child.topChildren) this.eachFind(child.topChildren, false) // 滚动条等覆盖物
                     this.eachFind(child.children, child.__onlyHitMask)
                     if (child.isBranchLeaf) this.hitChild(child, point) // Box / Frame
                 }
