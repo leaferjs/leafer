@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData, IScrollPointData } from '@leafer/interface'
 import { isArray, isString } from '@leafer/data'
 
 import { Matrix } from './Matrix'
@@ -68,6 +68,13 @@ export const BoundsHelper = {
     move(t: IBoundsData, x: number, y: number): void {
         t.x += x
         t.y += y
+    },
+
+    scroll(t: IBoundsData, data: IScrollPointData): void {
+        if (data.scrollY || data.scrollX) {
+            t.x += data.scrollX
+            t.y += data.scrollY
+        }
     },
 
     getByMove(t: IBoundsData, x: number, y: number): IBoundsData {
