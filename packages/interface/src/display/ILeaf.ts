@@ -123,6 +123,9 @@ export type IBlendMode =
     | 'copy'
 
 export type IEditSize = 'size' | 'font-size' | 'scale'
+
+export type IDragBoundsType = 'auto' | 'outer' | 'inner'
+
 export interface IImageCursor {
     url: string
     x?: number
@@ -287,6 +290,7 @@ export interface ILeafAttrData {
     // interactive
     draggable?: IBoolean | IAxis
     dragBounds?: IBoundsData | 'parent'
+    dragBoundsType?: IDragBoundsType
 
     editable?: IBoolean
 
@@ -390,6 +394,7 @@ export interface ILeafComputedData {
     // interactive
     draggable?: boolean | IAxis
     dragBounds?: IBoundsData | 'parent'
+    dragBoundsType?: IDragBoundsType
 
     editable?: boolean
 
@@ -586,9 +591,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateLocalRenderBounds(): void
 
     __updateContentBounds(): void
-    __updateBoxBounds(secondLayout?: boolean): void
-    __updateStrokeBounds(): void
-    __updateRenderBounds(): void
+    __updateBoxBounds(secondLayout?: boolean, bounds?: IBoundsData): void
+    __updateStrokeBounds(bounds?: IBoundsData): void
+    __updateRenderBounds(bounds?: IBoundsData): void
 
     __updateAutoLayout(): void
     __updateFlowLayout(): void
@@ -701,6 +706,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // branch
     children?: ILeaf[]
+    topChildren?: ILeaf[]
 
     __updateSortChildren(): void
     add(child: ILeaf | ILeaf[] | ILeafInputData | ILeafInputData[], index?: number): void
