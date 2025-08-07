@@ -64,6 +64,10 @@ export interface ILeafLayout {
     childrenSortChanged?: boolean
     stateStyleChanged?: boolean // hoverStyle ...
 
+    // config changed
+    scrollConfigChanged?: boolean
+    editConfigChanged?: boolean
+
     // keep state
     affectScaleOrRotation: boolean
     affectRotation: boolean
