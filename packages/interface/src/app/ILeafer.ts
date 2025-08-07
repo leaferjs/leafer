@@ -84,7 +84,7 @@ export interface ILeaferAttrData {
     waitViewCompleted(item: IFunction, bind?: IObject): void
 
     zoom(zoomType: IZoomType, optionsOrPadding?: IZoomOptions | IFourNumber, scroll?: 'x' | 'y' | boolean, transition?: ITransition): IBoundsData
-    getValidMove(moveX: number, moveY: number): IPointData
+    getValidMove(moveX: number, moveY: number, checkLimit?: boolean): IPointData
     getValidScale(changeScale: number): number
 
     getWorldPointByClient(clientPoint: IClientPointData, updateClient?: boolean): IPointData
