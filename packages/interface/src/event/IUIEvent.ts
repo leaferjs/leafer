@@ -347,6 +347,7 @@ export type IKeyCodes =
     | 'NonConvert' // 日文输入：不转换
     | 'KanaMode' // 日文假名模式
     | 'Unidentified' // 未识别键
+    | (string & {})
 
 
 export interface IShortcutKeysCheck {
