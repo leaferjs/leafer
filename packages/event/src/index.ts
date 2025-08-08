@@ -1,5 +1,5 @@
 export { ChildEvent } from './ChildEvent'
-export { PropertyEvent } from './PropertyEvent'
+export { PropertyEvent, extraPropertyEventMap } from './PropertyEvent'
 export { ImageEvent } from './ImageEvent'
 export { BoundsEvent } from './BoundsEvent'
 export { ResizeEvent } from './ResizeEvent'

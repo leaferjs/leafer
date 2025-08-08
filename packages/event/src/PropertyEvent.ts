@@ -1,12 +1,16 @@
-import { IPropertyEvent, IEventTarget } from '@leafer/interface'
+import { IPropertyEvent, IEventTarget, IStringMap } from '@leafer/interface'
 
 import { Event } from './Event'
 
+
+const SCROLL = 'property.scroll'
 
 export class PropertyEvent extends Event implements IPropertyEvent {
 
     static CHANGE = 'property.change'
     static LEAFER_CHANGE = 'property.leafer_change'
+
+    static SCROLL = SCROLL
 
     readonly attrName: string
     readonly oldValue: unknown
@@ -19,4 +23,10 @@ export class PropertyEvent extends Event implements IPropertyEvent {
         this.newValue = newValue
     }
 
+}
+
+// 额外派发的属性事件
+export const extraPropertyEventMap: IStringMap = {
+    scrollX: SCROLL,
+    scrollY: SCROLL
 }

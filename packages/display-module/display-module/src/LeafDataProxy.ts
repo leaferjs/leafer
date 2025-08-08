@@ -1,5 +1,5 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
-import { PropertyEvent, LeaferEvent, leaferTransformAttrMap } from '@leafer/event'
+import { PropertyEvent, extraPropertyEventMap, LeaferEvent, leaferTransformAttrMap } from '@leafer/event'
 import { isObject, isFinite, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
@@ -22,21 +22,20 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
                 this.__realSetAttr(name, newValue)
 
-                const { CHANGE } = PropertyEvent
-                const event = new PropertyEvent(CHANGE, this, name, oldValue, newValue)
-
                 if (this.isLeafer) {
                     this.emitEvent(new PropertyEvent(PropertyEvent.LEAFER_CHANGE, this, name, oldValue, newValue))
+
                     const transformEventName = leaferTransformAttrMap[name]
                     if (transformEventName) {
                         this.emitEvent(new LeaferEvent(transformEventName, this))
                         this.emitEvent(new LeaferEvent(LeaferEvent.TRANSFORM, this))
                     }
-                } else {
-                    if (this.hasEvent(CHANGE)) this.emitEvent(event)
                 }
 
-                this.leafer.emitEvent(event)
+                this.emitPropertyEvent(PropertyEvent.CHANGE, name, oldValue, newValue)
+
+                const extraPropertyEvent = extraPropertyEventMap[name]
+                if (extraPropertyEvent) this.emitPropertyEvent(extraPropertyEvent, name, oldValue, newValue)
 
                 return true
             } else {
@@ -50,6 +49,12 @@ export const LeafDataProxy: ILeafDataProxyModule = {
             return true
 
         }
+    },
+
+    emitPropertyEvent(type: string, name: string, oldValue: unknown, newValue: unknown): void {
+        const event = new PropertyEvent(type, this, name, oldValue, newValue)
+        this.isLeafer || (this.hasEvent(type) && this.emitEvent(event))
+        this.leafer.emitEvent(event)
     },
 
     __realSetAttr(name: string, newValue: IValue): void {

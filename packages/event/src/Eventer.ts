@@ -118,8 +118,10 @@ export class Eventer implements IEventer {
         if (!id) return
         const list = isArray(id) ? id : [id]
         list.forEach(item => {
-            if (!item.listener) isArray(item.type) && (item.type as IEventParams[]).forEach(v => item.current.off(v[0], v[1], v[3]))
-            else item.current.off(item.type as string | string[], item.listener, item.options)
+            if (item) {
+                if (!item.listener) isArray(item.type) && (item.type as IEventParams[]).forEach(v => item.current.off(v[0], v[1], v[3]))
+                else item.current.off(item.type as string | string[], item.listener, item.options)
+            }
         })
         list.length = 0
     }
