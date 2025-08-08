@@ -493,6 +493,9 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly worldTransform: IMatrixWithScaleData
     readonly localTransform: IMatrixData
 
+    __scrollWorld?: IMatrixWithBoundsScaleData
+    readonly scrollWorldTransform: IMatrixWithScaleData
+
     readonly boxBounds: IBoundsData
     readonly renderBounds: IBoundsData
     readonly worldBoxBounds: IBoundsData

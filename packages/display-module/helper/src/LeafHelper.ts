@@ -94,7 +94,7 @@ export const LeafHelper = {
 
     moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: ITransition): void {
         const local = isObject(x) ? { ...x } : { x, y }
-        isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.worldTransform, local, local, true))
+        isInnerPoint ? toOuterPoint(t.localTransform, local, local, true) : (t.parent && toInnerPoint(t.parent.scrollWorldTransform, local, local, true))
         L.moveLocal(t, local.x, local.y, transition)
     },
 
@@ -118,7 +118,7 @@ export const LeafHelper = {
         }
         copy(matrix, o)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
-        if (t.origin || t.around) {
+        if (L.hasHighPosition(t)) {
             L.setTransform(t, matrix, resize, transition)
         } else {
             const x = t.x + matrix.e - o.e, y = t.y + matrix.f - o.f
@@ -135,7 +135,7 @@ export const LeafHelper = {
         const o = t.__localMatrix
         copy(matrix, o)
         rotateOfOuter(matrix, origin, angle)
-        if (t.origin || t.around) L.setTransform(t, matrix, false, transition)
+        if (L.hasHighPosition(t)) L.setTransform(t, matrix, false, transition)
         else t.set({ x: t.x + matrix.e - o.e, y: t.y + matrix.f - o.f, rotation: MathHelper.formatRotation(t.rotation + angle) }, transition)
     },
 
@@ -152,7 +152,7 @@ export const LeafHelper = {
     transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
         copy(matrix, t.worldTransform)
         multiplyParent(matrix, transform)
-        if (t.parent) divideParent(matrix, t.parent.worldTransform)
+        if (t.parent) divideParent(matrix, t.parent.scrollWorldTransform)
         L.setTransform(t, matrix, resize, transition)
     },
 
@@ -165,6 +165,12 @@ export const LeafHelper = {
     setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
         const data = t.__, originPoint = data.origin && L.getInnerOrigin(t, data.origin)
         const layout = getLayout(transform, originPoint, data.around && L.getInnerOrigin(t, data.around))
+
+        if (L.hasOffset(t)) {
+            layout.x -= data.offsetX
+            layout.y -= data.offsetY
+        }
+
         if (resize) {
             const scaleX = layout.scaleX / t.scaleX, scaleY = layout.scaleY / t.scaleY
             delete layout.scaleX, delete layout.scaleY
@@ -200,13 +206,21 @@ export const LeafHelper = {
 
     getRelativeWorld(t: ILeaf, relative: ILeaf, temp?: boolean): IMatrixData {
         copy(matrix, t.worldTransform)
-        divideParent(matrix, relative.worldTransform)
+        divideParent(matrix, relative.scrollWorldTransform)
         return temp ? matrix : { ...matrix }
     },
 
     drop(t: ILeaf, parent: ILeaf, index?: number, resize?: boolean): void {
         t.setTransform(L.getRelativeWorld(t, parent, true), resize)
         parent.add(t, index)
+    },
+
+    hasHighPosition(t: ILeaf): boolean {
+        return (t.origin || t.around || L.hasOffset(t)) as unknown as boolean
+    },
+
+    hasOffset(t: ILeaf): boolean {
+        return (t.offsetX || t.offsetY) as unknown as boolean
     },
 
     hasParent(p: ILeaf, parent: ILeaf): boolean | void {
@@ -237,6 +251,5 @@ const L = LeafHelper
 const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange, updateChange } = L
 
 function getTempLocal(t: ILeaf, world: IPointData): IPointData {
-    t.__layout.update()
-    return t.parent ? PointHelper.tempToInnerOf(world, t.parent.__world) : world
+    return t.parent ? PointHelper.tempToInnerOf(world, t.parent.scrollWorldTransform) : world
 }

@@ -66,6 +66,9 @@ export class Leaf implements ILeaf {
     public get worldTransform(): IMatrixWithScaleData { return this.__layout.getTransform('world') as IMatrixWithScaleData }
     public get localTransform(): IMatrixData { return this.__layout.getTransform('local') }
 
+    public __scrollWorld?: IMatrixWithBoundsScaleData
+    public get scrollWorldTransform(): IMatrixWithScaleData { this.updateLayout(); return this.__scrollWorld || this.__world }
+
     // now bounds
     public get boxBounds(): IBoundsData { return this.getBounds('box', 'inner') }
     public get renderBounds(): IBoundsData { return this.getBounds('render', 'inner') }
@@ -74,7 +77,7 @@ export class Leaf implements ILeaf {
     public get worldRenderBounds(): IBoundsData { return this.getBounds('render') }
 
     // now opacity
-    public get worldOpacity(): number { this.__layout.update(); return this.__worldOpacity }
+    public get worldOpacity(): number { this.updateLayout(); return this.__worldOpacity }
 
     public __level: number // layer level  0 -> branch -> branch -> deep
     public __tempNumber: number // temp sort

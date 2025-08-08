@@ -1,4 +1,4 @@
-import { ILeafMatrixModule, ILayoutData, IScrollPointData } from '@leafer/interface'
+import { ILeafMatrixModule, ILayoutData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
 
 
@@ -9,9 +9,10 @@ export const LeafMatrix: ILeafMatrixModule = {
 
     __updateWorldMatrix(): void {
 
-        const { parent, __layout } = this
-        multiplyParent(this.__local || __layout, parent ? parent.__world : defaultWorld, this.__world, !!__layout.affectScaleOrRotation, this.__ as ILayoutData, parent && (parent.scrollY || parent.scrollX) && parent.__ as IScrollPointData)
+        const { parent, __layout, __world, __scrollWorld, __ } = this
+        multiplyParent(this.__local || __layout, parent ? (parent.__scrollWorld || parent.__world) : defaultWorld, __world, !!__layout.affectScaleOrRotation, __ as ILayoutData)
 
+        if (__scrollWorld) translateInner(Object.assign(__scrollWorld, __world), __.scrollX, __.scrollY)
     },
 
     __updateLocalMatrix(): void {
