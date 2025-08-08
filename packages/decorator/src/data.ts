@@ -1,4 +1,4 @@
-import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction } from '@leafer/interface'
+import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction, IMatrixWithBoundsScaleData } from '@leafer/interface'
 import { DataHelper, isEmptyData, isObject, isUndefined } from '@leafer/data'
 import { Debug } from '@leafer/debug'
 
@@ -34,6 +34,17 @@ export function positionType(defaultValue?: IValue, checkFiniteNumber?: boolean)
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             this.__setAttr(key, value, checkFiniteNumber) && (this.__layout.matrixChanged || this.__layout.matrixChange())
+        }
+    }))
+}
+
+export function scrollType(defaultValue?: IValue, checkFiniteNumber?: boolean) {
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            if (this.__setAttr(key, value, checkFiniteNumber)) {
+                this.__layout.matrixChanged || this.__layout.matrixChange()
+                this.__scrollWorld || (this.__scrollWorld = {} as IMatrixWithBoundsScaleData)
+            }
         }
     }))
 }
