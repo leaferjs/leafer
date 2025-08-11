@@ -71,10 +71,8 @@ export const BoundsHelper = {
     },
 
     scroll(t: IBoundsData, data: IScrollPointData): void {
-        if (data.scrollY || data.scrollX) {
-            t.x += data.scrollX
-            t.y += data.scrollY
-        }
+        t.x += data.scrollX
+        t.y += data.scrollY
     },
 
     getByMove(t: IBoundsData, x: number, y: number): IBoundsData {
