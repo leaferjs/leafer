@@ -312,7 +312,7 @@ export class LeafLayout implements ILeafLayout {
 
     public boxChange(): void {
         this.boxChanged = true
-        this.localBoxChanged || this.localBoxChange()
+        this.localBoxChanged ? (this.boundsChanged || (this.boundsChanged = true)) : this.localBoxChange() // fix: boundsChanged未更新的问题
         this.hitCanvasChanged = true
     }
 
@@ -356,7 +356,7 @@ export class LeafLayout implements ILeafLayout {
 
     public matrixChange(): void {
         this.matrixChanged = true
-        this.localBoxChanged || this.localBoxChange()
+        this.localBoxChanged ? (this.boundsChanged || (this.boundsChanged = true)) : this.localBoxChange() // fix: boundsChanged未更新的问题
     }
 
 
