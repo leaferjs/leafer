@@ -63,6 +63,10 @@ export const MathHelper = {
         return num === -0 ? 0 : num
     },
 
+    sign(num: number): number {
+        return num < 0 ? -1 : 1
+    },
+
     getScaleData(scale: number | IPointData, size: number | IOptionSizeData, originSize: ISizeData, scaleData?: IScaleData): IScaleData {
         if (!scaleData) scaleData = {} as IScaleData
         if (size) {
