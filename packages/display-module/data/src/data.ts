@@ -14,7 +14,7 @@ export function isUndefined(value: any): boolean {
 }
 
 export function isNull(value: any): boolean {
-    return value === undefined || value === null
+    return value == null // = value === undefined || value === null
 }
 
 export function isString<T extends string>(value: any): value is T {

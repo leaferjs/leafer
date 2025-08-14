@@ -281,14 +281,14 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
         property.get = function () { return this[computedKey] }
     } else if (typeof defaultValue === 'function') {
         property.get = function () {
-            let v = this[computedKey]
-            return v === undefined ? defaultValue((this as ILeafData).__leaf) : v
+            const v = this[computedKey]
+            return v == null ? defaultValue((this as ILeafData).__leaf) : v
         }
     } else if (isObject(defaultValue)) {
         const isEmpty = isEmptyData(defaultValue)
         property.get = function () {
-            let v = this[computedKey]
-            return v === undefined ? this[computedKey] = isEmpty ? {} : DataHelper.clone(defaultValue) : v
+            const v = this[computedKey]
+            return v == null ? this[computedKey] = isEmpty ? {} : DataHelper.clone(defaultValue) : v
         }
     }
 
@@ -296,7 +296,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     if (key === 'width') {
         property.get = function () {
             const v = this[computedKey]
-            if (v === undefined) {
+            if (v == null) {
                 const t = this as ILeafData, naturalWidth = t.__naturalWidth, leaf = t.__leaf
                 if (!defaultValue || leaf.pathInputed) return leaf.boxBounds.width
                 if (naturalWidth) return (t as IObject)._height && t.__useNaturalRatio ? (t as IObject)._height * naturalWidth / t.__naturalHeight : naturalWidth
@@ -306,7 +306,7 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     } else if (key === 'height') {
         property.get = function () {
             const v = this[computedKey]
-            if (v === undefined) {
+            if (v == null) {
                 const t = this as ILeafData, naturalHeight = t.__naturalHeight, leaf = t.__leaf
                 if (!defaultValue || leaf.pathInputed) return leaf.boxBounds.height
                 if (naturalHeight) return (t as IObject)._width && t.__useNaturalRatio ? (t as IObject)._width * naturalHeight / t.__naturalWidth : naturalHeight
