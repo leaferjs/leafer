@@ -23,7 +23,7 @@ export class Renderer implements IRenderer {
 
     public config: IRendererConfig = {
         usePartRender: true,
-        maxFPS: 60
+        maxFPS: 120
     }
 
     static clipSpread = 10
@@ -226,14 +226,22 @@ export class Renderer implements IRenderer {
         if (target.parentApp) return target.parentApp.requestRender(false) // App 模式下统一走 app 控制渲染帧
 
         const requestTime = this.requestTime = Date.now()
-        Platform.requestRender(() => {
 
-            this.FPS = Math.min(60, Math.ceil(1000 / (Date.now() - requestTime)))
+        const render = () => {
+
+            const nowFPS = 1000 / (Date.now() - requestTime)
+
+            const { maxFPS } = this.config
+            if (maxFPS && nowFPS > maxFPS - 0.5) return Platform.requestRender(render)
+
+            this.FPS = Math.min(120, Math.ceil(nowFPS))
             this.requestTime = 0
 
             this.checkRender()
 
-        })
+        }
+
+        Platform.requestRender(render)
     }
 
     protected __onResize(e: ResizeEvent): void {
