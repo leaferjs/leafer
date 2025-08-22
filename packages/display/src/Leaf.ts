@@ -22,7 +22,7 @@ const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWor
 @useModule(LeafBounds)
 @useModule(LeafEventer)
 @useModule(LeafRender)
-export class Leaf implements ILeaf {
+export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     public get tag(): string { return this.__tag }
     public set tag(_value: string) { }
@@ -111,7 +111,7 @@ export class Leaf implements ILeaf {
     public destroyed: boolean
 
 
-    constructor(data?: ILeafInputData) {
+    constructor(data?: TInputData) {
         this.innerId = create(LEAF)
         this.reset(data)
         if (this.__bubbleMap) this.__emitLifeEvent(ChildEvent.CREATED)
