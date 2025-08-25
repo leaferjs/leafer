@@ -106,7 +106,7 @@ export class LeaferImage implements ILeaferImage {
         return this.view
     }
 
-    public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject, xGap?: number, yGap?: number): any {
+    public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any {
         width || (width = this.width)
         height || (height = this.height)
 
@@ -119,6 +119,7 @@ export class LeaferImage implements ILeaferImage {
         const canvas = Platform.origin.createCanvas(max(floor(width + (xGap || 0)), 1), max(floor(height + (yGap || 0)), 1))
         const ctx = canvas.getContext('2d')
         if (opacity) ctx.globalAlpha = opacity
+        ctx.imageSmoothingEnabled = smooth === false ? false : true // 平滑绘制
         ctx.drawImage(this.view, 0, 0, width, height)
 
         this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
