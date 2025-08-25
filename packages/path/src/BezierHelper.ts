@@ -6,7 +6,7 @@ import { RectHelper } from './RectHelper'
 import { PathHelper } from './PathHelper'
 
 
-const { sin, cos, atan2, ceil, abs, PI, sqrt, pow } = Math
+const { sin, cos, acos, hypot, atan2, ceil, abs, PI, sqrt, pow } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
 const { set, toNumberPoints } = PointHelper
 const { M, L, C, Q, Z } = PathCommandMap
@@ -98,10 +98,14 @@ export const BezierHelper = {
 
         let startRadian = atan2(BAy, BAx)
         let endRadian = atan2(CBy, CBx)
+
+        const lenBA = hypot(BAx, BAy)
+        const lenCB = hypot(CBx, CBy)
+
         let totalRadian = endRadian - startRadian
         if (totalRadian < 0) totalRadian += PI2
 
-        if (totalRadian === PI || (abs(BAx + BAy) < 1.e-12) || (abs(CBx + CBy) < 1.e-12)) { // invalid
+        if (lenBA < 1e-12 || lenCB < 1e-12 || totalRadian < 1e-12 || abs(totalRadian - PI) < 1e-12) {
             if (data) data.push(L, x1, y1)
             if (setPointBounds) {
                 setPoint(setPointBounds, fromX, fromY)
