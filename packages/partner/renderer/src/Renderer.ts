@@ -299,7 +299,8 @@ export class Renderer implements IRenderer {
         if (this.target) {
             this.stop()
             this.__removeListenEvents()
-            this.target = this.canvas = this.config = null
+            this.config = {}
+            this.target = this.canvas = null
         }
     }
 }
