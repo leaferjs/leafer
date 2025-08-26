@@ -122,7 +122,7 @@ export const LeafBounds: ILeafBoundsModule = {
     __updateBoxBounds(_secondLayout?: boolean, _bounds?: IBoundsData): void {
         const b = this.__layout.boxBounds
         const data = this.__
-        if (data.__pathInputed) {
+        if (data.__usePathBox) {
             toBounds(data.path, b)
         } else {
             b.x = 0

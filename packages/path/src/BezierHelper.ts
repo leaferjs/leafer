@@ -6,7 +6,7 @@ import { RectHelper } from './RectHelper'
 import { PathHelper } from './PathHelper'
 
 
-const { sin, cos, acos, hypot, atan2, ceil, abs, PI, sqrt, pow } = Math
+const { sin, cos, hypot, atan2, ceil, abs, PI, sqrt, pow } = Math
 const { setPoint, addPoint } = TwoPointBoundsHelper
 const { set, toNumberPoints } = PointHelper
 const { M, L, C, Q, Z } = PathCommandMap

@@ -439,12 +439,15 @@ export interface ILeafComputedData {
     __useStroke?: boolean
     __useArrow?: boolean
     __useEffect?: boolean
+    __usePathBox?: boolean // 是否使用路径的bounds作为元素box包围盒
 
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
     __pathForArrow?: IPathCommandData
     __pathForMotion?: IMotionPathData
+
+    __clonePathForArrow?: boolean // 是否需要克隆渲染路径用于箭头，避免修改原始路径数据
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {

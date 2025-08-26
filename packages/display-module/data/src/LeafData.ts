@@ -23,6 +23,10 @@ export class LeafData implements ILeafData {
         return path && path.length === 6 && path[0] === 1 // M = 1
     }
 
+    public get __usePathBox(): boolean {
+        return (this as ILeafData).__pathInputed as any as boolean
+    }
+
     public get __blendMode(): string {
         if ((this as ILeafData).eraser && (this as ILeafData).eraser !== 'path') return 'destination-out'
         const { blendMode } = (this as ILeafData)
