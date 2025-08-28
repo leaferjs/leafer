@@ -250,6 +250,6 @@ export const LeafHelper = {
 const L = LeafHelper
 const { updateAllMatrix, updateMatrix, updateAllWorldOpacity, updateAllChange, updateChange } = L
 
-function getTempLocal(t: ILeaf, world: IPointData): IPointData {
-    return t.parent ? PointHelper.tempToInnerOf(world, t.parent.scrollWorldTransform) : world
+function getTempLocal(t: ILeaf, worldPoint: IPointData): IPointData {
+    return t.parent ? PointHelper.tempToInnerOf(worldPoint, t.parent.scrollWorldTransform) : t.updateLayout(), worldPoint
 }
