@@ -67,6 +67,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
     }
 
     public updateViewSize(): void {
+        if (this.unreal) return
+
         const { width, height, pixelRatio } = this
 
         this.view.width = Math.ceil(width * pixelRatio)
@@ -82,6 +84,8 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
 
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
+        if (this.resizeListener) return
+
         this.resizeListener = listener
         if (autoBounds) {
             this.checkSize = this.checkSize.bind(this)

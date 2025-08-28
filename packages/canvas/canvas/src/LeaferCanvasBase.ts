@@ -103,18 +103,21 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
         this.bounds = new Bounds(0, 0, this.width, this.height)
 
-        if (this.context && !this.unreal) {
-            this.updateViewSize()
-            this.smooth = this.config.smooth
-        }
-
+        this.updateViewSize()
         this.updateClientBounds()
 
-        if (this.context && !this.unreal && takeCanvas) {
-            this.clearWorld(takeCanvas.bounds)
-            this.copyWorld(takeCanvas)
-            takeCanvas.recycle()
+        if (this.context) {
+
+            this.smooth = this.config.smooth
+
+            if (!this.unreal && takeCanvas) {
+                this.clearWorld(takeCanvas.bounds)
+                this.copyWorld(takeCanvas)
+                takeCanvas.recycle()
+            }
+
         }
+
     }
 
     public updateViewSize(): void { }

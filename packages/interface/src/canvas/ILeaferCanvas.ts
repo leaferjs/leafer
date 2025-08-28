@@ -213,6 +213,8 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 }
 
 
+export type ICanvasSizeAttr = 'width' | 'height' | 'pixelRatio'
+
 export interface IHitCanvas extends ILeaferCanvas {
     hitScale?: number
 }

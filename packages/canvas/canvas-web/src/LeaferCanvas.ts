@@ -28,6 +28,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
         }
     }
 
+    // CSS 原始自动宽高值
+    protected autoWidthStr: string
+    protected autoHeightStr: string
+
     protected resizeObserver: ResizeObserver
     protected autoBounds: IAutoBounds
     protected resizeListener: IResizeEventListener
@@ -110,14 +114,32 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
     public updateViewSize(): void {
         const { width, height, pixelRatio } = this
-
         const { style } = this.view
-        style.width = width + 'px'
-        style.height = height + 'px'
 
-        this.view.width = Math.ceil(width * pixelRatio)
-        this.view.height = Math.ceil(height * pixelRatio)
+        if (this.unreal) { // app 的 view 为 div 的情况
+
+            const { config, autoWidthStr, autoHeightStr } = this
+            if (config.width) {
+                if (isUndefined(autoWidthStr)) this.autoWidthStr = style.width || ''
+                style.width = config.width + 'px'
+            } else if (!isUndefined(autoWidthStr)) style.width = autoWidthStr
+
+            if (config.height) {
+                if (isUndefined(autoHeightStr)) this.autoHeightStr = style.height || ''
+                style.height = config.height + 'px'
+            } else if (!isUndefined(autoHeightStr)) style.height = autoHeightStr
+
+        } else {
+
+            style.width = width + 'px'
+            style.height = height + 'px'
+
+            this.view.width = Math.ceil(width * pixelRatio)
+            this.view.height = Math.ceil(height * pixelRatio)
+
+        }
     }
+
 
     public updateClientBounds(): void {
         if (this.view.parentElement) this.clientBounds = this.view.getBoundingClientRect()
@@ -126,10 +148,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public startAutoLayout(autoBounds: IAutoBounds, listener: IResizeEventListener): void {
         this.resizeListener = listener
 
-        if (autoBounds) {
+        if (autoBounds) {  // check auto layout
 
-            // check auto layout
             this.autoBounds = autoBounds
+
+            if (this.resizeObserver) return
+
             try {
 
                 this.resizeObserver = new ResizeObserver((entries) => {
@@ -152,16 +176,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
             }
 
+            this.stopListenPixelRatio()
+
         } else {
 
-            // check devicePixelRatio change
-            window.addEventListener('resize', this.windowListener = () => {
-                const pixelRatio = Platform.devicePixelRatio
-                if (!this.config.pixelRatio && this.pixelRatio !== pixelRatio) {
-                    const { width, height } = this
-                    this.emitResize({ width, height, pixelRatio })
-                }
-            })
+            this.listenPixelRatio()
+            if (this.unreal) this.updateViewSize() // must update
 
         }
 
@@ -171,6 +191,25 @@ export class LeaferCanvas extends LeaferCanvasBase {
         if (this.autoLayout) {
             if (this.parentView) this.checkAutoBounds(this.parentView.getBoundingClientRect())
             Platform.requestRender(this.imitateResizeObserver.bind(this))
+        }
+    }
+
+    // check devicePixelRatio change
+
+    protected listenPixelRatio() {
+        if (!this.windowListener) window.addEventListener('resize', this.windowListener = () => {
+            const pixelRatio = Platform.devicePixelRatio
+            if (!this.config.pixelRatio && this.pixelRatio !== pixelRatio) {
+                const { width, height } = this
+                this.emitResize({ width, height, pixelRatio })
+            }
+        })
+    }
+
+    protected stopListenPixelRatio() {
+        if (this.windowListener) {
+            window.removeEventListener('resize', this.windowListener)
+            this.windowListener = null
         }
     }
 
@@ -213,10 +252,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public destroy(): void {
         if (this.view) {
             this.stopAutoLayout()
-            if (this.windowListener) {
-                window.removeEventListener('resize', this.windowListener)
-                this.windowListener = null
-            }
+            this.stopListenPixelRatio()
             if (!this.unreal) {
                 const view = this.view
                 if (view.parentElement) view.remove()
