@@ -37,7 +37,7 @@ export const ImageManager: IImageManager = {
     },
 
     isFormat(format: IExportFileType, config: ILeaferImageConfig): boolean {
-        if (config.format === format) return true
+        if (config.format) return config.format === format
         const { url } = config
         if (url.startsWith('data:')) {
             if (url.startsWith('data:' + FileHelper.mineType(format))) return true
