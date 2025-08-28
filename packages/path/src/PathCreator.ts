@@ -19,11 +19,7 @@ export class PathCreator implements IPathCreator { //  tip: rewrited Pen
     }
 
     public set(path?: IPathCommandData | IPathString): PathCreator {
-        if (path) {
-            this.__path = isString(path) ? PathHelper.parse(path) : path
-        } else {
-            this.__path = []
-        }
+        this.__path = path ? (isString(path) ? PathHelper.parse(path) : path) : []
         return this
     }
 

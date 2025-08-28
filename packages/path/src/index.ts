@@ -16,8 +16,15 @@ import { PathConvert } from './PathConvert'
 import { PathCreator } from './PathCreator'
 import { PathHelper } from './PathHelper'
 
-PathHelper.creator = new PathCreator()
+import { IPathCommandData, IPathString } from '@leafer/interface'
+
+
+export function path(path?: IPathCommandData | IPathString): PathCreator {
+    return new PathCreator(path)
+}
+
+export const pen = path()
+
+PathHelper.creator = path()
 PathHelper.parse = PathConvert.parse
 PathHelper.convertToCanvasData = PathConvert.toCanvasData
-
-export const pen = new PathCreator()
