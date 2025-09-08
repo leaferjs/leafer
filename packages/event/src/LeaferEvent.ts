@@ -20,6 +20,8 @@ export class LeaferEvent extends Event implements ILeaferEvent {
 
     static END = 'leafer.end'
 
+    static UPDATE_MODE = 'leafer.update_mode'
+
     // 变换操作
     static TRANSFORM = 'leafer.transform'
     static MOVE = 'leafer.move'
