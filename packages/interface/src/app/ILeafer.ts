@@ -18,7 +18,10 @@ import { IFunction } from '../function/IFunction'
 import { ITransition } from '../animate/ITransition'
 
 
-export type ILeaferType = 'draw' | 'block' | 'viewport' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom'
+export type ILeaferType = 'draw' | 'block' | 'viewport' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom' // 应用场景类型
+
+export type ILeaferMode = 'normal' | 'draw' | 'preview' // 交互模式
+
 export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IInteractionConfig, ILayouterConfig {
     start?: boolean
     type?: ILeaferType
@@ -29,6 +32,8 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
 }
 
 export interface ILeaferAttrData {
+    mode: ILeaferMode
+
     running: boolean
     created: boolean
     ready: boolean

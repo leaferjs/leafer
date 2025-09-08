@@ -1,4 +1,4 @@
-import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker } from '@leafer/interface'
+import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker, ILeaferBase } from '@leafer/interface'
 import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
 
 
@@ -96,7 +96,7 @@ export class Picker implements IPicker {
             item = path.list[i]
             if (!item.__.hittable) break
             hittablePath.addAt(item, 0)
-            if (!item.__.hitChildren) break
+            if (!item.__.hitChildren || (item.isLeafer && (item as ILeaferBase).mode === 'draw')) break
         }
         return hittablePath
     }
