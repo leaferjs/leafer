@@ -1,6 +1,6 @@
 {
   "name": "@leafer/image-node",
-  "version": "1.9.5",
+  "version": "1.9.6",
   "description": "@leafer/image-node",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -17,6 +17,6 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/core": "1.9.5"
+    "@leafer/core": "1.9.6"
   }
 }
