@@ -150,6 +150,18 @@ export function surfaceType(defaultValue?: IValue) {
     }))
 }
 
+export function dimType(defaultValue?: IValue) {
+    return decorateLeafAttr(defaultValue, (key: string) => attr({
+        set(value: IValue) {
+            if (this.__setAttr(key, value)) {
+                const data = this.__
+                data.__useDim = (data.dim || data.bright || data.dimskip) as boolean
+                this.__layout.surfaceChange()
+            }
+        }
+    }))
+}
+
 export function opacityType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
@@ -194,7 +206,7 @@ export function sortType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
-                this.__layout.surfaceChanged || this.__layout.surfaceChange()
+                this.__layout.surfaceChange()
                 this.waitParent(() => { this.parent.__layout.childrenSortChange() })
             }
         }
@@ -225,7 +237,7 @@ export function hitType(defaultValue?: IValue) {
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 this.__layout.hitCanvasChanged = true
-                if (Debug.showBounds === 'hit') this.__layout.surfaceChanged || this.__layout.surfaceChange()
+                if (Debug.showBounds === 'hit') this.__layout.surfaceChange()
                 if (this.leafer) this.leafer.updateCursor()
             }
         }

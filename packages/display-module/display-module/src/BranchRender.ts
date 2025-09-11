@@ -25,8 +25,11 @@ export const BranchRender: IBranchRenderModule = {
 
             const data = this.__
 
-            if (data.dim) options.dimOpacity = data.dim === true ? 0.2 : data.dim
-            else if (data.dimskip) options.dimOpacity && (options.dimOpacity = 0)
+            if (data.__useDim) {
+                if (data.dim) options.dimOpacity = data.dim === true ? 0.2 : data.dim
+                else if (data.bright && !options.topRendering) return options.topList.add(this)
+                else if (data.dimskip) options.dimOpacity && (options.dimOpacity = 0)
+            }
 
             if (data.__single && !this.isBranchLeaf) { // Frame / Box 不能走 single 逻辑渲染组，需用 drawAfterFill 渲染成一个整体， 关联设置 BoxData.__drawAfterFill
 

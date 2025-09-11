@@ -235,6 +235,7 @@ export interface ILeafAttrData {
 
     dim?: IBoolean | INumber // 是否弱化内容，可设置具体透明度
     dimskip?: IBoolean //  跳过弱化，突出显示内容，不受dim影响
+    bright?: IBoolean // 突出显示内容，并置顶渲染，不受dim影响
 
     mask?: IBoolean | IMaskType
     eraser?: IBoolean | IEraserType
@@ -341,6 +342,7 @@ export interface ILeafComputedData {
 
     dim?: boolean | number // 是否弱化内容，可设置具体透明度
     dimskip?: boolean //  跳过弱化，突出显示内容，不受dim影响
+    bright?: boolean // 突出显示内容，并置顶渲染，不受dim影响
 
     mask?: boolean | IMaskType
     eraser?: boolean | IEraserType
@@ -440,6 +442,7 @@ export interface ILeafComputedData {
     __useArrow?: boolean
     __useEffect?: boolean
     __usePathBox?: boolean // 是否使用路径的bounds作为元素box包围盒
+    __useDim?: boolean // 是否使用了弱化/突出元素功能
 
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData

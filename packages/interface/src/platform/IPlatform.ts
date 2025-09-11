@@ -7,6 +7,7 @@ import { IObject } from '../data/IData'
 import { ICanvasType } from '../canvas/ISkiaCanvas'
 import { ISelector } from '../selector/ISelector'
 import { IProgressFunction } from '../event/IProgress'
+import { IRenderOptions } from '../renderer/IRenderer'
 
 
 export interface IPlatform {
@@ -33,6 +34,7 @@ export interface IPlatform {
     selector?: ISelector // 公共查找选择器
     getSelector?(leaf: ILeaf): ISelector
     layout?(target: ILeaf): void
+    render?(target: ILeaf, canvas: ILeaferCanvas, options: IRenderOptions): void // 渲染元素，可处理内部产生的置顶渲染
 
     origin?: {
         createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any

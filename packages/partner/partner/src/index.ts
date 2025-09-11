@@ -4,8 +4,8 @@ export * from '@leafer/layouter'
 export * from '@leafer/renderer'
 export * from '@leafer/selector'
 
-import { ICreator } from '@leafer/interface'
-import { Creator, Platform } from '@leafer/core'
+import { ICreator, ILeaf, ILeaferCanvas, IRenderOptions } from '@leafer/interface'
+import { Creator, LeafList, Platform } from '@leafer/core'
 
 import { Watcher } from '@leafer/watcher'
 import { Layouter } from '@leafer/layouter'
@@ -21,3 +21,9 @@ Object.assign(Creator, {
 } as ICreator)
 
 Platform.layout = Layouter.fullLayout
+Platform.render = function (target: ILeaf, canvas: ILeaferCanvas, options: IRenderOptions): void {
+    const topOptions: IRenderOptions = { ...options, topRendering: true }
+    options.topList = new LeafList()
+    target.__render(canvas, options)
+    if (options.topList.length) options.topList.forEach(item => item.__render(canvas, topOptions))
+}

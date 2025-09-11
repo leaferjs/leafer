@@ -3,6 +3,7 @@ import { ILeaf } from '../display/ILeaf'
 import { IBounds, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 import { IControl } from '../control/IControl'
+import { ILeafList } from '../data/IList'
 
 export interface IRenderOptions {
     includes?: boolean,
@@ -10,8 +11,11 @@ export interface IRenderOptions {
     hideBounds?: IBounds,
     matrix?: IMatrixWithScaleData,
     inCamera?: boolean
-    dimOpacity?: number
     exporting?: boolean // 是否通过 export() 导出渲染
+
+    dimOpacity?: number // 淡化
+    topList?: ILeafList // 收集需要置顶渲染的内容
+    topRendering?: boolean // 是否正在渲染置顶内容
 
     // 只渲染外形
     shape?: boolean

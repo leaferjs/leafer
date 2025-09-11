@@ -196,7 +196,7 @@ export class Renderer implements IRenderer {
         if (this.needFill) canvas.fillWorld(bounds, this.config.fill)
         if (Debug.showRepaint) Debug.drawRepaint(canvas, bounds)
 
-        this.target.__render(canvas, options)
+        Platform.render(this.target, canvas, options)
 
         this.renderBounds = realBounds = realBounds || bounds
         this.renderOptions = options
