@@ -155,7 +155,7 @@ export function dimType(defaultValue?: IValue) {
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 const data = this.__
-                data.__useDim = (data.dim || data.bright || data.dimskip) as boolean
+                DataHelper.stintSet(data, '__useDim', (data.dim || data.bright || data.dimskip) as boolean)
                 this.__layout.surfaceChange()
             }
         }
