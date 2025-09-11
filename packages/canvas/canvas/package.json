@@ -1,6 +1,6 @@
 {
   "name": "@leafer/canvas",
-  "version": "1.9.6",
+  "version": "1.9.7",
   "description": "@leafer/canvas",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,15 +18,15 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/file": "1.9.6",
-    "@leafer/list": "1.9.6",
-    "@leafer/math": "1.9.6",
-    "@leafer/data": "1.9.6",
-    "@leafer/path": "1.9.6",
-    "@leafer/debug": "1.9.6",
-    "@leafer/platform": "1.9.6"
+    "@leafer/file": "1.9.7",
+    "@leafer/list": "1.9.7",
+    "@leafer/math": "1.9.7",
+    "@leafer/data": "1.9.7",
+    "@leafer/path": "1.9.7",
+    "@leafer/debug": "1.9.7",
+    "@leafer/platform": "1.9.7"
   },
   "devDependencies": {
-     "@leafer/interface": "1.9.6"
+     "@leafer/interface": "1.9.7"
   }
 }

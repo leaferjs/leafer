@@ -21,4 +21,6 @@ export * from '@leafer-in/filter'
 export * from '@leafer-in/color'
 export * from '@leafer-in/resize'
 
+export * from '@leafer-in/bright'
+
 export * from '@leafer-in/interface'
