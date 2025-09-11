@@ -6,7 +6,7 @@ import { DataHelper, isUndefined } from '@leafer/data'
 import { Canvas } from './Canvas'
 
 
-const { copy, multiplyParent } = MatrixHelper, { round } = Math, tempPixelBounds = new Bounds(), tempPixelBounds2 = new Bounds()
+const { copy, multiplyParent, pixelScale } = MatrixHelper, { round } = Math, tempPixelBounds = new Bounds(), tempPixelBounds2 = new Bounds()
 const minSize: IScreenSizeData = { width: 1, height: 1, pixelRatio: 1 }
 
 export const canvasSizeAttrs = ['width', 'height', 'pixelRatio']
@@ -136,13 +136,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         const { pixelRatio, pixelSnap } = this, w = this.worldTransform
 
         if (parentMatrix) multiplyParent(matrix, parentMatrix, w)
-
-        w.a = matrix.a * pixelRatio
-        w.b = matrix.b * pixelRatio
-        w.c = matrix.c * pixelRatio
-        w.d = matrix.d * pixelRatio
-        w.e = matrix.e * pixelRatio
-        w.f = matrix.f * pixelRatio
+        pixelScale(matrix, pixelRatio, w)
 
         if (pixelSnap) {
             if (matrix.half && (matrix.half * pixelRatio) % 2) w.e = round(w.e - 0.5) + 0.5, w.f = round(w.f - 0.5) + 0.5

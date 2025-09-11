@@ -64,6 +64,11 @@ export class Matrix implements IMatrix {
         return this
     }
 
+    public pixelScale(pixelRatio: number): IMatrix {
+        M.pixelScale(this, pixelRatio)
+        return this
+    }
+
     public scaleOfOuter(origin: IPointData, x: number, y?: number): IMatrix {
         M.scaleOfOuter(this, origin, x, y)
         return this

@@ -60,6 +60,16 @@ export const MatrixHelper = {
         t.d *= scaleY
     },
 
+    pixelScale(t: IMatrixData, pixelRatio: number, to?: IMatrixData): void {
+        to || (to = t)
+        to.a = t.a * pixelRatio
+        to.b = t.b * pixelRatio
+        to.c = t.c * pixelRatio
+        to.d = t.d * pixelRatio
+        to.e = t.e * pixelRatio
+        to.f = t.f * pixelRatio
+    },
+
     scaleOfOuter(t: IMatrixData, origin: IPointData, scaleX: number, scaleY?: number): void {
         M.toInnerPoint(t, origin, tempPoint)
         M.scaleOfInner(t, tempPoint, scaleX, scaleY)

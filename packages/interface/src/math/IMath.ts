@@ -209,6 +209,7 @@ export interface IMatrix extends IMatrixWithScaleData {
 
     scale(x: number, y?: number): IMatrix
     scaleWith(x: number, y?: number): IMatrix // change scaleX scaleY
+    pixelScale(pixelRatio: number): IMatrix
     scaleOfOuter(origin: IPointData, x: number, y?: number): IMatrix
     scaleOfInner(origin: IPointData, x: number, y?: number): IMatrix
 
