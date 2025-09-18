@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -305,9 +305,9 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public __updateNaturalSize(): void { }
 
 
-    public __updateStrokeSpread(): number { return 0 }
+    public __updateStrokeSpread(): IFourNumber { return 0 }
 
-    public __updateRenderSpread(): number { return 0 }
+    public __updateRenderSpread(): IFourNumber { return 0 }
 
     public __onUpdateSize(): void { }
 

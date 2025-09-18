@@ -3,6 +3,7 @@ import { BoundsHelper } from '@leafer/math'
 import { PathBounds } from '@leafer/path'
 import { BranchHelper, LeafHelper } from '@leafer/helper'
 import { BoundsEvent } from '@leafer/event'
+import { isNumber } from '@leafer/data'
 
 
 const { updateMatrix, updateAllMatrix } = LeafHelper
@@ -172,8 +173,8 @@ export const LeafBounds: ILeafBoundsModule = {
     },
 
     __updateRenderBounds(_bounds?: IBoundsData): void {
-        const layout = this.__layout
-        layout.renderSpread > 0 ? copyAndSpread(layout.renderBounds, layout.boxBounds, layout.renderSpread) : copy(layout.renderBounds, layout.strokeBounds) // Box use -1
+        const layout = this.__layout, { renderSpread } = layout
+        isNumber(renderSpread) && renderSpread <= 0 ? copy(layout.renderBounds, layout.strokeBounds) : copyAndSpread(layout.renderBounds, layout.boxBounds, renderSpread) // Box use -1
     }
 
 }

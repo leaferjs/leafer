@@ -1,4 +1,4 @@
-import { IBoundsData, ILeaf } from '@leafer/interface'
+import { IBoundsData, IFourNumber, ILeaf } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
 import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
@@ -21,7 +21,7 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     // overwrite
 
-    public __updateStrokeSpread(): number {
+    public __updateStrokeSpread(): IFourNumber {
         const { children } = this
         for (let i = 0, len = children.length; i < len; i++) {
             if (children[i].__layout.strokeSpread) return 1
@@ -29,7 +29,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         return 0
     }
 
-    public __updateRenderSpread(): number {
+    public __updateRenderSpread(): IFourNumber {
         const { children } = this
         for (let i = 0, len = children.length; i < len; i++) {
             if (children[i].__layout.renderSpread) return 1

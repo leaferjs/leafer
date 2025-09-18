@@ -1,5 +1,6 @@
 import { IBoundsData, IMatrixData, ILayoutBoundsData, IPointData } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
+import { IFourNumber } from '../data/IData'
 
 export type ILocationType = 'world' | 'page' | 'local' | 'inner'
 export type IBoundsType = 'content' | 'box' | 'stroke' | 'render'
@@ -73,10 +74,10 @@ export interface ILeafLayout {
     affectRotation: boolean
     affectChildrenSort?: boolean
 
-    strokeSpread: number
+    strokeSpread: IFourNumber
     strokeBoxSpread: number // 用于生成strokeBounds
-    renderSpread: number // -1 表示需监视变化，不影响实际renderBounds，目前用在Box上
-    renderShapeSpread: number
+    renderSpread: IFourNumber // -1 表示需监视变化，不影响实际renderBounds，目前用在Box上
+    renderShapeSpread: IFourNumber
 
     // temp local
     a: number

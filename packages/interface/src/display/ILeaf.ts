@@ -265,7 +265,7 @@ export interface ILeafAttrData {
     lazy?: IBoolean
     pixelRatio?: INumber
 
-    renderSpread?: INumber // 扩大渲染边界
+    renderSpread?: IFourNumber // 扩大渲染边界
 
     path?: IPathCommandData | IPathCommandObject[] | IPathString
     windingRule?: IWindingRule
@@ -370,7 +370,7 @@ export interface ILeafComputedData {
     lazy?: boolean
     pixelRatio?: number
 
-    renderSpread?: number
+    renderSpread?: IFourNumber
 
     path?: IPathCommandData
     windingRule?: IWindingRule
@@ -606,8 +606,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateFlowLayout(): void
     __updateNaturalSize(): void
 
-    __updateStrokeSpread(): number
-    __updateRenderSpread(): number
+    __updateStrokeSpread(): IFourNumber
+    __updateRenderSpread(): IFourNumber
 
     __onUpdateSize(): void
 

@@ -1,5 +1,7 @@
 import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
-import { isArray, isObject, isNumber, isUndefined } from '@leafer/data'
+import { isObject, isNumber, isUndefined } from '@leafer/data'
+import { FourNumberHelper } from './FourNumberHelper'
+
 
 const { round, pow, PI } = Math
 
@@ -12,30 +14,7 @@ export const MathHelper = {
         return value
     },
 
-    fourNumber(num: number | number[], maxValue?: number): number[] { // top right bottom left || topLeft, topRight, bottomRight, bottomLeft
-        let data: number[]
-        if (isArray(num)) {
-            switch (num.length) {
-                case 4:
-                    data = isUndefined(maxValue) ? num : [...num]
-                    break
-                case 2:
-                    data = [num[0], num[1], num[0], num[1]]
-                    break
-                case 3:
-                    data = [num[0], num[1], num[2], num[1]]
-                    break
-                case 1:
-                    num = num[0]
-                    break
-                default:
-                    num = 0
-            }
-        }
-        if (!data) data = [num as number, num as number, num as number, num as number]
-        if (maxValue) for (let i = 0; i < 4; i++)  if (data[i] > maxValue) data[i] = maxValue
-        return data
-    },
+    fourNumber: FourNumberHelper.get,
 
     formatRotation(rotation: number, unsign?: boolean): number {
         rotation %= 360

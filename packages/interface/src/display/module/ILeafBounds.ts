@@ -1,4 +1,5 @@
 import { ILeaf } from '../ILeaf'
+import { IFourNumber } from '../../data/IData'
 
 export type ILeafBoundsModule = ILeafBounds & ThisType<ILeaf>
 
@@ -18,8 +19,8 @@ export interface ILeafBounds {
     __updateFlowLayout?(): void
     __updateNaturalSize?(): void
 
-    __updateStrokeSpread?(): number
-    __updateRenderSpread?(): number
+    __updateStrokeSpread?(): IFourNumber
+    __updateRenderSpread?(): IFourNumber
 
     __onUpdateSize?(): void
 }
