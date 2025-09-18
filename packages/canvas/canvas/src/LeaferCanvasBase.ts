@@ -138,7 +138,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (parentMatrix) multiplyParent(matrix, parentMatrix, w)
         pixelScale(matrix, pixelRatio, w)
 
-        if (pixelSnap) {
+        if (pixelSnap && !matrix.ignorePixelSnap) {
             if (matrix.half && (matrix.half * pixelRatio) % 2) w.e = round(w.e - 0.5) + 0.5, w.f = round(w.f - 0.5) + 0.5
             else w.e = round(w.e), w.f = round(w.f)
         }

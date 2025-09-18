@@ -1,6 +1,6 @@
 import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
-import { LeafData, isUndefined } from '@leafer/data'
+import { LeafData, isUndefined, DataHelper } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
 import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
@@ -12,6 +12,7 @@ import { Plugin } from '@leafer/debug'
 
 const tempScaleData = {} as IScaleData
 const { LEAF, create } = IncrementId
+const { stintSet } = DataHelper
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { copy, move } = PointHelper
@@ -346,7 +347,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
             const cameraWorld = this.__cameraWorld, world = this.__world
             multiplyParent(world, options.matrix, cameraWorld, undefined, world)
             toOuterOf(this.__layout.renderBounds, cameraWorld, cameraWorld)
-            cameraWorld.half !== world.half && (cameraWorld.half = world.half)
+            stintSet(cameraWorld, 'half', world.half)
+            stintSet(cameraWorld, 'ignorePixelSnap', world.ignorePixelSnap)
             return cameraWorld
         } else {
             return this.__world
