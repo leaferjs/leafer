@@ -75,10 +75,12 @@ export interface IDropEvent extends IPointerEvent {
 
 export interface IRotateEvent extends IPointerEvent {
     rotation: number
+    totalRotation: number
 }
 
 export interface IZoomEvent extends IPointerEvent {
     scale: number
+    totalScale: number
 }
 
 export interface IMoveEvent extends IDragEvent {

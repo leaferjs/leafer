@@ -81,19 +81,13 @@ export const BoundsHelper = {
         return t
     },
 
-    toOffsetOutBounds(t: IBoundsData, to?: IOffsetBoundsData, parent?: IBoundsData): void {
-        if (!to) {
-            to = t as IOffsetBoundsData
-        } else {
-            copy(to, t)
-        }
-        if (parent) {
-            to.offsetX = -(B.maxX(parent) - t.x)
-            to.offsetY = -(B.maxY(parent) - t.y)
-        } else {
-            to.offsetX = t.x + t.width
-            to.offsetY = t.y + t.height
-        }
+    toOffsetOutBounds(t: IBoundsData, to?: IOffsetBoundsData, offsetBounds?: IBoundsData): void {
+        if (!to) to = t as IOffsetBoundsData
+        else copy(to, t)
+
+        if (!offsetBounds) offsetBounds = t
+        to.offsetX = B.maxX(offsetBounds)
+        to.offsetY = B.maxY(offsetBounds)
         B.move(to, -to.offsetX, -to.offsetY)
     },
 
