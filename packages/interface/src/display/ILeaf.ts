@@ -489,6 +489,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __nowWorld?: IMatrixWithBoundsScaleData // use __world or __cameraWorld render
     __cameraWorld?: IMatrixWithBoundsScaleData // use camera matrix render
 
+    __nowWorldShapeBounds?: IBoundsData
+
     readonly __localMatrix: IMatrixData
     readonly __localBoxBounds: IBoundsData
 
