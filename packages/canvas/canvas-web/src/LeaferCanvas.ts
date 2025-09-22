@@ -53,7 +53,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
             style.display = 'none'
-            document.body.appendChild(this.view)
+            if (document.body) document.body.appendChild(this.view)
         }
 
         this.__createContext()
