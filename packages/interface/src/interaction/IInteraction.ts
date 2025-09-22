@@ -168,8 +168,16 @@ export interface ITouchConfig {
 
 export interface IMultiTouchConfig {
     disabled?: boolean
+    singleGesture?: boolean | ISingleGestureConfig  // 是否单一手势，默认为多个
 }
 
+export interface ISingleGestureConfig {
+    move?: number, // 识别移动的阈值，默认为 6
+    scale?: number, // 识别缩放的阈值，默认为 0.03
+    rotation?: number, // 识别旋转的阈值，默认为 2度
+    count?: number // 连续识别几次锁定手势类型，默认为 2次
+    time?: number // 最长手势类型识别时间，默认为 200ms
+}
 
 export interface ICursorConfig {
     stop?: boolean

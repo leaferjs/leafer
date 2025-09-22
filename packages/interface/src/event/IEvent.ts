@@ -93,3 +93,5 @@ export interface IKeepTouchData {
     from: IPointData
     to: IPointData
 }
+
+export type IGestureType = 'move' | 'zoom' | 'rotate' | 'none' // 手势类型

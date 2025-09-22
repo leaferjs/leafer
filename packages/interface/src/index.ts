@@ -46,12 +46,12 @@ export { IExportFileType, IExportImageType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
 
 export { InnerId, IEventer, IEventParamsMap, IEventParams, IEventListener, IEventOption, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
-export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IBoundsEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IKeepTouchData } from './event/IEvent'
+export { IEventTarget, IEvent, ILeaferEvent, IPropertyEvent, ILayoutEvent, IRenderEvent, IAnimateEvent, IChildEvent, IBoundsEvent, IResizeEvent, IResizeEventListener, IUpdateEvent, IWatchEvent, IMultiTouchData, IGestureType, IKeepTouchData } from './event/IEvent'
 export { IUIEvent, IPointerEvent, PointerType, IDragEvent, IDropEvent, ISwipeEvent, IMoveEvent, IZoomEvent, IRotateEvent, IWheelEvent, IKeyEvent, IShortcutKeys, IShortcutKeysCheck, IShortcutKeyCodes, IKeyCodes, IImageEvent } from './event/IUIEvent'
 export { IProgressData, IProgressFunction } from './event/IProgress'
 
 export { ICursorTypeMap, ICursorRotate, ICursorRotateMap } from './interaction/ICursor'
-export { IInteraction, IInteractionCanvas, IInteractionConfig, IMoveConfig, ICursorConfig, IZoomConfig, IWheelConfig, ITouchConfig, IMultiTouchConfig, IPointerConfig } from './interaction/IInteraction'
+export { IInteraction, IInteractionCanvas, IInteractionConfig, IMoveConfig, ICursorConfig, IZoomConfig, IWheelConfig, ITouchConfig, IMultiTouchConfig, ISingleGestureConfig, IPointerConfig } from './interaction/IInteraction'
 export { ITransformer } from './interaction/ITransformer'
 
 export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IFunctionMap, IPointDataMap, IDataTypeHandle } from './data/IData'
