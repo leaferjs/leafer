@@ -33,6 +33,8 @@ export class Renderer implements IRenderer {
     protected totalBounds: IBounds
 
     protected requestTime: number
+    protected frameTime: number
+    protected frames: number[] = []
     protected __eventIds: IEventListenerId[]
 
     protected get needFill(): boolean { return !!(!this.canvas.allowBackgroundColor && this.config.fill) }
@@ -225,16 +227,19 @@ export class Renderer implements IRenderer {
         if (this.requestTime || !target) return
         if (target.parentApp) return target.parentApp.requestRender(false) // App 模式下统一走 app 控制渲染帧
 
-        const requestTime = this.requestTime = Date.now()
+        this.requestTime = this.frameTime || Date.now()
 
         const render = () => {
 
-            const nowFPS = 1000 / (Date.now() - requestTime)
+            const nowFPS = 1000 / ((this.frameTime = Date.now()) - this.requestTime)
 
             const { maxFPS } = this.config
-            if (maxFPS && nowFPS > maxFPS - 0.5) return Platform.requestRender(render)
+            if (maxFPS && nowFPS > maxFPS) return Platform.requestRender(render)
 
-            this.FPS = Math.min(120, Math.ceil(nowFPS))
+            const { frames } = this
+            if (frames.length > 30) frames.shift()
+            frames.push(nowFPS)
+            this.FPS = Math.round(frames.reduce((a, b) => a + b, 0) / frames.length) // 帧率采样
             this.requestTime = 0
 
             this.checkRender()
