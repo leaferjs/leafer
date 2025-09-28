@@ -19,7 +19,7 @@ export class Eventer implements IEventer {
     public __hasLocalEvent?: boolean
     public __hasWorldEvent?: boolean
 
-    public syncEventer?: IEventer
+    public syncEventer?: IEventer // 同步触发一样事件的元素
 
     public set event(map: IEventParamsMap) { this.on(map) }
 

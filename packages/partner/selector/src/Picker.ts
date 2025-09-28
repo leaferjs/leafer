@@ -80,12 +80,27 @@ export class Picker implements IPicker {
     }
 
     public getPath(leaf: ILeaf): LeafList {
-        const path = new LeafList()
+        const path = new LeafList(), syncList = [], { target } = this
+
         while (leaf) {
+            if (leaf.syncEventer) syncList.push(leaf.syncEventer)
             path.add(leaf)
             leaf = leaf.parent
+            if (leaf === target) break
         }
-        if (this.target) path.add(this.target)
+
+        // 存在同步触发
+        if (syncList.length) {
+            syncList.forEach(item => {
+                while (item) {
+                    if (item.__.hittable) path.add(item)
+                    item = item.parent
+                    if (item === target) break
+                }
+            })
+        }
+
+        if (target) path.add(target)
         return path
     }
 
