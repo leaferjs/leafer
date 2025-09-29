@@ -35,7 +35,7 @@ export class Picker implements IPicker {
         if (!options.findList) this.hitBranch(target.isBranchLeaf ? { children: [target] } as ILeaf : target)  // 包含through元素
 
         const { list } = this.findList
-        const leaf = this.getBestMatchLeaf(list, options.bottomList, ignoreHittable)
+        const leaf = this.getBestMatchLeaf(list, options.bottomList, ignoreHittable, !!options.findList)
         const path = ignoreHittable ? this.getPath(leaf) : this.getHitablePath(leaf)
 
         this.clear()
@@ -47,7 +47,7 @@ export class Picker implements IPicker {
         return !!this.getByPoint(hitPoint, hitRadius, options).target // 后期需进行优化 ！！！
     }
 
-    public getBestMatchLeaf(list: ILeaf[], bottomList: IPickBottom[], ignoreHittable: boolean): ILeaf {
+    public getBestMatchLeaf(list: ILeaf[], bottomList: IPickBottom[], ignoreHittable: boolean, allowNull?: boolean): ILeaf {
         const findList = this.findList = new LeafList()
 
         if (list.length) {
@@ -76,6 +76,7 @@ export class Picker implements IPicker {
             }
         }
 
+        if (allowNull) return null
         return ignoreHittable ? list[0] : list.find(item => LeafHelper.worldHittable(item))
     }
 
