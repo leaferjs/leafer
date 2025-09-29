@@ -190,7 +190,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     // data
 
     public set(_data: IObject, _isTemp?: boolean): void { }
-    public get(_name?: string): ILeafInputData | IValue { return undefined }
+
+    public get<K extends keyof this>(_name?: K | K[] | ILeafInputData): ILeafInputData | this[K] { return undefined }
 
     public setAttr(name: string, value: any): void { (this as IObject)[name] = value }
     public getAttr(name: string): any { return (this as IObject)[name] }
