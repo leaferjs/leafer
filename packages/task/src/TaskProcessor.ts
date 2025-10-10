@@ -159,9 +159,16 @@ export class TaskProcessor implements ITaskProcessor {
     protected runTask(): void {
         const task = this.list[this.index]
         if (!task) {
-            this.nextTask() // 存在延时任务
+            this.timer = setTimeout(() => this.nextTask())  // 存在延时任务
             return
         }
+
+        if (task.isCancel) {
+            this.index++
+            this.runTask()
+            return
+        }
+
         task.run().then(() => {
 
             this.onTask(task)
@@ -199,19 +206,19 @@ export class TaskProcessor implements ITaskProcessor {
 
     protected setParallelList(): void {
         let task: ITaskItem
+        const { config, list, index } = this
 
         this.parallelList = []
         this.parallelSuccessNumber = 0
-        let end = this.index + this.config.parallel
+        let end = index + config.parallel
 
-        if (end > this.list.length) end = this.list.length
+        if (end > list.length) end = list.length
 
-        for (let i = this.index; i < end; i++) {
-            task = this.list[i]
-            if (task.parallel) {
-                this.parallelList.push(task)
-            } else {
-                break
+        if (config.parallel > 1) {
+            for (let i = index; i < end; i++) {
+                task = list[i]
+                if (task.parallel) this.parallelList.push(task)
+                else break
             }
         }
     }
