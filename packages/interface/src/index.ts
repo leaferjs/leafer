@@ -29,7 +29,7 @@ export { ITaskProcessor, ITaskProcessorConfig, ITaskItem, ITaskOptions } from '.
 
 
 export { IControl } from './control/IControl'
-export { IPlatform, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platform/IPlatform'
+export { IPlatform, IImageCrossOrigin, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platform/IPlatform'
 export { IPlugin } from './plugin/IPlugin'
 
 
@@ -40,7 +40,7 @@ export { IMotionPathData } from './path/IPathData'
 export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject } from './path/IPathCommand'
 
-export { ILeaferImage, ILeaferImageConfig, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
+export { ILeaferImage, ILeaferImageConfig, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
 export { IResource } from './file/IResource'
 export { IExportFileType, IExportImageType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
