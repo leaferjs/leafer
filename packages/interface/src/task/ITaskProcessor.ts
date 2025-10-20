@@ -21,7 +21,7 @@ export interface ITaskProcessor {
     resume(): void
     skip(): void
     stop(): void
-    add(taskCallback: IFunction, options?: ITaskOptions | number): ITaskItem
+    add(taskCallback: IFunction, options?: ITaskOptions | number, canUse?: IFunction): ITaskItem
     destroy(): void
 }
 
@@ -31,6 +31,7 @@ export interface ITaskItem {
     isComplete: boolean
     isCancel: boolean
     time: number
+    canUse?: IFunction
     run(): Promise<void>
     complete(): void
     cancel(): void
@@ -41,4 +42,5 @@ export interface ITaskOptions {
     time?: number // default 1
     parallel?: boolean // default true
     delay?: number // default 0
+    canUse?: IFunction
 }

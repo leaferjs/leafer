@@ -56,7 +56,7 @@ export class TaskProcessor implements ITaskProcessor {
 
     // list
 
-    public add(taskCallback: IFunction, options?: ITaskOptions | number): ITaskItem {
+    public add(taskCallback: IFunction, options?: ITaskOptions | number, canUse?: IFunction): ITaskItem {
         let start: boolean, parallel: boolean, time: number, delay: number
 
         const task = new TaskItem(taskCallback)
@@ -69,10 +69,12 @@ export class TaskProcessor implements ITaskProcessor {
             start = options.start
             time = options.time
             delay = options.delay
+            if (!canUse) canUse = options.canUse
         }
 
         if (time) task.time = time
         if (parallel === false) task.parallel = false
+        if (canUse) task.canUse = canUse
 
         if (isUndefined(delay)) {
             this.push(task, start)
@@ -163,18 +165,12 @@ export class TaskProcessor implements ITaskProcessor {
             return
         }
 
-        if (task.isCancel) {
-            this.index++
-            this.runTask()
-            return
-        }
-
         task.run().then(() => {
 
             this.onTask(task)
 
             this.index++
-            this.nextTask()
+            task.isCancel ? this.runTask() : this.nextTask()
 
         }).catch(error => {
             this.onError(error)

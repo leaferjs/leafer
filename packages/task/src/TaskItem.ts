@@ -18,6 +18,8 @@ export class TaskItem implements ITaskItem {
     public isComplete: boolean
     public isCancel: boolean
 
+    public canUse?: IFunction
+
     private task: IFunction
 
     constructor(task?: IFunction) {
@@ -27,7 +29,9 @@ export class TaskItem implements ITaskItem {
 
     async run(): Promise<void> {
         try {
-            if (this.task && !this.isComplete && this.parent.running) await this.task()
+            if (this.isComplete) return
+            if (this.canUse && !this.canUse()) return this.cancel()
+            if (this.task && this.parent.running) await this.task()
         } catch (error) {
             debug.error(error)
         }
@@ -35,8 +39,7 @@ export class TaskItem implements ITaskItem {
 
     public complete(): void {
         this.isComplete = true
-        this.parent = null
-        this.task = null
+        this.parent = this.task = this.canUse = null
     }
 
     public cancel(): void {

@@ -1,14 +1,13 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, IProgressData } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
-import { DataHelper } from '@leafer/data'
+import { isUndefined } from '@leafer/data'
 
 import { ImageManager } from './ImageManager'
 
 
 const { IMAGE, create } = IncrementId
-const { floor, max } = Math
 
 export class LeaferImage implements ILeaferImage {
 
@@ -28,8 +27,6 @@ export class LeaferImage implements ILeaferImage {
     public ready: boolean
     public error: IObject
     public loading: boolean
-
-    public progress: IProgressData
 
     public use = 0
 
@@ -54,9 +51,8 @@ export class LeaferImage implements ILeaferImage {
     public load(onSuccess?: IFunction, onError?: IFunction): number {
         if (!this.loading) {
             this.loading = true
-            let { loadImage, loadImageWithProgress } = Platform.origin, onProgress = this.config.showProgress && loadImageWithProgress && this.onProgress.bind(this)
-            if (onProgress) loadImage = loadImageWithProgress
-            Resource.tasker.add(async () => await loadImage(this.url, onProgress).then(img => this.setView(img)).catch((e) => {
+            const { crossOrigin } = this.config
+            Resource.tasker.add(async () => await Platform.origin.loadImage(this.url, isUndefined(crossOrigin) ? Platform.image.crossOrigin : crossOrigin, this).then(img => this.setView(img)).catch((e) => {
                 this.error = e
                 this.onComplete(false)
             }))
@@ -82,10 +78,6 @@ export class LeaferImage implements ILeaferImage {
         this.onComplete(true)
     }
 
-    protected onProgress(progress: IProgressData): void {
-        this.progress = progress
-    }
-
     protected onComplete(isSuccess: boolean): void {
         let odd: number
         this.waitComplete.forEach((item, index) => {
@@ -106,7 +98,7 @@ export class LeaferImage implements ILeaferImage {
         return this.view
     }
 
-    public getCanvas(width: number, height: number, opacity?: number, _filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any {
+    public getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any {
         width || (width = this.width)
         height || (height = this.height)
 
@@ -116,11 +108,7 @@ export class LeaferImage implements ILeaferImage {
             if (data) return data
         }
 
-        const canvas = Platform.origin.createCanvas(max(floor(width + (xGap || 0)), 1), max(floor(height + (yGap || 0)), 1))
-        const ctx = canvas.getContext('2d')
-        if (opacity) ctx.globalAlpha = opacity
-        ctx.imageSmoothingEnabled = smooth === false ? false : true // 平滑绘制
-        ctx.drawImage(this.view, 0, 0, width, height)
+        const canvas = Platform.image.resize(this.view, width, height, xGap, yGap, undefined, smooth, opacity, filters)
 
         this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
 
@@ -129,15 +117,10 @@ export class LeaferImage implements ILeaferImage {
 
     public getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): ICanvasPattern {
         const pattern = Platform.canvas.createPattern(canvas, repeat)
-        try {
-            if (transform && pattern.setTransform) {
-                pattern.setTransform(transform) // maybe error 
-                transform = undefined
-            }
-        } catch { }
-        if (paint) DataHelper.stintSet(paint, 'transform', transform)
+        Platform.image.setPatternTransform(pattern, transform, paint)
         return pattern
     }
+
 
     public destroy(): void {
         this.config = { url: '' }

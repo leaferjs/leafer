@@ -1,5 +1,8 @@
-import { IPlatform } from '@leafer/interface'
+import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint } from '@leafer/interface'
+import { DataHelper } from '@leafer/data'
 
+
+const { floor, max } = Math
 
 export const Platform: IPlatform = {
     toURL(text: string, fileType?: 'text' | 'svg'): string {
@@ -18,6 +21,23 @@ export const Platform: IPlatform = {
             if (suffix && !url.startsWith('data:') && !url.startsWith('blob:')) url += (url.includes("?") ? "&" : "?") + suffix
             if (prefix && url[0] === '/') url = prefix + url
             return url
+        },
+        resize(image: any, width: number, height: number, xGap?: number, yGap?: number, _clip?: IBoundsData, smooth?: boolean, opacity?: number, _filters?: IObject): any {
+            const canvas = Platform.origin.createCanvas(max(floor(width + (xGap || 0)), 1), max(floor(height + (yGap || 0)), 1),)
+            const ctx = canvas.getContext('2d')
+            if (opacity) ctx.globalAlpha = opacity
+            ctx.imageSmoothingEnabled = smooth === false ? false : true // 平滑绘制
+            ctx.drawImage(image, 0, 0, width, height)
+            return canvas
+        },
+        setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): void {
+            try {
+                if (transform && pattern.setTransform) {
+                    pattern.setTransform(transform) // maybe error 
+                    transform = undefined
+                }
+            } catch { }
+            if (paint) DataHelper.stintSet(paint, 'transform', transform)
         }
     }
 }
