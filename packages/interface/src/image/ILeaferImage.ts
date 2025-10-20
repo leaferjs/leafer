@@ -2,14 +2,17 @@ import { ICanvasPattern } from '../canvas/ICanvas'
 import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType } from '../file/IFileType'
-import { IMatrixData } from '../math/IMath'
+import { IMatrixData, IBoundsData, IPointData } from '../math/IMath'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
+import { IImageCrossOrigin } from '../platform/IPlatform'
+import { ITaskItem } from '../task/ITaskProcessor'
 
 export interface ILeaferImageConfig {
     url: string
     thumb?: string
     format?: IExportFileType
+    crossOrigin?: IImageCrossOrigin
     showProgress?: boolean // 是否显示进度
     view?: IObject | ILeaferImage | ILeaferCanvas
 }
@@ -31,6 +34,21 @@ export interface ILeaferImagePatternPaint {
     transform: IMatrixData
 }
 
+export interface ILeaferImageSlice {
+    bounds: IBoundsData
+    view?: any
+    url?: string
+    task?: ITaskItem
+}
+
+export interface ILeaferImageLevel {
+    level: number
+    scale: number | IPointData
+    view?: any
+    url?: string
+    slices?: ILeaferImageSlice[]
+}
+
 export interface ILeaferImage {
     readonly innerId: InnerId
     readonly url: string
@@ -46,8 +64,12 @@ export interface ILeaferImage {
     ready: boolean
     error: IObject
     loading: boolean
+
     isPlacehold?: boolean // 是否显示占位符，一般在加载100ms后自动判断
-    progress: IProgressData // 加载进度
+
+    maxLevel?: number
+    levels?: ILeaferImageLevel[]
+    progress?: IProgressData // 加载进度
 
     use: number
     config: ILeaferImageConfig

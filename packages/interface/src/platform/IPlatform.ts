@@ -2,12 +2,13 @@ import { IFunction, IStringFunction } from '../function/IFunction'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ILeaf } from '../display/ILeaf'
 import { IExportFileType, IExportImageType } from '../file/IFileType'
-import { IBoundsData, ISizeData } from '../math/IMath'
+import { IBoundsData, ISizeData, IMatrixData } from '../math/IMath'
 import { IObject } from '../data/IData'
 import { ICanvasType } from '../canvas/ISkiaCanvas'
 import { ISelector } from '../selector/ISelector'
 import { IRenderOptions } from '../renderer/IRenderer'
 import { ILeaferImage } from '../image/ILeaferImage'
+import { ICanvasPattern } from '../canvas/ICanvas'
 
 
 export interface IPlatform {
@@ -43,7 +44,6 @@ export interface IPlatform {
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
         download(url: string, filename: string): Promise<void>
         loadImage(url: string, crossOrigin?: IImageCrossOrigin, leaferImage?: ILeaferImage): Promise<any>
-        resizeImage(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject): any
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
         Image?: any
         PointerEvent?: any
@@ -70,6 +70,8 @@ export interface IPlatform {
         suffix?: string  // 需要带上后缀区分dom中image标签的缓存，否则会导致浏览器缓存跨域问题
         crossOrigin: IImageCrossOrigin // 图片跨域设置
         getRealURL: IStringFunction // 处理前缀、后缀
+        resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject): any
+        setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: IObject): void
     }
 }
 

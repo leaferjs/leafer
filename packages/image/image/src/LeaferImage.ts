@@ -1,8 +1,8 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, IBoundsData } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
-import { DataHelper, isUndefined } from '@leafer/data'
+import { isUndefined } from '@leafer/data'
 
 import { ImageManager } from './ImageManager'
 
@@ -108,7 +108,7 @@ export class LeaferImage implements ILeaferImage {
             if (data) return data
         }
 
-        const canvas = Platform.origin.resizeImage(this.view, width, height, xGap, yGap, undefined, smooth, opacity, filters)
+        const canvas = Platform.image.resize(this.view, width, height, xGap, yGap, undefined, smooth, opacity, filters)
 
         this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
 
@@ -117,15 +117,10 @@ export class LeaferImage implements ILeaferImage {
 
     public getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): ICanvasPattern {
         const pattern = Platform.canvas.createPattern(canvas, repeat)
-        try {
-            if (transform && pattern.setTransform) {
-                pattern.setTransform(transform) // maybe error 
-                transform = undefined
-            }
-        } catch { }
-        if (paint) DataHelper.stintSet(paint, 'transform', transform)
+        Platform.image.setPatternTransform(pattern, transform, paint)
         return pattern
     }
+
 
     public destroy(): void {
         this.config = { url: '' }
