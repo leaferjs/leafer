@@ -1,4 +1,4 @@
-import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint } from '@leafer/interface'
+import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint, ISizeData } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
 
 
@@ -16,6 +16,9 @@ export const Platform: IPlatform = {
         maxCacheSize: 2560 * 1600,  // 2k
         maxPatternSize: 4096 * 2160, // 4k
         crossOrigin: 'anonymous',
+        isLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean {
+            return size.width * size.height * (scaleX ? scaleX * scaleY : 1) > Platform.image.maxCacheSize
+        },
         getRealURL(url: string): string {
             const { prefix, suffix } = Platform.image
             if (suffix && !url.startsWith('data:') && !url.startsWith('blob:')) url += (url.includes("?") ? "&" : "?") + suffix
