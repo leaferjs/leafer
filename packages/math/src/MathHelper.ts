@@ -3,7 +3,7 @@ import { isObject, isNumber, isUndefined } from '@leafer/data'
 import { FourNumberHelper } from './FourNumberHelper'
 
 
-const { round, pow, PI } = Math
+const { round, pow, max, floor, PI } = Math
 
 export const MathHelper = {
 
@@ -63,6 +63,10 @@ export const MathHelper = {
             scaleData.scaleX = scale.x
             scaleData.scaleY = scale.y
         }
+    },
+
+    getFloorScale(num: number, min = 1): number {
+        return max(floor(num), min) / num
     },
 
     randInt,
