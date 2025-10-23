@@ -7,6 +7,7 @@ import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
 import { IImageCrossOrigin } from '../platform/IPlatform'
 import { ITaskItem } from '../task/ITaskProcessor'
+import { IRangeSize } from '../display/ILeaf'
 
 export interface ILeaferImageConfig {
     url: string
@@ -67,8 +68,10 @@ export interface ILeaferImage {
 
     isPlacehold?: boolean // 是否显示占位符，一般在加载100ms后自动判断
 
-    maxLevel?: number
     levels?: ILeaferImageLevel[]
+    levelsRange?: IRangeSize
+    minLevel?: number
+
     progress?: IProgressData // 加载进度
 
     use: number
