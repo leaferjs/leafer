@@ -35,10 +35,15 @@ export interface ILeaferImagePatternPaint {
     transform: IMatrixData
 }
 
+export interface ILeaferImageSliceData {
+    size: number
+    columns: number,
+    total: number,
+    list?: ILeaferImageSlice[]
+}
+
 export interface ILeaferImageSlice {
-    bounds: IBoundsData
     view?: any
-    url?: string
     task?: ITaskItem
 }
 
@@ -47,7 +52,7 @@ export interface ILeaferImageLevel {
     scale: number | IPointData
     view?: any
     url?: string
-    slices?: ILeaferImageSlice[]
+    slice?: ILeaferImageSliceData
 }
 
 export interface ILeaferImage {
