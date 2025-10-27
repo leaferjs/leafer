@@ -2,7 +2,7 @@ import { ICanvasPattern } from '../canvas/ICanvas'
 import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType } from '../file/IFileType'
-import { IMatrixData, IBoundsData, IPointData } from '../math/IMath'
+import { IMatrixData, IPointData } from '../math/IMath'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
 import { IImageCrossOrigin } from '../platform/IPlatform'
@@ -73,6 +73,7 @@ export interface ILeaferImage {
 
     isPlacehold?: boolean // 是否显示占位符，一般在加载100ms后自动判断
 
+    largeThumb?: ILeaferImageLevel
     levels?: ILeaferImageLevel[]
     levelsRange?: IRangeSize
     minLevel?: number

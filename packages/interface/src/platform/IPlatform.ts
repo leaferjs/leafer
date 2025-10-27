@@ -69,7 +69,8 @@ export interface IPlatform {
         prefix?: string // url加前缀
         suffix?: string  // 需要带上后缀区分dom中image标签的缓存，否则会导致浏览器缓存跨域问题
         crossOrigin: IImageCrossOrigin // 图片跨域设置
-        isLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean // 比 maxCacheSize 尺寸更大
+        isLarge(size: ISizeData, scaleX?: number, scaleY?: number, largeSize?: number): boolean // 比 maxCacheSize 尺寸更大
+        isSuperLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean // 比 maxPatternSize 尺寸更大
         getRealURL: IStringFunction // 处理前缀、后缀
         resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject): any
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: IObject): void

@@ -16,8 +16,11 @@ export const Platform: IPlatform = {
         maxCacheSize: 2560 * 1600,  // 2k
         maxPatternSize: 4096 * 2160, // 4k
         crossOrigin: 'anonymous',
-        isLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean {
-            return size.width * size.height * (scaleX ? scaleX * scaleY : 1) > Platform.image.maxCacheSize
+        isLarge(size: ISizeData, scaleX?: number, scaleY?: number, largeSize?: number): boolean {
+            return size.width * size.height * (scaleX ? scaleX * scaleY : 1) > (largeSize || image.maxCacheSize)
+        },
+        isSuperLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean {
+            return image.isLarge(size, scaleX, scaleY, image.maxPatternSize)
         },
         getRealURL(url: string): string {
             const { prefix, suffix } = Platform.image
@@ -48,3 +51,5 @@ export const Platform: IPlatform = {
         }
     }
 }
+
+const { image } = Platform
