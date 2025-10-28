@@ -122,21 +122,21 @@ export const BoundsHelper = {
 
         if (matrix.b === 0 && matrix.c === 0) {
 
-            const { a, d } = matrix
+            const { a, d, e, f } = matrix
             if (a > 0) {
                 to.width = t.width * a
-                to.x = matrix.e + t.x * a
+                to.x = e + t.x * a
             } else {
                 to.width = t.width * -a
-                to.x = matrix.e + t.x * a - to.width
+                to.x = e + t.x * a - to.width
             }
 
             if (d > 0) {
                 to.height = t.height * d
-                to.y = matrix.f + t.y * d
+                to.y = f + t.y * d
             } else {
                 to.height = t.height * -d
-                to.y = matrix.f + t.y * d - to.height
+                to.y = f + t.y * d - to.height
             }
 
         } else {

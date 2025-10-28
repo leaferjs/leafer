@@ -15,14 +15,13 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateWorldBounds(): void {
 
-        const layout = this.__layout
+        const { __layout, __world } = this
+        toOuterOf(__layout.renderBounds, __world, __world)
 
-        toOuterOf(layout.renderBounds, this.__world, this.__world)
-
-        if (layout.resized) {
-            if (layout.resized === 'inner') this.__onUpdateSize() // scale变化不用更新
+        if (__layout.resized) {
+            if (__layout.resized === 'inner') this.__onUpdateSize() // scale变化不用更新
             if (this.__hasLocalEvent) BoundsEvent.emitLocal(this)
-            layout.resized = undefined
+            __layout.resized = undefined
         }
 
         if (this.__hasWorldEvent) BoundsEvent.emitWorld(this)
