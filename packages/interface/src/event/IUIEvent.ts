@@ -51,6 +51,10 @@ export interface IPointerEvent extends IUIEvent {
 }
 export type PointerType = 'mouse' | 'pen' | 'touch'
 
+export interface ITouchEvent extends IUIEvent {
+
+}
+
 export interface IDragEvent extends IPointerEvent {
     moveX: number
     moveY: number
