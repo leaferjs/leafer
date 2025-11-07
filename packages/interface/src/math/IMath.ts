@@ -166,6 +166,7 @@ export interface IMatrixData {
     d: number
     e: number
     f: number
+    onlyScale?: boolean // 只有缩放值
 }
 
 export interface IScaleData {
