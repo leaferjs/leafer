@@ -449,6 +449,8 @@ export interface ILeafComputedData {
     __path2DForRender?: IPath2D
     __pathForArrow?: IPathCommandData
     __pathForMotion?: IMotionPathData
+
+    __clipAfterFill?: boolean // 一般用于判断是否裁剪 Box
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
