@@ -14,7 +14,7 @@ export interface ILeaferImageConfig {
     thumb?: string
     format?: IExportFileType
     crossOrigin?: IImageCrossOrigin
-    showProgress?: boolean // 是否显示进度
+    showProgress?: boolean | string // 是否显示进度
     view?: IObject | ILeaferImage | ILeaferCanvas
 }
 
