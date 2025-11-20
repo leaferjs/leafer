@@ -85,3 +85,14 @@ export interface ClosePathCommandObject {
 }
 
 export type IPathCommandObject = MoveToCommandObject | LineToCommandObject | BezierCurveToCommandObject | QuadraticCurveToCommandObject | ClosePathCommandObject // M | L | C | Q | Z   canvas可以绘制的命令
+
+
+export interface BezierCurveToCommandNode {
+    name: 'C'
+    x: number
+    y: number
+    a: { x: number; y: number } // 第一个手柄，连接上一个节点
+    b: { x: number; y: number } // 第二个手柄，连接下一个节点
+}
+
+export type IPathCommandNode = MoveToCommandObject | LineToCommandObject | BezierCurveToCommandNode | ClosePathCommandObject // M | L | C | Z   路径节点命令(适合可视化编辑)

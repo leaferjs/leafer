@@ -38,7 +38,7 @@ export { ISkiaCanvas, ISkiaCanvasExportConfig, ICanvasType, ISkiaNAPICanvas } fr
 export { IPathDrawer, IPathCreator } from './path/IPathDrawer'
 export { IMotionPathData } from './path/IPathData'
 export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'
-export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject } from './path/IPathCommand'
+export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject, BezierCurveToCommandNode, IPathCommandNode } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
 export { IResource } from './file/IResource'
