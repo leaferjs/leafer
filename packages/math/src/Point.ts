@@ -77,8 +77,8 @@ export class Point implements IPoint {
         return P.getDistance(this, to)
     }
 
-    public getDistancePoint(to: IPointData, distance: number, changeTo?: boolean): IPoint {
-        return new Point(P.getDistancePoint(this, to, distance, changeTo))
+    public getDistancePoint(to: IPointData, distance: number, changeTo?: boolean, fromTo?: boolean): IPoint {
+        return new Point(P.getDistancePoint(this, to, distance, changeTo, fromTo))
     }
 
     public getAngle(to: IPointData): number {

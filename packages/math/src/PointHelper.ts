@@ -156,9 +156,10 @@ export const PointHelper = {
     },
 
 
-    getDistancePoint(t: IPointData, to: IPointData, distance: number, changeTo: boolean): IPointData {
+    getDistancePoint(t: IPointData, to: IPointData, distance: number, changeTo?: boolean, fromTo?: boolean): IPointData {
         const r = getAtan2(t, to)
-        to = changeTo ? to : {} as IPointData
+        fromTo && (t = to)
+        changeTo || (to = {} as IPointData)
         to.x = t.x + cos(r) * distance
         to.y = t.y + sin(r) * distance
         return to
