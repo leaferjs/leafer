@@ -41,7 +41,8 @@ export interface IPointerEvent extends IUIEvent {
     width?: number
     height?: number
     pointerType?: PointerType
-    press?: boolean // move的过程中是否处于按住状态
+    moving?: boolean // 是否处于平移视图状态
+    dragging?: boolean // 是否处于拖拽状态
     multiTouch?: boolean
     pressure?: number
     tangentialPressure?: number
