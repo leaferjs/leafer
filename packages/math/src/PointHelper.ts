@@ -171,6 +171,10 @@ export const PointHelper = {
         return points
     },
 
+    isSame(t: IPointData, point: IPointData): boolean {
+        return t.x === point.x && t.y === point.y
+    },
+
     reset(t: IPointData): void {
         P.reset(t)
     }

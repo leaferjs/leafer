@@ -89,6 +89,9 @@ export class Point implements IPoint {
         return P.getAtan2(this, to)
     }
 
+    public isSame(point: IPointData): boolean {
+        return P.isSame(this, point)
+    }
 
     public reset(): IPoint {
         P.reset(this)
