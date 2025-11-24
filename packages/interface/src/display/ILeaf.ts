@@ -16,7 +16,7 @@ import { ILeafHit } from './module/ILeafHit'
 import { ILeafRender } from './module/ILeafRender'
 import { ILeafData } from '../data/ILeafData'
 import { IFindMethod } from '../selector/ISelector'
-import { IPathCommandObject, IPathCommandData } from '../path/IPathCommand'
+import { IPathCommandObject, IPathCommandData, IPathCommandNode } from '../path/IPathCommand'
 import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 import { IJSONOptions } from '../file/IExport'
 import { IMotionPathData } from '../path/IPathData'
@@ -267,7 +267,7 @@ export interface ILeafAttrData {
 
     renderSpread?: IFourNumber // 扩大渲染边界
 
-    path?: IPathCommandData | IPathCommandObject[] | IPathString
+    path?: IPathCommandData | IPathCommandNode[] | IPathCommandObject[] | IPathString
     windingRule?: IWindingRule
     closed?: IBoolean
 

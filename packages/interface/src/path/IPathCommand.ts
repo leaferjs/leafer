@@ -52,18 +52,18 @@ export type IPathCommandData = number[] // ...(MCommandData | LCommandData | CCo
 
 // 路径命令对象
 export interface MoveToCommandObject {
-    name: 'M'
+    name: 'M^'
     x: number
     y: number
 }
 export interface LineToCommandObject {
-    name: 'L'
+    name: 'L^'
     x: number
     y: number
 }
 
 export interface BezierCurveToCommandObject {
-    name: 'C'
+    name: 'C^'
     x1: number
     y1: number
     x2: number
@@ -81,18 +81,38 @@ export interface QuadraticCurveToCommandObject {
 }
 
 export interface ClosePathCommandObject {
-    name: 'Z'
+    name: 'Z^'
 }
 
 export type IPathCommandObject = MoveToCommandObject | LineToCommandObject | BezierCurveToCommandObject | QuadraticCurveToCommandObject | ClosePathCommandObject // M | L | C | Q | Z   canvas可以绘制的命令
 
 
+// 可视化路径节点
+export interface MoveToCommandNode {
+    name: 'M^'
+    x: number
+    y: number
+}
+export interface LineToCommandNode {
+    name: 'L^'
+    x: number
+    y: number
+}
+
 export interface BezierCurveToCommandNode {
-    name: 'C'
+    name: 'C^'
     x: number
     y: number
     a: { x: number; y: number } // 第一个手柄，连接上一个节点
     b: { x: number; y: number } // 第二个手柄，连接下一个节点
 }
 
-export type IPathCommandNode = MoveToCommandObject | LineToCommandObject | BezierCurveToCommandNode | ClosePathCommandObject // M | L | C | Z   路径节点命令(适合可视化编辑)
+export interface ClosePathCommandNode {
+    name: 'Z^'
+}
+
+export type IPathCommandNode = MoveToCommandNode | LineToCommandNode | BezierCurveToCommandNode | ClosePathCommandNode // M | L | C | Z   路径节点命令(适合可视化编辑)
+
+export interface IPathNodeBase {
+    pathNode: IPathCommandNode
+}
