@@ -88,27 +88,23 @@ export type IPathCommandObject = MoveToCommandObject | LineToCommandObject | Bez
 
 
 // 可视化路径节点
-export interface MoveToCommandNode {
-    name: 'M^'
+
+export interface IPathCommandNodeBase {
     x: number
     y: number
-    a?: { x: number; y: number }
-    b?: { x: number; y: number }
-}
-export interface LineToCommandNode {
-    name: 'L^'
-    x: number
-    y: number
-    a?: { x: number; y: number }
-    b?: { x: number; y: number }
+    a?: { x: number; y: number } // 第一个手柄，连接上一个节点
+    b?: { x: number; y: number } // 第二个手柄，连接下一个节点
 }
 
-export interface BezierCurveToCommandNode {
+export interface MoveToCommandNode extends IPathCommandNodeBase {
+    name: 'M^'
+}
+export interface LineToCommandNode extends IPathCommandNodeBase {
+    name: 'L^'
+}
+
+export interface BezierCurveToCommandNode extends IPathCommandNodeBase {
     name: 'C^'
-    x: number
-    y: number
-    a: { x: number; y: number } // 第一个手柄，连接上一个节点
-    b: { x: number; y: number } // 第二个手柄，连接下一个节点
 }
 
 export interface ClosePathCommandNode {
