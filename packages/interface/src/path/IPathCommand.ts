@@ -1,3 +1,5 @@
+import { IPointData } from '../math/IMath'
+
 type Command = number
 type x = number
 type y = number
@@ -90,10 +92,12 @@ export type IPathCommandObject = MoveToCommandObject | LineToCommandObject | Bez
 // 可视化路径节点
 
 export interface IPathCommandNodeBase {
+    name: 'M^' | 'L^' | 'C^' | 'Z^'
     x: number
     y: number
-    a?: { x: number; y: number } // 第一个手柄，连接上一个节点
-    b?: { x: number; y: number } // 第二个手柄，连接下一个节点
+    a?: IPointData // 第一个手柄，连接上一个节点
+    b?: IPointData // 第二个手柄，连接下一个节点
+    ab?: PathNodeHandleType // 手柄类型
 }
 
 export interface MoveToCommandNode extends IPathCommandNodeBase {
@@ -109,9 +113,24 @@ export interface BezierCurveToCommandNode extends IPathCommandNodeBase {
 
 export interface ClosePathCommandNode {
     name: 'Z^'
+    x?: number
+    y?: number
+    a?: IPointData
+    b?: IPointData
+    ab?: PathNodeHandleType
+
 }
 
 export type IPathCommandNode = MoveToCommandNode | LineToCommandNode | BezierCurveToCommandNode | ClosePathCommandNode // M | L | C | Z   路径节点命令(适合可视化编辑)
+
+export enum PathNodeHandleType { // 手柄类型
+    none = 1, // 无手柄
+    free = 2, // 每个手柄自由控制
+    mirrorAngle = 3, // 仅镜像角度
+    mirror = 4,  // 镜像角度和长度
+}
+
+export type PathNodeHandleName = 'a' | 'b' // 手柄名称
 
 export interface IPathNodeBase {
     pathNode: IPathCommandNode
