@@ -1,5 +1,5 @@
 import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType } from '@leafer/interface'
-import { Creator } from '@leafer/platform'
+import { Creator, Platform } from '@leafer/platform'
 import { FileHelper, Resource } from '@leafer/file'
 import { TaskProcessor } from '@leafer/task'
 
@@ -21,13 +21,27 @@ export const ImageManager: IImageManager = {
 
     recycle(image: ILeaferImage): void {
         image.use--
-        setTimeout(() => { if (!image.use) I.recycledList.push(image) })
+        setTimeout(() => {
+            if (!image.use) {
+                if (Platform.image.isLarge(image)) {
+                    if (image.url) Resource.remove(image.url)
+                } else {
+                    image.clearLevels()
+                    I.recycledList.push(image)
+                }
+            }
+        })
     },
 
-    clearRecycled(): void {
+    // maybe rewrite
+    recyclePaint(paint: any): void {
+        I.recycle(paint.image)
+    },
+
+    clearRecycled(force?: boolean): void {
         const list = I.recycledList
-        if (list.length > I.maxRecycled) {
-            list.forEach(image => (!image.use && image.url) && Resource.remove(image.url))
+        if (list.length > I.maxRecycled || force) {
+            list.forEach(image => ((!image.use || force) && image.url) && Resource.remove(image.url))
             list.length = 0
         }
     },
@@ -49,7 +63,7 @@ export const ImageManager: IImageManager = {
     },
 
     destroy(): void {
-        I.recycledList = []
+        this.clearRecycled(true)
     }
 
 }

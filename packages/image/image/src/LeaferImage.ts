@@ -121,10 +121,16 @@ export class LeaferImage implements ILeaferImage {
         return pattern
     }
 
+    // need rewrite
+    public clearLevels(): void { }
 
     public destroy(): void {
+        this.clearLevels()
+
+        const { view } = this
+        if (view && view.close) view.close() // 可能为 ImageBitmap
         this.config = { url: '' }
-        this.cache = null
+        this.cache = this.view = null
         this.waitComplete.length = 0
     }
 

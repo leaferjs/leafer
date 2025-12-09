@@ -118,7 +118,6 @@ export interface ClosePathCommandNode {
     a?: IPointData
     b?: IPointData
     ab?: PathNodeHandleType
-
 }
 
 export type IPathCommandNode = MoveToCommandNode | LineToCommandNode | BezierCurveToCommandNode | ClosePathCommandNode // M | L | C | Z   路径节点命令(适合可视化编辑)

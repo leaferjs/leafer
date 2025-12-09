@@ -2,7 +2,7 @@ import { ICanvasPattern } from '../canvas/ICanvas'
 import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType } from '../file/IFileType'
-import { IMatrixData, IPointData } from '../math/IMath'
+import { IBoundsData, IMatrixData, IPointData } from '../math/IMath'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
 import { IImageCrossOrigin } from '../platform/IPlatform'
@@ -44,6 +44,7 @@ export interface ILeaferImageSliceData {
 
 export interface ILeaferImageSlice {
     view?: any
+    bounds?: IBoundsData
     task?: ITaskItem
 }
 
@@ -53,6 +54,7 @@ export interface ILeaferImageLevel {
     view?: any
     url?: string
     slice?: ILeaferImageSliceData
+    use?: number // 引用次数
 }
 
 export interface ILeaferImage {
@@ -80,7 +82,7 @@ export interface ILeaferImage {
 
     progress?: IProgressData // 加载进度
 
-    use: number
+    use: number // 引用次数
     config: ILeaferImageConfig
 
     load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError): number
@@ -88,6 +90,8 @@ export interface ILeaferImage {
     getFull(filters?: IObject): any
     getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any
     getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: IObject): ICanvasPattern
+
+    clearLevels(): void
     destroy(): void
 }
 

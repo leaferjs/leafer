@@ -12,7 +12,10 @@ export interface IImageManager {
 
     get(config: ILeaferImageConfig): ILeaferImage
     recycle(image: ILeaferImage): void
-    clearRecycled(): void
+
+    recyclePaint(paint: any): void
+
+    clearRecycled(force?: boolean): void
     hasAlphaPixel(config: ILeaferImageConfig): boolean // png / svg / webp
     isFormat(format: IExportFileType, config: ILeaferImageConfig): boolean
 
