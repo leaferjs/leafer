@@ -46,6 +46,9 @@ export const ImageManager: IImageManager = {
         }
     },
 
+    // need rewrite
+    clearLevels(): void { },
+
     hasAlphaPixel(config: ILeaferImageConfig): boolean {
         return FileHelper.alphaPixelTypes.some(item => I.isFormat(item, config))
     },

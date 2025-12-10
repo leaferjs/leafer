@@ -91,7 +91,7 @@ export interface ILeaferImage {
     getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any
     getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: IObject): ICanvasPattern
 
-    clearLevels(): void
+    clearLevels(checkUse?: boolean): void
     destroy(): void
 }
 

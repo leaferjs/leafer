@@ -39,6 +39,7 @@ export interface IPlatform {
 
     origin?: {
         createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
+        createOffscreenCanvas?(width: number, height: number, format?: 'svg' | 'pdf'): any
         canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>
         canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
@@ -74,7 +75,10 @@ export interface IPlatform {
         getRealURL: IStringFunction // 处理前缀、后缀
         resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject): any
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: IObject): void
-    }
+    },
+
+    canCreateImageBitmap?: boolean // 是否能使用 createImageBitmap
+    canClipImageBitmap?: boolean // 是否能使用 createImageBitmap 裁剪图片
 }
 
 export type IImageCrossOrigin = 'anonymous' | 'use-credentials' // 图片跨域设置

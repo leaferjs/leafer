@@ -122,7 +122,7 @@ export class LeaferImage implements ILeaferImage {
     }
 
     // need rewrite
-    public clearLevels(): void { }
+    public clearLevels(_checkUse?: boolean): void { }
 
     public destroy(): void {
         this.clearLevels()
