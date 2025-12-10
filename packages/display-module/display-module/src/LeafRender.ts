@@ -8,6 +8,7 @@ export const LeafRender: ILeafRenderModule = {
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
 
         if (options.shape) return this.__renderShape(canvas, options)
+        if (options.cellList && !options.cellList.has(this)) return
 
         if (this.__worldOpacity) {
 

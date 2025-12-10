@@ -1,4 +1,4 @@
-import { ILeaf, ILeaferBase, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions } from '@leafer/interface'
+import { ILeaf, ILeaferBase, ILeaferCanvas, IRenderer, IRendererConfig, IEventListenerId, IBounds, IFunction, IRenderOptions, ILeafList } from '@leafer/interface'
 import { LayoutEvent, RenderEvent, ResizeEvent, ImageManager, Bounds, DataHelper, Platform, Debug, Run } from '@leafer/core'
 
 
@@ -193,18 +193,25 @@ export class Renderer implements IRenderer {
     }
 
     protected __render(bounds: IBounds, realBounds?: IBounds): void {
-        const { canvas } = this, includes = bounds.includes(this.target.__world), options: IRenderOptions = includes ? { includes } : { bounds, includes }
+        const { canvas, target } = this, includes = bounds.includes(target.__world), options: IRenderOptions = includes ? { includes } : { bounds, includes }
 
         if (this.needFill) canvas.fillWorld(bounds, this.config.fill)
         if (Debug.showRepaint) Debug.drawRepaint(canvas, bounds)
 
-        Platform.render(this.target, canvas, options)
+        if (this.config.useCellRender) options.cellList = this.getCellList()
+
+        Platform.render(target, canvas, options)
 
         this.renderBounds = realBounds = realBounds || bounds
         this.renderOptions = options
         this.totalBounds.isEmpty() ? this.totalBounds = realBounds : this.totalBounds.add(realBounds)
 
         canvas.updateRender(realBounds)
+    }
+
+    // need rewrite
+    getCellList(): ILeafList {
+        return undefined
     }
 
     public addBlock(block: IBounds): void {

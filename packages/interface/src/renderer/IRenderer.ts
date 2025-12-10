@@ -4,6 +4,7 @@ import { IBounds, IMatrixWithScaleData } from '../math/IMath'
 import { IFunction } from '../function/IFunction'
 import { IControl } from '../control/IControl'
 import { ILeafList } from '../data/IList'
+import { IObject } from '../data/IData'
 
 export interface IRenderOptions {
     includes?: boolean,
@@ -21,10 +22,13 @@ export interface IRenderOptions {
     shape?: boolean
     ignoreFill?: boolean, // 绘制外形时忽略fill
     ignoreStroke?: boolean // 绘制外形时忽略stroke
+
+    cellList?: ILeafList
 }
 
 export interface IRendererConfig {
     usePartRender?: boolean
+    useCellRender?: boolean | IObject
     maxFPS?: number
     fill?: string
 }
