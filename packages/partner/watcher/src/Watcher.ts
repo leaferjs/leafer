@@ -20,7 +20,7 @@ export class Watcher implements IWatcher {
     public config: IWatcherConfig = {}
 
     public get updatedList(): ILeafList {
-        if (this.hasRemove) {
+        if (this.hasRemove && this.config.usePartLayout) {
             const updatedList = new LeafList()
             this.__updatedList.list.forEach(item => { if (item.leafer) updatedList.add(item) })
             return updatedList
@@ -59,17 +59,19 @@ export class Watcher implements IWatcher {
     }
 
     protected __onAttrChange(event: PropertyEvent): void {
-        this.__updatedList.add(event.target as ILeaf)
+        if (this.config.usePartLayout) this.__updatedList.add(event.target as ILeaf)
         this.update()
     }
 
     protected __onChildEvent(event: ChildEvent): void {
-        if (event.type === ChildEvent.ADD) {
-            this.hasAdd = true
-            this.__pushChild(event.child)
-        } else {
-            this.hasRemove = true
-            this.__updatedList.add(event.parent)
+        if (this.config.usePartLayout) {
+            if (event.type === ChildEvent.ADD) {
+                this.hasAdd = true
+                this.__pushChild(event.child)
+            } else {
+                this.hasRemove = true
+                this.__updatedList.add(event.parent)
+            }
         }
         this.update()
     }

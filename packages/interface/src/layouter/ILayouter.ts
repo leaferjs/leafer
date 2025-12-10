@@ -28,6 +28,7 @@ export interface IPartLayoutConfig {
 }
 
 export interface ILayouterConfig {
+    usePartLayout?: boolean
     partLayout?: IPartLayoutConfig
 }
 

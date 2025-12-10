@@ -1,12 +1,13 @@
 import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IControl } from '../control/IControl'
+import { ILayouterConfig } from '../layouter/ILayouter'
 
 export interface IWatchEventData {
     updatedList: ILeafList
 }
 
-export interface IWatcherConfig {
+export interface IWatcherConfig extends ILayouterConfig {
 
 }
 

@@ -57,7 +57,7 @@ export class Renderer implements IRenderer {
 
     public update(change = true): void {
         if (!this.changed) this.changed = change
-        this.__requestRender()
+        if (!this.requestTime) this.__requestRender()
     }
 
     public requestLayout(): void {

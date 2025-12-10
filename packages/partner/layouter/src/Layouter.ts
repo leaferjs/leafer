@@ -24,7 +24,7 @@ export class Layouter implements ILayouter {
 
     public waitAgain: boolean
 
-    public config: ILayouterConfig = {}
+    public config: ILayouterConfig = { usePartLayout: true }
 
     protected __updatedList: ILeafList
     protected __levelList: LeafLevelList = new LeafLevelList()
@@ -86,7 +86,7 @@ export class Layouter implements ILayouter {
 
         this.target.emit(WatchEvent.REQUEST)
 
-        if (this.totalTimes > 1) {
+        if (this.totalTimes > 1 && this.config.usePartLayout) {
             this.partLayout()
         } else {
             this.fullLayout()
