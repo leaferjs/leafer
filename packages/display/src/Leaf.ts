@@ -567,9 +567,9 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     public hit(_world: IPointData, _hitRadius?: number): boolean { return true }
 
-    public __hitWorld(_point: IRadiusPointData): boolean { return true }
+    public __hitWorld(_point: IRadiusPointData, _forceHitFill?: boolean): boolean { return true }
 
-    public __hit(_local: IRadiusPointData): boolean { return true }
+    public __hit(_local: IRadiusPointData, _forceHitFill?: boolean): boolean { return true }
 
     public __hitFill(_inner: IRadiusPointData): boolean { return true }
 

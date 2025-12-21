@@ -679,8 +679,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // ILeafHit ->
     hit(world: IPointData, hitRadius?: number): boolean
-    __hitWorld(point: IRadiusPointData): boolean
-    __hit(local: IRadiusPointData): boolean
+    __hitWorld(point: IRadiusPointData, forceHitFill?: boolean): boolean
+    __hit(local: IRadiusPointData, forceHitFill?: boolean): boolean
     __hitFill(inner: IRadiusPointData): boolean
     __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean
     __hitPixel(inner: IRadiusPointData): boolean
