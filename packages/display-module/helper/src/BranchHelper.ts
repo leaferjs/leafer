@@ -1,4 +1,4 @@
-import { ILeaf, ILeafLevelList, ILeafList } from '@leafer/interface'
+import { ILeaf, ILeafLevelList, ILeafList, IMatrixWithBoundsData, IMatrixWithBoundsScaleData } from '@leafer/interface'
 import { isUndefined } from '@leafer/data'
 import { LeafHelper } from './LeafHelper'
 
@@ -79,7 +79,62 @@ export const BranchHelper = {
             if (exclude && exclude === branch) continue
             updateBounds(branch)
         }
+    },
+
+    move(branch: ILeaf, x: number, y: number): void {
+        let w: IMatrixWithBoundsData
+        const { children } = branch
+        for (let i = 0, len = children.length; i < len; i++) {
+            branch = children[i]
+            w = branch.__world
+
+            w.e += x
+            w.f += y
+            w.x += x
+            w.y += y
+
+            if (branch.isBranch) move(branch, x, y)
+        }
+    },
+
+    scale(branch: ILeaf, x: number, y: number, scaleX: number, scaleY: number, a: number, b: number): void {
+        let w: IMatrixWithBoundsScaleData
+        const { children } = branch
+        const changeScaleX = scaleX - 1
+        const changeScaleY = scaleY - 1
+
+        for (let i = 0, len = children.length; i < len; i++) {
+            branch = children[i]
+            w = branch.__world
+
+            w.a *= scaleX
+            w.d *= scaleY
+
+            if (w.b || w.c) {
+                w.b *= scaleX
+                w.c *= scaleY
+            }
+
+            if (w.e === w.x && w.f === w.y) {
+                w.x = w.e += (w.e - a) * changeScaleX + x
+                w.y = w.f += (w.f - b) * changeScaleY + y
+            } else {
+                w.e += (w.e - a) * changeScaleX + x
+                w.f += (w.f - b) * changeScaleY + y
+
+                w.x += (w.x - a) * changeScaleX + x
+                w.y += (w.y - b) * changeScaleY + y
+            }
+
+            w.width *= scaleX
+            w.height *= scaleY
+
+            w.scaleX *= scaleX
+            w.scaleY *= scaleY
+
+            if (branch.isBranch) scale(branch, x, y, scaleX, scaleY, a, b)
+        }
     }
 }
 
-const { pushAllChildBranch, pushAllBranchStack, updateBoundsByBranchStack } = BranchHelper
+const { pushAllChildBranch, pushAllBranchStack, updateBoundsByBranchStack, move, scale } = BranchHelper
