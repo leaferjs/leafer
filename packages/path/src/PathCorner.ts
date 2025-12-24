@@ -1,5 +1,6 @@
 import { IPathCommandData } from '@leafer/interface'
 import { PointHelper } from '@leafer/math'
+import { isArray } from '@leafer/data'
 
 import { PathCommandMap as Command, PathNumberCommandLengthMap } from './PathCommandMap'
 import { PathCommandDataHelper } from './PathCommandDataHelper'
@@ -15,6 +16,7 @@ export const PathCorner = {
 
         let command: number, lastCommand: number, commandLen
         let i = 0, x = 0, y = 0, startX = 0, startY = 0, secondX = 0, secondY = 0, lastX = 0, lastY = 0
+        if (isArray(cornerRadius)) cornerRadius = cornerRadius[0] || 0
 
         const len = data.length
         const smooth: IPathCommandData = []

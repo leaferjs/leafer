@@ -23,7 +23,7 @@ export const BezierHelper = {
         if (curve && points.length > 5) {
 
             let aX: number, aY: number, bX: number, bY: number, cX: number, cY: number, c1X: number, c1Y: number, c2X: number, c2Y: number
-            let ba: number, cb: number, d: number, len = points.length
+            let baX: number, baY: number, ba: number, cb: number, d: number, len = points.length
             const t = curve === true ? 0.5 : curve as number
 
             if (close) {
@@ -41,7 +41,10 @@ export const BezierHelper = {
                 cX = points[i + 2]
                 cY = points[i + 3]
 
-                ba = sqrt(pow(bX - aX, 2) + pow(bY - aY, 2))
+                baX = bX - aX
+                baY = bY - aY
+
+                ba = sqrt(pow(baX, 2) + pow(baY, 2))
                 cb = sqrt(pow(cX - bX, 2) + pow(cY - bY, 2))
 
                 if (!ba && !cb) continue
@@ -59,7 +62,7 @@ export const BezierHelper = {
                 if (i === 2) {
                     if (!close) data.push(Q, c1X, c1Y, bX, bY)
                 } else {
-                    data.push(C, c2X, c2Y, c1X, c1Y, bX, bY)
+                    if (baX || baY) data.push(C, c2X, c2Y, c1X, c1Y, bX, bY) // 当前点与上一个点距离为0时，需要过滤
                 }
 
                 c2X = bX + cb * cX
