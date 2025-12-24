@@ -59,6 +59,7 @@ export const PathCommandDataHelper = {
     },
 
     ellipse(data: IPathCommandData, x: number, y: number, radiusX: number, radiusY: number, rotation?: number, startAngle?: number, endAngle?: number, anticlockwise?: boolean): void {
+        if (radiusX === radiusY) return arc(data, x, y, radiusX, startAngle, endAngle, anticlockwise)
         if (isNull(rotation)) {
             data.push(F, x, y, radiusX, radiusY)
         } else {
@@ -72,6 +73,7 @@ export const PathCommandDataHelper = {
         if (isNull(startAngle)) {
             data.push(P, x, y, radius)
         } else {
+            if (isNull(startAngle)) startAngle = 0
             if (isNull(endAngle)) endAngle = 360
             data.push(O, x, y, radius, startAngle, endAngle, anticlockwise ? 1 : 0)
         }
