@@ -74,7 +74,7 @@ export interface IConstraint {
 
 export type IConstraintType = 'from' | 'center' | 'to' | 'from-to' | 'scale'
 
-export type IScaleFixed = boolean | 'zoom-in' // 缩放时是否固定原有比例，zoom-in表示仅在放大时固定比例（缩小时仍跟随缩小）
+export type IScaleFixed = boolean | 'zoom-in' | number // 缩放时是否固定原有比例，zoom-in表示仅在放大时固定比例（缩小时仍跟随缩小）
 
 export type IHitType =
     | 'path'
@@ -248,6 +248,7 @@ export interface ILeafAttrData {
     height?: INumber
     scaleX?: INumber
     scaleY?: INumber
+    scaleFixed?: IScaleFixed
     rotation?: INumber
     skewX?: INumber
     skewY?: INumber
@@ -355,6 +356,7 @@ export interface ILeafComputedData {
     height?: number
     scaleX?: number
     scaleY?: number
+    scaleFixed?: IScaleFixed
     rotation?: number
     skewX?: number
     skewY?: number
