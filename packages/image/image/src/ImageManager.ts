@@ -10,7 +10,7 @@ export const ImageManager: IImageManager = {
 
     recycledList: [],
 
-    patternTasker: new TaskProcessor(),
+    patternTasker: new TaskProcessor({ parallel: 1 }),
 
     get(config: ILeaferImageConfig): ILeaferImage {
         let image: ILeaferImage = Resource.get(config.url)
