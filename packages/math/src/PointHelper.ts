@@ -1,10 +1,10 @@
 import { IPointData, IMatrixData, IRadiusPointData, IMatrixWithScaleData } from '@leafer/interface'
 import { isObject, isUndefined } from '@leafer/data'
 
-import { OneRadian, getPointData } from './MathHelper'
+import { MathHelper, OneRadian, getPointData } from './MathHelper'
 import { MatrixHelper as M } from './MatrixHelper'
 
-
+const { float } = MathHelper
 const { toInnerPoint, toOuterPoint } = M
 const { sin, cos, abs, sqrt, atan2, min, round } = Math
 
@@ -172,7 +172,7 @@ export const PointHelper = {
     },
 
     isSame(t: IPointData, point: IPointData): boolean {
-        return t.x === point.x && t.y === point.y
+        return float(t.x) === float(point.x) && float(t.y) === float(point.y)
     },
 
     reset(t: IPointData): void {
