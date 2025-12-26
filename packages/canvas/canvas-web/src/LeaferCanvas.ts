@@ -28,10 +28,6 @@ export class LeaferCanvas extends LeaferCanvasBase {
         }
     }
 
-    // CSS 原始自动宽高值
-    protected autoWidthStr: string
-    protected autoHeightStr: string
-
     protected resizeObserver: ResizeObserver
     protected autoBounds: IAutoBounds
     protected resizeListener: IResizeEventListener
@@ -49,6 +45,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
         if (this.parentView) {
             const pStyle = this.parentView.style
             pStyle.webkitUserSelect = pStyle.userSelect = 'none' // fix safari: use webkitUserSelect
+            this.view.classList.add('leafer-canvas-view')
         }
 
         if (Platform.syncDomFont && !this.parentView) { // fix: firefox default font
@@ -116,27 +113,12 @@ export class LeaferCanvas extends LeaferCanvasBase {
         const { width, height, pixelRatio } = this
         const { style } = this.view
 
-        if (this.unreal) { // app 的 view 为 div 的情况
+        style.width = width + 'px'
+        style.height = height + 'px'
 
-            const { config, autoWidthStr, autoHeightStr } = this
-            if (config.width) {
-                if (isUndefined(autoWidthStr)) this.autoWidthStr = style.width || ''
-                style.width = config.width + 'px'
-            } else if (!isUndefined(autoWidthStr)) style.width = autoWidthStr
-
-            if (config.height) {
-                if (isUndefined(autoHeightStr)) this.autoHeightStr = style.height || ''
-                style.height = config.height + 'px'
-            } else if (!isUndefined(autoHeightStr)) style.height = autoHeightStr
-
-        } else {
-
-            style.width = width + 'px'
-            style.height = height + 'px'
-
+        if (!this.unreal) {
             this.view.width = Math.ceil(width * pixelRatio)
             this.view.height = Math.ceil(height * pixelRatio)
-
         }
     }
 
@@ -240,23 +222,24 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
 
     public unrealCanvas(): void { // App needs to use
-        if (!this.unreal && this.parentView) {
-            const view = this.view
+        if (!this.unreal && this.parentView) { // canvas 替换成 div, 方便放入子canvas
+            let view = this.view
             if (view) view.remove()
 
-            this.view = this.parentView as HTMLCanvasElement
+            view = this.view = document.createElement('div') as any
+            this.parentView.appendChild(this.view)
+            view.classList.add('leafer-app-view')
+
             this.unreal = true
         }
     }
 
     public destroy(): void {
-        if (this.view) {
+        const { view } = this
+        if (view) {
             this.stopAutoLayout()
             this.stopListenPixelRatio()
-            if (!this.unreal) {
-                const view = this.view
-                if (view.parentElement) view.remove()
-            }
+            if (view.parentElement) view.remove()
             super.destroy()
         }
     }
