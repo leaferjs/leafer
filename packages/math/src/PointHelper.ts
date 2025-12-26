@@ -90,6 +90,12 @@ export const PointHelper = {
         return temp
     },
 
+    copyRadiusPoint(t: IRadiusPointData, point: IPointData, x: number, y?: number,): IRadiusPointData {
+        copy(t, point)
+        setRadius(t, x, y)
+        return t
+    },
+
     toInnerRadiusPointOf(t: IRadiusPointData, matrix: IMatrixWithScaleData, to?: IRadiusPointData): void {
         to || (to = t)
         toInnerPoint(matrix, t, to)
@@ -181,4 +187,4 @@ export const PointHelper = {
 }
 
 const P = PointHelper
-const { getDistanceFrom, copy, getAtan2 } = P
+const { getDistanceFrom, copy, setRadius, getAtan2 } = P

@@ -1,8 +1,11 @@
-import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker, ILeaferBase } from '@leafer/interface'
-import { BoundsHelper, LeafList, LeafHelper } from '@leafer/core'
+import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker, ILeaferBase, ILeafData } from '@leafer/interface'
+import { BoundsHelper, LeafList, LeafHelper, PointHelper } from '@leafer/core'
 
 
+const tempPoint = {} as IRadiusPointData
+const { copyRadiusPoint } = PointHelper
 const { hitRadiusPoint } = BoundsHelper
+
 
 export class Picker implements IPicker {
 
@@ -143,16 +146,16 @@ export class Picker implements IPicker {
     }
 
     protected eachFind(children: ILeaf[], hitMask: boolean): void {
-        let child: ILeaf, hit: boolean
+        let child: ILeaf, hit: boolean, data: ILeafData
         const { point } = this, len = children.length
         for (let i = len - 1; i > -1; i--) {
-            child = children[i]
-            if (!child.__.visible || (hitMask && !child.__.mask)) continue
-            hit = child.__.hitRadius ? true : hitRadiusPoint(child.__world, point)
+            child = children[i], data = child.__
+            if (!data.visible || (hitMask && !data.mask)) continue
+            hit = hitRadiusPoint(child.__world, data.hitRadius ? copyRadiusPoint(tempPoint, point, data.hitRadius) : point)
 
             if (child.isBranch) {
                 if (hit || child.__ignoreHitWorld) {
-                    if (child.isBranchLeaf && child.__.__clipAfterFill && !child.__hitWorld(point, true)) continue // 裁剪的Box需要先检测自身是否碰撞到
+                    if (child.isBranchLeaf && data.__clipAfterFill && !child.__hitWorld(point, true)) continue // 裁剪的Box需要先检测自身是否碰撞到
                     if (child.topChildren) this.eachFind(child.topChildren, false) // 滚动条等覆盖物
                     this.eachFind(child.children, child.__onlyHitMask)
                     if (child.isBranchLeaf) this.hitChild(child, point) // Box / Frame
