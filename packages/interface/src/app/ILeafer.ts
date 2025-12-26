@@ -44,7 +44,7 @@ export interface ILeaferAttrData {
 
     transforming: boolean
 
-    view: unknown
+    readonly view: unknown
 
     canvas: ILeaferCanvas
     renderer: IRenderer
