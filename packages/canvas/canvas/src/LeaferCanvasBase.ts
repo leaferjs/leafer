@@ -207,7 +207,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
 
-    public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, ceilPixel: boolean = true): void {
+    public copyWorld(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, ceilPixel?: boolean): void {
         if (blendMode) this.blendMode = blendMode
         if (from) {
             this.setTempPixelBounds(from, ceilPixel)
@@ -221,7 +221,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (blendMode) this.blendMode = 'source-over'
     }
 
-    public copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: IBlendMode, ceilPixel: boolean = true): void {
+    public copyWorldToInner(canvas: ILeaferCanvas, fromWorld: IMatrixWithBoundsData, toInnerBounds: IBoundsData, blendMode?: IBlendMode, ceilPixel?: boolean): void {
         if (fromWorld.b || fromWorld.c) {
             this.save()
             this.resetTransform()
@@ -235,7 +235,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         }
     }
 
-    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, onlyResetTransform?: boolean, ceilPixel: boolean = true): void {
+    public copyWorldByReset(canvas: ILeaferCanvas, from?: IBoundsData, to?: IBoundsData, blendMode?: IBlendMode, onlyResetTransform?: boolean, ceilPixel?: boolean): void {
         this.resetTransform()
         this.copyWorld(canvas, from, to, blendMode, ceilPixel)
         if (!onlyResetTransform) this.useWorldTransform() // restore world transform
