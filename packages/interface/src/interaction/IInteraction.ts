@@ -77,6 +77,7 @@ export interface IInteraction extends IControl {
     isFocus(leaf: ILeaf): boolean
 
     cancelHover(): void
+    stopDragAnimate(): void
 
     updateDownData(data?: IPointerEvent, options?: IPickOptions, merge?: boolean): void
     updateHoverData(data: IPointerEvent): void

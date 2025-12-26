@@ -23,6 +23,8 @@ export interface IUIEvent extends IEvent {
     path?: ILeafList
     throughPath?: ILeafList // 穿透path，不受层级影响，从上到下只要碰撞到区域就算，一般点击的时候
 
+    time?: number
+
     isHoldKeys?(shortcutKeys?: IShortcutKeysCheck | IShortcutKeys): boolean
 
     getBoxPoint?(relative?: ILeaf): IPointData
