@@ -18,6 +18,7 @@ export interface IAnimateOptions {
     speed?: number
 
     join?: boolean
+    jump?: boolean // 存在延时时，先跳到第一帧再延时
     autoplay?: boolean
 
     attrs?: string[]
