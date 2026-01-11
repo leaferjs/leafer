@@ -1,4 +1,4 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
@@ -13,6 +13,7 @@ export class LeaferImage implements ILeaferImage {
 
     public readonly innerId: InnerId
     public get url() { return this.config.url }
+    public get crossOrigin(): IImageCrossOrigin { const { crossOrigin } = this.config; return isUndefined(crossOrigin) ? Platform.image.crossOrigin : crossOrigin }
 
     public view: any
 
@@ -48,11 +49,13 @@ export class LeaferImage implements ILeaferImage {
         ImageManager.hasAlphaPixel(config) && (this.hasAlphaPixel = true)
     }
 
-    public load(onSuccess?: IFunction, onError?: IFunction): number {
+    public load(onSuccess?: IFunction, onError?: IFunction, thumbSize?: ISizeData): number {
         if (!this.loading) {
             this.loading = true
-            const { crossOrigin } = this.config
-            Resource.tasker.add(async () => await Platform.origin.loadImage(this.url, isUndefined(crossOrigin) ? Platform.image.crossOrigin : crossOrigin, this).then(img => this.setView(img)).catch((e) => {
+            Resource.tasker.add(async () => await Platform.origin.loadImage(this.getLoadUrl(thumbSize), this.crossOrigin, this).then(img => {
+                if (thumbSize) this.setThumbView(img)
+                this.setView(img)
+            }).catch((e) => {
                 this.error = e
                 this.onComplete(false)
             }))
@@ -72,9 +75,11 @@ export class LeaferImage implements ILeaferImage {
 
     protected setView(img: any): void {
         this.ready = true
-        this.width = img.naturalWidth || img.width
-        this.height = img.naturalHeight || img.height
-        this.view = img
+        if (!this.width) {
+            this.width = img.width
+            this.height = img.height
+            this.view = img
+        }
         this.onComplete(true)
     }
 
@@ -122,6 +127,12 @@ export class LeaferImage implements ILeaferImage {
     }
 
     // need rewrite
+    public getLoadUrl(_thumbSize?: ISizeData): string { return this.url }
+    public setThumbView(_view: number): void { }
+    public getThumbSize(): ISizeData { return undefined }
+
+    public getMinLevel(): number { return undefined }
+    public getLevelData(_level: number): ILeaferImageLevel { return undefined }
     public clearLevels(_checkUse?: boolean): void { }
 
     public destroy(): void {

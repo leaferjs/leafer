@@ -68,6 +68,9 @@ export interface ILeaferAttrData {
     readonly clientBounds: IBoundsData
     leafs: number
 
+    isPullDown?: boolean
+    isReachDottom?: boolean
+
     __eventIds: IEventListenerId[]
     __nextRenderWait: IFunction[]
 
