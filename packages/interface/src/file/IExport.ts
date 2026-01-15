@@ -8,12 +8,18 @@ import { IFourNumber } from '../data/IData'
 export interface IExportOptions {
     quality?: number
     blob?: boolean
+
     scale?: number | IPointData
     size?: number | IOptionSizeData
+
+    clip?: IBoundsData
+    rotation?: number
+    skew?: IPointData
+
     padding?: IFourNumber
     smooth?: boolean
     pixelRatio?: number
-    clip?: IBoundsData
+
     slice?: boolean
     trim?: boolean
     fill?: string

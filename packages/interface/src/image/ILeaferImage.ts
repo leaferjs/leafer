@@ -8,6 +8,7 @@ import { IProgressData } from '../event/IProgress'
 import { IImageCrossOrigin } from '../platform/IPlatform'
 import { ITaskItem } from '../task/ITaskProcessor'
 import { IRangeSize } from '../display/ILeaf'
+import { IFunction } from '../function/IFunction'
 
 export interface ILeaferImageConfig {
     url: string
@@ -67,7 +68,9 @@ export interface ILeaferImageLevel {
     level: number
     scale: number | IPointData
     view?: any
-    url?: string
+    task?: ITaskItem
+    wait?: IFunction[]
+
     slice?: ILeaferImageSliceData
     use?: number // 引用次数
 }
@@ -75,6 +78,7 @@ export interface ILeaferImageLevel {
 export interface ILeaferImage {
     readonly innerId: InnerId
     readonly url: string
+    lod?: IImageLOD
     readonly crossOrigin: IImageCrossOrigin
 
     view: any
@@ -111,10 +115,10 @@ export interface ILeaferImage {
 
     getLoadUrl(thumbSize?: ISizeData): string
     setThumbView(view: number): void
-    getThumbSize(): ISizeData
+    getThumbSize(lod?: IImageLOD): ISizeData
 
     getMinLevel(): number
-    getLevelData(_level: number): ILeaferImageLevel
+    getLevelData(level: number, width?: number, height?: number): ILeaferImageLevel
     clearLevels(checkUse?: boolean): void
 
     destroy(): void

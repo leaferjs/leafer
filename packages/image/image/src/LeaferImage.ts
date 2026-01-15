@@ -1,4 +1,4 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin, IImageLOD } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
@@ -13,6 +13,7 @@ export class LeaferImage implements ILeaferImage {
 
     public readonly innerId: InnerId
     public get url() { return this.config.url }
+    public lod?: IImageLOD
     public get crossOrigin(): IImageCrossOrigin { const { crossOrigin } = this.config; return isUndefined(crossOrigin) ? Platform.image.crossOrigin : crossOrigin }
 
     public view: any
@@ -129,10 +130,10 @@ export class LeaferImage implements ILeaferImage {
     // need rewrite
     public getLoadUrl(_thumbSize?: ISizeData): string { return this.url }
     public setThumbView(_view: number): void { }
-    public getThumbSize(): ISizeData { return undefined }
+    public getThumbSize(_lod?: IImageLOD): ISizeData { return undefined }
 
     public getMinLevel(): number { return undefined }
-    public getLevelData(_level: number): ILeaferImageLevel { return undefined }
+    public getLevelData(_level: number, _width?: number, _height?: number,): ILeaferImageLevel { return undefined }
     public clearLevels(_checkUse?: boolean): void { }
 
     public destroy(): void {

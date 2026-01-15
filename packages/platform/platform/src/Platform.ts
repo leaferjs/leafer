@@ -33,11 +33,13 @@ export const Platform: IPlatform = {
             const ctx: ICanvasContext2D = canvas.getContext('2d')
             if (opacity) ctx.globalAlpha = opacity
             ctx.imageSmoothingEnabled = smooth === false ? false : true // 平滑绘制
-            if (clip) {
-                const scaleX = width / clip.width, scaleY = height / clip.height
-                ctx.setTransform(scaleX, 0, 0, scaleY, -clip.x * scaleX, -clip.y * scaleY)
-                ctx.drawImage(image, 0, 0, image.width, image.height)
-            } else ctx.drawImage(image, 0, 0, width, height)
+            if (image) {
+                if (clip) {
+                    const scaleX = width / clip.width, scaleY = height / clip.height
+                    ctx.setTransform(scaleX, 0, 0, scaleY, -clip.x * scaleX, -clip.y * scaleY)
+                    ctx.drawImage(image, 0, 0, image.width, image.height)
+                } else ctx.drawImage(image, 0, 0, width, height)
+            }
             return canvas
         },
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): void {
