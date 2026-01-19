@@ -17,10 +17,11 @@ export class TaskItem implements ITaskItem {
 
     public isComplete: boolean
     public isCancel: boolean
+    public runing: boolean
 
     public canUse?: IFunction
 
-    private task: IFunction
+    public task: IFunction
 
     constructor(task?: IFunction) {
         this.id = IncrementId.create(IncrementId.TASK)
@@ -29,7 +30,8 @@ export class TaskItem implements ITaskItem {
 
     async run(): Promise<void> {
         try {
-            if (this.isComplete) return
+            if (this.isComplete || this.runing) return
+            this.runing = true
             if (this.canUse && !this.canUse()) return this.cancel()
             if (this.task && this.parent.running) await this.task()
         } catch (error) {

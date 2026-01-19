@@ -100,7 +100,7 @@ export interface ILeaferImage {
     levels?: ILeaferImageLevel[]
     levelsRange?: IRangeSize
     minLevel?: number
-    loadId?: any
+    loadId?: ITaskItem
 
     progress?: IProgressData // 加载进度
 

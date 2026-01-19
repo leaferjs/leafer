@@ -31,6 +31,7 @@ export interface ITaskItem {
     isComplete: boolean
     isCancel: boolean
     time: number
+    task?: IFunction
     canUse?: IFunction
     run(): Promise<void>
     complete(): void
