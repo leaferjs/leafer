@@ -135,7 +135,7 @@ export class TaskProcessor implements ITaskProcessor {
 
     public stop(): void {
         this.isComplete = true
-        this.list.forEach(task => { if (!task.isComplete) task.cancel() })
+        this.list.forEach(task => { if (!task.isComplete) task.run() })
         this.pause()
         this.empty()
     }
