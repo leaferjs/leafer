@@ -12,7 +12,9 @@ export interface IRenderOptions {
     hideBounds?: IBounds,
     matrix?: IMatrixWithScaleData,
     inCamera?: boolean
+
     exporting?: boolean // 是否通过 export() 导出渲染
+    snapshot?: boolean // 是否用于生成快照，如碰撞检测图
 
     dimOpacity?: number // 淡化
     topList?: ILeafList // 收集需要置顶渲染的内容

@@ -29,7 +29,7 @@ export interface IImageLOD {
 }
 
 export interface IImageTileLOD {
-    url: string // 'tile-{level}-{index}-{x}-{y}-{width}-{height}.jpg'
+    url: string // 'tile-{level}-{index}-{scale}-{x}-{y}-{width}-{height}.jpg'
     size: number
     min?: number
 }
@@ -52,9 +52,14 @@ export interface ILeaferImagePatternPaint {
 }
 
 export interface ILeaferImageSliceData {
+    width: number
+    height: number
+
+    total: number
+    columns: number
     size: number
-    columns: number,
-    total: number,
+    addSize: number
+
     list?: ILeaferImageSlice[]
 }
 
@@ -62,6 +67,7 @@ export interface ILeaferImageSlice {
     view?: any
     bounds?: IBoundsData
     task?: ITaskItem
+    destroyed?: boolean
 }
 
 export interface ILeaferImageLevel {
@@ -73,6 +79,7 @@ export interface ILeaferImageLevel {
 
     slice?: ILeaferImageSliceData
     use?: number // 引用次数
+    destroyed?: boolean
 }
 
 export interface ILeaferImage {

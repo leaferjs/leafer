@@ -33,7 +33,7 @@ export class TaskItem implements ITaskItem {
             if (this.isComplete || this.runing) return
             this.runing = true
             if (this.canUse && !this.canUse()) return this.cancel()
-            if (this.task && this.parent.running) await this.task()
+            if (this.task) await this.task()
         } catch (error) {
             debug.error(error)
         }
