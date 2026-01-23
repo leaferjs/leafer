@@ -2,7 +2,7 @@ import { IBlob, ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { ICanvasContext2DSettings } from '../canvas/ICanvas'
 import { ILeaf } from '../display/ILeaf'
 import { ILocationType } from '../layout/ILeafLayout'
-import { IBoundsData, IOptionSizeData, IPointData } from '../math/IMath'
+import { IBoundsData, IBoundsDataWithOptionRotation, IOptionSizeData, IPointData } from '../math/IMath'
 import { IFourNumber } from '../data/IData'
 
 export interface IExportOptions {
@@ -12,9 +12,7 @@ export interface IExportOptions {
     scale?: number | IPointData
     size?: number | IOptionSizeData
 
-    clip?: IBoundsData
-    rotation?: number
-    skew?: IPointData
+    clip?: IBoundsDataWithOptionRotation
 
     padding?: IFourNumber
     smooth?: boolean

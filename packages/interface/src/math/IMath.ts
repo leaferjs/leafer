@@ -84,6 +84,10 @@ export interface IOffsetBoundsData extends IBoundsData {
     offsetY: number
 }
 
+export interface IBoundsDataWithOptionRotation extends IBoundsData {
+    rotation?: number
+}
+
 export interface IBoundsDataFn {
     (target: any, index?: number): IBoundsData
 }
