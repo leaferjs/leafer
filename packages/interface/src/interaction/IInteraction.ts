@@ -8,7 +8,7 @@ import { IBounds } from '../math/IMath'
 import { IControl } from '../control/IControl'
 import { IKeepTouchData } from '../event/IEvent'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
-import { IObject } from '../data/IData'
+import { IFourNumber, IObject } from '../data/IData'
 
 
 export interface IInteraction extends IControl {
@@ -118,6 +118,7 @@ export interface IMoveConfig {
     holdMiddleKey?: boolean
     holdRightKey?: boolean
     scroll?: boolean | 'x' | 'y' | 'limit' | 'x-limit' | 'y-limit'
+    scrollSpread?: IFourNumber
     drag?: boolean | 'auto'
     dragAnimate?: boolean | number
     dragEmpty?: boolean
