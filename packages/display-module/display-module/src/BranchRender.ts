@@ -1,8 +1,9 @@
-import { LeafBoundsHelper } from '@leafer/helper'
 import { ILeaferCanvas, IRenderOptions, IBranchRenderModule } from '@leafer/interface'
+import { BoundsHelper } from '@leafer/math'
+import { LeafBoundsHelper } from '@leafer/helper'
 
 
-const { excludeRenderBounds } = LeafBoundsHelper
+const { excludeRenderBounds } = LeafBoundsHelper, { hasSize } = BoundsHelper
 
 export const BranchRender: IBranchRenderModule = {
 
@@ -19,9 +20,9 @@ export const BranchRender: IBranchRenderModule = {
 
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void {
 
-        this.__nowWorld = this.__getNowWorld(options)
+        const nowWorld = this.__nowWorld = this.__getNowWorld(options)
 
-        if (this.__worldOpacity) {
+        if (this.__worldOpacity && hasSize(nowWorld)) { // 无宽高时渲染 mask 会有问题
 
             const data = this.__
 
@@ -38,8 +39,6 @@ export const BranchRender: IBranchRenderModule = {
                 const tempCanvas = canvas.getSameCanvas(false, true)
 
                 this.__renderBranch(tempCanvas, options)
-
-                const nowWorld = this.__nowWorld
 
                 canvas.opacity = options.dimOpacity ? data.opacity * options.dimOpacity : data.opacity
                 canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, data.__blendMode, true)

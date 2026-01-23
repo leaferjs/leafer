@@ -360,6 +360,10 @@ export const BoundsHelper = {
         return t.x === 0 && t.y === 0 && t.width === 0 && t.height === 0
     },
 
+    hasSize(t: IBoundsData): boolean {
+        return (t.width && t.height) as any as boolean
+    },
+
     reset(t: IBoundsData): void {
         B.set(t)
     }
