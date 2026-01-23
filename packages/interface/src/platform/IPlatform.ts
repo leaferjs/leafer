@@ -1,6 +1,6 @@
 import { IFunction, IStringFunction } from '../function/IFunction'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
-import { ILeaf } from '../display/ILeaf'
+import { IInterlace, ILeaf } from '../display/ILeaf'
 import { IExportFileType, IExportImageType } from '../file/IFileType'
 import { IBoundsData, ISizeData, IMatrixData } from '../math/IMath'
 import { IObject } from '../data/IData'
@@ -73,7 +73,8 @@ export interface IPlatform {
         isLarge(size: ISizeData, scaleX?: number, scaleY?: number, largeSize?: number): boolean // 比 maxCacheSize 尺寸更大
         isSuperLarge(size: ISizeData, scaleX?: number, scaleY?: number): boolean // 比 maxPatternSize 尺寸更大
         getRealURL: IStringFunction // 处理前缀、后缀
-        resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject): any
+        resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject, interlace?: IInterlace): any
+        canUse(image: any): boolean
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: IObject): void
     },
 

@@ -13,6 +13,7 @@ export { TwoPointBoundsHelper } from './TwoPointBoundsHelper'
 export { MatrixHelper } from './MatrixHelper'
 export { MathHelper, OneRadian, PI2, PI_2, getPointData, getBoundsData, getMatrixData } from './MathHelper'
 export { FourNumberHelper } from './FourNumberHelper'
+export { UnitConvertHelper } from './UnitHelper'
 
 export { StringNumberMap } from './StringNumber'
 export { Direction4, Direction9 } from './Direction'

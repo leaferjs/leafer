@@ -1,4 +1,4 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin, IImageLOD } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin, IImageLOD, IInterlace } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
@@ -104,7 +104,7 @@ export class LeaferImage implements ILeaferImage {
         return this.view
     }
 
-    public getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any {
+    public getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean, interlace?: IInterlace): any {
         width || (width = this.width)
         height || (height = this.height)
 
@@ -114,7 +114,7 @@ export class LeaferImage implements ILeaferImage {
             if (data) return data
         }
 
-        const canvas = Platform.image.resize(this.view, width, height, xGap, yGap, undefined, smooth, opacity, filters)
+        const canvas = Platform.image.resize(this.view, width, height, xGap, yGap, undefined, smooth, opacity, filters, interlace)
 
         this.cache = this.use > 1 ? { data: canvas, params: arguments } : null
 

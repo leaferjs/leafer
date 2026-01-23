@@ -1,5 +1,6 @@
-import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint, ISizeData, ICanvasContext2D } from '@leafer/interface'
+import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint, ISizeData, ICanvasContext2D, IInterlace } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
+import { UnitConvertHelper } from '@leafer/math'
 
 
 const { floor, max } = Math
@@ -23,24 +24,39 @@ export const Platform: IPlatform = {
             return image.isLarge(size, scaleX, scaleY, image.maxPatternSize)
         },
         getRealURL(url: string): string {
-            const { prefix, suffix } = Platform.image
+            const { prefix, suffix } = image
             if (suffix && !url.startsWith('data:') && !url.startsWith('blob:')) url += (url.includes("?") ? "&" : "?") + suffix
             if (prefix && url[0] === '/') url = prefix + url
             return url
         },
-        resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, _filters?: IObject): any {
-            const canvas = Platform.origin.createCanvas(max(floor(width + (xGap || 0)), 1), max(floor(height + (yGap || 0)), 1),)
+        resize(view: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, _filters?: IObject, interlace?: IInterlace): any {
+            const realWidth = max(floor(width + (xGap || 0)), 1), realHeight = max(floor(height + (yGap || 0)), 1)
+
+            let interlaceX: boolean, interlaceY: boolean, interlaceOffset: number
+            if (interlace && (interlaceOffset = UnitConvertHelper.number(interlace.offset, (interlaceX = interlace.type === 'x') ? width : height))) interlaceX || (interlaceY = true)
+
+            const canvas = Platform.origin.createCanvas(interlaceY ? realWidth * 2 : realWidth, interlaceX ? realHeight * 2 : realHeight)
             const ctx: ICanvasContext2D = canvas.getContext('2d')
             if (opacity) ctx.globalAlpha = opacity
             ctx.imageSmoothingEnabled = smooth === false ? false : true // 平滑绘制
-            if (image) {
+
+            if (image.canUse(view)) {
                 if (clip) {
                     const scaleX = width / clip.width, scaleY = height / clip.height
                     ctx.setTransform(scaleX, 0, 0, scaleY, -clip.x * scaleX, -clip.y * scaleY)
-                    ctx.drawImage(image, 0, 0, image.width, image.height)
-                } else ctx.drawImage(image, 0, 0, width, height)
+                    ctx.drawImage(view, 0, 0, view.width, view.height)
+                } else ctx.drawImage(view, 0, 0, width, height)
+
+                if (interlaceOffset) {
+                    ctx.drawImage(canvas, 0, 0, realWidth, realHeight, interlaceX ? interlaceOffset - realWidth : realWidth, interlaceX ? realHeight : interlaceOffset - realHeight, realWidth, realHeight)
+                    ctx.drawImage(canvas, 0, 0, realWidth, realHeight, interlaceX ? interlaceOffset : realWidth, interlaceX ? realHeight : interlaceOffset, realWidth, realHeight)
+                }
             }
+
             return canvas
+        },
+        canUse(view: any): boolean {
+            return view && view.width && !view.__closed // __closed 为内部标记已销毁
         },
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: ILeaferImagePatternPaint): void {
             try {

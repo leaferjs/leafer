@@ -58,6 +58,11 @@ export interface IRangeSize {
     max?: number
 }
 
+export interface IInterlace {
+    type: IAxis
+    offset: number | IPercentData
+}
+
 export interface IUnitData {
     type: 'percent' | 'px'
     value: number

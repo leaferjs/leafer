@@ -7,7 +7,7 @@ import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
 import { IImageCrossOrigin } from '../platform/IPlatform'
 import { ITaskItem } from '../task/ITaskProcessor'
-import { IRangeSize } from '../display/ILeaf'
+import { IRangeSize, IInterlace } from '../display/ILeaf'
 import { IFunction } from '../function/IFunction'
 
 export interface ILeaferImageConfig {
@@ -117,7 +117,7 @@ export interface ILeaferImage {
     load(onSuccess?: ILeaferImageOnLoaded, onError?: ILeaferImageOnError, thumbSize?: ISizeData): number
     unload(index: number, stopEvent?: boolean): void
     getFull(filters?: IObject): any
-    getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean): any
+    getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean, interlace?: IInterlace): any
     getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: IObject): ICanvasPattern
 
     getLoadUrl(thumbSize?: ISizeData): string
