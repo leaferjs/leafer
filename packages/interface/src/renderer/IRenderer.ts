@@ -31,6 +31,7 @@ export interface IRenderOptions {
 export interface IRendererConfig {
     usePartRender?: boolean
     useCellRender?: boolean | IObject
+    ceilPartPixel?: boolean // 取整局部渲染的像素
     maxFPS?: number
     fill?: string
 }
