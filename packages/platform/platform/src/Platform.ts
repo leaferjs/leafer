@@ -33,7 +33,7 @@ export const Platform: IPlatform = {
             const realWidth = max(floor(width + (xGap || 0)), 1), realHeight = max(floor(height + (yGap || 0)), 1)
 
             let interlaceX: boolean, interlaceY: boolean, interlaceOffset: number
-            if (interlace && (interlaceOffset = UnitConvertHelper.number(interlace.offset, (interlaceX = interlace.type === 'x') ? width : height))) interlaceX || (interlaceY = true)
+            if (interlace && (interlaceOffset = UnitConvertHelper.number(interlace.offset, interlace.type === 'x' ? width : height))) interlace.type === 'x' ? interlaceX = true : interlaceY = true
 
             const canvas = Platform.origin.createCanvas(interlaceY ? realWidth * 2 : realWidth, interlaceX ? realHeight * 2 : realHeight)
             const ctx: ICanvasContext2D = canvas.getContext('2d')
