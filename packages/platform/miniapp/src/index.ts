@@ -22,5 +22,6 @@ export * from '@leafer-in/color'
 export * from '@leafer-in/resize'
 
 export * from '@leafer-in/bright'
+export * from '@leafer-in/scroller'
 
 export * from '@leafer-in/interface'
