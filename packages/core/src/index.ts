@@ -20,4 +20,4 @@ export * from '@leafer/platform'
 
 export * from '@leafer/task'
 
-export const version = "2.0.0"
+export const version = "2.0.1"
