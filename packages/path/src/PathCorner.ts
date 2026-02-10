@@ -18,7 +18,7 @@ export const PathCorner = {
         let i = 0, x = 0, y = 0, startX = 0, startY = 0, secondX = 0, secondY = 0, lastX = 0, lastY = 0
         if (isArray(cornerRadius)) cornerRadius = cornerRadius[0] || 0
 
-        const len = data.length
+        const len = data.length, three = len === 9 // 3个点时可以加大圆角
         const smooth: IPathCommandData = []
 
         while (i < len) {
@@ -31,7 +31,7 @@ export const PathCorner = {
                     if (data[i] === L) { // next lineTo
                         secondX = data[i + 1]
                         secondY = data[i + 2]
-                        smooth.push(M, getCenterX(startX, secondX), getCenterY(startY, secondY))
+                        three ? smooth.push(M, startX, startY) : smooth.push(M, getCenterX(startX, secondX), getCenterY(startY, secondY))
                     } else {
                         smooth.push(M, startX, startY)
                     }
@@ -42,10 +42,10 @@ export const PathCorner = {
                     i += 3
                     switch (data[i]) { // next command
                         case L: // lineTo()
-                            arcTo(smooth, x, y, data[i + 1], data[i + 2], cornerRadius, lastX, lastY) // use arcTo(x1, y1, x2, y2, radius)
+                            arcTo(smooth, x, y, data[i + 1], data[i + 2], cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
                             break
                         case Z: // closePath()
-                            arcTo(smooth, x, y, startX, startY, cornerRadius, lastX, lastY) // use arcTo(x1, y1, x2, y2, radius)
+                            arcTo(smooth, x, y, startX, startY, cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
                             break
                         default:
                             smooth.push(L, x, y)
@@ -55,7 +55,7 @@ export const PathCorner = {
                     break
                 case Z:  //closepath()
                     if (lastCommand !== Z) { // fix: 重复的 Z 导致的问题
-                        arcTo(smooth, startX, startY, secondX, secondY, cornerRadius, lastX, lastY) // use arcTo(x1, y1, x2, y2, radius)
+                        arcTo(smooth, startX, startY, secondX, secondY, cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
                         smooth.push(Z)
                     }
                     i += 1

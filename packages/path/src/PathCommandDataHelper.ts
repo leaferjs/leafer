@@ -79,10 +79,10 @@ export const PathCommandDataHelper = {
         }
     },
 
-    arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number, lastX?: number, lastY?: number): void {
+    arcTo(data: IPathCommandData, x1: number, y1: number, x2: number, y2: number, radius: number, lastX?: number, lastY?: number, fullRadius?: boolean): void {
         if (!isUndefined(lastX)) {
-            const d = getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2)
-            radius = min(radius, min(d / 2, d / 2 * abs(tan(getRadianFrom(lastX, lastY, x1, y1, x2, y2) / 2))))
+            const r = getMinDistanceFrom(lastX, lastY, x1, y1, x2, y2) / (fullRadius ? 1 : 2)
+            radius = min(radius, min(r, r * abs(tan(getRadianFrom(lastX, lastY, x1, y1, x2, y2) / 2))))
         }
         data.push(U, x1, y1, x2, y2, radius)
     },
