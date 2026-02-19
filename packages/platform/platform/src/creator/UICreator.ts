@@ -16,7 +16,10 @@ export const UICreator = {
     },
 
     get(tag: string, data?: IObject, x?: number, y?: number, width?: number, height?: number): ILeaf {
-        if (!list[tag]) debug.error('not register ' + tag)
+        if (!list[tag]) {
+            debug.warn('not register ' + tag)
+            return undefined
+        }
         const ui = new list[tag](data)
         if (!isUndefined(x)) {
             ui.x = x

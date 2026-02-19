@@ -72,6 +72,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         if (!child.__) {
             if (isArray(child)) return child.forEach(item => { this.add(item, index); noIndex || index++ }) // add []
             else child = UICreator.get(child.tag, child) // add JSON
+            if (!child) return
         }
 
         if (child.parent) child.parent.remove(child)
