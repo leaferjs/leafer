@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-miniapp'
@@ -61,7 +61,7 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                 })
             })
         },
-        loadImage(src: string): Promise<HTMLImageElement> {
+        loadImage(src: string, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
                 const img = Platform.canvas.view.createImage()
                 img.onload = () => { resolve(img) }

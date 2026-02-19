@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-web'
 export * from '@leafer/image-web'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
@@ -46,10 +46,9 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 resolve()
             })
         },
-        loadImage(src: any): Promise<HTMLImageElement> {
+        loadImage(src: any, crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
                 const img = new Platform.origin.Image()
-                const { crossOrigin } = Platform.image
                 if (crossOrigin) {
                     img.setAttribute('crossOrigin', crossOrigin)
                     img.crossOrigin = crossOrigin

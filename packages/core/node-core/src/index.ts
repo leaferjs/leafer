@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-node'
 export * from '@leafer/image-node'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
@@ -35,7 +35,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
                 canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage(src: any) { return loadImage(Platform.image.getRealURL(src)) }
+                loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) }
             }
 
             Platform.roundRectPatch = true
@@ -49,7 +49,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(mineType(type), quality),
                 canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(mineType(fileType(filename)), quality)),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage(src: any) { return loadImage(Platform.image.getRealURL(src)) }
+                loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) }
             }
 
         }

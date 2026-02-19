@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
@@ -36,7 +36,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => (canvas as any).convertToBlob({ type: mineType(type), quality }),
         canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
         download(_url: string, _filename: string): Promise<void> { return undefined },
-        loadImage(src: any): Promise<ImageBitmap> {
+        loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<ImageBitmap> {
             return new Promise((resolve, reject) => {
                 let req = new XMLHttpRequest()
                 req.open('GET', Platform.image.getRealURL(src), true)
