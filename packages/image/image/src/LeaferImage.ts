@@ -127,6 +127,10 @@ export class LeaferImage implements ILeaferImage {
         return pattern
     }
 
+    public render(canvas: any, width: number, height: number, _options: any): void {
+        canvas.drawImage(this.view, 0, 0, width, height)
+    }
+
     // need rewrite
     public getLoadUrl(_thumbSize?: ISizeData): string { return this.url }
     public setThumbView(_view: number): void { }

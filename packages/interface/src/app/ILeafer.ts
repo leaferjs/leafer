@@ -13,6 +13,8 @@ import { IFourNumber, IObject } from '../data/IData'
 import { IZoomView } from '../display/IView'
 import { IAppBase } from './IApp'
 import { ILeaferImage, ILeaferImageConfig } from '../image/ILeaferImage'
+import { ILeaferFilm, ILeaferFilmConfig } from '../image/ILeaferFilm'
+import { ILeaferVideo, ILeaferVideoConfig } from '../image/ILeaferVideo'
 import { IControl } from '../control/IControl'
 import { IFunction } from '../function/IFunction'
 import { ITransition } from '../animate/ITransition'
@@ -135,6 +137,8 @@ export interface ILeaferTypeList {
 
 export interface ICreator {
     image?(options?: ILeaferImageConfig): ILeaferImage
+    film?(options?: ILeaferFilmConfig): ILeaferFilm
+    video?(options?: ILeaferVideoConfig): ILeaferVideo
     canvas?(options?: ILeaferCanvasConfig, manager?: ICanvasManager): ILeaferCanvas
     hitCanvas?(options?: IHitCanvasConfig, manager?: ICanvasManager): IHitCanvas
     hitCanvasManager?(): IHitCanvasManager

@@ -41,8 +41,10 @@ export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics,
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject, IPathCommandNodeBase, MoveToCommandNode, LineToCommandNode, BezierCurveToCommandNode, ClosePathCommandNode, IPathCommandNode, PathNodeHandleType, PathNodeHandleName, IPathNodeBase } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
+export { ILeaferFilm, ILeaferFilmConfig } from './image/ILeaferFilm'
+export { ILeaferVideo, ILeaferVideoConfig } from './image/ILeaferVideo'
 export { IResource } from './file/IResource'
-export { IExportFileType, IExportImageType } from './file/IFileType'
+export { IExportFileType, IExportImageType, IMultimediaType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
 
 export { InnerId, IEventer, IEventParamsMap, IEventParams, IEventListener, IEventOption, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'

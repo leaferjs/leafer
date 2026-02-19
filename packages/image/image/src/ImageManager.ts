@@ -1,4 +1,4 @@
-import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType } from '@leafer/interface'
+import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType, IMultimediaType } from '@leafer/interface'
 import { Creator, Platform } from '@leafer/platform'
 import { FileHelper, Resource } from '@leafer/file'
 import { TaskProcessor } from '@leafer/task'
@@ -12,9 +12,9 @@ export const ImageManager: IImageManager = {
 
     patternTasker: new TaskProcessor({ parallel: 1 }),
 
-    get(config: ILeaferImageConfig): ILeaferImage {
+    get(config: ILeaferImageConfig, type?: IMultimediaType): ILeaferImage {
         let image: ILeaferImage = Resource.get(config.url)
-        if (!image) Resource.set(config.url, image = Creator.image(config))
+        if (!image) Resource.set(config.url, image = type === 'film' ? Creator.film(config) : Creator.image(config))
         image.use++
         return image
     },
