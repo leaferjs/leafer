@@ -12,9 +12,6 @@ import { LeaferImage } from '@leafer/image-node'
 import { writeFileSync } from 'fs'
 
 
-const { mineType, fileType } = FileHelper
-
-
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
     image: (options) => new LeaferImage(options)
@@ -53,9 +50,9 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
             const { Canvas, loadImage } = power
             Platform.origin = {
                 createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
-                canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
-                canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(mineType(type), quality),
-                canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(mineType(fileType(filename)), quality)),
+                canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(FileHelper.mimeType(type), quality),
+                canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(FileHelper.mimeType(type), quality),
+                canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(FileHelper.mimeType(FileHelper.fileType(filename)), quality)),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
                 loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
                 loadContent

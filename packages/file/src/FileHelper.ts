@@ -6,10 +6,10 @@ export const FileHelper = {
 
     upperCaseTypeMap: {} as IStringMap,
 
-    mineType(type: string): string {
-        if (!type || type.startsWith('image')) return type
+    mimeType(type: string, base: string = 'image'): string {
+        if (!type || type.startsWith(base)) return type
         if (type === 'jpg') type = 'jpeg'
-        return 'image/' + type
+        return base + '/' + type
     },
 
     fileType(filename: string): string {
@@ -33,6 +33,7 @@ export const FileHelper = {
 
 }
 
-const F = FileHelper
+const F = FileHelper;
+(F as any).mineType = F.mimeType // 兼容老代码，后面可以移除
 
 F.alphaPixelTypes.forEach(type => F.upperCaseTypeMap[type] = type.toUpperCase())

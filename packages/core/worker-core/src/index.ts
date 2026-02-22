@@ -9,8 +9,6 @@ import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 import { LeaferCanvas } from '@leafer/canvas-worker'
 import { LeaferImage } from '@leafer/image-worker'
 
-const { mineType } = FileHelper
-
 
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
@@ -23,7 +21,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         createCanvas: (width: number, height: number): OffscreenCanvas => new OffscreenCanvas(width, height),
         canvasToDataURL: (canvas: OffscreenCanvas, type?: IExportImageType, quality?: number) => {
             return new Promise((resolve, reject) => {
-                (canvas as any).convertToBlob({ type: mineType(type), quality }).then((blob: Blob) => {
+                (canvas as any).convertToBlob({ type: FileHelper.mimeType(type), quality }).then((blob: Blob) => {
                     var reader = new FileReader()
                     reader.onload = (e) => resolve(e.target.result as string)
                     reader.onerror = (e) => reject(e)
@@ -33,7 +31,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 })
             })
         },
-        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => (canvas as any).convertToBlob({ type: mineType(type), quality }),
+        canvasToBolb: (canvas: OffscreenCanvas, type?: IExportFileType, quality?: number) => (canvas as any).convertToBlob({ type: FileHelper.mimeType(type), quality }),
         canvasSaveAs: (_canvas: OffscreenCanvas, _filename: string, _quality?: any) => new Promise((resolve) => resolve()),
         download(_url: string, _filename: string): Promise<void> { return undefined },
         loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<ImageBitmap> {

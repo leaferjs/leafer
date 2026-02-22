@@ -10,9 +10,6 @@ import { LeaferCanvas } from '@leafer/canvas-miniapp'
 import { LeaferImage } from '@leafer/image-miniapp'
 
 
-const { mineType, fileType } = FileHelper
-
-
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
     image: (options) => new LeaferImage(options)
@@ -25,10 +22,10 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
             const data = { type: '2d', width, height }
             return app.createOffscreenCanvas ? app.createOffscreenCanvas(data) : app.createOffScreenCanvas(data) // fix: 微信小游戏居然使用的是Screen大写的 wx.createOffScreenCanvas() [踩坑]
         },
-        canvasToDataURL: (canvas: IObject, type?: IExportImageType, quality?: number) => canvas.toDataURL(mineType(type), quality),
+        canvasToDataURL: (canvas: IObject, type?: IExportImageType, quality?: number) => canvas.toDataURL(FileHelper.mimeType(type), quality),
         canvasToBolb: (canvas: IObject, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
         canvasSaveAs: (canvas: IObject, filePath: string, quality?: any) => {
-            let data: string = canvas.toDataURL(mineType(fileType(filePath)), quality)
+            let data: string = canvas.toDataURL(FileHelper.mimeType(FileHelper.fileType(filePath)), quality)
             data = data.substring(data.indexOf('64,') + 3)
             return Platform.origin.download(data, filePath)
         },

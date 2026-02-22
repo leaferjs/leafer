@@ -10,8 +10,6 @@ import { LeaferCanvas } from '@leafer/canvas-web'
 import { LeaferImage } from '@leafer/image-web'
 
 
-const { mineType, fileType } = FileHelper
-
 Object.assign(Creator, {
     canvas: (options?, manager?) => new LeaferCanvas(options, manager),
     image: (options) => new LeaferImage(options)
@@ -27,12 +25,12 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             return canvas
         },
         canvasToDataURL: (canvas: HTMLCanvasElement, type?: IExportImageType, quality?: number) => {
-            const imageType = mineType(type), url = canvas.toDataURL(imageType, quality)
+            const imageType = FileHelper.mimeType(type), url = canvas.toDataURL(imageType, quality)
             return imageType === 'image/bmp' ? url.replace('image/png;', 'image/bmp;') : url
         },
-        canvasToBolb: (canvas: HTMLCanvasElement, type?: IExportFileType, quality?: number) => new Promise((resolve) => canvas.toBlob(resolve, mineType(type), quality)),
+        canvasToBolb: (canvas: HTMLCanvasElement, type?: IExportFileType, quality?: number) => new Promise((resolve) => canvas.toBlob(resolve, FileHelper.mimeType(type), quality)),
         canvasSaveAs: (canvas: HTMLCanvasElement, filename: string, quality?: any) => {
-            const url = canvas.toDataURL(mineType(fileType(filename)), quality)
+            const url = canvas.toDataURL(FileHelper.mimeType(FileHelper.fileType(filename)), quality)
             return Platform.origin.download(url, filename)
         },
         async download(url: string, filename: string): Promise<void> {

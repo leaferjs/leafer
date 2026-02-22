@@ -57,7 +57,7 @@ export const ImageManager: IImageManager = {
         if (config.format) return config.format === format
         const { url } = config
         if (url.startsWith('data:')) {
-            if (url.startsWith('data:' + FileHelper.mineType(format))) return true
+            if (url.startsWith('data:' + FileHelper.mimeType(format))) return true
         } else {
             if (url.includes('.' + format) || url.includes('.' + FileHelper.upperCaseTypeMap[format])) return true
             else if (format === 'png' && !url.includes('.')) return true // blob: 等无后缀名协议的图片无法分析类型，直接当透明图片处理
