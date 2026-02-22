@@ -1,4 +1,4 @@
-import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin, IImageLOD, IInterlace } from '@leafer/interface'
+import { ILeaferImage, ILeaferImageConfig, IFunction, IObject, InnerId, ILeaf, IMatrixData, ICanvasPattern, ILeaferImageCacheCanvas, ILeaferImagePatternPaint, ILeaferImageLevel, ISizeData, IImageCrossOrigin, IImageLOD, IInterlace } from '@leafer/interface'
 import { Platform } from '@leafer/platform'
 import { Resource } from '@leafer/file'
 import { IncrementId } from '@leafer/math'
@@ -12,6 +12,8 @@ const { IMAGE, create } = IncrementId
 export class LeaferImage implements ILeaferImage {
 
     public readonly innerId: InnerId
+    public get tag() { return 'Image' }
+
     public get url() { return this.config.url }
     public lod?: IImageLOD
     public get crossOrigin(): IImageCrossOrigin { const { crossOrigin } = this.config; return isUndefined(crossOrigin) ? Platform.image.crossOrigin : crossOrigin }
@@ -53,7 +55,7 @@ export class LeaferImage implements ILeaferImage {
     public load(onSuccess?: IFunction, onError?: IFunction, thumbSize?: ISizeData): number {
         if (!this.loading) {
             this.loading = true
-            Resource.tasker.add(async () => await Platform.origin.loadImage(this.getLoadUrl(thumbSize), this.crossOrigin, this).then(img => {
+            Resource.tasker.add(async () => await Platform.origin['load' + this.tag as 'loadImage'](this.getLoadUrl(thumbSize), this.crossOrigin, this).then(img => {
                 if (thumbSize) this.setThumbView(img)
                 this.setView(img)
             }).catch((e) => {
@@ -127,8 +129,8 @@ export class LeaferImage implements ILeaferImage {
         return pattern
     }
 
-    public render(canvas: any, width: number, height: number, _options: any): void {
-        canvas.drawImage(this.view, 0, 0, width, height)
+    public render(canvas: any, x: number, y: number, width: number, height: number, _leaf: ILeaf, _options: any): void {
+        canvas.drawImage(this.view, x, y, width, height)
     }
 
     // need rewrite

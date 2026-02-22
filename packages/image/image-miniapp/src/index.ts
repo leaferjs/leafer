@@ -1,1 +1,1 @@
-export { LeaferImage } from '@leafer/core'
+export { LeaferImage, LeaferFilm, LeaferVideo } from '@leafer/core'

@@ -41,10 +41,10 @@ export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics,
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject, IPathCommandNodeBase, MoveToCommandNode, LineToCommandNode, BezierCurveToCommandNode, ClosePathCommandNode, IPathCommandNode, PathNodeHandleType, PathNodeHandleName, IPathNodeBase } from './path/IPathCommand'
 
 export { ILeaferImage, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
-export { ILeaferFilm, ILeaferFilmConfig } from './image/ILeaferFilm'
+export { ILeaferFilm, ILeaferFilmConfig, IFilmDecoder, IFilmFrame, IFilmOptions, IFilmPlayOptions } from './image/ILeaferFilm'
 export { ILeaferVideo, ILeaferVideoConfig } from './image/ILeaferVideo'
 export { IResource } from './file/IResource'
-export { IExportFileType, IExportImageType, IMultimediaType } from './file/IFileType'
+export { IExportFileType, IExportImageType, IFilmFileType, IMultimediaType, IResponseType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
 
 export { InnerId, IEventer, IEventParamsMap, IEventParams, IEventListener, IEventOption, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
@@ -58,7 +58,7 @@ export { ITransformer } from './interaction/ITransformer'
 
 export { INumber, IBoolean, IString, IValue, IFourNumber, IPathString, ITimer, IObject, INumberMap, IStringMap, IBooleanMap, IFunctionMap, IPointDataMap, IDataTypeHandle } from './data/IData'
 export { ILeafList, ILeafArrayMap, ILeafMap, ILeafLevelList, ILeafListItemCallback } from './data/IList'
-export { IPoint, IPointData, IFromToData, IUnitPointData, IRotationPointData, IScrollPointData, IClientPointData, IRadiusPointData, ISize, ISizeData, IOptionSizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, IBoundsDataWithOptionRotation, ITwoPointBoundsData, IAutoBounds, IAutoBoxData, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithOptionHalfData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
+export { IPoint, IPointData, IOptionPointData, IFromToData, IUnitPointData, IRotationPointData, IScrollPointData, IClientPointData, IRadiusPointData, ISize, ISizeData, IOptionSizeData, IScreenSizeData, IBounds, IBoundsData, IBoundsDataFn, IOffsetBoundsData, IBoundsDataWithOptionRotation, ITwoPointBoundsData, IAutoBounds, IAutoBoxData, IAutoBoundsData, IMatrix, IMatrixData, IMatrixWithBoundsData, IMatrixWithScaleData, IMatrixWithOptionScaleData, IMatrixWithOptionHalfData, IMatrixWithBoundsScaleData, IMatrixWithLayoutData, IScaleRotationData, IScaleData, ISkewData, ILayoutBoundsData, ILayoutData, ILayoutAttr } from './math/IMath'
 export { IFunction, IStringFunction, INumberFunction, IObjectFunction, IValueFunction, IPointDataFunction, IAttrDecorator } from './function/IFunction'
 
 export { ITransition, IAnimateEasing, ICubicBezierEasing, IStepsEasing, IAnimateEasingFunction, IAnimateEasingName, IAnimateEnding, IAnimateEvents, IAnimateEventFunction, ICustomEasingFunction, IAnimateOptions } from './animate/ITransition'

@@ -6,6 +6,11 @@ export interface IPointData {
     y: number
 }
 
+export interface IOptionPointData {
+    x?: number
+    y?: number
+}
+
 export interface IUnitPointData extends IPointData {
     type?: 'percent' | 'px'
 }

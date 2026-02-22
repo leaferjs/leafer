@@ -1,13 +1,15 @@
 import { IFunction, IStringFunction } from '../function/IFunction'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IInterlace, ILeaf } from '../display/ILeaf'
-import { IExportFileType, IExportImageType } from '../file/IFileType'
+import { IExportFileType, IExportImageType, IResponseType } from '../file/IFileType'
 import { IBoundsData, ISizeData, IMatrixData } from '../math/IMath'
 import { IObject } from '../data/IData'
 import { ICanvasType } from '../canvas/ISkiaCanvas'
 import { ISelector } from '../selector/ISelector'
 import { IRenderOptions } from '../renderer/IRenderer'
 import { ILeaferImage } from '../image/ILeaferImage'
+import { ILeaferFilm } from '../image/ILeaferFilm'
+import { ILeaferVideo } from '../image/ILeaferVideo'
 import { ICanvasPattern } from '../canvas/ICanvas'
 
 
@@ -45,6 +47,9 @@ export interface IPlatform {
         canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
         download(url: string, filename: string): Promise<void>
         loadImage(url: string, crossOrigin?: IImageCrossOrigin, leaferImage?: ILeaferImage): Promise<any>
+        loadFilm?(url: string, crossOrigin?: IImageCrossOrigin, leaferFilm?: ILeaferFilm): Promise<any>
+        loadVideo?(url: string, crossOrigin?: IImageCrossOrigin, leaferVideo?: ILeaferVideo): Promise<any>
+        loadContent(url: string, responseType: IResponseType): Promise<any>
         noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
         Image?: any
         PointerEvent?: any
