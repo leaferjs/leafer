@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-web'
 export * from '@leafer/image-web'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
@@ -35,16 +35,13 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             const url = canvas.toDataURL(mineType(fileType(filename)), quality)
             return Platform.origin.download(url, filename)
         },
-        download(url: string, filename: string): Promise<void> {
-            return new Promise((resolve) => {
-                let el = document.createElement('a')
-                el.href = url
-                el.download = filename
-                document.body.appendChild(el)
-                el.click()
-                document.body.removeChild(el)
-                resolve()
-            })
+        async download(url: string, filename: string): Promise<void> {
+            let el = document.createElement('a')
+            el.href = url
+            el.download = filename
+            document.body.appendChild(el)
+            el.click()
+            document.body.removeChild(el)
         },
         loadImage(src: any, crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
@@ -57,6 +54,11 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 img.onerror = (e: any) => { reject(e) }
                 img.src = Platform.image.getRealURL(src)
             })
+        },
+        async loadContent(url: string, responseType: IResponseType = 'text'): Promise<any> {
+            const response = await fetch(url)
+            if (!response.ok) throw new Error(`${response.status}`)
+            return await response[responseType]()
         },
         Image,
         PointerEvent,

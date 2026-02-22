@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
@@ -51,7 +51,12 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
                 req.onerror = (e) => reject(e)
                 req.send()
             })
-        }
+        },
+        async loadContent(url: string, responseType: IResponseType = 'text'): Promise<any> {
+            const response = await fetch(url)
+            if (!response.ok) throw new Error(`${response.status}`)
+            return await response[responseType]()
+        },
     }
 
     Platform.canvas = Creator.canvas()

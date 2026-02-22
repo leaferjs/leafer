@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IResponseType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-miniapp'
@@ -68,6 +68,16 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
                 img.onerror = (error: any) => { reject(error) }
                 img.src = Platform.image.getRealURL(src)
             })
+        },
+        loadContent(url: string, responseType: IResponseType = 'text'): Promise<any> {
+            return new Promise((resolve, reject) =>
+                app.request({
+                    url,
+                    responseType: responseType === 'arrayBuffer' ? 'arraybuffer' : 'text',
+                    success: (res: any) => resolve(responseType === 'json' && typeof res.data === 'string' ? JSON.parse(res.data) : res.data),
+                    fail: reject
+                })
+            )
         },
         noRepeat: 'repeat-x' // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
     }
