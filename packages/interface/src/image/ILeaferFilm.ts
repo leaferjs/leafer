@@ -34,7 +34,7 @@ export interface IFilmDecoder {
     decodeOneFrame(frameIndex: number): Promise<IFilmFrame>
     mergeFrame(frameIndex: number, destoryFrameImage: boolean): void
 
-    render(canvas: any, x: number, y: number, width: number, height: number, leaf: ILeaf, options: any): void
+    render(canvas: any, x: number, y: number, width: number, height: number, leaf: ILeaf, paint: any, imageScaleX: number, imageScaleY: number): void
 
     destoryFrame(frameIndex: number, deleteIndex: boolean): void
     destoryFrameImage(frame: IFilmFrame): void

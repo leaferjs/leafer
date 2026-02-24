@@ -129,7 +129,7 @@ export class LeaferImage implements ILeaferImage {
         return pattern
     }
 
-    public render(canvas: any, x: number, y: number, width: number, height: number, _leaf: ILeaf, _options: any): void {
+    public render(canvas: any, x: number, y: number, width: number, height: number, _leaf: ILeaf, _paint: any, _imageScaleX: number, _imageScaleY: number): void {
         canvas.drawImage(this.view, x, y, width, height)
     }
 

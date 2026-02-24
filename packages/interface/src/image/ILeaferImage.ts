@@ -120,7 +120,7 @@ export interface ILeaferImage {
     getCanvas(width: number, height: number, opacity?: number, filters?: IObject, xGap?: number, yGap?: number, smooth?: boolean, interlace?: IInterlace): any
     getPattern(canvas: any, repeat: string | null, transform?: IMatrixData, paint?: IObject): ICanvasPattern
 
-    render(canvas: any, x: number, y: number, width: number, height: number, leaf: ILeaf, options: any): void
+    render(canvas: any, x: number, y: number, width: number, height: number, leaf: ILeaf, paint: any, imageScaleX: number, imageScaleY: number): void
 
     getLoadUrl(thumbSize?: ISizeData): string
     setThumbView(view: number): void
