@@ -1,6 +1,6 @@
 {
   "name": "@leafer/math",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "@leafer/math",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "leaferjs"
   ],
   "devDependencies": {
-     "@leafer/interface": "2.0.1",
-     "@leafer/data": "2.0.1"
+     "@leafer/interface": "2.0.2",
+     "@leafer/data": "2.0.2"
   }
 }
