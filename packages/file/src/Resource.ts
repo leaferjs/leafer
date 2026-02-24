@@ -1,4 +1,4 @@
-import { ILeaferImage, IResource, IObject, ILeaferCanvas, IExportFileType, ILeaferImageConfig } from '@leafer/interface'
+import { ILeaferImage, ILeaferFilm, ILeaferVideo, IFilmFileType, IVideoFileType, IResource, IObject, ILeaferCanvas, IExportFileType, ILeaferImageConfig } from '@leafer/interface'
 
 import { Creator } from '@leafer/platform'
 import { TaskProcessor } from '@leafer/task'
@@ -53,6 +53,13 @@ export const Resource: IResource = {
         return value as ILeaferImage
     },
 
+    // film
+
+    loadFilm(_key: string, _format?: IFilmFileType): Promise<ILeaferFilm> { return undefined },
+
+    // video
+
+    loadVideo(_key: string, _format?: IVideoFileType): Promise<ILeaferVideo> { return undefined },
 
     destroy(): void {
         R.map = {}

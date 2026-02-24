@@ -44,7 +44,7 @@ export { ILeaferImage, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImag
 export { ILeaferFilm, ILeaferFilmConfig, IFilmDecoder, IFilmFrame, IFilmOptions, IFilmPlayOptions } from './image/ILeaferFilm'
 export { ILeaferVideo, ILeaferVideoConfig } from './image/ILeaferVideo'
 export { IResource } from './file/IResource'
-export { IExportFileType, IExportImageType, IFilmFileType, IMultimediaType, IResponseType } from './file/IFileType'
+export { IExportFileType, IExportImageType, IFilmFileType, IVideoFileType, IMultimediaType, IResponseType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
 
 export { InnerId, IEventer, IEventParamsMap, IEventParams, IEventListener, IEventOption, IEventListenerOptions, IEventListenerMap, IEventListenerItem, IEventListenerId } from './event/IEventer'
