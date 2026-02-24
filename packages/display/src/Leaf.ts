@@ -46,6 +46,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public get isBranch(): boolean { return false }
     public get isBranchLeaf(): boolean { return false }
 
+    public skipJSON?: boolean // 跳过 JSON 导出
     public syncEventer?: ILeaf // 同步触发一样事件的元素
     public lockNormalStyle?: boolean
 

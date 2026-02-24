@@ -489,6 +489,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     proxyData?: ILeafInputData
     __proxyData?: ILeafInputData
 
+    skipJSON?: boolean // 跳过 JSON 导出
     syncEventer?: ILeaf // 同步触发一样事件的元素
     lockNormalStyle?: boolean
 
