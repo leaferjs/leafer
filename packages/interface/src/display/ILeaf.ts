@@ -245,6 +245,7 @@ export interface ILeafAttrData {
     mask?: IBoolean | IMaskType
     eraser?: IBoolean | IEraserType
     filter?: IFilter | IFilter[]
+    complex?: boolean
 
     // layout data
     x?: INumber
@@ -353,6 +354,7 @@ export interface ILeafComputedData {
     mask?: boolean | IMaskType
     eraser?: boolean | IEraserType
     filter?: IFilter[]
+    complex?: boolean
 
     // layout data
     x?: number
@@ -696,6 +698,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // ILeafRender ->
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __renderComplex(canvas: ILeaferCanvas, options: IRenderOptions): void
     __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
     __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
 

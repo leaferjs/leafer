@@ -1,4 +1,4 @@
-import { ILeaferCanvas, IRenderOptions, IBranchRenderModule } from '@leafer/interface'
+import { ILeaferCanvas, IRenderOptions, IBranchRenderModule, ILeaf } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
 import { LeafBoundsHelper } from '@leafer/helper'
 
@@ -62,9 +62,11 @@ export const BranchRender: IBranchRenderModule = {
 
         } else {
 
+            let child: ILeaf
             const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
-                excludeRenderBounds(children[i], options) || children[i].__render(canvas, options)
+                child = children[i]
+                excludeRenderBounds(child, options) || (child.__.complex ? child.__renderComplex(canvas, options) : child.__render(canvas, options))
             }
 
         }

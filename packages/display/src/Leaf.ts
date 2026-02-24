@@ -588,6 +588,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     public __render(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
+    public __renderComplex(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
+
     public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
 
     public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions, _originCanvas?: ILeaferCanvas): void { }
