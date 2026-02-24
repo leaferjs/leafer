@@ -81,8 +81,8 @@ export interface ILeaferAttrData {
     start(): void
     stop(): void
 
-    unlockLayout(): void
-    lockLayout(): void
+    unlockLayout(updateLayout?: boolean): void
+    lockLayout(updateLayout?: boolean): void
 
     requestRender(change: boolean): void
 

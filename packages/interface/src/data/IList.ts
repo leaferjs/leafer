@@ -15,6 +15,9 @@ export interface ILeafList {
     list: ILeaf[]
     keys: INumberMap
     readonly length: number
+
+    needUpdate?: boolean // 一般用于event更新path
+
     has(leaf: ILeaf): boolean
     indexAt(index: number): ILeaf
     indexOf(leaf: ILeaf): number

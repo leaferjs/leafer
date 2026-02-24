@@ -66,6 +66,6 @@ export interface IRenderer extends IControl {
     clipRender(bounds: IBounds): void
     fullRender(): void
 
-    addBlock(block: IBounds): void
+    addBlock(block: IBounds, leafList?: ILeafList): void
     mergeBlocks(): void
 }

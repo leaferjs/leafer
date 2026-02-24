@@ -217,7 +217,7 @@ export class Renderer implements IRenderer {
         return undefined
     }
 
-    public addBlock(block: IBounds): void {
+    public addBlock(block: IBounds, _leafList?: ILeafList): void {
         if (!this.updateBlocks) this.updateBlocks = []
         this.updateBlocks.push(block)
     }
@@ -279,7 +279,8 @@ export class Renderer implements IRenderer {
     protected __onLayoutEnd(event: LayoutEvent): void {
         if (event.data) event.data.map(item => {
             let empty: boolean
-            if (item.updatedList) item.updatedList.list.some(leaf => {
+            const { updatedList } = item
+            if (updatedList) updatedList.list.some(leaf => {
                 empty = (!leaf.__world.width || !leaf.__world.height)
                 if (empty) {
                     if (!leaf.isLeafer) debug.tip(leaf.innerName, ': empty')
@@ -287,7 +288,7 @@ export class Renderer implements IRenderer {
                 }
                 return empty
             })
-            this.addBlock(empty ? this.canvas.bounds : item.updatedBounds)
+            this.addBlock(empty ? this.canvas.bounds : item.updatedBounds, updatedList)
         })
     }
 
