@@ -1,7 +1,6 @@
 import { IImageManager, ILeaferImageConfig, ILeaferImage, IExportFileType, IMultimediaType } from '@leafer/interface'
 import { Creator, Platform } from '@leafer/platform'
 import { FileHelper, Resource } from '@leafer/file'
-import { TaskProcessor } from '@leafer/task'
 
 
 export const ImageManager: IImageManager = {
@@ -10,7 +9,7 @@ export const ImageManager: IImageManager = {
 
     recycledList: [],
 
-    patternTasker: new TaskProcessor({ parallel: 1 }),
+    patternTasker: Resource.queue, // 全局按顺序执行的任务队列，防止阻塞主线程
 
     get(config: ILeaferImageConfig, type?: IMultimediaType): ILeaferImage {
         let image: ILeaferImage = Resource.get(config.url)

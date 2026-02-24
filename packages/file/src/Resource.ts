@@ -10,7 +10,9 @@ const debug = Debug.get('Resource')
 
 export const Resource: IResource = {
 
-    tasker: new TaskProcessor(),
+    tasker: new TaskProcessor(), // 会并行的异步加载任务
+
+    queue: new TaskProcessor({ parallel: 1 }), // 全局按顺序执行的任务队列，防止阻塞主线程
 
     map: {},
 

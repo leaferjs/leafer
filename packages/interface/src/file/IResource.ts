@@ -9,7 +9,10 @@ import { ILeaferVideo } from '../image/ILeaferVideo'
 
 export interface IResource {
     map: any,
+
     tasker: ITaskProcessor
+    queue: ITaskProcessor
+
     readonly isComplete: boolean
 
     set(key: string, value: any): void
