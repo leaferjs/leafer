@@ -1,9 +1,10 @@
-import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IRangeSize, IScaleData, ISizeData, IOptionSizeData, IScaleFixed } from '@leafer/interface'
 import { isObject, isNumber, isUndefined } from '@leafer/data'
 import { FourNumberHelper } from './FourNumberHelper'
 
 
 const { round, pow, max, floor, PI } = Math
+const tempScaleData = {} as IScaleData
 
 export const MathHelper = {
 
@@ -54,6 +55,29 @@ export const MathHelper = {
             scaleData.scaleY = scaleY || scaleX || 1
         } else if (scale) MathHelper.assignScale(scaleData, scale)
         return scaleData
+    },
+
+    // 返回结果必须马上分解使用
+    getScaleFixedData(worldScaleData?: IScaleData, scaleFixed?: IScaleFixed, unscale?: boolean, abs?: boolean, _localScaleData?: IScaleData): IScaleData {
+        let { scaleX, scaleY } = worldScaleData
+        if (abs || scaleFixed) scaleX < 0 && (scaleX = -scaleX), scaleY < 0 && (scaleY = -scaleY)
+        if (scaleFixed) {
+            if (scaleFixed === true) {
+                scaleX = scaleY = unscale ? 1 : 1 / scaleX
+            } else {
+                let minScale: number
+                if (isNumber(scaleFixed)) minScale = scaleFixed
+                else if (scaleFixed === 'zoom-in') minScale = 1
+
+                if (minScale) {
+                    if (scaleX > minScale || scaleY > minScale) scaleX = scaleY = unscale ? 1 : 1 / scaleX
+                    else scaleX = scaleY = unscale ? 1 : 1 / minScale
+                }
+            }
+        }
+        tempScaleData.scaleX = scaleX
+        tempScaleData.scaleY = scaleY
+        return tempScaleData
     },
 
     assignScale(scaleData: IScaleData, scale: number | IPointData): void {

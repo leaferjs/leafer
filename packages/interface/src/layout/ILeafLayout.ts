@@ -24,6 +24,7 @@ export interface ILeafLayout {
     // localBoxBounds: IBoundsData // use leaf.__localBoxBounds
     localStrokeBounds: IBoundsData
     localRenderBounds: IBoundsData
+    localOuterBounds?: IBoundsData //  | renderBounds * (1 / scaleFixed) |
 
     // world
 
@@ -78,6 +79,11 @@ export interface ILeafLayout {
     strokeBoxSpread: number // 用于生成strokeBounds
     renderSpread: IFourNumber // -1 表示需监视变化，不影响实际renderBounds，目前用在Box上
     renderShapeSpread: IFourNumber
+
+    // scale fixed
+    scaleFixed?: number
+    strokeScaleFixed?: number
+    hasOuter?: boolean // localOuterBounds: scaleFixed < 1 || strokeScaleFixed < 1
 
     // temp local
     a: number

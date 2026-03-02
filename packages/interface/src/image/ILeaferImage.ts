@@ -1,7 +1,7 @@
 import { ICanvasPattern } from '../canvas/ICanvas'
 import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
-import { IExportFileType } from '../file/IFileType'
+import { IExportFileType, IFilmFileType, IVideoFileType } from '../file/IFileType'
 import { IBoundsData, IMatrixData, IPointData, ISizeData } from '../math/IMath'
 import { ILeaferCanvas } from '../canvas/ILeaferCanvas'
 import { IProgressData } from '../event/IProgress'
@@ -13,7 +13,7 @@ import { IFunction } from '../function/IFunction'
 export interface ILeaferImageConfig {
     url: string
     lod?: IImageLOD
-    format?: IExportFileType
+    format?: IExportFileType | IFilmFileType | IVideoFileType
     crossOrigin?: IImageCrossOrigin
     showProgress?: boolean | string // 是否显示进度
     view?: IObject | ILeaferImage | ILeaferCanvas

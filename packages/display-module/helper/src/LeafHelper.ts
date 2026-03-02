@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData, IMatrixWithBoundsScaleData, ILeafComputedData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 import { isObject, isNumber } from '@leafer/data'
@@ -209,6 +209,10 @@ export const LeafHelper = {
         divideParent(matrix, relative.scrollWorldTransform)
         return temp ? matrix : { ...matrix }
     },
+
+    // @leafer-in/scale-fixed will rewrite
+    updateScaleFixedWorld(_t: ILeaf): void { },
+    updateOuterBounds(_t: ILeaf): void { },
 
     drop(t: ILeaf, parent: ILeaf, index?: number, resize?: boolean): void {
         t.setTransform(L.getRelativeWorld(t, parent, true), resize)

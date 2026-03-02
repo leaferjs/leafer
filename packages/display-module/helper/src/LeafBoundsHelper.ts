@@ -16,7 +16,8 @@ export const LeafBoundsHelper = {
     },
 
     localRenderBounds(target: ILeaf): IBoundsData {
-        return target.__.eraser || target.__.visible === 0 ? null : target.__layout.localRenderBounds
+        const { __, __layout } = target
+        return __.eraser || __.visible === 0 ? null : (__layout.localOuterBounds || __layout.localRenderBounds)
     },
 
     maskLocalBoxBounds(target: ILeaf, index: number): IBoundsData {
@@ -28,7 +29,8 @@ export const LeafBoundsHelper = {
     },
 
     maskLocalRenderBounds(target: ILeaf, index: number): IBoundsData {
-        return checkMask(target, index) && target.__layout.localRenderBounds
+        const { __layout } = target
+        return checkMask(target, index) && (__layout.localOuterBounds || __layout.localRenderBounds)
     },
 
     excludeRenderBounds(child: ILeaf, options: IRenderOptions): boolean {

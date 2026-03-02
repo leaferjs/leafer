@@ -1,5 +1,5 @@
 import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber } from '@leafer/interface'
-import { BoundsHelper, IncrementId, MatrixHelper, PointHelper } from '@leafer/math'
+import { BoundsHelper, IncrementId, MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined, DataHelper } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
@@ -10,12 +10,12 @@ import { ImageManager } from '@leafer/image'
 import { Plugin } from '@leafer/debug'
 
 
-const tempScaleData = {} as IScaleData
 const { LEAF, create } = IncrementId
 const { stintSet } = DataHelper
 const { toInnerPoint, toOuterPoint, multiplyParent } = MatrixHelper
 const { toOuterOf } = BoundsHelper
 const { copy, move } = PointHelper
+const { getScaleFixedData } = MathHelper
 const { moveLocal, zoomOfLocal, rotateOfLocal, skewOfLocal, moveWorld, zoomOfWorld, rotateOfWorld, skewOfWorld, transform, transformWorld, setTransform, getFlipTransform, getLocalOrigin, getRelativeWorld, drop } = LeafHelper
 
 @useModule(LeafDataProxy)
@@ -364,12 +364,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
     public getRenderScaleData(abs?: boolean, scaleFixed?: IScaleFixed): IScaleData {
-        let { scaleX, scaleY } = ImageManager.patternLocked ? this.__world : this.__nowWorld
-        if (abs) scaleX < 0 && (scaleX = -scaleX), scaleY < 0 && (scaleY = -scaleY)
-        if (scaleFixed === true || (scaleFixed === 'zoom-in' && scaleX > 1 && scaleY > 1)) scaleX = scaleY = 1
-        tempScaleData.scaleX = scaleX
-        tempScaleData.scaleY = scaleY
-        return tempScaleData
+        return getScaleFixedData(ImageManager.patternLocked ? this.__world : this.__nowWorld, scaleFixed, true, abs)
     }
 
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {

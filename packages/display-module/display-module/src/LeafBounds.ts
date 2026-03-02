@@ -99,6 +99,8 @@ export const LeafBounds: ILeafBoundsModule = {
             if (this.parent) this.parent.__layout.renderChange()
         }
 
+        if (layout.hasOuter) LeafHelper.updateOuterBounds(this)
+
         layout.resized || (layout.resized = 'local')
         layout.boundsChanged = undefined
 

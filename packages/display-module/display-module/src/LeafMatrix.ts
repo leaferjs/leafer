@@ -1,5 +1,6 @@
 import { ILeafMatrixModule, ILayoutData } from '@leafer/interface'
 import { AroundHelper, MatrixHelper } from '@leafer/math'
+import { LeafHelper } from '@leafer/helper'
 
 
 const { setLayout, multiplyParent, translateInner, defaultWorld } = MatrixHelper
@@ -13,6 +14,7 @@ export const LeafMatrix: ILeafMatrixModule = {
         multiplyParent(this.__local || __layout, parent ? (parent.__scrollWorld || parent.__world) : defaultWorld, __world, !!__layout.affectScaleOrRotation, __ as ILayoutData)
 
         if (__scrollWorld) translateInner(Object.assign(__scrollWorld, __world), __.scrollX, __.scrollY)
+        if (__layout.scaleFixed) LeafHelper.updateScaleFixedWorld(this)
     },
 
     __updateLocalMatrix(): void {
