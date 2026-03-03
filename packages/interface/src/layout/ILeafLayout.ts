@@ -83,7 +83,7 @@ export interface ILeafLayout {
     // scale fixed
     scaleFixed?: number
     strokeScaleFixed?: number
-    hasOuter?: boolean // localOuterBounds: scaleFixed < 1 || strokeScaleFixed < 1
+    hasOuter?: number // localOuterBounds: scaleFixed < 1 || strokeScaleFixed < 1
 
     // temp local
     a: number

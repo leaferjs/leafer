@@ -363,8 +363,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         return scaleX > 1 ? scaleX : 1
     }
 
-    public getRenderScaleData(abs?: boolean, scaleFixed?: IScaleFixed): IScaleData {
-        return getScaleFixedData(ImageManager.patternLocked ? this.__world : this.__nowWorld, scaleFixed, true, abs)
+    public getRenderScaleData(abs?: boolean, scaleFixed?: IScaleFixed, unscale = true): IScaleData {
+        return getScaleFixedData(ImageManager.patternLocked ? this.__world : this.__nowWorld, scaleFixed, unscale, abs)
     }
 
     public getTransform(relative?: ILocationType | ILeaf): IMatrixData {
