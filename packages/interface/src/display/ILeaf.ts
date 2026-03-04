@@ -456,10 +456,17 @@ export interface ILeafComputedData {
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
     __path2DForRender?: IPath2D
-    __pathForArrow?: IPathCommandData
+
+    __startArrowPath?: IArrowPathData
+    __endArrowPath?: IArrowPathData
     __pathForMotion?: IMotionPathData
 
     __clipAfterFill?: boolean // 一般用于判断是否裁剪 Box
+}
+
+export interface IArrowPathData {
+    data: IPathCommandData
+    fill?: boolean
 }
 
 export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, ILeafDataProxy, ILeafInputData, IEventer {
@@ -714,7 +721,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __drawPath(canvas: ILeaferCanvas): void
     __drawRenderPath(canvas: ILeaferCanvas): void
     __updatePath(): void
-    __updateRenderPath(): void
+    __updateRenderPath(updateCache?: boolean): void
 
     // motion path
     getMotionPathData(): IMotionPathData
