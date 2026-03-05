@@ -1,4 +1,4 @@
-import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData, IScrollPointData } from '@leafer/interface'
+import { IPointData, IBoundsData, IMatrixData, IFourNumber, IBoundsDataFn, IObject, IMatrix, IOffsetBoundsData, IRadiusPointData, IMatrixWithScaleData, ISide, IAlign, ISizeData, IScrollPointData, IAround } from '@leafer/interface'
 import { isArray, isString } from '@leafer/data'
 
 import { Matrix } from './Matrix'
@@ -7,6 +7,7 @@ import { TwoPointBoundsHelper as TB } from './TwoPointBoundsHelper'
 import { PointHelper as P } from './PointHelper'
 import { MathHelper, getBoundsData } from './MathHelper'
 import { AlignHelper } from './AlignHelper'
+import { AroundHelper } from './AroundHelper'
 
 
 const { tempPointBounds, setPoint, addPoint, toBounds } = TB
@@ -303,6 +304,9 @@ export const BoundsHelper = {
         ]
     },
 
+    getPoint(t: IBoundsData, around: IAround, onlyBoxSize: boolean = false, to?: IPointData): IPointData {
+        return AroundHelper.getPoint(around, t, to, onlyBoxSize)
+    },
 
     hitRadiusPoint(t: IBoundsData, point: IRadiusPointData, pointMatrix?: IMatrixWithScaleData): boolean {
         if (pointMatrix) point = P.tempToInnerRadiusPointOf(point, pointMatrix)

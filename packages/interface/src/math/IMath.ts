@@ -1,5 +1,5 @@
 import { IFourNumber, IObject } from '../data/IData'
-import { IAlign, ISide } from '../display/ILeaf'
+import { IAlign, ISide, IAround } from '../display/ILeaf'
 
 export interface IPointData {
     x: number
@@ -55,6 +55,8 @@ export interface IPoint extends IPointData {
 
     getAngle(to: IPointData): number
     getAtan2(to: IPointData): number
+
+    isSame(point: IPointData, quick?: boolean): boolean
 
     reset(): IPoint
 }
@@ -126,6 +128,7 @@ export interface IBounds extends IBoundsData, ITwoPointBoundsData {
     setPoints(points: IPointData[]): IBounds
     addPoint(point: IPointData): IBounds
     getPoints(): IPointData[] // topLeft, topRight, bottomRight, bottomLeft
+    getPoint(around: IAround, onlyBoxSize?: boolean, to?: IPointData): IPointData
 
     hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean
     hitRadiusPoint(point: IRadiusPointData, pointMatrix?: IMatrixWithLayoutData): boolean

@@ -1,4 +1,4 @@
-import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData, IFourNumber, ISide, IAlign } from '@leafer/interface'
+import { IBounds, IBoundsData, IMatrixData, IPointData, IBoundsDataFn, IObject, IMatrix, IRadiusPointData, IMatrixWithLayoutData, IFourNumber, ISide, IAlign, IAround } from '@leafer/interface'
 import { isObject } from '@leafer/data'
 
 import { BoundsHelper as B } from './BoundsHelper'
@@ -139,6 +139,9 @@ export class Bounds implements IBounds {
         return B.getPoints(this)
     }
 
+    public getPoint(around: IAround, onlyBoxSize?: boolean, to?: IPointData): IPointData {
+        return B.getPoint(this, around, onlyBoxSize, to)
+    }
 
 
     public hitPoint(point: IPointData, pointMatrix?: IMatrixData): boolean {

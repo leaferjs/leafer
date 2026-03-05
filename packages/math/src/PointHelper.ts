@@ -177,8 +177,8 @@ export const PointHelper = {
         return points
     },
 
-    isSame(t: IPointData, point: IPointData): boolean {
-        return float(t.x) === float(point.x) && float(t.y) === float(point.y)
+    isSame(t: IPointData, point: IPointData, quick?: boolean): boolean {
+        return quick ? (t.x === point.x && t.y === point.y) : (float(t.x) === float(point.x) && float(t.y) === float(point.y))
     },
 
     reset(t: IPointData): void {
