@@ -18,6 +18,7 @@ import { ILeaferVideo, ILeaferVideoConfig } from '../image/ILeaferVideo'
 import { IControl } from '../control/IControl'
 import { IFunction } from '../function/IFunction'
 import { ITransition } from '../animate/ITransition'
+import { ILeafMap } from '../data/IList'
 
 
 export type ILeaferType = 'draw' | 'block' | 'viewport' | 'editor' | 'design' | 'board' | 'document' | 'app' | 'website' | 'game' | 'player' | 'chart' | 'custom' // 应用场景类型
@@ -65,6 +66,12 @@ export interface ILeaferAttrData {
 
     config: ILeaferConfig
     userConfig?: ILeaferConfig
+
+    // @leafer-in/find
+    cacheId?: boolean
+    cacheInnerId?: boolean
+    innerIdMap?: ILeafMap
+    idMap?: ILeafMap
 
     readonly cursorPoint: IPointData
     readonly clientBounds: IBoundsData
@@ -147,7 +154,7 @@ export interface ICreator {
     layouter?(target: ILeaf, options?: ILayouterConfig): ILayouter
     renderer?(target: ILeaf, canvas: ILeaferCanvas, options?: IRendererConfig): IRenderer
     selector?(target?: ILeaf, options?: ISelectorConfig): ISelector
-    finder?(target?: ILeaf): IFinder
+    finder?(target?: ILeaf, options?: ISelectorConfig): IFinder
 
     interaction?(target: ILeaf, canvas: IInteractionCanvas, selector: ISelector, options?: IInteractionConfig): IInteraction
 

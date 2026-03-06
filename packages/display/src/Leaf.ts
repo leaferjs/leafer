@@ -176,6 +176,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
             this.__level = this.parent ? this.parent.__level + 1 : 1
             if ((this as ILeaf).animation) this.__runAnimation('in')
             if (this.__bubbleMap) this.__emitLifeEvent(ChildEvent.MOUNTED)
+            if (leafer.cacheId) LeafHelper.cacheId(this)
         } else {
             this.__emitLifeEvent(ChildEvent.UNMOUNTED)
         }

@@ -17,7 +17,7 @@ export class Selector implements ISelector {
     constructor(target: ILeaf, userConfig?: ISelectorConfig) {
         if (userConfig) this.config = DataHelper.default(userConfig, this.config)
         this.picker = new Picker(this.target = target, this)
-        this.finder = Creator.finder && Creator.finder()
+        this.finder = Creator.finder && Creator.finder(target, this.config)
     }
 
     public getByPoint(hitPoint: IPointData, hitRadius: number, options?: IPickOptions): IPickResult {

@@ -214,6 +214,9 @@ export const LeafHelper = {
     updateScaleFixedWorld(_t: ILeaf): void { },
     updateOuterBounds(_t: ILeaf): void { },
 
+    // @leafer-in/find will rewrite
+    cacheId(_t: ILeaf): void { },
+
     drop(t: ILeaf, parent: ILeaf, index?: number, resize?: boolean): void {
         t.setTransform(L.getRelativeWorld(t, parent, true), resize)
         parent.add(t, index)
