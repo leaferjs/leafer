@@ -1,5 +1,5 @@
 import { ICanvasPattern } from '../canvas/ICanvas'
-import { INumberMap, IObject } from '../data/IData'
+import { IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType, IFilmFileType, IVideoFileType } from '../file/IFileType'
 import { IBoundsData, IMatrixData, IPointData, ISizeData } from '../math/IMath'
