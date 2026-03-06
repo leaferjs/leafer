@@ -65,6 +65,7 @@ export interface ILeafLayout {
 
     childrenSortChanged?: boolean
     stateStyleChanged?: boolean // hoverStyle ...
+    linkerChanged?: boolean
 
     // config changed
     scrollConfigChanged?: boolean
