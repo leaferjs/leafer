@@ -1,5 +1,5 @@
 import { ICanvasPattern } from '../canvas/ICanvas'
-import { IObject } from '../data/IData'
+import { INumberMap, IObject } from '../data/IData'
 import { InnerId } from '../event/IEventer'
 import { IExportFileType, IFilmFileType, IVideoFileType } from '../file/IFileType'
 import { IBoundsData, IMatrixData, IPointData, ISizeData } from '../math/IMath'
@@ -92,6 +92,9 @@ export interface ILeaferImage {
     width: number
     height: number
 
+    parent?: ILeaferImage
+    childrenMap?: ILeaferImageMap
+
     isSVG: boolean
     hasAlphaPixel: boolean
 
@@ -130,7 +133,12 @@ export interface ILeaferImage {
     getLevelData(level: number, width?: number, height?: number): ILeaferImageLevel
     clearLevels(checkUse?: boolean): void
 
+    destroyFilter(): void // parent and childrenMap
     destroy(): void
+}
+
+export interface ILeaferImageMap {
+    [name: string]: ILeaferImage
 }
 
 export type IImageStatus = 'wait' | 'thumb-loading' | 'thumb-success' | 'thumb-error' | 'loading' | 'success' | 'error' 

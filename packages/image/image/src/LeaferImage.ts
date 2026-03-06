@@ -142,8 +142,11 @@ export class LeaferImage implements ILeaferImage {
     public getLevelData(_level: number, _width?: number, _height?: number,): ILeaferImageLevel { return undefined }
     public clearLevels(_checkUse?: boolean): void { }
 
+    public destroyFilter(): void { }
+
     public destroy(): void {
         this.clearLevels()
+        this.destroyFilter()
 
         const { view } = this
         if (view && view.close) view.close() // 可能为 ImageBitmap

@@ -19,6 +19,7 @@ export const ImageManager: IImageManager = {
     },
 
     recycle(image: ILeaferImage): void {
+        if (image.parent) image = image.parent // 存在 image filters 的情况
         image.use--
         setTimeout(() => {
             if (!image.use) {

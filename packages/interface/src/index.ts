@@ -40,7 +40,7 @@ export { IMotionPathData } from './path/IPathData'
 export { IWindingRule, ICanvasContext2D, ICanvasContext2DSettings, ITextMetrics, IPath2D, ICanvasPattern } from './canvas/ICanvas'
 export { CanvasPathCommand, IPathCommandData, MCommandData, HCommandData, VCommandData, LCommandData, CCommandData, SCommandData, QCommandData, TCommandData, ZCommandData, ACommandData, RectCommandData, RoundRectCommandData, EllipseCommandData, ArcCommandData, ArcToCommandData, MoveToCommandObject, LineToCommandObject, BezierCurveToCommandObject, QuadraticCurveToCommandObject, IPathCommandObject, IPathCommandNodeBase, MoveToCommandNode, LineToCommandNode, BezierCurveToCommandNode, ClosePathCommandNode, IPathCommandNode, PathNodeHandleType, PathNodeHandleName, IPathNodeBase } from './path/IPathCommand'
 
-export { ILeaferImage, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
+export { ILeaferImage, ILeaferImageMap, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
 export { ILeaferFilm, ILeaferFilmConfig, IFilmDecoder, IFilmFrame, IFilmOptions, IFilmPlayOptions } from './image/ILeaferFilm'
 export { ILeaferVideo, ILeaferVideoConfig } from './image/ILeaferVideo'
 export { IResource } from './file/IResource'
