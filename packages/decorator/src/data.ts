@@ -344,4 +344,3 @@ export function defineDataProcessor(target: ILeaf, key: string, defaultValue?: I
     defineKey(data, key, property)
 
 }
-
