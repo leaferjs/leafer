@@ -92,9 +92,6 @@ export interface ILeaferImage {
     width: number
     height: number
 
-    parent?: ILeaferImage
-    childrenMap?: ILeaferImageMap
-
     isSVG: boolean
     hasAlphaPixel: boolean
 
@@ -105,6 +102,12 @@ export interface ILeaferImage {
 
     isPlacehold?: boolean // 是否显示占位符，一般在加载100ms后自动判断
 
+    // filter
+    parent?: ILeaferImage
+    childrenMap?: ILeaferImageMap
+    filterKey?: string
+
+    // lod
     largeThumb?: ILeaferImageLevel
     thumb?: ILeaferImageLevel
     levels?: ILeaferImageLevel[]
