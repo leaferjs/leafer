@@ -1,6 +1,5 @@
 import { ILeafData, ILeaf, IObject, IValue, ILeafAttrDescriptor, ILeafAttrDescriptorFn, IValueFunction, IMatrixWithBoundsScaleData } from '@leafer/interface'
 import { DataHelper, isEmptyData, isObject, isUndefined } from '@leafer/data'
-import { Debug } from '@leafer/debug'
 
 import { defineKey, getDescriptor, createDescriptor } from './object'
 
@@ -156,7 +155,7 @@ export function dimType(defaultValue?: IValue) {
             if (this.__setAttr(key, value)) {
                 const data = this.__
                 DataHelper.stintSet(data, '__useDim', (data.dim || data.bright || data.dimskip) as boolean)
-                this.__layout.surfaceChange()
+                //this.__layout.surfaceChange()
             }
         }
     }))
@@ -198,6 +197,7 @@ function checkMask(leaf: ILeaf): void { // mask 的透明度和可见性变更�
 function doVisible(leaf: ILeaf, key: string, value: IValue, oldValue: IValue): void {
     if (leaf.__setAttr(key, value)) {
         leaf.__layout.opacityChanged || leaf.__layout.opacityChange()
+        // this.__layout.surfaceChange()
         if (oldValue === 0 || value === 0) doBoundsType(leaf) // 0 = display: none
     }
 }
@@ -206,7 +206,7 @@ export function sortType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
-                this.__layout.surfaceChange()
+                // this.__layout.surfaceChange()
                 this.waitParent(() => { this.parent.__layout.childrenSortChange() })
             }
         }
@@ -237,7 +237,7 @@ export function hitType(defaultValue?: IValue) {
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 this.__layout.hitCanvasChanged = true
-                if (Debug.showBounds === 'hit') this.__layout.surfaceChange()
+                //if (Debug.showBounds === 'hit') this.__layout.surfaceChange()
                 if (this.leafer) this.leafer.updateCursor()
             }
         }
