@@ -18,6 +18,8 @@ export const LeafBounds: ILeafBoundsModule = {
         const { __layout, __world } = this
         toOuterOf(__layout.renderBounds, __world, __world)
 
+        if (this.__hasComplex) LeafHelper.checkComplex(this) // 必须在重置resize之前执行
+
         if (__layout.resized) {
             if (__layout.resized === 'inner') this.__onUpdateSize() // scale变化不用更新
             if (this.__hasLocalEvent) BoundsEvent.emitLocal(this)

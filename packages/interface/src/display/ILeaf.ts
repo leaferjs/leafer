@@ -21,14 +21,7 @@ import { IWindingRule, IPath2D } from '../canvas/ICanvas'
 import { IJSONOptions } from '../file/IExport'
 import { IMotionPathData } from '../path/IPathData'
 import { ITransition } from '../animate/ITransition'
-
-
-export interface ICachedLeaf {
-    canvas: ILeaferCanvas, // 完整的元素缓存画布
-    matrix?: IMatrix, // 包含导出时附加的 options.matrix
-    fitMatrix?: IMatrix, // 不包含导出时附加的 options.matrix
-    bounds: IBoundsData
-}
+import { ITaskItem } from '../task/ITaskProcessor'
 
 
 export type ISide = 'width' | 'height'
@@ -434,6 +427,7 @@ export interface ILeafComputedData {
     // other
     __childBranchNumber?: number // 存在子分支的个数
     __complex?: boolean // 外观是否复杂
+    __complexData?: ILeafComplexCachedData // 复杂元素的缓存图
 
     __naturalWidth?: number
     __naturalHeight?: number
@@ -539,6 +533,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __hasAutoLayout?: boolean
     __hasMotionPath?: boolean
+    __hasComplex?: boolean
 
     __hasMask?: boolean
     __hasEraser?: boolean
@@ -706,7 +701,6 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     // ILeafRender ->
     __render(canvas: ILeaferCanvas, options: IRenderOptions): void
-    __renderComplex(canvas: ILeaferCanvas, options: IRenderOptions): void
     __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
     __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
 
@@ -748,4 +742,20 @@ export type ILeafAttrDescriptor = IObject & ThisType<ILeaf>
 
 export interface ILeafAttrDescriptorFn {
     (key: string): ILeafAttrDescriptor
+}
+
+export interface ICachedLeaf {
+    canvas: ILeaferCanvas, // 完整的元素缓存画布
+    matrix?: IMatrix, // 包含导出时附加的 options.matrix
+    fitMatrix?: IMatrix, // 不包含导出时附加的 options.matrix
+    bounds: IBoundsData
+}
+
+export interface ILeafComplexCachedData { // 复杂元素缓存对象
+    canvas?: ILeaferCanvas
+    scaleX?: number
+    scaleY?: number
+    changed?: boolean
+    task?: ITaskItem
+    destroy(): void
 }

@@ -1,6 +1,6 @@
 import { ILeaferCanvas, IRenderOptions, IBranchRenderModule, ILeaf } from '@leafer/interface'
 import { BoundsHelper } from '@leafer/math'
-import { LeafBoundsHelper } from '@leafer/helper'
+import { LeafBoundsHelper, LeafHelper } from '@leafer/helper'
 
 
 const { excludeRenderBounds } = LeafBoundsHelper, { hasSize } = BoundsHelper
@@ -40,7 +40,7 @@ export const BranchRender: IBranchRenderModule = {
 
                 this.__renderBranch(tempCanvas, options)
 
-                canvas.opacity = options.dimOpacity ? data.opacity * options.dimOpacity : data.opacity
+                canvas.opacity = options.ignoreOpacity ? 1 : (options.dimOpacity ? data.opacity * options.dimOpacity : data.opacity)
                 canvas.copyWorldByReset(tempCanvas, nowWorld, nowWorld, data.__blendMode, true)
 
                 tempCanvas.recycle(nowWorld)
@@ -66,7 +66,7 @@ export const BranchRender: IBranchRenderModule = {
             const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
                 child = children[i]
-                excludeRenderBounds(child, options) || (child.__.complex ? child.__renderComplex(canvas, options) : child.__render(canvas, options))
+                excludeRenderBounds(child, options) || (child.__hasComplex ? LeafHelper.renderComplex(child, canvas, options) : child.__render(canvas, options))
             }
 
         }

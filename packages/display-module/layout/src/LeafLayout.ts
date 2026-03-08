@@ -368,7 +368,6 @@ export class LeafLayout implements ILeafLayout {
 
     public opacityChange(): void {
         this.opacityChanged = true
-        this.surfaceChanged || this.surfaceChange()
     }
 
     public childrenSortChange(): void {

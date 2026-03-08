@@ -17,7 +17,7 @@ export const LeafRender: ILeafRenderModule = {
             if (data.bright && !options.topRendering) return options.topList.add(this)
 
             canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
-            canvas.opacity = options.dimOpacity && !data.dimskip ? data.opacity * options.dimOpacity : data.opacity
+            canvas.opacity = options.ignoreOpacity ? 1 : (options.dimOpacity && !data.dimskip ? data.opacity * options.dimOpacity : data.opacity)
 
             if (this.__.__single) {
 

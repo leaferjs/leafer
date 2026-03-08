@@ -25,6 +25,9 @@ export interface IRenderOptions {
     ignoreFill?: boolean, // 绘制外形时忽略fill
     ignoreStroke?: boolean // 绘制外形时忽略stroke
 
+    ignoreOpacity?: boolean // 绘制时忽略元素的opacity
+
+
     cellList?: ILeafList
 }
 

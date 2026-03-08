@@ -146,5 +146,6 @@ export class LeafData implements ILeafData {
 
     public destroy(): void {
         this.__input = this.__middle = null
+        if ((this as ILeafData).__complexData) (this as ILeafData).__complexData.destroy()
     }
 }

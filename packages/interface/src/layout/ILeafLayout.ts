@@ -58,7 +58,7 @@ export interface ILeafLayout {
     localBoxChanged: boolean // position
 
     // face changed
-    surfaceChanged: boolean
+    surfaceChanged: boolean // 不能包含透明度变化
     opacityChanged: boolean
 
     hitCanvasChanged: boolean

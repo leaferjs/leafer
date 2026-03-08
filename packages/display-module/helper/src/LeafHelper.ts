@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 import { isObject, isNumber } from '@leafer/data'
@@ -60,6 +60,10 @@ export const LeafHelper = {
         if (layout.stateStyleChanged) leaf.updateState()
         if (layout.opacityChanged) updateAllWorldOpacity(leaf)
         leaf.__updateChange()
+        if (layout.surfaceChanged) {
+            if (leaf.__hasComplex) L.updateComplex(leaf)
+            layout.surfaceChanged = false
+        }
     },
 
     updateAllChange(leaf: ILeaf): void {
@@ -89,6 +93,11 @@ export const LeafHelper = {
         if (leaf.__worldFlipped || Platform.fullImageShadow) currentCanvas.copyWorldByReset(fromCanvas, fromWorld, leaf.__nowWorld, blendMode, onlyResetTransform)
         else currentCanvas.copyWorldToInner(fromCanvas, fromWorld as IMatrixWithBoundsData, leaf.__layout.renderBounds, blendMode)
     },
+
+    // complex will rewrite
+    renderComplex(_leaf: ILeaf, _canvas: ILeaferCanvas, _options: IRenderOptions): void { },
+    updateComplex(_leaf: ILeaf): void { },
+    checkComplex(_leaf: ILeaf): void { },
 
     // transform
 
