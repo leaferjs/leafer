@@ -48,6 +48,8 @@ export interface ILayouter extends IControl {
 
     config: ILayouterConfig
 
+    __updatedList: ILeafList
+
     disable(): void
 
     layout(): void

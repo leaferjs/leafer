@@ -35,7 +35,7 @@ export class BoundsEvent extends Event implements IBoundsEvent {
     }
 
     static emitWorld(leaf: ILeaf) {
-        if (leaf.leaferIsReady) leaf.emit(WORLD, this)
+        if (leaf.leaferIsReady) leaf.emit(WORLD, leaf)
     }
 
 }
