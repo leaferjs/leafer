@@ -81,6 +81,7 @@ export interface IPlatform {
         resize(image: any, width: number, height: number, xGap?: number, yGap?: number, clip?: IBoundsData, smooth?: boolean, opacity?: number, filters?: IObject, interlace?: IInterlace): any
         canUse(image: any): boolean
         setPatternTransform(pattern: ICanvasPattern, transform?: IMatrixData, paint?: IObject): void
+        applyFilter?(canvas: any, image: any, filter: any[]): void
     },
 
     canCreateImageBitmap?: boolean // 是否能使用 createImageBitmap

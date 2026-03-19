@@ -105,6 +105,8 @@ export interface ILeaferImage {
     // filter
     parent?: ILeaferImage
     childrenMap?: ILeaferImageMap
+
+    filter?: any[]
     filterKey?: string
 
     // lod
