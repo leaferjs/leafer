@@ -426,7 +426,9 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     // simple
 
     public getBoxPoint(world: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData {
-        return this.getBoxPointByInner(this.getInnerPoint(world, relative, distance, change), null, null, true)
+        const inner = this.getInnerPoint(world, relative, distance, change)
+        if (distance) return inner
+        return this.getBoxPointByInner(inner, null, null, true)
     }
 
     public getBoxPointByInner(inner: IPointData, _relative?: ILeaf, _distance?: boolean, change?: boolean): IPointData {
