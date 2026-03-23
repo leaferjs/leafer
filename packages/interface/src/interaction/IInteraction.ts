@@ -104,6 +104,7 @@ export interface IInteractionConfig {
     eventer?: IObject
     cursor?: boolean
     keyEvent?: boolean
+    shadowDOM?: boolean
 }
 
 export interface IZoomConfig {
