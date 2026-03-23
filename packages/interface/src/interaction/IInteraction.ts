@@ -79,6 +79,7 @@ export interface IInteraction extends IControl {
     cancelHover(): void
     stopDragAnimate(): void
 
+    replaceDownTarget(target: ILeaf): void
     updateDownData(data?: IPointerEvent, options?: IPickOptions, merge?: boolean): void
     updateHoverData(data: IPointerEvent): void
 
