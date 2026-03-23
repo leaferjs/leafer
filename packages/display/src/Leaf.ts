@@ -415,11 +415,11 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
             relative.innerToWorld(world, to, distance)
             world = to ? to : world
         }
-        toInnerPoint(this.scrollWorldTransform, world, to, distance)
+        toInnerPoint(this.worldTransform, world, to, distance)
     }
 
     public innerToWorld(inner: IPointData, to?: IPointData, distance?: boolean, relative?: ILeaf): void {
-        toOuterPoint(this.scrollWorldTransform, inner, to, distance)
+        toOuterPoint(this.worldTransform, inner, to, distance)
         if (relative) relative.worldToInner(to ? to : inner, null, distance)
     }
 
