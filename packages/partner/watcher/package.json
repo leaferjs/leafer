@@ -1,6 +1,6 @@
 {
   "name": "@leafer/watcher",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "@leafer/watcher",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,11 +18,11 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/event": "2.0.3",
-    "@leafer/data": "2.0.3",
-    "@leafer/list": "2.0.3"
+    "@leafer/event": "2.0.4",
+    "@leafer/data": "2.0.4",
+    "@leafer/list": "2.0.4"
   },
   "devDependencies": {
-     "@leafer/interface": "2.0.3"
+     "@leafer/interface": "2.0.4"
   }
 }
