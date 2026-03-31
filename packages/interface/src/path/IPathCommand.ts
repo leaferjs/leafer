@@ -95,6 +95,7 @@ export interface IPathCommandNodeBase {
     name: 'M^' | 'L^' | 'C^' | 'Z^'
     x: number
     y: number
+    r?: number // 圆角半径
     a?: IPointData // 第一个手柄，连接上一个节点
     b?: IPointData // 第二个手柄，连接下一个节点
     ab?: PathNodeHandleType // 手柄类型
