@@ -270,6 +270,40 @@ export const BezierHelper = {
         return 3 * o * o * (v1 - fromV) + 6 * o * t * (v2 - v1) + 3 * t * t * (toV - v2)
     },
 
+    cut(t: number, fromX: number, fromY: number, x1: number, y1: number, x2: number, y2: number, toX: number, toY: number) {
+        // clamp
+        if (t <= 0) return { left: null, right: [x1, y1, x2, y2, toX, toY] }
+        else if (t >= 1) return { left: [x1, y1, x2, y2, toX, toY], right: null }
+
+        const u = 1 - t
+
+        // 一级插值
+        const leftX1 = fromX * u + x1 * t
+        const leftY1 = fromY * u + y1 * t
+
+        const P12x = x1 * u + x2 * t
+        const P12y = y1 * u + y2 * t
+
+        const rightX2 = x2 * u + toX * t
+        const rightY2 = y2 * u + toY * t
+
+        // 二级插值
+        const leftX2 = leftX1 * u + P12x * t
+        const leftY2 = leftY1 * u + P12y * t
+
+        const rightX1 = P12x * u + rightX2 * t
+        const rightY1 = P12y * u + rightY2 * t
+
+        // 最终切点
+        const leftX = leftX2 * u + rightX1 * t
+        const leftY = leftY2 * u + rightY1 * t
+
+        return {
+            left: [leftX1, leftY1, leftX2, leftY2, leftX, leftY],
+            right: [rightX1, rightY1, rightX2, rightY2, toX, toY]
+        }
+    }
+
 }
 
 const { getPointAndSet, toTwoPointBounds, ellipse } = BezierHelper
