@@ -10,6 +10,7 @@ const { M, L, Z } = Command
 const { getCenterX, getCenterY } = PointHelper
 const { arcTo } = PathCommandDataHelper
 
+// @leafer-in/corner will rewrite
 export const PathCorner = {
 
     smooth(data: IPathCommandData, cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {

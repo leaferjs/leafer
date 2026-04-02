@@ -51,6 +51,10 @@ export type CanvasPathCommand = 1 | 2 | 5 | 7 | 11 // M | L | C | Q | Z   canvas
 
 export type IPathCommandData = number[] // ...(MCommandData | LCommandData | CCommandData | QCommandData | ZCommandData)
 
+export interface IPathCommandDataWithRadius {
+    data: IPathCommandData
+    radius: number[]
+}
 
 // 路径命令对象
 export interface MoveToCommandObject {
