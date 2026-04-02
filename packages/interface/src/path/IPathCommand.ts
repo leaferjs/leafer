@@ -120,6 +120,7 @@ export interface ClosePathCommandNode {
     name: 'Z^'
     x?: number
     y?: number
+    r?: number // 圆角半径
     a?: IPointData
     b?: IPointData
     ab?: PathNodeHandleType

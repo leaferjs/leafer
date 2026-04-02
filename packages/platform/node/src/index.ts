@@ -26,5 +26,6 @@ export * from '@leafer-in/scroller'
 
 export * from '@leafer-in/scale-fixed'
 export * from '@leafer-in/box'
+export * from '@leafer-in/corner'
 
 export * from '@leafer-in/interface'

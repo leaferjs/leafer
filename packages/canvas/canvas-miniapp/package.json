@@ -1,6 +1,6 @@
 {
   "name": "@leafer/canvas-miniapp",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "@leafer/canvas-miniapp",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,13 +18,13 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/canvas": "2.0.6",
-    "@leafer/data": "2.0.6",
-    "@leafer/event": "2.0.6",
-    "@leafer/platform": "2.0.6",
-    "@leafer/debug": "2.0.6"
+    "@leafer/canvas": "2.0.7",
+    "@leafer/data": "2.0.7",
+    "@leafer/event": "2.0.7",
+    "@leafer/platform": "2.0.7",
+    "@leafer/debug": "2.0.7"
   },
   "devDependencies": {
-     "@leafer/interface": "2.0.6"
+     "@leafer/interface": "2.0.7"
   }
 }
