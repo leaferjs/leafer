@@ -306,7 +306,7 @@ export interface ILeafAttrData {
     button?: IBoolean
     cursor?: ICursorType | ICursorType[]
 
-    motionPath?: IBoolean
+    motionPath?: IBoolean | 'text-path'
     motionPrecision?: INumber
 
     motion?: INumber | IUnitData
@@ -413,7 +413,7 @@ export interface ILeafComputedData {
     button?: boolean
     cursor?: ICursorType | ICursorType[]
 
-    motionPath?: boolean
+    motionPath?: boolean | 'text-path'
     motionPrecision?: number
 
     motion?: number | IUnitData
