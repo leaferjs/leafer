@@ -78,6 +78,10 @@ export class LeaferCanvas extends LeaferCanvasBase {
     public updateClientBounds(callback?: IFunction): void {
         if (this.viewSelect) Platform.miniapp.getBounds(this.viewSelect).then(bounds => {
             this.clientBounds = bounds
+
+            // 抖音小程序 boundingClientRect() 会重置 Canvas 尺寸
+            this.updateViewSize()
+
             if (callback) callback()
         })
     }

@@ -60,7 +60,8 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
         },
         loadImage(src: string, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
-                const img = Platform.canvas.view.createImage()
+                // 抖音小程序图片无法加载
+                const img = Platform.canvas.view.createImage ? Platform.canvas.view.createImage() : (Platform.renderCanvas || Platform.canvas).view.createImage()
                 img.onload = () => { resolve(img) }
                 img.onerror = (error: any) => { reject(error) }
                 img.src = Platform.image.getRealURL(src)
