@@ -19,6 +19,7 @@ export interface IPlatform {
     toURL(text: string, fileType?: 'text' | 'svg'): string
 
     requestRender?(render: IFunction): void
+    getCanvas?(): ILeaferCanvas
     canvas?: ILeaferCanvas
     renderCanvas?: ILeaferCanvas
     canvasType?: ICanvasType

@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IResponseType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, ILeaferCanvas, IExportImageType, IResponseType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-miniapp'
@@ -60,8 +60,7 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
         },
         loadImage(src: string, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage): Promise<HTMLImageElement> {
             return new Promise((resolve, reject) => {
-                // 抖音小程序图片无法加载
-                const img = Platform.canvas.view.createImage ? Platform.canvas.view.createImage() : (Platform.renderCanvas || Platform.canvas).view.createImage()
+                const img = Platform.getCanvas().view.createImage()  // 抖音小程序 Platform.canvas 图片无法加载，需使用 Platform.renderCanvas
                 img.onload = () => { resolve(img) }
                 img.onerror = (error: any) => { reject(error) }
                 img.src = Platform.image.getRealURL(src)
@@ -145,8 +144,16 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
     defineKey(Platform, 'devicePixelRatio', { get() { return Math.max(1, app.getWindowInfo ? app.getWindowInfo().pixelRatio : app.getSystemInfoSync().pixelRatio) } })
 }
 
+
 Platform.name = 'miniapp'
+
+Platform.getCanvas = function (): ILeaferCanvas {
+    const { renderCanvas } = Platform
+    return (renderCanvas && renderCanvas.view) ? renderCanvas : Platform.canvas
+}
+
 Platform.requestRender = function (render: IFunction): void {
-    const { view } = Platform.renderCanvas || Platform.canvas
+    const { view } = Platform.getCanvas()
     view.requestAnimationFrame ? view.requestAnimationFrame(render) : setTimeout(render, 16) // fix 抖音小程序
 }
+
