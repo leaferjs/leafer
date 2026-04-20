@@ -1,4 +1,5 @@
 import { IPointData } from '../math/IMath'
+import { IWindingRule } from '../canvas/ICanvas'
 
 type Command = number
 type x = number
@@ -54,6 +55,11 @@ export type IPathCommandData = number[] // ...(MCommandData | LCommandData | CCo
 export interface IPathCommandDataWithRadius {
     data: IPathCommandData
     radius: number[]
+}
+
+export interface IPathCommandDataWithWindingRule {
+    data: IPathCommandData
+    windingRule?: IWindingRule
 }
 
 // 路径命令对象
