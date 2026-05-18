@@ -455,6 +455,10 @@ export interface ILeafComputedData {
     __endArrowPath?: IArrowPathData
     __pathForMotion?: IMotionPathData
 
+    // webgl扩展
+    __strokeGeometry?: any
+    __fillGeometry?: any
+
     __clipAfterFill?: boolean // 一般用于判断是否裁剪 Box
 }
 

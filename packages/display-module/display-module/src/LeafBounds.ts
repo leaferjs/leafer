@@ -32,15 +32,17 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateLocalBounds(): void {
 
-        const layout = this.__layout
+        const layout = this.__layout, data = this.__
 
         if (layout.boxChanged) {
 
-            if (!this.__.__pathInputed) this.__updatePath()
+            if (!data.__pathInputed) this.__updatePath()
             this.__updateRenderPath()
 
             this.__updateBoxBounds()
             layout.resized = 'inner'
+
+            if (data.__strokeGeometry) data.__strokeGeometry = undefined
         }
 
 
@@ -78,6 +80,8 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (this.parent) this.parent.__layout.strokeChange()
             layout.resized = 'inner'
+
+            if (data.__strokeGeometry) data.__strokeGeometry = undefined
         }
 
 
