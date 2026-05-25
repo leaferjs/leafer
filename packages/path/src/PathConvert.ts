@@ -124,7 +124,7 @@ export const PathConvert = {
                 case M:
                     x = old[i + 1]
                     y = old[i + 2]
-                    data.push(M, x, y)
+                    data.push(lastCommand === command ? L : M, x, y) // M command followed by multiple coordinates
                     i += 3
                     break
 
