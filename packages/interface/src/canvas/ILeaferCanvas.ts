@@ -160,6 +160,8 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
     readonly pixelWidth: number
     readonly pixelHeight: number
 
+    size: IScreenSizeData
+
     pixelSnap: boolean
 
     readonly allowBackgroundColor?: boolean
