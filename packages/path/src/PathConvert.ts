@@ -109,7 +109,7 @@ export const PathConvert = {
 
     toCanvasData(old: IPathCommandData, curveMode?: boolean): IPathCommandData {
 
-        let x = 0, y = 0, x1 = 0, y1 = 0, i = 0, len = old.length, controlX: number, controlY: number, command: number, lastCommand: number, smooth: boolean
+        let x = 0, y = 0, x1 = 0, y1 = 0, startX = 0, startY = 0, i = 0, len = old.length, controlX: number, controlY: number, command: number, lastCommand: number, smooth: boolean
         const data: IPathCommandData = []
 
         while (i < len) {
@@ -124,7 +124,10 @@ export const PathConvert = {
                 case M:
                     x = old[i + 1]
                     y = old[i + 2]
-                    data.push(lastCommand === command ? L : M, x, y) // M command followed by multiple coordinates
+
+                    if (lastCommand === command) data.push(L, x, y) // M command followed by multiple coordinates
+                    else data.push(M, x, y), startX = x, startY = y
+
                     i += 3
                     break
 
@@ -238,6 +241,8 @@ export const PathConvert = {
                 case z:
                 case Z:
                     data.push(Z)
+                    x = startX
+                    y = startY
                     i++
                     break
 
