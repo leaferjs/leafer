@@ -1,6 +1,6 @@
 {
   "name": "@leafer/file",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "@leafer/file",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,12 +18,12 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/platform": "2.1.1",
-    "@leafer/task": "2.1.1",
-    "@leafer/data": "2.1.1",
-    "@leafer/debug": "2.1.1"
+    "@leafer/platform": "2.1.2",
+    "@leafer/task": "2.1.2",
+    "@leafer/data": "2.1.2",
+    "@leafer/debug": "2.1.2"
   },
   "devDependencies": {
-     "@leafer/interface": "2.1.1"
+     "@leafer/interface": "2.1.2"
   }
 }
