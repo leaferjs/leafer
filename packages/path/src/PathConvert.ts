@@ -79,7 +79,10 @@ export const PathConvert = {
                 current.index = 0
                 pushData(data, current.name)
 
-                if (!needConvert && convertCommand[char]) needConvert = true
+                // m/M命令连续数据需转成l/L: m1 1 2 2m5 5 6 6
+                if (char === 'm') current.name = Command['l']
+                else if (char === 'M') current.name = Command['L']
+                else if (!needConvert && convertCommand[char]) needConvert = true
 
             } else {
 
@@ -122,12 +125,9 @@ export const PathConvert = {
                     old[i + 1] += x
                     old[i + 2] += y
                 case M:
-                    x = old[i + 1]
-                    y = old[i + 2]
-
-                    if (lastCommand === command) data.push(L, x, y) // M command followed by multiple coordinates
-                    else data.push(M, x, y), startX = x, startY = y
-
+                    x = startX = old[i + 1]
+                    y = startY = old[i + 2]
+                    data.push(M, x, y)
                     i += 3
                     break
 
