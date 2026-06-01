@@ -49,8 +49,8 @@ export const LeafBounds: ILeafBoundsModule = {
             if (this.__local) this.__updateLocalBoxBounds()
             layout.localBoxChanged = undefined
 
-            if (layout.strokeSpread && !layout.strokeChanged) layout.strokeChanged = 2
-            if (layout.renderSpread && !layout.renderChanged) layout.renderChanged = 2
+            if (layout.strokeSpread && !layout.strokeChanged) layout.strokeChanged = layout.boxChanged ? true : 2
+            if (layout.renderSpread && !layout.renderChanged) layout.renderChanged = layout.boxChanged ? true : 2
             if (this.parent) this.parent.__layout.boxChange()
         }
 
