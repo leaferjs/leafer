@@ -41,8 +41,6 @@ export const LeafBounds: ILeafBoundsModule = {
 
             this.__updateBoxBounds()
             layout.resized = 'inner'
-
-            if (data.__strokeGeometry) data.__strokeGeometry = undefined
         }
 
 
@@ -51,8 +49,8 @@ export const LeafBounds: ILeafBoundsModule = {
             if (this.__local) this.__updateLocalBoxBounds()
             layout.localBoxChanged = undefined
 
-            if (layout.strokeSpread) layout.strokeChanged = true
-            if (layout.renderSpread) layout.renderChanged = true
+            if (layout.strokeSpread && !layout.strokeChanged) layout.strokeChanged = 2
+            if (layout.renderSpread && !layout.renderChanged) layout.renderChanged = 2
             if (this.parent) this.parent.__layout.boxChange()
         }
 
@@ -62,42 +60,56 @@ export const LeafBounds: ILeafBoundsModule = {
 
         if (layout.strokeChanged) {
 
-            layout.strokeSpread = this.__updateStrokeSpread()
+            if (layout.strokeChanged === 2) {
 
-            if (layout.strokeSpread) {
-
-                if (layout.strokeBounds === layout.boxBounds) layout.spreadStroke()
-
-                this.__updateStrokeBounds()
                 this.__updateLocalStrokeBounds()
 
             } else {
-                layout.spreadStrokeCancel()
+
+                layout.strokeSpread = this.__updateStrokeSpread()
+
+                if (layout.strokeSpread) {
+
+                    if (layout.strokeBounds === layout.boxBounds) layout.spreadStroke()
+
+                    this.__updateStrokeBounds()
+                    this.__updateLocalStrokeBounds()
+
+                } else {
+                    layout.spreadStrokeCancel()
+                }
+
+                layout.resized = 'inner'
+                if (layout.renderSpread || layout.strokeSpread !== layout.strokeBoxSpread) layout.renderChanged = true
             }
 
             layout.strokeChanged = undefined
-            if (layout.renderSpread || layout.strokeSpread !== layout.strokeBoxSpread) layout.renderChanged = true
 
             if (this.parent) this.parent.__layout.strokeChange()
-            layout.resized = 'inner'
-
-            if (data.__strokeGeometry) data.__strokeGeometry = undefined
         }
 
 
         if (layout.renderChanged) {
 
-            layout.renderSpread = this.__updateRenderSpread()
+            if (layout.renderChanged === 2) {
 
-            if (layout.renderSpread) {
-
-                if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.strokeBounds) layout.spreadRender()
-
-                this.__updateRenderBounds()
                 this.__updateLocalRenderBounds()
 
             } else {
-                layout.spreadRenderCancel()
+
+                layout.renderSpread = this.__updateRenderSpread()
+
+                if (layout.renderSpread) {
+
+                    if (layout.renderBounds === layout.boxBounds || layout.renderBounds === layout.strokeBounds) layout.spreadRender()
+
+                    this.__updateRenderBounds()
+                    this.__updateLocalRenderBounds()
+
+                } else {
+                    layout.spreadRenderCancel()
+                }
+
             }
 
             layout.renderChanged = undefined

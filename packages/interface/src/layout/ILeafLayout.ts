@@ -52,8 +52,8 @@ export interface ILeafLayout {
     boundsChanged: boolean
 
     boxChanged: boolean
-    strokeChanged: boolean
-    renderChanged: boolean
+    strokeChanged: boolean | number // 为 2 时表示仅更新 localStrokeBounds
+    renderChanged: boolean | number // 为 2 时表示仅更新 localRenderBounds
 
     localBoxChanged: boolean // position
 
