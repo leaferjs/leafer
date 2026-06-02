@@ -82,7 +82,8 @@ export const PathConvert = {
                 // m/M命令连续数据需转成l/L: m1 1 2 2m5 5 6 6
                 if (char === 'm') current.name = Command['l']
                 else if (char === 'M') current.name = Command['L']
-                else if (!needConvert && convertCommand[char]) needConvert = true
+
+                if (!needConvert && convertCommand[char]) needConvert = true
 
             } else {
 
