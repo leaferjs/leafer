@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IMatrixWithBoundsData } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IBoundsType, IMatrixWithBoundsData } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 import { isObject, isNumber } from '@leafer/data'
@@ -115,11 +115,11 @@ export const LeafHelper = {
         transition ? t.animate({ x, y }, transition) : (t.x = x, t.y = y)
     },
 
-    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
-        L.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize, transition)
+    zoomOfWorld(t: ILeaf, origin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        L.zoomOfLocal(t, getTempLocal(t, origin), scaleX, scaleY, resize, transition, boundsType)
     },
 
-    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number | ITransition = scaleX, resize?: boolean, transition?: ITransition): void {
+    zoomOfLocal(t: ILeaf, origin: IPointData, scaleX: number, scaleY: number | ITransition = scaleX, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
         const o = t.__localMatrix
         if (!isNumber(scaleY)) {
             if (scaleY) transition = scaleY
@@ -128,11 +128,11 @@ export const LeafHelper = {
         copy(matrix, o)
         scaleOfOuter(matrix, origin, scaleX, scaleY)
         if (L.hasHighPosition(t)) {
-            L.setTransform(t, matrix, resize, transition)
+            L.setTransform(t, matrix, resize, transition, boundsType)
         } else {
             const x = t.x + matrix.e - o.e, y = t.y + matrix.f - o.f
             if (transition && !resize) t.animate({ x, y, scaleX: t.scaleX * scaleX, scaleY: t.scaleY * scaleY }, transition)
-            else t.x = x, t.y = y, t.scaleResize(scaleX, scaleY, resize !== true)
+            else t.x = x, t.y = y, t.scaleResize(scaleX, scaleY, resize !== true, boundsType)
         }
     },
 
@@ -158,20 +158,20 @@ export const LeafHelper = {
         L.setTransform(t, matrix, resize, transition)
     },
 
-    transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
+    transformWorld(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
         copy(matrix, t.worldTransform)
         multiplyParent(matrix, transform)
         if (t.parent) divideParent(matrix, t.parent.scrollWorldTransform)
-        L.setTransform(t, matrix, resize, transition)
+        L.setTransform(t, matrix, resize, transition, boundsType)
     },
 
-    transform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
+    transform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
         copy(matrix, t.localTransform)
         multiplyParent(matrix, transform)
-        L.setTransform(t, matrix, resize, transition)
+        L.setTransform(t, matrix, resize, transition, boundsType)
     },
 
-    setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition): void {
+    setTransform(t: ILeaf, transform: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
         const data = t.__, originPoint = data.origin && L.getInnerOrigin(t, data.origin)
         const layout = getLayout(transform, originPoint, data.around && L.getInnerOrigin(t, data.around))
 
@@ -191,7 +191,7 @@ export const LeafHelper = {
             }
 
             t.set(layout)
-            t.scaleResize(scaleX, scaleY, false)
+            t.scaleResize(scaleX, scaleY, false, boundsType)
 
         } else t.set(layout, transition)
     },

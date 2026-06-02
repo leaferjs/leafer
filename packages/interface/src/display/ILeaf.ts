@@ -670,24 +670,24 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     getWorldPointByPage(page: IPointData, relative?: ILeaf, distance?: boolean, change?: boolean): IPointData
 
     // transform
-    setTransform(transform?: IMatrixData, resize?: boolean, transition?: ITransition): void
-    transform(transform?: IMatrixData, resize?: boolean, transition?: ITransition): void
+    setTransform(transform?: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void
+    transform(transform?: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void
     move(x: number | IPointData, y?: number, transition?: ITransition): void
 
     moveInner(x: number | IPointData, y?: number, transition?: ITransition): void
-    scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void
+    scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void
     rotateOf(origin: IPointData | IAlign, rotation: number, transition?: ITransition): void
     skewOf(origin: IPointData | IAlign, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void
 
-    transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition): void
+    transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void
     moveWorld(x: number | IPointData, y?: number, transition?: ITransition): void
-    scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void
+    scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void
     rotateOfWorld(worldOrigin: IPointData, rotation: number, transition?: ITransition): void
     skewOfWorld(worldOrigin: IPointData, skewX: number, skewY?: number, resize?: boolean, transition?: ITransition): void
 
     flip(axis: IAxis, transition?: ITransition): void
 
-    scaleResize(scaleX: number, scaleY: number, noResize?: boolean): void
+    scaleResize(scaleX: number, scaleY: number, noResize?: boolean, boundsType?: IBoundsType): void
     __scaleResize(scaleX: number, scaleY: number): void
 
     resizeWidth(width: number): void

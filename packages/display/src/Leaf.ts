@@ -492,12 +492,12 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     // transform 
 
-    public setTransform(matrix: IMatrixData, resize?: boolean, transition?: ITransition): void {
-        setTransform(this, matrix, resize, transition)
+    public setTransform(matrix: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        setTransform(this, matrix, resize, transition, boundsType)
     }
 
-    public transform(matrix: IMatrixData, resize?: boolean, transition?: ITransition): void {
-        transform(this, matrix, resize, transition)
+    public transform(matrix: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        transform(this, matrix, resize, transition, boundsType)
     }
 
     public move(x: number | IPointData, y?: number, transition?: ITransition): void {
@@ -509,8 +509,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         moveWorld(this, x, y, true, transition)
     }
 
-    public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
-        zoomOfLocal(this, getLocalOrigin(this, origin), scaleX, scaleY, resize, transition)
+    public scaleOf(origin: IPointData | IAlign, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        zoomOfLocal(this, getLocalOrigin(this, origin), scaleX, scaleY, resize, transition, boundsType)
     }
 
     public rotateOf(origin: IPointData | IAlign, rotation: number, transition?: ITransition): void {
@@ -522,16 +522,16 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
 
-    public transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition): void {
-        transformWorld(this, worldTransform, resize, transition)
+    public transformWorld(worldTransform?: IMatrixData, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        transformWorld(this, worldTransform, resize, transition, boundsType)
     }
 
     public moveWorld(x: number | IPointData, y?: number, transition?: ITransition): void {
         moveWorld(this, x, y, false, transition)
     }
 
-    public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition): void {
-        zoomOfWorld(this, worldOrigin, scaleX, scaleY, resize, transition)
+    public scaleOfWorld(worldOrigin: IPointData, scaleX: number, scaleY?: number | ITransition, resize?: boolean, transition?: ITransition, boundsType?: IBoundsType): void {
+        zoomOfWorld(this, worldOrigin, scaleX, scaleY, resize, transition, boundsType)
     }
 
     public rotateOfWorld(worldOrigin: IPointData, rotation: number): void {
@@ -549,7 +549,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     // @leafer-in/resize rewrite
 
-    public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean): void {
+    public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean, _boundsType?: IBoundsType): void {
         (this as ILeaf).scaleX *= scaleX;
         (this as ILeaf).scaleY *= scaleY
     }
