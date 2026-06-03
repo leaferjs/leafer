@@ -56,7 +56,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
         if (!config) config = minSize
 
         this.manager = manager
-        this.innerId = IncrementId.create(IncrementId.CNAVAS)
+        this.innerId = IncrementId.create(IncrementId.CANVAS)
 
         const { width, height, pixelRatio } = config
         this.autoLayout = !width || !height
