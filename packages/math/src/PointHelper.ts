@@ -182,7 +182,7 @@ export const PointHelper = {
     },
 
     reset(t: IPointData): void {
-        P.reset(t)
+        t.x = t.y = 0
     }
 }
 
