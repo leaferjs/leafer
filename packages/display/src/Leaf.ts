@@ -7,7 +7,6 @@ import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
 import { LeafHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
 import { ImageManager } from '@leafer/image'
-import { Plugin } from '@leafer/debug'
 
 
 const { LEAF, create } = IncrementId
@@ -191,10 +190,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     // data
 
-    public set(_data: IObject, _isTemp?: boolean): void { }
-
-    public get<K extends keyof this>(_name?: K | K[] | ILeafInputData): ILeafInputData | this[K] { return undefined }
-
     public setAttr(name: string, value: any): void { (this as IObject)[name] = value }
     public getAttr(name: string): any { return (this as IObject)[name] }
 
@@ -208,46 +203,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public toString(options?: IJSONOptions): string {
         return JSON.stringify(this.toJSON(options))
     }
-
-    public toSVG(): string { return undefined }
-
-    public __SVG(_data: IObject): void { }
-
-    public toHTML(): string { return undefined }
-
-    // LeafDataProxy rewrite
-
-    public __setAttr(_attrName: string, _newValue: IValue): boolean { return true }
-
-    public __getAttr(_attrName: string): IValue { return undefined }
-
-    public setProxyAttr(_attrName: string, _newValue: IValue): void { }
-
-    public getProxyAttr(_attrName: string): IValue { return undefined }
-
-    // ---
-
-
-    // find
-
-    public find(_condition: number | string | IFindMethod, _options?: any): ILeaf[] { return undefined }
-
-    public findTag(_tag: string | string[]): ILeaf[] { return undefined }
-
-    public findOne(_condition: number | string | IFindMethod, _options?: any): ILeaf | undefined { return undefined }
-
-    public findId(_id: number | string): ILeaf | undefined { return undefined }
-
-    // ---
-
-
-    // @leafer-in/state rewrite
-
-    public focus(_value?: boolean): void { }
-
-    public updateState(): void { }
-
-    // ---
 
 
     public updateLayout(): void {
@@ -270,53 +225,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         if (this.leaferIsReady) this.leafer.layouter.addExtra(this) // add part 额外更新元素
     }
 
-    // LeafMatrix rewrite
-
-    public __updateWorldMatrix(): void { }
-
-    public __updateLocalMatrix(): void { }
-
-    // ---
-
-    // LeafBounds rewrite
-
-    public __updateWorldBounds(): void { }
-
-    public __updateLocalBounds(): void { }
-
-
-    public __updateLocalBoxBounds(): void { }
-
-    public __updateLocalStrokeBounds(): void { }
-
-    public __updateLocalRenderBounds(): void { }
-
-    // box
-
-    public __updateBoxBounds(_secondLayout?: boolean, _bounds?: IBoundsData): void { }
-
-    public __updateContentBounds(): void { }
-
-    public __updateStrokeBounds(_bounds?: IBoundsData): void { }
-
-    public __updateRenderBounds(_bounds?: IBoundsData): void { }
-
-
-    public __updateAutoLayout(): void { }
-
-    public __updateFlowLayout(): void { }
-
-    public __updateNaturalSize(): void { }
-
-
-    public __updateStrokeSpread(): IFourNumber { return 0 }
-
-    public __updateRenderSpread(): IFourNumber { return 0 }
-
-    public __onUpdateSize(): void { }
-
-    // ---
-
 
     public __updateEraser(value?: boolean): void {
         this.__hasEraser = value ? true : this.children.some(item => item.__.eraser)
@@ -333,13 +241,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public __updateMask(_value?: boolean): void {
         this.__hasMask = this.children.some(item => item.__.mask && item.__.visible && item.__.opacity)
     }
-
-    // LeafMask rewrite
-
-    public __renderMask(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-
-    // ---
 
 
     // convert
@@ -547,107 +448,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
 
-    // @leafer-in/resize rewrite
-
-    public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean, _boundsType?: IBoundsType): void {
-        (this as ILeaf).scaleX *= scaleX;
-        (this as ILeaf).scaleY *= scaleY
-    }
-
-    public __scaleResize(_scaleX: number, _scaleY: number): void { }
-
-
-    public resizeWidth(_width: number): void { }
-
-    public resizeHeight(_height: number): void { }
-
-
-    // @leafer-ui/hit LeafHit rewrite
-
-    public hit(_world: IPointData, _hitRadius?: number): boolean { return true }
-
-    public __hitWorld(_point: IRadiusPointData, _forceHitFill?: boolean): boolean { return true }
-
-    public __hit(_local: IRadiusPointData, _forceHitFill?: boolean): boolean { return true }
-
-    public __hitFill(_inner: IRadiusPointData): boolean { return true }
-
-    public __hitStroke(_inner: IRadiusPointData, _strokeWidth: number): boolean { return true }
-
-    public __hitPixel(_inner: IRadiusPointData): boolean { return true }
-
-    public __drawHitPath(_canvas: ILeaferCanvas): void { }
-
-    public __updateHitCanvas(): void { }
-
-    // ---
-
-
-    // LeafRender rewrite
-
-    public __render(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-    public __drawFast(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-    public __draw(_canvas: ILeaferCanvas, _options: IRenderOptions, _originCanvas?: ILeaferCanvas): void { }
-
-
-    public __clip(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-    public __renderShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-    public __drawShape(_canvas: ILeaferCanvas, _options: IRenderOptions): void { }
-
-
-    public __updateWorldOpacity(): void { }
-
-    public __updateChange(): void { }
-
-    // ---
-
-
-    // path
-
-    public __drawPath(_canvas: ILeaferCanvas): void { }
-
-    public __drawRenderPath(_canvas: ILeaferCanvas): void { }
-
-    public __updatePath(): void { }
-
-    public __updateRenderPath(_updateCache?: boolean): void { }
-
-    // ---
-
-
-    // @leafer-in/motion-path rewrite
-
-    public getMotionPathData(): IMotionPathData {
-        return Plugin.need('path')
-    }
-
-    public getMotionPoint(_motionDistance: number | IUnitData): IRotationPointData {
-        return Plugin.need('path')
-    }
-
-    public getMotionTotal(): number {
-        return 0
-    }
-
-    public __updateMotionPath(): void { }
-
-    // ---
-
-
-    // @leafer-in/animate rewrite
-    public __runAnimation(_type: 'in' | 'out', _complete?: IFunction): void { }
-
-
-    // Branch rewrite
-
-    public __updateSortChildren(): void { }
-
-    public add(_child: ILeaf | ILeaf[] | ILeafInputData | ILeafInputData[], _index?: number): void { }
-
     public remove(_child?: ILeaf | number | string | IFindMethod, destroy?: boolean): void {
         if (this.parent) this.parent.remove(this, destroy)
     }
@@ -656,28 +456,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         drop(this, parent, index, resize)
     }
 
-    // ---
-
-
-    // LeafEventer rewrite
-
-    public on(_type: string | string[] | IEventParams[] | IEventParamsMap, _listener?: IEventListener, _options?: IEventOption): void { }
-
-    public off(_type?: string | string[], _listener?: IEventListener, _options?: IEventOption): void { }
-
-    public on_(_type: string | string[] | IEventParams[], _listener?: IEventListener, _bind?: IObject, _options?: IEventOption): IEventListenerId { return undefined }
-
-    public off_(_id: IEventListenerId | IEventListenerId[]): void { }
-
-    public once(_type: string | string[] | IEventParams[], _listener?: IEventListener, _captureOrBind?: boolean | IObject, _capture?: boolean): void { }
-
-    public emit(_type: string, _event?: IEvent | IObject, _capture?: boolean): void { }
-
-    public emitEvent(_event?: IEvent, _capture?: boolean): void { }
-
-    public hasEvent(_type: string, _capture?: boolean): boolean { return false }
-
-    // ---
 
     static changeAttr(attrName: string, defaultValue: IValue | IValueFunction, fn?: IAttrDecorator): void {
         fn ? this.addAttr(attrName, defaultValue, fn) : defineDataProcessor(this.prototype, attrName, defaultValue)
@@ -708,5 +486,113 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
             this.destroyed = true
         }
     }
+
+}
+
+export interface Leaf {
+
+    // UI rewrite
+    set(data: IObject, isTemp?: boolean): void
+    get<K extends keyof this>(name?: K | K[] | ILeafInputData): ILeafInputData | this[K]
+    toSVG(): string
+    __SVG(data: IObject): void
+    toHTML(): string
+
+    // LeafDataProxy rewrite
+    __setAttr(attrName: string, newValue: IValue): boolean
+    __getAttr(attrName: string): IValue
+    setProxyAttr(attrName: string, newValue: IValue): void
+    getProxyAttr(attrName: string): IValue
+
+    // find
+    find(condition: number | string | IFindMethod, options?: any): ILeaf[]
+    findTag(tag: string | string[]): ILeaf[]
+    findOne(condition: number | string | IFindMethod, options?: any): ILeaf | undefined
+    findId(id: number | string): ILeaf | undefined
+
+    // @leafer-in/state rewrite
+    focus(value?: boolean): void
+    updateState(): void
+
+    // LeafMatrix rewrite
+    __updateWorldMatrix(): void
+    __updateLocalMatrix(): void
+
+    // LeafBounds rewrite
+    __updateWorldBounds(): void
+    __updateLocalBounds(): void
+    __updateLocalBoxBounds(): void
+    __updateLocalStrokeBounds(): void
+    __updateLocalRenderBounds(): void
+    __updateBoxBounds(secondLayout?: boolean, bounds?: IBoundsData): void
+    __updateContentBounds(): void
+    __updateStrokeBounds(bounds?: IBoundsData): void
+    __updateRenderBounds(bounds?: IBoundsData): void
+    __updateAutoLayout(): void
+    __updateFlowLayout(): void
+    __updateNaturalSize(): void
+    __updateStrokeSpread(): IFourNumber
+    __updateRenderSpread(): IFourNumber
+    __onUpdateSize(): void
+
+    // LeafMask rewrite
+    __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
+
+    // @leafer-in/resize rewrite
+    scaleResize(scaleX: number, scaleY: number, noResize?: boolean, boundsType?: IBoundsType): void
+    __scaleResize(scaleX: number, scaleY: number): void
+    resizeWidth(width: number): void
+    resizeHeight(height: number): void
+
+    // @leafer-ui/hit LeafHit rewrite
+    hit(world: IPointData, hitRadius?: number): boolean
+    __hitWorld(point: IRadiusPointData, forceHitFill?: boolean): boolean
+    __hit(local: IRadiusPointData, forceHitFill?: boolean): boolean
+    __hitFill(inner: IRadiusPointData): boolean
+    __hitStroke(inner: IRadiusPointData, strokeWidth: number): boolean
+    __hitPixel(inner: IRadiusPointData): boolean
+    __drawHitPath(canvas: ILeaferCanvas): void
+    __updateHitCanvas(): void
+
+    // LeafRender rewrite
+    __render(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __drawFast(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __draw(canvas: ILeaferCanvas, options: IRenderOptions, originCanvas?: ILeaferCanvas): void
+    __clip(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __renderShape(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __drawShape(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __updateWorldOpacity(): void
+    __updateChange(): void
+
+
+
+    // path
+    __drawPath(canvas: ILeaferCanvas): void
+    __drawRenderPath(canvas: ILeaferCanvas): void
+    __updatePath(): void
+    __updateRenderPath(updateCache?: boolean): void
+
+    // @leafer-in/motion-path rewrite
+    getMotionPathData(): IMotionPathData
+    getMotionPoint(motionDistance: number | IUnitData): IRotationPointData
+    getMotionTotal(): number
+    __updateMotionPath(): void
+
+    // @leafer-in/animate rewrite
+    __runAnimation(type: 'in' | 'out', complete?: IFunction): void
+
+    // Branch rewrite
+    __updateSortChildren(): void
+    add(child: ILeaf | ILeaf[] | ILeafInputData | ILeafInputData[], index?: number): void
+
+    // LeafEventer rewrite
+    on(type: string | string[] | IEventParams[] | IEventParamsMap, listener?: IEventListener, options?: IEventOption): void
+    off(type?: string | string[], listener?: IEventListener, options?: IEventOption): void
+    on_(type: string | string[] | IEventParams[], listener?: IEventListener, bind?: IObject, options?: IEventOption): IEventListenerId
+    off_(id: IEventListenerId | IEventListenerId[]): void
+    once(type: string | string[] | IEventParams[], listener?: IEventListener, captureOrBind?: boolean | IObject, capture?: boolean): void
+    emit(type: string, event?: IEvent | IObject, capture?: boolean): void
+    emitEvent(event?: IEvent, capture?: boolean): void
+    hasEvent(type: string, capture?: boolean): boolean
 
 }
