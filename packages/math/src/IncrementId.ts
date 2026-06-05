@@ -6,7 +6,7 @@ export const IncrementId = {
     RUNTIME: 'runtime',
     LEAF: 'leaf',
     TASK: 'task',
-    CNAVAS: 'canvas',
+    CANVAS: 'canvas',
     IMAGE: 'image',
 
     types: {} as INumberMap,
