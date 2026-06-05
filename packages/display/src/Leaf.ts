@@ -205,6 +205,14 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
 
+    // @leafer-in/resize rewrite
+
+    public scaleResize(scaleX: number, scaleY = scaleX, _noResize?: boolean, _boundsType?: IBoundsType): void {
+        (this as ILeaf).scaleX *= scaleX;
+        (this as ILeaf).scaleY *= scaleY
+    }
+
+
     public updateLayout(): void {
         this.__layout.update()
     }
@@ -539,7 +547,6 @@ export interface Leaf {
     __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     // @leafer-in/resize rewrite
-    scaleResize(scaleX: number, scaleY: number, noResize?: boolean, boundsType?: IBoundsType): void
     __scaleResize(scaleX: number, scaleY: number): void
     resizeWidth(width: number): void
     resizeHeight(height: number): void
