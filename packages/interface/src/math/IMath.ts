@@ -250,7 +250,7 @@ export interface IMatrix extends IMatrixWithScaleData {
 
     withScale(scaleX?: number, scaleY?: number): IMatrixWithScaleData
 
-    reset(): void
+    reset(): IMatrix
 }
 
 export interface IMatrixWithBoundsData extends IMatrixData, IBoundsData { }

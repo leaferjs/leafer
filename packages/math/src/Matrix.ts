@@ -166,8 +166,9 @@ export class Matrix implements IMatrix {
         return M.withScale(this, scaleX, scaleY)
     }
 
-    public reset(): void {
+    public reset(): IMatrix {
         M.reset(this)
+        return this
     }
 
 }

@@ -67,11 +67,13 @@ export interface MoveToCommandObject {
     name: 'M'
     x: number
     y: number
+    pressure?: number // 压感
 }
 export interface LineToCommandObject {
     name: 'L'
     x: number
     y: number
+    pressure?: number
 }
 
 export interface BezierCurveToCommandObject {
@@ -82,6 +84,7 @@ export interface BezierCurveToCommandObject {
     y2: number
     x: number
     y: number
+    pressure?: number
 }
 
 export interface QuadraticCurveToCommandObject {
@@ -90,6 +93,7 @@ export interface QuadraticCurveToCommandObject {
     y1: number
     x: number
     y: number
+    pressure?: number
 }
 
 export interface ClosePathCommandObject {
@@ -109,6 +113,7 @@ export interface IPathCommandNodeBase {
     a?: IPointData // 第一个手柄，连接上一个节点
     b?: IPointData // 第二个手柄，连接下一个节点
     ab?: PathNodeHandleType // 手柄类型
+    pressure?: number // 压感
 }
 
 export interface MoveToCommandNode extends IPathCommandNodeBase {
