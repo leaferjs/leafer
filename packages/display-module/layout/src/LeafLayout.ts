@@ -332,6 +332,7 @@ export class LeafLayout implements ILeafLayout {
         this.renderChanged = true
         this.renderSpread || (this.renderSpread = 1)
         this.boundsChanged = true
+        this.hitCanvasChanged = true // fix: hit pixel 需要更新
     }
 
 
