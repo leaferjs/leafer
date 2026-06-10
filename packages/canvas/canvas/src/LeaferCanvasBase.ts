@@ -243,6 +243,7 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
 
     public useGrayscaleAlpha(bounds: IBoundsData): void { // 先实现功能，后期需通过 shader 优化性能
         this.setTempPixelBounds(bounds, true, true)
+        if (!tempPixelBounds.width || !tempPixelBounds.height) return // fix 可能存在没有宽高的情况
 
         let alpha: number, pixel: number
         const { context } = this, imageData = context.getImageData(tempPixelBounds.x, tempPixelBounds.y, tempPixelBounds.width, tempPixelBounds.height), { data } = imageData
