@@ -121,6 +121,7 @@ export interface IMoveConfig {
     holdRightKey?: boolean
     scroll?: boolean | 'x' | 'y' | 'limit' | 'x-limit' | 'y-limit'
     scrollSpread?: IFourNumber
+    scrollLimit?: 'stop' | 'smooth'
     drag?: boolean | 'auto'
     dragAnimate?: boolean | number
     dragEmpty?: boolean
