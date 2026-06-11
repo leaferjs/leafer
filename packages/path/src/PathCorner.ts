@@ -15,7 +15,7 @@ export const PathCorner = {
 
     smooth(data: IPathCommandData, cornerRadius: number, _cornerSmoothing?: number): IPathCommandData {
 
-        let command: number, lastCommand: number, commandLen
+        let command: number, lastCommand: number, commandLen: number, startXIndex: number, startYIndex: number, smoothLen: number
         let i = 0, x = 0, y = 0, startX = 0, startY = 0, secondX = 0, secondY = 0, lastX = 0, lastY = 0
         if (isArray(cornerRadius)) cornerRadius = cornerRadius[0] || 0
 
@@ -26,6 +26,13 @@ export const PathCorner = {
             command = data[i]
             switch (command) {
                 case M:  //moveto(x, y)
+                    smoothLen = smooth.length
+
+                    if (smoothLen && lastCommand !== Z) {
+                        smooth[startXIndex] = startX
+                        smooth[startYIndex] = startY
+                    }
+
                     startX = lastX = data[i + 1]
                     startY = lastY = data[i + 2]
                     i += 3
@@ -36,6 +43,9 @@ export const PathCorner = {
                     } else {
                         smooth.push(M, startX, startY)
                     }
+
+                    startXIndex = smoothLen + 1
+                    startYIndex = smoothLen + 2
                     break
                 case L:  //lineto(x, y)
                     x = data[i + 1]
@@ -70,8 +80,8 @@ export const PathCorner = {
         }
 
         if (command !== Z) {
-            smooth[1] = startX
-            smooth[2] = startY
+            smooth[startXIndex] = startX
+            smooth[startYIndex] = startY
         }
 
         return smooth
