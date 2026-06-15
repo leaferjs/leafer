@@ -31,11 +31,6 @@ export interface IUIEvent extends IEvent {
     getInnerPoint?(relative?: ILeaf): IPointData
     getLocalPoint?(relative?: ILeaf): IPointData
     getPagePoint?(): IPointData
-
-    // 兼容代码，未来可移除
-    getInner?(relative?: ILeaf): IPointData
-    getLocal?(relative?: ILeaf): IPointData
-    getPage?(): IPointData
 }
 
 

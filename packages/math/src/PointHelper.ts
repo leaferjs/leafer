@@ -57,15 +57,15 @@ export const PointHelper = {
         t.y += (t.y - origin.y) * (scaleY - 1)
     },
 
-    rotate(t: IPointData, rotation: number, origin?: IPointData): void {
+    rotate(t: IPointData, rotation: number, origin?: IPointData, radiusX = 1, radiusY = 1): void {
         if (!origin) origin = P.defaultPoint
         rotation *= OneRadian
         const cosR = cos(rotation)
         const sinR = sin(rotation)
-        const rx = t.x - origin.x
-        const ry = t.y - origin.y
-        t.x = origin.x + rx * cosR - ry * sinR
-        t.y = origin.y + rx * sinR + ry * cosR
+        const rx = (t.x - origin.x) / radiusX
+        const ry = (t.y - origin.y) / radiusY
+        t.x = origin.x + (rx * cosR - ry * sinR) * radiusX
+        t.y = origin.y + (rx * sinR + ry * cosR) * radiusY
     },
 
 
@@ -139,8 +139,8 @@ export const PointHelper = {
         return min(getDistanceFrom(x1, y1, x2, y2), getDistanceFrom(x2, y2, x3, y3))
     },
 
-    getAngle(t: IPointData, to: IPointData): number {
-        return getAtan2(t, to) / OneRadian
+    getAngle(t: IPointData, to: IPointData, radiusX?: number, radiusY?: number): number {
+        return getAtan2(t, to, radiusX, radiusY) / OneRadian
     },
 
     getRotation(t: IPointData, origin: IPointData, to: IPointData, toOrigin?: IPointData): number {
@@ -157,8 +157,8 @@ export const PointHelper = {
         return Math.atan2(a * d - b * c, a * c + b * d)
     },
 
-    getAtan2(t: IPointData, to: IPointData): number {
-        return atan2(to.y - t.y, to.x - t.x)
+    getAtan2(t: IPointData, to: IPointData, radiusX = 1, radiusY = 1): number {
+        return atan2((to.y - t.y) / radiusY, (to.x - t.x) / radiusX)
     },
 
 
