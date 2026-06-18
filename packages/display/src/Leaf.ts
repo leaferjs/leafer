@@ -548,8 +548,8 @@ export interface Leaf {
 
     // @leafer-in/resize rewrite
     __scaleResize(scaleX: number, scaleY: number): void
-    resizeWidth(width: number): void
-    resizeHeight(height: number): void
+    resizeWidth(width: number, relative?: ILocationType): void
+    resizeHeight(height: number, relative?: ILocationType): void
 
     // @leafer-ui/hit LeafHit rewrite
     hit(world: IPointData, hitRadius?: number): boolean
