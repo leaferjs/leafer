@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IBoundsType, IMatrixWithBoundsData } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IBoundsType, IMatrixWithBoundsData, IFunction } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 import { isObject, isNumber } from '@leafer/data'
@@ -249,7 +249,7 @@ export const LeafHelper = {
 
     // 简单动画操作
 
-    animateMove(t: ILeaf, move: IPointData, speed = 0.3) {
+    animateMove(t: ILeaf, move: IPointData, speed = 0.3, onAnimate?: IFunction) {
         if (!move.x && !move.y) return
         if (Math.abs(move.x) < 1 && Math.abs(move.y) < 1) {
             t.move(move)
@@ -257,8 +257,9 @@ export const LeafHelper = {
             const x = move.x * speed, y = move.y * speed
             move.x -= x, move.y -= y
             t.move(x, y)
-            Platform.requestRender(() => L.animateMove(t, move, speed))
+            Platform.requestRender(() => L.animateMove(t, move, speed, onAnimate))
         }
+        onAnimate && onAnimate()
     }
 
 }
