@@ -42,8 +42,8 @@ export interface IPoint extends IPointData {
     move(x: number | IPointData, y?: number): IPoint
     scale(scaleX: number, scaleY?: number): IPoint
     scaleOf(origin: IPointData, scaleX: number, scaleY?: number): IPoint
-    rotate(rotation: number, origin?: IPointData): IPoint
-    rotateOf(origin: IPointData, rotation: number): IPoint
+    rotate(rotation: number, origin?: IPointData, radiusX?: number, radiusY?: number): IPoint
+    rotateOf(origin: IPointData, rotation: number, radiusX?: number, radiusY?: number): IPoint
     getRotation(origin: IPointData, to: IPointData, toOrigin?: IPointData): number
 
     toInnerOf(matrix: IMatrixData, to?: IPointData): IPoint
@@ -53,8 +53,8 @@ export interface IPoint extends IPointData {
     getDistance(to: IPointData): number
     getDistancePoint(to: IPointData, distance: number, changeTo?: boolean): IPoint
 
-    getAngle(to: IPointData): number
-    getAtan2(to: IPointData): number
+    getAngle(to: IPointData, radiusX?: number, radiusY?: number): number
+    getAtan2(to: IPointData, radiusX?: number, radiusY?: number): number
 
     isSame(point: IPointData, quick?: boolean): boolean
 

@@ -43,13 +43,13 @@ export class Point implements IPoint {
         return this
     }
 
-    public rotate(rotation: number, origin?: IPointData): IPoint {
-        P.rotate(this, rotation, origin)
+    public rotate(rotation: number, origin?: IPointData, radiusX?: number, radiusY?: number): IPoint {
+        P.rotate(this, rotation, origin, radiusX, radiusY)
         return this
     }
 
-    public rotateOf(origin: IPointData, rotation: number): IPoint {
-        P.rotate(this, rotation, origin)
+    public rotateOf(origin: IPointData, rotation: number, radiusX?: number, radiusY?: number): IPoint {
+        P.rotate(this, rotation, origin, radiusX, radiusY)
         return this
     }
 
@@ -81,12 +81,12 @@ export class Point implements IPoint {
         return new Point(P.getDistancePoint(this, to, distance, changeTo, fromTo))
     }
 
-    public getAngle(to: IPointData): number {
-        return P.getAngle(this, to)
+    public getAngle(to: IPointData, radiusX?: number, radiusY?: number): number {
+        return P.getAngle(this, to, radiusX, radiusY)
     }
 
-    public getAtan2(to: IPointData): number {
-        return P.getAtan2(this, to)
+    public getAtan2(to: IPointData, radiusX?: number, radiusY?: number): number {
+        return P.getAtan2(this, to, radiusX, radiusY)
     }
 
     public isSame(point: IPointData, quick?: boolean): boolean {
