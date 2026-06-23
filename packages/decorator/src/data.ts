@@ -207,7 +207,11 @@ export function sortType(defaultValue?: IValue) {
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 // this.__layout.surfaceChange()
-                this.waitParent(() => { this.parent.__layout.childrenSortChange() })
+                this.waitParent(() => {
+                    const { parent } = this
+                    parent.__layout.childrenSortChange()
+                    if (parent.__.flow) parent.__layout.boxChange()
+                })
             }
         }
     }))

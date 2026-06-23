@@ -8,12 +8,7 @@ const { excludeRenderBounds } = LeafBoundsHelper, { hasSize } = BoundsHelper
 export const BranchRender: IBranchRenderModule = {
 
     __updateChange(): void {
-        const { __layout: layout } = this
-        if (layout.childrenSortChanged) {
-            this.__updateSortChildren()
-            layout.childrenSortChanged = false
-        }
-
+        if (this.__layout.childrenSortChanged) this.__updateSortChildren()
         this.__.__checkSingle()
     },
 

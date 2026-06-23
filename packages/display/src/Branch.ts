@@ -65,6 +65,7 @@ export class Branch extends Leaf { // tip: rewrited Group
             children.sort(sort)
             this.__layout.affectChildrenSort = affectSort
         }
+        this.__layout.childrenSortChanged = false
     }
 
     public add(child: ILeaf, index?: number): void {

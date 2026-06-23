@@ -161,6 +161,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (this.__.flow) {
 
+                if (this.__layout.childrenSortChanged) this.__updateSortChildren() // 立即排序子元素
                 if (this.__layout.boxChanged) this.__updateFlowLayout()
 
                 updateAllMatrix(this)
