@@ -2,6 +2,7 @@ import { ILeaf } from '../display/ILeaf'
 import { ILeafList } from '../data/IList'
 import { IControl } from '../control/IControl'
 import { ILayouterConfig } from '../layouter/ILayouter'
+import { IPropertyEvent } from '../event/IEvent'
 
 export interface IWatchEventData {
     updatedList: ILeafList
@@ -32,4 +33,7 @@ export interface IWatcher extends IControl {
     disable(): void
 
     update(): void
+
+    __onAttrChange(event: IPropertyEvent): void
+    add(leaf: ILeaf): void
 }

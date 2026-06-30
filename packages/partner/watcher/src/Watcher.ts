@@ -58,8 +58,12 @@ export class Watcher implements IWatcher {
         if (this.running) this.target.emit(RenderEvent.REQUEST)
     }
 
-    protected __onAttrChange(event: PropertyEvent): void {
-        if (this.config.usePartLayout) this.__updatedList.add(event.target as ILeaf)
+    public __onAttrChange(event: PropertyEvent): void {
+        this.add(event.target as ILeaf)
+    }
+
+    public add(leaf: ILeaf): void {
+        if (this.config.usePartLayout) this.__updatedList.add(leaf)
         this.update()
     }
 
