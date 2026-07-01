@@ -40,6 +40,7 @@ export const BoundsHelper = {
 
     copyAndSpread(t: IBoundsData, bounds: IBoundsData, spread: IFourNumber, isShrink?: boolean, side?: ISide): void {
         const { x, y, width, height } = bounds
+        if (!spread) spread = 0 // 防止非数字的空值
         if (isArray(spread)) {
             const four = fourNumber(spread)
             isShrink
