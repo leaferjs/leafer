@@ -440,6 +440,7 @@ export interface ILeafComputedData {
     readonly __useNaturalRatio: boolean // 宽高存在一个值时，另一个自动值是否采用natural尺寸比例
     readonly __isLinePath: boolean
     readonly __blendMode: string
+    readonly __usePointsMode?: boolean
 
     __useStroke?: boolean
     __useArrow?: boolean
@@ -553,10 +554,10 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly __inLazyBounds: boolean
 
     readonly pathInputed: boolean
+    readonly isPointsMode?: boolean
 
     readonly isAutoWidth?: boolean
     readonly isAutoHeight?: boolean
-    readonly isPointsMode?: boolean
 
     destroyed: boolean
 

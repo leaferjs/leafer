@@ -3,33 +3,12 @@ import { OneRadian, PI2 } from '@leafer/math'
 import { Debug } from '@leafer/debug'
 
 import { PathCommandMap as Command } from './PathCommandMap'
-import { isObject } from '@leafer/data'
 
 
 const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = Command
 const debug = Debug.get('PathDrawer')
 
 export const PathDrawer = {
-
-    drawPathByPoints(drawer: IPathDrawer, points: number[] | IPointData[], closed: boolean): void {
-        let i = 0, x: number, y: number
-        const isPoint = isObject(points[0]), len = points.length
-
-        while (i < len) {
-            if (isPoint) {
-                x = (points[i] as IPointData).x
-                y = (points[i] as IPointData).y
-                i++
-            } else {
-                x = points[i] as number
-                y = points[i + 1] as number
-                i += 2
-            }
-            i ? drawer.lineTo(x, y) : drawer.moveTo(x, y)
-        }
-
-        closed && drawer.closePath()
-    },
 
     drawPathByData(drawer: IPathDrawer, data: IPathCommandData): void {
         if (!data) return
@@ -101,6 +80,9 @@ export const PathDrawer = {
             }
         }
 
-    }
+    },
+
+    // need rewrite
+    drawPathByPoints(_drawer: IPathDrawer, _points: number[] | IPointData[], _closed: boolean): void { },
 
 }
