@@ -1,6 +1,6 @@
 {
   "name": "@leafer/layout",
-  "version": "2.1.10",
+  "version": "2.1.11",
   "description": "@leafer/layout",
   "author": "Chao (Leafer) Wan",
   "license": "MIT",
@@ -18,12 +18,12 @@
     "leaferjs"
   ],
   "dependencies": {
-    "@leafer/data": "2.1.10",
-    "@leafer/math": "2.1.10",
-    "@leafer/helper": "2.1.10",
-    "@leafer/platform": "2.1.10"
+    "@leafer/data": "2.1.11",
+    "@leafer/math": "2.1.11",
+    "@leafer/helper": "2.1.11",
+    "@leafer/platform": "2.1.11"
   },
   "devDependencies": {
-     "@leafer/interface": "2.1.10"
+     "@leafer/interface": "2.1.11"
   }
 }
