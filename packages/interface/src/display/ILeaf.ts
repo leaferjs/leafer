@@ -556,6 +556,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     readonly isAutoWidth?: boolean
     readonly isAutoHeight?: boolean
+    readonly isPointsMode?: boolean
 
     destroyed: boolean
 
