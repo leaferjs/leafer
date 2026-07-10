@@ -124,6 +124,15 @@ export type IEditSize = 'size' | 'font-size' | 'scale'
 
 export type IDragBoundsType = 'auto' | 'outer' | 'inner'
 
+export type IMotionVerticalType = 'above' | 'center' | 'below' | number
+
+export interface IMotionVerticalData {
+    type: IMotionVerticalType,
+    offset: number
+}
+
+export type IMotionVertical = IMotionVerticalType | IMotionVerticalData
+
 export interface IImageCursor {
     url: string
     x?: number
@@ -306,11 +315,13 @@ export interface ILeafAttrData {
     button?: IBoolean
     cursor?: ICursorType | ICursorType[]
 
-    motionPath?: IBoolean | 'text-path'
+    motionPath?: IBoolean
     motionPrecision?: INumber
 
     motion?: INumber | IUnitData
+    motionVertical?: IMotionVertical
     motionRotation?: INumber | IBoolean
+    motionText?: IBoolean
 
     normalStyle?: IObject
 
@@ -413,11 +424,13 @@ export interface ILeafComputedData {
     button?: boolean
     cursor?: ICursorType | ICursorType[]
 
-    motionPath?: boolean | 'text-path'
+    motionPath?: boolean
     motionPrecision?: number
 
     motion?: number | IUnitData
+    motionVertical?: IMotionVertical
     motionRotation?: number | boolean
+    motionText?: boolean
 
     normalStyle?: IObject
 
@@ -455,6 +468,7 @@ export interface ILeafComputedData {
     __startArrowPath?: IArrowPathData
     __endArrowPath?: IArrowPathData
     __pathForMotion?: IMotionPathData
+    __pathForMotionText?: IPathCommandData
 
     // webgl扩展
     __strokeGeometry?: any
@@ -724,11 +738,14 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __updateRenderPath(updateCache?: boolean): void
 
     // motion path
+    getMotionPath(): ILeaf
     getMotionPathData(): IMotionPathData
-    getMotionPoint(motionDistance: number | IUnitData): IRotationPointData
+    getMotionPoint(motionDistance: number | IUnitData, motionVertical?: IMotionVertical, pathElement?: ILeaf, offsetX?: number, offsetY?: number): IRotationPointData
+    getMotionContentHeight(): number
     getMotionTotal(): number
 
     __updateMotionPath(): void
+    __updateMotionText(): void
 
     __runAnimation(type: 'in' | 'out', complete?: IFunction): void
 

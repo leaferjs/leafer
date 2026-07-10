@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber, IMotionVertical } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined, DataHelper } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -580,10 +580,14 @@ export interface Leaf {
     __updateRenderPath(updateCache?: boolean): void
 
     // @leafer-in/motion-path rewrite
+    getMotionPath(): ILeaf
     getMotionPathData(): IMotionPathData
-    getMotionPoint(motionDistance: number | IUnitData): IRotationPointData
+    getMotionPoint(motionDistance: number | IUnitData, motionVertical?: IMotionVertical, pathElement?: ILeaf, offsetX?: number, offsetY?: number): IRotationPointData
+    getMotionContentHeight(): number
     getMotionTotal(): number
+
     __updateMotionPath(): void
+    __updateMotionText(): void
 
     // @leafer-in/animate rewrite
     __runAnimation(type: 'in' | 'out', complete?: IFunction): void
