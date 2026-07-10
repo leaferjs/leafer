@@ -112,6 +112,13 @@ export const PointHelper = {
         toOuterPoint(matrix, t, to)
     },
 
+    // 垂直于 rotation 的距离点
+    toVertical(t: IPointData, rotation: number, verticalDistance: number, to?: IPointData): void {
+        to || (to = t)
+        const r = rotation * OneRadian
+        t.x += -Math.sin(r) * verticalDistance // 法线 * 距离
+        t.y += Math.cos(r) * verticalDistance
+    },
 
     getCenter(t: IPointData, to: IPointData): IPointData {
         return { x: t.x + (to.x - t.x) / 2, y: t.y + (to.y - t.y) / 2 }
