@@ -22,8 +22,9 @@ export const BranchRender: IBranchRenderModule = {
             const data = this.__
 
             if (data.__useDim) {
+                if (data.bright && !options.topRendering) return options.topList.add(this)
+
                 if (data.dim) options.dimOpacity = data.dim === true ? 0.2 : data.dim
-                else if (data.bright && !options.topRendering) return options.topList.add(this)
                 else if (data.dimskip) options.dimOpacity && (options.dimOpacity = 0)
             }
 
@@ -63,6 +64,8 @@ export const BranchRender: IBranchRenderModule = {
                 child = children[i]
                 excludeRenderBounds(child, options) || (child.__hasComplex ? LeafHelper.renderComplex(child, canvas, options) : child.__render(canvas, options))
             }
+
+            if (this.__hasMask === 0) this.__rerenderMask(canvas, options)
 
         }
     },

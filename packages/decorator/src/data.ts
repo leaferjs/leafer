@@ -217,12 +217,12 @@ export function sortType(defaultValue?: IValue) {
     }))
 }
 
-export function maskType(defaultValue?: IValue) {
+export function maskType(defaultValue?: IValue, updateSelf?: boolean) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: boolean) {
             if (this.__setAttr(key, value)) {
                 this.__layout.boxChanged || this.__layout.boxChange()
-                this.waitParent(() => { this.parent.__updateMask(value) })
+                updateSelf ? this.__updateMask() : this.waitParent(() => { this.parent.__updateMask(value) })
             }
         }
     }))

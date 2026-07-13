@@ -86,7 +86,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public get __worldFlipped(): boolean { return this.__world.scaleX < 0 || this.__world.scaleY < 0 }
 
     public __hasAutoLayout?: boolean
-    public __hasMask?: boolean
+    public __hasMask?: boolean | number
     public __hasEraser?: boolean
     public __hitCanvas?: IHitCanvas
 
@@ -247,7 +247,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
     public __updateMask(_value?: boolean): void {
-        this.__hasMask = this.children.some(item => item.__.mask && item.__.visible && item.__.opacity)
+        const hasMask = this.children.some(item => item.__.mask && item.__.visible && item.__.opacity)
+        this.__hasMask = this.__.maskskip ? hasMask && 0 : hasMask
     }
 
 
@@ -545,6 +546,7 @@ export interface Leaf {
 
     // LeafMask rewrite
     __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
+    __rerenderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
 
     // @leafer-in/resize rewrite
     __scaleResize(scaleX: number, scaleY: number): void
