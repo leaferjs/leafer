@@ -39,3 +39,5 @@ export interface IPointDataMap {
 export interface IDataTypeHandle {
     (target: any): void
 }
+
+export type OptionalKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T]

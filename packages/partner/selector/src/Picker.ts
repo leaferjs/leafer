@@ -1,5 +1,5 @@
 import { ILeaf, ILeafList, IPointData, IRadiusPointData, IPickResult, IPickOptions, ISelector, IPickBottom, IPicker, ILeaferBase, ILeafData } from '@leafer/interface'
-import { BoundsHelper, LeafList, LeafHelper, PointHelper, isString } from '@leafer/core'
+import { BoundsHelper, LeafList, LeafHelper, PointHelper } from '@leafer/core'
 
 
 const tempPoint = {} as IRadiusPointData
