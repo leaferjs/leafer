@@ -131,6 +131,8 @@ export type IDragBoundsType = 'auto' | 'outer' | 'inner'
 
 export type IMotionVerticalType = 'above' | 'center' | 'below' | number
 
+export type ILinkable = boolean | 'start' | 'end'
+
 export interface IMotionVerticalData {
     type: IMotionVerticalType,
     offset: number
@@ -309,7 +311,7 @@ export interface ILeafAttrData {
     dragBoundsType?: IDragBoundsType
 
     editable?: IBoolean
-    linkable?: IBoolean
+    linkable?: ILinkable
 
     hittable?: IBoolean
     hitThrough?: IHitThrough
@@ -421,7 +423,7 @@ export interface ILeafComputedData {
     dragBoundsType?: IDragBoundsType
 
     editable?: boolean
-    linkable?: boolean
+    linkable?: ILinkable
 
     hittable?: boolean
     hitThrough?: IHitThrough
