@@ -1,9 +1,9 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber, IMotionVertical } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber, IMotionVertical, IForceUpdateType } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined, DataHelper } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
 import { LeafDataProxy, LeafMatrix, LeafBounds, LeafEventer, LeafRender } from '@leafer/display-module'
-import { boundsType, useModule, defineDataProcessor } from '@leafer/decorator'
+import { boundsType, useModule, defineDataProcessor, doStrokeType, doBoundsType, doSurfaceType } from '@leafer/decorator'
 import { LeafHelper } from '@leafer/helper'
 import { ChildEvent } from '@leafer/event'
 import { ImageManager } from '@leafer/image'
@@ -217,12 +217,17 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         this.__layout.update()
     }
 
-    public forceUpdate(attrName?: string): void {
-        if (isUndefined(attrName)) attrName = 'width'
-        else if (attrName === 'surface') attrName = 'blendMode'
-        const value = this.__.__getInput(attrName);
-        (this.__ as any)[attrName] = isUndefined(value) ? null : undefined;
-        (this as any)[attrName] = value
+    public forceUpdate(typeOrAttrName?: IForceUpdateType): void {
+        let quick: boolean
+        if (!typeOrAttrName || typeOrAttrName === 'bounds') doBoundsType(this), quick = true
+        else if (typeOrAttrName === 'surface') doSurfaceType(this), quick = true
+        else if (typeOrAttrName === 'stroke') doStrokeType(this), quick = true
+
+        if (quick) return this.leafer && this.leafer.watcher.__onAttrChange({ target: this } as any)
+
+        const value = this.__.__getInput(typeOrAttrName);
+        (this.__ as any)[typeOrAttrName] = isUndefined(value) ? null : undefined;
+        (this as any)[typeOrAttrName] = value
     }
 
     public forceRender(_bounds?: IBoundsData, _sync?: boolean): void {

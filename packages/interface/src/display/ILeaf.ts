@@ -232,6 +232,12 @@ export interface IFilter extends IObject {
     visible?: boolean
 }
 
+export type IForceUpdateType =
+    | 'bounds'
+    | 'stroke'
+    | 'surface'
+    | (string & {})
+
 export interface ILeafAttrData {
     // layer data
     id?: IString
@@ -630,7 +636,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     updateState(): void
     updateLayout(): void
-    forceUpdate(attrName?: string): void
+    forceUpdate(typeOrAttrName?: IForceUpdateType): void
     forceRender(bounds?: IBoundsData, sync?: boolean): void
 
     __extraUpdate(): void // 额外更新

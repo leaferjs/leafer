@@ -144,9 +144,13 @@ export function affectRenderBoundsType(defaultValue?: IValue) {
 export function surfaceType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
-            this.__setAttr(key, value) && (this.__layout.surfaceChanged || this.__layout.surfaceChange())
+            this.__setAttr(key, value) && doSurfaceType(this)
         }
     }))
+}
+
+export function doSurfaceType(leaf: ILeaf): void {
+    leaf.__layout.surfaceChanged || leaf.__layout.surfaceChange()
 }
 
 export function dimType(defaultValue?: IValue) {
