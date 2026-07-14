@@ -1,6 +1,6 @@
 import { IBounds } from '../math/IMath'
 import { ILeaf } from '../display/ILeaf'
-import { ILeafList } from '../data/IList'
+import { ILeafLevelList, ILeafList } from '../data/IList'
 import { IControl } from '../control/IControl'
 
 export interface ILayoutChangedData {
@@ -49,6 +49,7 @@ export interface ILayouter extends IControl {
     config: ILayouterConfig
 
     __updatedList: ILeafList
+    __levelList: ILeafLevelList
 
     disable(): void
 

@@ -27,7 +27,7 @@ export class Layouter implements ILayouter {
     public config: ILayouterConfig = { usePartLayout: true }
 
     public __updatedList: ILeafList
-    protected __levelList: LeafLevelList = new LeafLevelList()
+    public __levelList: LeafLevelList = new LeafLevelList()
     protected __eventIds: IEventListenerId[]
 
     constructor(target: ILeaf, userConfig?: ILayouterConfig) {

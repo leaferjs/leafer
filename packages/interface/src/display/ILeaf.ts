@@ -309,6 +309,7 @@ export interface ILeafAttrData {
     dragBoundsType?: IDragBoundsType
 
     editable?: IBoolean
+    linkable?: IBoolean
 
     hittable?: IBoolean
     hitThrough?: IHitThrough
@@ -420,6 +421,7 @@ export interface ILeafComputedData {
     dragBoundsType?: IDragBoundsType
 
     editable?: boolean
+    linkable?: boolean
 
     hittable?: boolean
     hitThrough?: IHitThrough
