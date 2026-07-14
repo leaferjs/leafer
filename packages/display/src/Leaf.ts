@@ -223,7 +223,10 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         else if (typeOrAttrName === 'surface') doSurfaceType(this), quick = true
         else if (typeOrAttrName === 'stroke') doStrokeType(this), quick = true
 
-        if (quick) return this.leafer && this.leafer.watcher.__onAttrChange({ target: this } as any)
+        if (quick) {
+            const { leafer } = this
+            return leafer && leafer.watcher && leafer.watcher.__onAttrChange({ target: this } as any)
+        }
 
         const value = this.__.__getInput(typeOrAttrName);
         (this.__ as any)[typeOrAttrName] = isUndefined(value) ? null : undefined;
