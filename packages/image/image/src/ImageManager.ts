@@ -13,7 +13,7 @@ export const ImageManager: IImageManager = {
 
     get(config: ILeaferImageConfig, type?: IMultimediaType): ILeaferImage {
         let image: ILeaferImage = Resource.get(config.url)
-        if (!image) Resource.set(config.url, image = type === 'film' ? Creator.film(config) : Creator.image(config))
+        if (!image) Resource.set(config.url, image = Creator[type || 'image'](config))
         image.use++
         return image
     },

@@ -42,7 +42,7 @@ export { CanvasPathCommand, IPathCommandData, IPathCommandDataWithRadius, IPathC
 
 export { ILeaferImage, ILeaferImageMap, ILeaferImageConfig, IImageLOD, IImageTileLOD, ILeaferImageSliceData, ILeaferImageSlice, ILeaferImageLevel, ILeaferImageOnLoaded, ILeaferImageOnError, ILeaferImageCacheCanvas, ILeaferImagePatternPaint } from './image/ILeaferImage'
 export { ILeaferFilm, ILeaferFilmConfig, IFilmDecoder, IFilmFrame, IFilmOptions, IFilmPlayOptions } from './image/ILeaferFilm'
-export { ILeaferVideo, ILeaferVideoConfig } from './image/ILeaferVideo'
+export { ILeaferVideo, ILeaferVideoConfig, IVideoDecoder, IVideoOptions, IVideoPlayOptions } from './image/ILeaferVideo'
 export { IResource } from './file/IResource'
 export { IExportFileType, IExportImageType, IFilmFileType, IVideoFileType, IMultimediaType, IResponseType } from './file/IFileType'
 export { IExportOptions, IJSONOptions, IExportResult, IExportResultFunction, IExportOnCanvasFunction } from './file/IExport'
