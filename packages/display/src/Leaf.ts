@@ -37,11 +37,14 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
     public leafer?: ILeaferBase
     public parent?: ILeaf
+    public frame?: ILeaf
 
     public get leaferIsCreated(): boolean { return this.leafer && this.leafer.created }
     public get leaferIsReady(): boolean { return this.leafer && this.leafer.ready }
 
     public get isLeafer(): boolean { return false }
+    public get isFrame(): boolean { return false }
+
     public get isBranch(): boolean { return false }
     public get isBranchLeaf(): boolean { return false }
 
@@ -184,6 +187,19 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
             const { children } = this
             for (let i = 0, len = children.length; i < len; i++) {
                 children[i].__bindLeafer(leafer)
+            }
+        }
+    }
+
+    public __bindFrame(frame: ILeaf | null): void {
+        if (this.isFrame && frame !== null) frame = this as unknown as ILeaferBase
+
+        this.frame = frame
+
+        if (this.isBranch) {
+            const { children } = this
+            for (let i = 0, len = children.length; i < len; i++) {
+                children[i].__bindFrame(frame)
             }
         }
     }

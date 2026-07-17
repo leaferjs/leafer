@@ -95,6 +95,8 @@ export class Branch extends Leaf { // tip: rewrited Group
             if (this.leafer.created) this.__emitChildEvent(ChildEvent.ADD, child)
         }
 
+        if (this.isFrame) child.__bindFrame(this)
+
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }
 
@@ -160,6 +162,7 @@ export class Branch extends Leaf { // tip: rewrited Group
                 if (this.leafer.hitCanvasManager) this.leafer.hitCanvasManager.clear()
             }
         }
+        if (this.isFrame) child.__bindFrame(null)
     }
 
     protected __emitChildEvent(type: string, child: ILeaf): void {
