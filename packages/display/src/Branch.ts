@@ -90,12 +90,12 @@ export class Branch extends Leaf { // tip: rewrited Group
 
         if (child.__bubbleMap) child.__emitLifeEvent(ChildEvent.ADD)
 
+        if (this.isFrame) child.__bindFrame(this)
+
         if (this.leafer) {
             child.__bindLeafer(this.leafer)
             if (this.leafer.created) this.__emitChildEvent(ChildEvent.ADD, child)
         }
-
-        if (this.isFrame) child.__bindFrame(this)
 
         this.__layout.affectChildrenSort && this.__layout.childrenSortChange()
     }

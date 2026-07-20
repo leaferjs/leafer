@@ -19,6 +19,8 @@ export interface IVideoDecoder {
 
     currentTime: number // 当前播放进度 (秒)
     volume: number // 音量 0 ~1 
+
+    readonly paused: boolean
     readonly ended: boolean
 
     loop: number
