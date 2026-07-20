@@ -150,8 +150,11 @@ export const BezierHelper = {
         if (totalRadian < 0) totalRadian += PI2
         else if (totalRadian > PI2) totalRadian -= PI2
 
-        if (anticlockwise) totalRadian -= PI2
-
+        if (anticlockwise) {
+            const closedAngle = abs(endAngle - startAngle) === 360
+            if (closedAngle) totalRadian = -PI2
+            else totalRadian -= PI2
+        }
 
         const parts = ceil(abs(totalRadian / PI_2))
         const partRadian = totalRadian / parts
