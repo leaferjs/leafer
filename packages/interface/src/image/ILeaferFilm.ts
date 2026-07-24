@@ -51,9 +51,9 @@ export interface IFilmFrame extends IOptionPointData {
 export interface IFilmOptions {
     nowIndex?: number
     pauseIndex?: number // 播放到这一帧暂停
-    loop?: number
-    speed?: number
     autoplay?: boolean
+    speed?: number
+    loop?: boolean | number
 }
 
 export interface IFilmPlayOptions extends IFilmOptions {

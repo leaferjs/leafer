@@ -30,6 +30,11 @@ export interface IVideoDecoder {
     bufferCanvas?: any // 缓冲画布
     bufferContext?: ICanvasContext2D
 
+    load(): Promise<void>
+
+    play(): void
+    pause(): void
+
     render(canvas: any, x: number, y: number, width: number, height: number, leaf: ILeaf, paint: any, imageScaleX: number, imageScaleY: number): void
 
     destroyDecoder(): void
@@ -38,8 +43,10 @@ export interface IVideoDecoder {
 }
 
 export interface IVideoOptions {
-    loop?: number
+    nowIndex?: number
     autoplay?: boolean
+    muted?: boolean
+    loop?: boolean | number
 }
 
 export interface IVideoPlayOptions extends IVideoOptions {
