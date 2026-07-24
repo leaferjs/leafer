@@ -49,7 +49,7 @@ export function useModule(module: IObject, exclude?: string[]) {
             if (!excludeNames.includes(name) && (!exclude || !exclude.includes(name))) {
                 if (module.prototype) {
                     const d = getDescriptor(module.prototype, name)
-                    if (d.writable) target.prototype[name] = module.prototype[name]
+                    if (d) Object.defineProperty(target.prototype, name, d)
                 } else {
                     target.prototype[name] = module[name]
                 }
