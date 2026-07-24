@@ -284,8 +284,8 @@ export interface ILeafAttrData {
     scrollX?: INumber
     scrollY?: INumber
 
-    origin?: IAlign | IUnitPointData
-    around?: IAlign | IUnitPointData
+    origin?: IAround
+    around?: IAround
 
     lazy?: IBoolean
     pixelRatio?: INumber
@@ -337,6 +337,7 @@ export interface ILeafAttrData {
     motionPrecision?: INumber
 
     motion?: INumber | IUnitData
+    motionAround?: IAround
     motionVertical?: IMotionVertical
     motionRotation?: INumber | IBoolean
     motionText?: IBoolean
@@ -396,8 +397,8 @@ export interface ILeafComputedData {
     scrollX?: number
     scrollY?: number
 
-    origin?: IAlign | IUnitPointData
-    around?: IAlign | IUnitPointData
+    origin?: IAround
+    around?: IAround
 
     lazy?: boolean
     pixelRatio?: number
@@ -449,6 +450,7 @@ export interface ILeafComputedData {
     motionPrecision?: number
 
     motion?: number | IUnitData
+    motionAround?: IAround
     motionVertical?: IMotionVertical
     motionRotation?: number | boolean
     motionText?: boolean
