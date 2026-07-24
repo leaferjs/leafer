@@ -171,7 +171,7 @@ export class Picker implements IPicker {
         if (child.__hitWorld(point, onlyHitMask && child.mask === 'path' ? true : undefined)) {
             const { parent, mask } = child
             if (parent && parent.__hasMask && mask && !(mask === 'clipping' || mask === 'clipping-path')) {
-                if (!parent.children.some(item => !item.mask && item.__hitWorld(point))) return // 遮罩与元素相交的区域才能响应事件
+                if (!parent.children.some(item => !item.mask && this.isHitLeaf(item, point))) return // 遮罩与元素相交的区域才能响应事件
             }
 
             const leaf = proxy || child, { hitThrough } = child, { findList } = this
@@ -182,6 +182,16 @@ export class Picker implements IPicker {
 
             findList.add(leaf)
         }
+    }
+
+    protected isHitLeaf(leaf: ILeaf, point: IRadiusPointData): boolean {
+        if (leaf.isBranch) {
+            const { findList } = this, old = findList.length
+            this.eachFind([leaf], false)
+            const count = findList.length - old
+            for (let i = 0; i < count; i++) findList.remove(findList.indexAt(findList.length - 1))
+            return !!count
+        } else return leaf.__hitWorld(point)
     }
 
     protected clear(): void {
