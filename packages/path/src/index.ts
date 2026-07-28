@@ -1,7 +1,7 @@
 export { PathHelper } from './PathHelper'
 export { PathConvert } from './PathConvert'
 export { PathCreator } from './PathCreator'
-export { PathCommandDataHelper } from './PathCommandDataHelper'
+export { PathCommandDataHelper, registerPointsCurve } from './PathCommandDataHelper'
 export { PathCommandNodeHelper } from './PathCommandNodeHelper'
 export { PathDrawer } from './PathDrawer'
 export { PathBounds } from './PathBounds'

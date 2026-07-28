@@ -1,5 +1,6 @@
 import { IPointData } from '../math/IMath'
 import { IWindingRule } from '../canvas/ICanvas'
+import { IObject } from '../data/IData'
 
 type Command = number
 type x = number
@@ -150,4 +151,27 @@ export type PathNodeHandleName = 'a' | 'b' // 手柄名称
 
 export interface IPathNodeBase {
     pathNode: IPathCommandNode
+}
+
+// points 转曲线
+export type IPointsCurveType =
+    | 'Q' // 使用二次贝塞尔曲线平滑 points
+    | 'C'  // 使用三次贝塞尔曲线平滑 points
+    | (string & {})
+
+export type IPointsCurveValue = boolean | number
+
+export interface IPointsCurveData {
+    type: IPointsCurveType
+    value: IPointsCurveValue
+}
+
+export type IPointsCurve = IPointsCurveData | IPointsCurveValue
+
+export interface IPointsCurveFunction {
+    (data: IPathCommandData, originPoints: number[] | IPointData[], curve?: boolean | number, close?: boolean, options?: IObject): void
+}
+
+export interface IPointsCurveFunctionMap {
+    [name: string]: IPointsCurveFunction
 }

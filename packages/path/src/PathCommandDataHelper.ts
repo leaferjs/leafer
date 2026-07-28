@@ -1,6 +1,7 @@
-import { IPathCommandData, IPointData } from '@leafer/interface'
+import { IPathCommandData, IPointData, IPointsCurve, IPointsCurveFunction, IPointsCurveFunctionMap, IPointsCurveType, IObject } from '@leafer/interface'
 import { MathHelper, PointHelper } from '@leafer/math'
-import { isNumber, isUndefined, isNull } from '@leafer/data'
+import { isNumber, isUndefined, isNull, isObject } from '@leafer/data'
+import { Debug } from '@leafer/debug'
 
 import { PathCommandMap } from './PathCommandMap'
 import { BezierHelper } from './BezierHelper'
@@ -10,8 +11,11 @@ const { M, L, C, Q, Z, N, D, X, G, F, O, P, U } = PathCommandMap
 const { getMinDistanceFrom, getRadianFrom } = PointHelper
 const { tan, min, abs } = Math
 const startPoint = {} as IPointData
+const debug = Debug.get('PointsCurve')
 
 export const PathCommandDataHelper = {
+
+    pointsCurveList: {} as IPointsCurveFunctionMap,
 
     beginPath(data: IPathCommandData): void {
         data.length = 0
@@ -101,10 +105,20 @@ export const PathCommandDataHelper = {
         arc(data, x, y, radius, startAngle, endAngle, anticlockwise)
     },
 
-    drawPoints(data: IPathCommandData, points: number[] | IPointData[], curve?: boolean | number, close?: boolean): void {
-        BezierHelper.points(data, points, curve, close)
+    drawPoints(data: IPathCommandData, points: number[] | IPointData[], curve?: IPointsCurve, close?: boolean, options?: IObject): void {
+        let type: IPointsCurveType = 'Q'
+        if (isObject(curve)) type = curve.type, curve = curve.value
+        if (!pointsCurveList[type]) debug.warn('not found:', type), type = 'Q'
+        pointsCurveList[type](data, points, curve, close, options)
     }
 
 }
 
-const { ellipse, arc } = PathCommandDataHelper
+const { ellipse, arc, pointsCurveList } = PathCommandDataHelper
+
+export function registerPointsCurve(type: IPointsCurveType, fn: IPointsCurveFunction): void {
+    if (pointsCurveList[type]) debug.repeat(type)
+    pointsCurveList[type] = fn
+}
+
+registerPointsCurve('Q', BezierHelper.points)
