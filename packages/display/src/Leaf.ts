@@ -609,6 +609,7 @@ export interface Leaf {
     getMotionPath(): ILeaf
     getMotionPathData(): IMotionPathData
     getMotionPoint(motionDistance: number | IUnitData, motionVertical?: IMotionVertical, pathElement?: ILeaf, offsetX?: number, offsetY?: number): IRotationPointData
+    getMotionNearPoint(localPoint: IPointData, currentMotion?: number): number
     getMotionContentHeight(): number
     getMotionTotal(): number
 
