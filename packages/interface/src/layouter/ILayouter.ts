@@ -59,7 +59,7 @@ export interface ILayouter extends IControl {
     partLayout(): void
     fullLayout(): void
 
-    addExtra(leaf: ILeaf): void
+    addExtra(leaf: ILeaf, updateBounds?: boolean): void
 
     createBlock(data: ILeafList | ILeaf[]): ILayoutBlockData
     getBlocks(list: ILeafList): ILayoutBlockData[]

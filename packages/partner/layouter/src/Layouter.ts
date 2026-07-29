@@ -1,7 +1,7 @@
 import { ILayouter, ILeaf, ILayoutBlockData, IEventListenerId, ILayouterConfig, ILeafList } from '@leafer/interface'
 import { LayoutEvent, WatchEvent, LeafLevelList, LeafList, BranchHelper, LeafHelper, DataHelper, Run, Debug } from '@leafer/core'
 
-import { updateMatrix, updateBounds, updateChange } from './LayouterHelper'
+import { LayouterHelper } from './LayouterHelper'
 import { LayoutBlockData } from './LayoutBlockData'
 
 
@@ -113,9 +113,9 @@ export class Layouter implements ILayouter {
 
         this.extraBlock = null
         updateList.sort()
-        updateMatrix(updateList, this.__levelList)
-        updateBounds(this.__levelList)
-        updateChange(updateList)
+        LayouterHelper.updateMatrix(updateList, this.__levelList)
+        LayouterHelper.updateBounds(this.__levelList)
+        LayouterHelper.updateChange(updateList)
 
         if (this.extraBlock) blocks.push(this.extraBlock)
         blocks.forEach(item => item.setAfter())
@@ -159,11 +159,17 @@ export class Layouter implements ILayouter {
         updateAllChange(target)
     }
 
-    public addExtra(leaf: ILeaf): void {
+    public addExtra(leaf: ILeaf, updateBounds?: boolean): void {
         if (!this.__updatedList.has(leaf)) {
             const { updatedList, beforeBounds } = this.extraBlock || (this.extraBlock = new LayoutBlockData([]))
             updatedList.length ? beforeBounds.add(leaf.__world) : beforeBounds.set(leaf.__world)
             updatedList.add(leaf)
+
+            if (updateBounds) { // 更新自身及所有父级的bounds
+                const list = this.__levelList
+                LayouterHelper.push(leaf, list)
+                list.sort(true)
+            }
         }
     }
 
