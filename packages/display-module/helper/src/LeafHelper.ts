@@ -38,9 +38,10 @@ export const LeafHelper = {
         if (!layout.waitAutoLayout) leaf.__updateWorldMatrix()
     },
 
-    updateBounds(leaf: ILeaf): void {
+    updateBounds(leaf: ILeaf, noUpdateSize?: boolean): void {
         const layout = leaf.__layout
         if (layout.boundsChanged) leaf.__updateLocalBounds()
+        if (noUpdateSize) layout.resized = undefined // 避免 leaf.__onUpdateSize() 死循环
         if (!layout.waitAutoLayout) leaf.__updateWorldBounds()
     },
 
