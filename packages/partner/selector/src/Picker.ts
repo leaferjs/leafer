@@ -176,7 +176,7 @@ export class Picker implements IPicker {
 
             const leaf = proxy || child, { hitThrough } = child, { findList } = this
             if (hitThrough) {
-                const index = findList.list.findIndex(item => item[hitThrough] === child[hitThrough])
+                const index = findList.list.findIndex(item => hitThrough === 'parent' ? LeafHelper.hasParent(item.parent, child.parent) : item[hitThrough] === child[hitThrough])
                 if (index > 0) return findList.addAt(leaf, index)
             }
 
