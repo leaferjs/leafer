@@ -769,7 +769,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // motion path
     getMotionPath(): ILeaf
     getMotionPathData(): IMotionPathData
-    getMotionPoint(motionDistance: number | IUnitData, motionVertical?: IMotionVertical, pathElement?: ILeaf, offsetX?: number, offsetY?: number): IRotationPointData
+    getMotionPoint(motionDistance: number | IUnitData, motionAround?: IAround, motionVertical?: IMotionVertical, offsetX?: number, offsetY?: number, pathElement?: ILeaf): IRotationPointData
     getMotionNearPoint(localPoint: IPointData, currentMotion?: number): number
     getMotionContentHeight(): number
     getMotionTotal(): number
