@@ -10,7 +10,7 @@ export class Watcher implements IWatcher {
 
     public disabled: boolean
     public running: boolean
-    public changed: boolean
+    public changed = 0
 
     public hasVisible: boolean
     public hasAdd: boolean
@@ -54,8 +54,10 @@ export class Watcher implements IWatcher {
     }
 
     public update(): void {
-        this.changed = true
-        if (this.running) this.target.emit(RenderEvent.REQUEST)
+        if (this.changed < 100) { // 防止触发大量冗余事件
+            this.changed++
+            if (this.running) this.target.emit(RenderEvent.REQUEST)
+        }
     }
 
     public __onAttrChange(event: PropertyEvent): void {
@@ -67,17 +69,21 @@ export class Watcher implements IWatcher {
         this.update()
     }
 
-    protected __onChildEvent(event: ChildEvent): void {
+    public addChild(child: ILeaf, parent: ILeaf, eventType?: string): void {
         if (this.config.usePartLayout) {
-            if (event.type === ChildEvent.ADD) {
+            if (eventType === ChildEvent.ADD) {
                 this.hasAdd = true
-                this.__pushChild(event.child)
+                this.__pushChild(child)
             } else {
                 this.hasRemove = true
-                this.__updatedList.add(event.parent)
+                this.__updatedList.add(parent)
             }
         }
         this.update()
+    }
+
+    protected __onChildEvent(event: ChildEvent): void {
+        this.addChild(event.child, event.parent, event.type)
     }
 
     protected __pushChild(child: ILeaf): void {
@@ -94,7 +100,8 @@ export class Watcher implements IWatcher {
         this.target.emitEvent(new WatchEvent(WatchEvent.DATA, { updatedList: this.updatedList }))
         this.__updatedList = new LeafList()
         this.totalTimes++
-        this.changed = this.hasVisible = this.hasRemove = this.hasAdd = false
+        this.hasVisible = this.hasRemove = this.hasAdd = false
+        this.changed = 0
     }
 
     protected __listenEvents(): void {

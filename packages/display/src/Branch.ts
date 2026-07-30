@@ -166,9 +166,12 @@ export class Branch extends Leaf { // tip: rewrited Group
     }
 
     protected __emitChildEvent(type: string, child: ILeaf): void {
-        const event = new ChildEvent(type, child, this)
-        if (this.hasEvent(type) && !this.isLeafer) this.emitEvent(event)
-        this.leafer.emitEvent(event)
+        const { leafer } = this
+        if (leafer.config.trackChanges || leafer.zoomLayer === this) {
+            const event = new ChildEvent(type, child, this)
+            if (this.hasEvent(type) && !this.isLeafer) this.emitEvent(event)
+            leafer.emitEvent(event)
+        } else leafer.watcher.addChild(child, this, type)
     }
 
 }

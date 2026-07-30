@@ -30,6 +30,7 @@ export interface ILeaferConfig extends IRendererConfig, ILeaferCanvasConfig, IIn
     type?: ILeaferType
     mobile?: boolean
     realCanvas?: boolean
+    trackChanges?: boolean
     grow?: boolean | 'box' | 'render'
     lazySpeard?: IFourNumber
 }

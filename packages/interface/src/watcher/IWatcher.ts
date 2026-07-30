@@ -19,7 +19,7 @@ export interface IWatcher extends IControl {
 
     disabled: boolean
     running: boolean
-    changed: boolean
+    changed: number
 
     hasVisible: boolean
     hasAdd: boolean
@@ -35,5 +35,7 @@ export interface IWatcher extends IControl {
     update(): void
 
     __onAttrChange(event: IPropertyEvent): void
+
     add(leaf: ILeaf): void
+    addChild(child: ILeaf, parent: ILeaf, eventType?: string): void
 }

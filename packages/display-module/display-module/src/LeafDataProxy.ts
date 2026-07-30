@@ -52,9 +52,12 @@ export const LeafDataProxy: ILeafDataProxyModule = {
     },
 
     emitPropertyEvent(type: string, name: string, oldValue: unknown, newValue: unknown): void {
-        const event = new PropertyEvent(type, this, name, oldValue, newValue)
-        this.isLeafer || (this.hasEvent(type) && this.emitEvent(event))
-        this.leafer.emitEvent(event)
+        const { leafer } = this
+        if (leafer.config.trackChanges || leafer.zoomLayer === this) {
+            const event = new PropertyEvent(type, this, name, oldValue, newValue)
+            this.isLeafer || (this.hasEvent(type) && this.emitEvent(event))
+            leafer.emitEvent(event)
+        } else leafer.watcher.add(this)
     },
 
     __realSetAttr(name: string, newValue: IValue): void {
