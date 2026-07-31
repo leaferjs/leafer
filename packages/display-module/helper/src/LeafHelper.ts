@@ -95,6 +95,14 @@ export const LeafHelper = {
         else currentCanvas.copyWorldToInner(fromCanvas, fromWorld as IMatrixWithBoundsData, leaf.__layout.renderBounds, blendMode)
     },
 
+    clip(leaf: ILeaf, canvas: ILeaferCanvas, options: IRenderOptions): void {
+        if (leaf.__worldOpacity) {
+            canvas.setWorld(leaf.__nowWorld = leaf.__getNowWorld(options))
+            leaf.__drawRenderPath(canvas)
+            canvas.clipUI(leaf)
+        }
+    },
+
     // complex will rewrite
     renderComplex(_leaf: ILeaf, _canvas: ILeaferCanvas, _options: IRenderOptions): void { },
     updateComplex(_leaf: ILeaf): void { },

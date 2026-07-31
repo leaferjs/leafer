@@ -50,11 +50,7 @@ export const LeafRender: ILeafRenderModule = {
     },
 
     __clip(canvas: ILeaferCanvas, options: IRenderOptions): void {
-        if (this.__worldOpacity) {
-            canvas.setWorld(this.__nowWorld = this.__getNowWorld(options))
-            this.__drawRenderPath(canvas)
-            canvas.clipUI(this)
-        }
+        LeafHelper.clip(this, canvas, options)
     },
 
     __updateWorldOpacity(): void {

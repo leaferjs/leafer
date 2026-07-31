@@ -5,7 +5,7 @@ export * from '@leafer/renderer'
 export * from '@leafer/selector'
 
 import { ICreator, ILeaf, ILeaferCanvas, IRenderOptions } from '@leafer/interface'
-import { Creator, LeafList, Platform } from '@leafer/core'
+import { Creator, LeafHelper, LeafList, Platform } from '@leafer/core'
 
 import { Watcher } from '@leafer/watcher'
 import { Layouter } from '@leafer/layouter'
@@ -25,5 +25,15 @@ Platform.render = function (target: ILeaf, canvas: ILeaferCanvas, options: IRend
     const topOptions: IRenderOptions = { ...options, topRendering: true }
     options.topList = new LeafList()
     target.__render(canvas, options)
-    if (options.topList.length) options.topList.forEach(item => item.__render(canvas, topOptions))
+    if (options.topList.length) options.topList.forEach(item => {
+        const { parent } = item
+        if (parent && parent.isBranchLeaf && parent.overflow !== 'show') {
+            canvas.save()
+            LeafHelper.clip(parent, canvas, topOptions)
+            item.__render(canvas, topOptions)
+            canvas.restore()
+        } else {
+            item.__render(canvas, topOptions)
+        }
+    })
 }

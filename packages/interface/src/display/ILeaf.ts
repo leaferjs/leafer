@@ -135,6 +135,8 @@ export type IEditable = boolean | 'single'
 
 export type ILinkable = boolean | 'start' | 'end'
 
+export type IOverflow = 'show' | 'hide' | 'scroll' | 'x-scroll' | 'y-scroll'
+
 export interface IMotionVerticalData {
     type: IMotionVerticalType,
     offset: number
@@ -290,6 +292,7 @@ export interface ILeafAttrData {
     lazy?: IBoolean
     pixelRatio?: INumber
 
+    overflow?: IOverflow
     renderSpread?: IFourNumber // 扩大渲染边界
 
     path?: IPathCommandData | IPathCommandNode[] | IPathCommandObject[] | IPathString
@@ -403,6 +406,7 @@ export interface ILeafComputedData {
     lazy?: boolean
     pixelRatio?: number
 
+    overflow?: IOverflow
     renderSpread?: IFourNumber
 
     path?: IPathCommandData
