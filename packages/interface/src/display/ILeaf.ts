@@ -129,20 +129,12 @@ export type IEditSize = 'size' | 'font-size' | 'scale'
 
 export type IDragBoundsType = 'auto' | 'outer' | 'inner'
 
-export type IMotionVerticalType = 'above' | 'center' | 'below' | number
 
 export type IEditable = boolean | 'single'
 
 export type ILinkable = boolean | 'start' | 'end'
 
 export type IOverflow = 'show' | 'hide' | 'scroll' | 'x-scroll' | 'y-scroll'
-
-export interface IMotionVerticalData {
-    type: IMotionVerticalType,
-    offset: number
-}
-
-export type IMotionVertical = IMotionVerticalType | IMotionVerticalData
 
 export interface IImageCursor {
     url: string
@@ -341,7 +333,6 @@ export interface ILeafAttrData {
 
     motion?: INumber | IUnitData
     motionAround?: IAround
-    motionVertical?: IMotionVertical
     motionRotation?: INumber | IBoolean
     motionText?: IBoolean
 
@@ -455,7 +446,6 @@ export interface ILeafComputedData {
 
     motion?: number | IUnitData
     motionAround?: IAround
-    motionVertical?: IMotionVertical
     motionRotation?: number | boolean
     motionText?: boolean
 
@@ -773,9 +763,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     // motion path
     getMotionPath(): ILeaf
     getMotionPathData(): IMotionPathData
-    getMotionPoint(motionDistance: number | IUnitData, motionAround?: IAround, motionVertical?: IMotionVertical, offsetX?: number, offsetY?: number, pathElement?: ILeaf): IRotationPointData
-    getMotionNearPoint(localPoint: IPointData, currentMotion?: number): number
-    getMotionContentHeight(): number
+    getMotionPoint(motionDistance: number | IUnitData, motionAround?: IAround, offsetX?: number, offsetY?: number, pathElement?: ILeaf): IRotationPointData
+    getMotionNearPoint(localPoint: IPointData, currentMotion?: number | IUnitData): number
     getMotionTotal(): number
 
     __updateMotionPath(): void

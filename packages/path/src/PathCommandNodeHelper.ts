@@ -5,7 +5,7 @@ export const PathCommandNodeHelper = {
     toCommand(_nodes: IPathCommandNode[] | IPathNodeBase[]): IPathCommandData {
         return []
     },
-    toNode(_data: IPathCommandData): IPathCommandNode[] {
+    toNode(_data: IPathCommandData, _filterSamePoint?: boolean): IPathCommandNode[] {
         return []
     }
 }
