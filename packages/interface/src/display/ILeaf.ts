@@ -46,6 +46,13 @@ export type IFlowWrap = boolean | 'reverse'
 
 export type IAutoSize = IBoolean | INumber | IPercentData
 
+export interface IPosition {
+    top?: number
+    left?: number
+    bottom?: number
+    right?: number
+}
+
 export interface IRangeSize {
     min?: number
     max?: number
@@ -271,6 +278,7 @@ export interface ILeafAttrData {
     skewX?: INumber
     skewY?: INumber
 
+    position?: IPosition
     scale?: INumber | IPointData // helper
 
     offsetX?: INumber
@@ -385,6 +393,8 @@ export interface ILeafComputedData {
     rotation?: number
     skewX?: number
     skewY?: number
+
+    position?: IPosition
 
     offsetX?: number
     offsetY?: number
