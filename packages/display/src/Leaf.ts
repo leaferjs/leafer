@@ -1,4 +1,4 @@
-import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IAround, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber, IForceUpdateType } from '@leafer/interface'
+import { ILeaferBase, ILeaf, ILeafInputData, ILeafData, ILeaferCanvas, IRenderOptions, IBoundsType, ILocationType, IMatrixWithBoundsData, ILayoutBoundsData, IValue, ILeafLayout, InnerId, IHitCanvas, IRadiusPointData, IEventListenerMap, IEventListener, IEventListenerId, IEvent, IObject, IFunction, IPointData, IBoundsData, IBranch, IFindMethod, IMatrixData, IAttrDecorator, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAlign, IJSONOptions, IEventParamsMap, IEventOption, IAxis, IAround, IMotionPathData, IUnitData, IRotationPointData, ITransition, IValueFunction, IEventParams, IScaleData, IScaleFixed, IFourNumber, IForceUpdateType, IParentChangeFunction } from '@leafer/interface'
 import { BoundsHelper, IncrementId, MathHelper, MatrixHelper, PointHelper } from '@leafer/math'
 import { LeafData, isUndefined, DataHelper } from '@leafer/data'
 import { LeafLayout } from '@leafer/layout'
@@ -108,6 +108,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     public __hasLocalEvent?: boolean
     public __hasWorldEvent?: boolean
 
+    public __parentChange?: IParentChangeFunction[]
+
     // branch 
     public children?: ILeaf[]
     public topChildren?: ILeaf[]
@@ -147,6 +149,11 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         this.forceUpdate()
     }
 
+    public waitParentChange(item: IParentChangeFunction): void {
+        this.__parentChange || (this.__parentChange = [])
+        if (!this.__parentChange.includes(item)) this.__parentChange.push(item)
+        if (this.parent) item(this.parent, this)
+    }
 
     public waitParent(item: IFunction, bind?: IObject): void {
         if (bind) item = item.bind(bind)
@@ -258,8 +265,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
 
-    public __updateEraser(value?: boolean): void {
-        this.__hasEraser = value ? true : this.children.some(item => item.__.eraser)
+    public __updateEraser(): void {
+        this.__hasEraser = this.children.some(item => item.__.eraser)
     }
 
     public __renderEraser(canvas: ILeaferCanvas, options: IRenderOptions): void {  // path eraser
@@ -270,7 +277,7 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
         canvas.restore()
     }
 
-    public __updateMask(_value?: boolean): void {
+    public __updateMask(): void {
         const hasMask = this.children.some(item => item.__.mask && item.__.visible && item.__.opacity)
         this.__hasMask = this.__.maskskip ? hasMask && 0 : hasMask
     }

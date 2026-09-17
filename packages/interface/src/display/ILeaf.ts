@@ -6,7 +6,7 @@ import { IRenderOptions } from '../renderer/IRenderer'
 
 import { IObject, INumber, IBoolean, IValue, IString, IPathString, IFourNumber } from '../data/IData'
 import { IMatrixWithBoundsData, IMatrix, IPointData, IBoundsData, IRadiusPointData, ILayoutBoundsData, IMatrixData, IMatrixWithBoundsScaleData, IMatrixWithScaleData, IAutoBoxData, IUnitPointData, IRotationPointData, IScaleData } from '../math/IMath'
-import { IFunction } from '../function/IFunction'
+import { IFunction, IParentChangeFunction } from '../function/IFunction'
 
 import { ILeafDataProxy } from './module/ILeafDataProxy'
 import { ILeafMatrix } from './module/ILeafMatrix'
@@ -604,11 +604,14 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     readonly isAutoWidth?: boolean
     readonly isAutoHeight?: boolean
 
+    __parentChange?: IParentChangeFunction[] // 存在parent或每次更换parent都会执行的函数
+
     destroyed: boolean
 
     reset(data?: ILeafInputData): void
     resetCustom(): void
 
+    waitParentChange(item: IParentChangeFunction): void // item 不能为闭包函数，会导致重复堆积
     waitParent(item: IFunction, bind?: IObject): void
     waitLeafer(item: IFunction, bind?: IObject): void
     nextRender(item: IFunction, bind?: IObject, off?: 'off'): void
@@ -681,8 +684,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __onUpdateSize(): void
 
     // IBranchMask ->
-    __updateEraser(value?: boolean): void
-    __updateMask(value?: boolean): void
+    __updateEraser(): void
+    __updateMask(): void
     __renderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
     __rerenderMask(canvas: ILeaferCanvas, options: IRenderOptions): void
     __renderEraser(canvas: ILeaferCanvas, options: IRenderOptions): void

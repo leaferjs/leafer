@@ -206,19 +206,24 @@ function doVisible(leaf: ILeaf, key: string, value: IValue, oldValue: IValue): v
     }
 }
 
+function sortParentChange(parent: ILeaf) {
+    parent.__layout.childrenSortChange()
+    if (parent.__.flow) parent.__layout.boxChange()
+}
+
 export function sortType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: IValue) {
             if (this.__setAttr(key, value)) {
                 // this.__layout.surfaceChange()
-                this.waitParent(() => {
-                    const { parent } = this
-                    parent.__layout.childrenSortChange()
-                    if (parent.__.flow) parent.__layout.boxChange()
-                })
+                this.waitParentChange(sortParentChange)
             }
         }
     }))
+}
+
+function maskParentChange(parent: ILeaf) {
+    parent.__updateMask()
 }
 
 export function maskType(defaultValue?: IValue, updateSelf?: boolean) {
@@ -226,16 +231,20 @@ export function maskType(defaultValue?: IValue, updateSelf?: boolean) {
         set(value: boolean) {
             if (this.__setAttr(key, value)) {
                 this.__layout.boxChanged || this.__layout.boxChange()
-                updateSelf ? this.__updateMask() : this.waitParent(() => { this.parent.__updateMask(value) })
+                updateSelf ? this.__updateMask() : this.waitParentChange(maskParentChange)
             }
         }
     }))
 }
 
+function eraserParentChange(parent: ILeaf) {
+    parent.__updateEraser()
+}
+
 export function eraserType(defaultValue?: IValue) {
     return decorateLeafAttr(defaultValue, (key: string) => attr({
         set(value: boolean) {
-            this.__setAttr(key, value) && this.waitParent(() => { this.parent.__updateEraser(value) })
+            this.__setAttr(key, value) && this.waitParentChange(eraserParentChange)
         }
     }))
 }

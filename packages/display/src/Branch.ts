@@ -88,6 +88,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         childLayout.boxChanged || childLayout.boxChange() // layouted(removed), need update
         childLayout.matrixChanged || childLayout.matrixChange() // layouted(removed), need update
 
+        if (child.__parentChange) child.__parentChange.forEach(item => item(this, child))
         if (child.__bubbleMap) child.__emitLifeEvent(ChildEvent.ADD)
 
         if (this.isFrame) child.__bindFrame(this)
