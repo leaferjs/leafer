@@ -248,10 +248,11 @@ export const LeafHelper = {
         return (t.offsetX || t.offsetY) as unknown as boolean
     },
 
-    hasParent(p: ILeaf, parent: ILeaf): boolean | void {
+    hasParent(p: ILeaf, parent: ILeaf, minLevel?: number): boolean | void {
         if (!parent) return false
         while (p) {
             if (parent === p) return true
+            if (minLevel && p.__level === minLevel) return
             p = p.parent
         }
     },
