@@ -81,7 +81,12 @@ export class Branch extends Leaf { // tip: rewrited Group
         if (child.parent) child.parent.remove(child)
         child.parent = this
 
-        noIndex ? this.children.push(child) : this.children.splice(index, 0, child)
+        if (noIndex) this.children.push(child)
+        else {
+            BranchHelper.zIndex(this, child, index)
+            this.children.splice(index, 0, child)
+        }
+
         if (child.isBranch) this.__.__childBranchNumber = (this.__.__childBranchNumber || 0) + 1
 
         const childLayout = child.__layout

@@ -10,6 +10,18 @@ export const BranchHelper = {
         return (a.__.zIndex === b.__.zIndex) ? (a.__tempNumber - b.__tempNumber) : (a.__.zIndex - b.__.zIndex)
     },
 
+    // 添加元素前设置zIndex
+    zIndex(branch: ILeaf, child: ILeaf, index: number): void {
+        const { children } = branch, before = children[index - 1], after = children[index]
+        if (before && after) {
+            if (child.zIndex < before.zIndex || child.zIndex > after.zIndex) child.zIndex = (before.zIndex + after.zIndex) / 2
+        } else if (before) {
+            if (child.zIndex < before.zIndex) child.zIndex = before.zIndex + 1
+        } else if (after) {
+            if (child.zIndex > after.zIndex) child.zIndex = after.zIndex - 1
+        }
+    },
+
     // push
 
     pushAllChildBranch(branch: ILeaf, leafList: ILeafList | ILeafLevelList): void {
