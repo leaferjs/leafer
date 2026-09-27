@@ -1,5 +1,5 @@
 import { IPathCommandData } from '@leafer/interface'
-import { PointHelper } from '@leafer/math'
+import { PointHelper, MathHelper } from '@leafer/math'
 import { isArray } from '@leafer/data'
 
 import { PathCommandMap as Command, PathNumberCommandLengthMap } from './PathCommandMap'
@@ -9,6 +9,7 @@ import { PathCommandDataHelper } from './PathCommandDataHelper'
 const { M, L, Z } = Command
 const { getCenterX, getCenterY } = PointHelper
 const { arcTo } = PathCommandDataHelper
+const { float } = MathHelper
 
 // @leafer-in/corner will rewrite
 export const PathCorner = {
@@ -56,7 +57,8 @@ export const PathCorner = {
                             arcTo(smooth, x, y, data[i + 1], data[i + 2], cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
                             break
                         case Z: // closePath()
-                            arcTo(smooth, x, y, startX, startY, cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
+                            if (float(x) === float(startX) && float(y) === float(startY)) x = lastX, y = lastY // 最后一个点与起点重合
+                            else arcTo(smooth, x, y, startX, startY, cornerRadius, lastX, lastY, three) // use arcTo(x1, y1, x2, y2, radius)
                             break
                         default:
                             smooth.push(L, x, y)
