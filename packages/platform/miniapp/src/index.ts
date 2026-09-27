@@ -28,4 +28,9 @@ export * from '@leafer-in/scale-fixed'
 export * from '@leafer-in/box'
 export * from '@leafer-in/corner'
 
+export * from '@leafer-in/linker'
+export * from '@leafer-in/transition'
+export * from '@leafer-in/motion-text'
+export * from '@leafer-in/stroke-sides'
+
 export * from '@leafer-in/interface'

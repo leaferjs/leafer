@@ -49,6 +49,10 @@
     "@leafer-in/scale-fixed": "2.2.11",
     "@leafer-in/box": "2.2.11",
     "@leafer-in/corner": "2.2.11",
+    "@leafer-in/linker": "2.2.11",
+    "@leafer-in/transition": "2.2.11",
+    "@leafer-in/motion-text": "2.2.11",
+    "@leafer-in/stroke-sides": "2.2.11",
     "@leafer-in/interface": "2.2.11"
   }
 }
