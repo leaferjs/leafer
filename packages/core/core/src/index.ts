@@ -20,4 +20,12 @@ export * from '@leafer/platform'
 
 export * from '@leafer/task'
 
-export const version = "2.2.11"
+export const version = "2.3.0"
+
+import { Plugin } from '@leafer/debug'
+
+if (typeof globalThis !== 'undefined') {
+    const globalLeafer = (globalThis as any).Leafer || ((globalThis as any).Leafer = {})
+    globalLeafer.version = version
+    globalLeafer.Plugin = Plugin
+}
