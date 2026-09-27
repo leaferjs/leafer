@@ -1,7 +1,7 @@
 import { IBoundsData, IFourNumber, ILeaf, ILeafLayout } from '@leafer/interface'
 import { ChildEvent } from '@leafer/event'
 import { BoundsHelper } from '@leafer/math'
-import { BranchHelper, LeafBoundsHelper } from '@leafer/helper'
+import { BranchHelper, isTrackChanges, LeafBoundsHelper } from '@leafer/helper'
 import { useModule } from '@leafer/decorator'
 import { BranchRender } from '@leafer/display-module'
 import { UICreator } from '@leafer/platform'
@@ -173,7 +173,7 @@ export class Branch extends Leaf { // tip: rewrited Group
 
     protected __emitChildEvent(type: string, child: ILeaf): void {
         const { leafer } = this
-        if (leafer.config.trackChanges || leafer.zoomLayer === this) {
+        if (isTrackChanges(leafer) || leafer.zoomLayer === this) {
             const event = new ChildEvent(type, child, this)
             if (this.hasEvent(type) && !this.isLeafer) this.emitEvent(event)
             leafer.emitEvent(event)

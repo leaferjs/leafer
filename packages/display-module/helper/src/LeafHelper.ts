@@ -1,4 +1,4 @@
-import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IBoundsType, IMatrixWithBoundsData, IFunction } from '@leafer/interface'
+import { IAlign, ILeaf, IMatrixData, IPointData, IAxis, ITransition, ILeaferCanvas, IRenderOptions, IBoundsData, IBoundsType, IMatrixWithBoundsData, IFunction, ILeaferBase } from '@leafer/interface'
 import { MathHelper, MatrixHelper, PointHelper, AroundHelper, getMatrixData, BoundsHelper } from '@leafer/math'
 import { Platform } from '@leafer/platform'
 import { isObject, isNumber } from '@leafer/data'
@@ -272,6 +272,10 @@ export const LeafHelper = {
         onAnimate && onAnimate()
     }
 
+}
+
+export function isTrackChanges(leafer: ILeaferBase): boolean {
+    return leafer && leafer.config.trackChanges
 }
 
 const L = LeafHelper

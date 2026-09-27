@@ -1,6 +1,7 @@
 import { ILeafDataProxyModule, IObject, IValue } from '@leafer/interface'
 import { PropertyEvent, extraPropertyEventMap, LeaferEvent, leaferTransformAttrMap } from '@leafer/event'
 import { isObject, isFinite, isUndefined } from '@leafer/data'
+import { isTrackChanges } from '@leafer/helper'
 import { Debug } from '@leafer/debug'
 
 
@@ -53,7 +54,7 @@ export const LeafDataProxy: ILeafDataProxyModule = {
 
     emitPropertyEvent(type: string, name: string, oldValue: unknown, newValue: unknown): void {
         const { leafer } = this
-        if (leafer.config.trackChanges || leafer.zoomLayer === this) {
+        if (isTrackChanges(leafer) || leafer.zoomLayer === this) {
             const event = new PropertyEvent(type, this, name, oldValue, newValue)
             this.isLeafer || (this.hasEvent(type) && this.emitEvent(event))
             leafer.emitEvent(event)
