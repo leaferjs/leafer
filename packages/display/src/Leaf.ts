@@ -199,8 +199,6 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
     public __bindFrame(frame: ILeaf | null): void {
-        if (this.isFrame && frame !== null) frame = this as unknown as ILeaferBase
-
         this.frame = frame
 
         if (this.isBranch) {

@@ -96,7 +96,7 @@ export class Branch extends Leaf { // tip: rewrited Group
         if (child.__parentChange) child.__parentChange.forEach(item => item(this, child))
         if (child.__bubbleMap) child.__emitLifeEvent(ChildEvent.ADD)
 
-        if (this.isFrame) child.__bindFrame(this)
+        if (this.frame) child.__bindFrame(this.frame)
 
         if (this.leafer) {
             child.__bindLeafer(this.leafer)
@@ -168,7 +168,7 @@ export class Branch extends Leaf { // tip: rewrited Group
                 if (this.leafer.hitCanvasManager) this.leafer.hitCanvasManager.clear()
             }
         }
-        if (this.isFrame) child.__bindFrame(null)
+        if (child.frame && !child.isFrame) child.__bindFrame(null)
     }
 
     protected __emitChildEvent(type: string, child: ILeaf): void {
