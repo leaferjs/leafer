@@ -20,10 +20,12 @@ export interface ILeaferImageConfig {
 }
 
 export interface IImageLOD {
-    url: string // 'thumb-{level}-{width}-{height}.jpg'
+    url: string // 'thumb-{level}-{width}-{height}-{percent}.jpg'
     width: number
     height: number
+    levels?: number[]
     thumb?: number
+    usePercent?: boolean
     min?: number
     tile?: IImageTileLOD
 }
