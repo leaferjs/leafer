@@ -239,6 +239,8 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
     }
 
     public forceUpdate(typeOrAttrName?: IForceUpdateType): void {
+        if ((this as ILeaf).__hasComplex) LeafHelper.updateComplex(this) // 强制更新缓存
+
         let quick: boolean
         if (!typeOrAttrName || typeOrAttrName === 'bounds') doBoundsType(this), quick = true
         else if (typeOrAttrName === 'surface') doSurfaceType(this), quick = true
