@@ -20,7 +20,7 @@ export * from '@leafer/platform'
 
 export * from '@leafer/task'
 
-export const version = "2.3.0"
+export const version = "2.3.1"
 
 import { Plugin } from '@leafer/debug'
 
