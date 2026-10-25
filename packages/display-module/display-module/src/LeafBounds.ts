@@ -126,6 +126,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
     __updateLocalBoxBounds(): void {
         if (this.__hasMotionPath) this.__updateMotionPath()
+        if (this.__hasPosition) LeafHelper.updatePositionLayout(this)
         if (this.__hasAutoLayout) this.__updateAutoLayout() //  origin / around / flow
         toOuterOf(this.__layout.boxBounds, this.__local, this.__local)
     },
@@ -161,13 +162,7 @@ export const LeafBounds: ILeafBoundsModule = {
 
             if (this.__.flow) {
 
-                if (this.__layout.childrenSortChanged) this.__updateSortChildren() // 立即排序子元素
-                if (this.__layout.boxChanged) this.__updateFlowLayout()
-
-                updateAllMatrix(this)
-                updateBounds(this, this)
-
-                if (this.__.__autoSide) this.__updateBoxBounds(true)
+                LeafHelper.updateFlowLayout(this)
 
             } else {
 

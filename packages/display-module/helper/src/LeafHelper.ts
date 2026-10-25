@@ -108,6 +108,11 @@ export const LeafHelper = {
     updateComplex(_leaf: ILeaf): void { },
     checkComplex(_leaf: ILeaf): void { },
 
+    // @leafer-in/flow will rewrite
+    updateFlowLayout(_leaf: ILeaf): void { },
+    // @leafer-in/position will rewrite
+    updatePositionLayout(_leaf: ILeaf): void { },
+
     // transform
 
     moveWorld(t: ILeaf, x: number | IPointData, y = 0, isInnerPoint?: boolean, transition?: ITransition): void {

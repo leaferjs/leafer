@@ -46,11 +46,13 @@ export type IFlowWrap = boolean | 'reverse'
 
 export type IAutoSize = IBoolean | INumber | IPercentData
 
-export interface IPosition {
-    top?: number
-    left?: number
-    bottom?: number
-    right?: number
+export type IPosition = IInset | IDirection
+
+export interface IInset {
+    top?: number | IUnitData
+    left?: number | IUnitData
+    bottom?: number | IUnitData
+    right?: number | IUnitData
 }
 
 export interface IRangeSize {
@@ -593,6 +595,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __widthGrow?: number
     __heightGrow?: number
     __hasGrow?: boolean
+    __hasPosition?: boolean
 
     readonly __onlyHitMask: boolean
     readonly __ignoreHitWorld: boolean
@@ -676,6 +679,7 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
 
     __updateAutoLayout(): void
     __updateFlowLayout(): void
+    __updatePositionLayout(): boolean // 返回true表示宽高产生了变化
     __updateNaturalSize(): void
 
     __updateStrokeSpread(): IFourNumber

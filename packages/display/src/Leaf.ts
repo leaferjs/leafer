@@ -531,6 +531,12 @@ export class Leaf<TInputData = ILeafInputData> implements ILeaf {
 
 export interface Leaf {
 
+    __flowBounds?: IBoundsData // localBoxBounds or localStrokeBounds
+    __widthGrow?: number
+    __heightGrow?: number
+    __hasGrow?: boolean
+    __hasPosition?: boolean
+
     // UI rewrite
     set(data: IObject, isTemp?: boolean): void
     get<K extends keyof this>(name?: K | K[] | ILeafInputData): ILeafInputData | this[K]
@@ -570,6 +576,7 @@ export interface Leaf {
     __updateRenderBounds(bounds?: IBoundsData): void
     __updateAutoLayout(): void
     __updateFlowLayout(): void
+    __updatePositionLayout(): boolean
     __updateNaturalSize(): void
     __updateStrokeSpread(): IFourNumber
     __updateRenderSpread(): IFourNumber
