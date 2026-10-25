@@ -9,6 +9,7 @@ export * from '@leafer-in/scroll'
 export * from '@leafer-in/html'
 export * from '@leafer-in/arrow'
 export * from '@leafer-in/flow'
+export * from '@leafer-in/position'
 
 export * from '@leafer-in/animate'
 export * from '@leafer-in/motion-path'
@@ -36,5 +37,9 @@ export * from '@leafer-in/linker'
 export * from '@leafer-in/transition'
 export * from '@leafer-in/motion-text'
 export * from '@leafer-in/stroke-sides'
+
+export * from '@leafer-in/video'
+export * from '@leafer-in/film'
+export * from '@leafer-in/image-filter'
 
 export * from '@leafer-in/interface'
