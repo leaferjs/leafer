@@ -535,6 +535,8 @@ export interface Leaf {
     __widthGrow?: number
     __heightGrow?: number
     __hasGrow?: boolean
+
+    positionNode?: ILeaf
     __hasPosition?: boolean
 
     // UI rewrite

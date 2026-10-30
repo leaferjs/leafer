@@ -49,6 +49,9 @@ export type IAutoSize = IBoolean | INumber | IPercentData
 export type IPosition = IInset | IDirection
 
 export interface IInset {
+    id?: string // 相对指定元素定位
+    align?: IDirection
+
     top?: number | IUnitData
     left?: number | IUnitData
     bottom?: number | IUnitData
@@ -489,6 +492,7 @@ export interface ILeafComputedData {
     __useEffect?: boolean
     __usePathBox?: boolean // 是否使用路径的bounds作为元素box包围盒
     __useDim?: boolean // 是否使用了弱化/突出元素功能
+    __usePositionNode?: boolean // 是否使用了 positionNode 相对元素
 
     __pathInputed?: number // 是否为输入path, 0：否，1：是，2：永远是（不自动检测）
     __pathForRender?: IPathCommandData
@@ -595,6 +599,8 @@ export interface ILeaf extends ILeafRender, ILeafHit, ILeafBounds, ILeafMatrix, 
     __widthGrow?: number
     __heightGrow?: number
     __hasGrow?: boolean
+
+    positionNode?: ILeaf
     __hasPosition?: boolean
 
     readonly __onlyHitMask: boolean

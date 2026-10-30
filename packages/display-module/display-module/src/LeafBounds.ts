@@ -46,7 +46,11 @@ export const LeafBounds: ILeafBoundsModule = {
 
         if (layout.localBoxChanged) { // position change
 
-            if (this.__local) this.__updateLocalBoxBounds()
+            if (this.__local) {
+                this.__updateLocalBoxBounds()
+                if (data.__usePositionNode) LeafHelper.listenPositionNode(this)
+            }
+
             layout.localBoxChanged = undefined
 
             if (layout.strokeSpread && !layout.strokeChanged) layout.strokeChanged = layout.boxChanged ? true : 2

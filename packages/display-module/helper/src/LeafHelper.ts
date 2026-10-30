@@ -111,6 +111,7 @@ export const LeafHelper = {
     // @leafer-in/flow will rewrite
     updateFlowLayout(_leaf: ILeaf): void { },
     // @leafer-in/position will rewrite
+    listenPositionNode(_leaf: ILeaf): void { },
     updatePositionLayout(_leaf: ILeaf): void { },
 
     // transform
