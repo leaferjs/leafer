@@ -47,9 +47,9 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
 
         } else if (canvasType === 'napi') {
 
-            const { Canvas, loadImage } = power
+            const { Canvas, createCanvas, loadImage } = power
             Platform.origin = {
-                createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
+                createCanvas: (width: number, height: number, format?: string) => Canvas ? new Canvas(width, height, format) : createCanvas(width, height),
                 canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(FileHelper.mimeType(type), quality),
                 canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(FileHelper.mimeType(type), quality),
                 canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(FileHelper.mimeType(FileHelper.fileType(filename)), quality)),
