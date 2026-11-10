@@ -29,7 +29,7 @@ export { ITaskProcessor, ITaskProcessorConfig, ITaskItem, ITaskOptions } from '.
 
 
 export { IControl } from './control/IControl'
-export { IPlatform, IImageCrossOrigin, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platform/IPlatform'
+export { IPlatform, IPlatformOrigin, IImageCrossOrigin, IMiniapp, IMiniappSelect, IMiniappSizeView } from './platform/IPlatform'
 export { IPlugin } from './plugin/IPlugin'
 
 

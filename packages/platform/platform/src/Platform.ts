@@ -1,4 +1,4 @@
-import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint, ISizeData, ICanvasContext2D, IInterlace } from '@leafer/interface'
+import { IPlatform, IObject, IBoundsData, ICanvasPattern, IMatrixData, ILeaferImagePatternPaint, ISizeData, ICanvasContext2D, IInterlace, IPlatformOrigin } from '@leafer/interface'
 import { DataHelper } from '@leafer/data'
 import { UnitConvertHelper } from '@leafer/math'
 
@@ -12,6 +12,7 @@ export const Platform: IPlatform = {
         else if (fileType === 'svg') url = 'data:image/svg+xml,' + url
         return url
     },
+    origin: {} as IPlatformOrigin,
     image: {
         hitCanvasSize: 100,
         maxCacheSize: 2560 * 1600,  // 2k

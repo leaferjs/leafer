@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-node'
 export * from '@leafer/image-node'
 
-import { ICanvasType, ICreator, IExportFileType, IExportImageType, IResponseType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, IExportImageType, IResponseType, IFunction, IObject, ISkiaCanvas, ISkiaNAPICanvas, IImageCrossOrigin, ILeaferImage, IPlatformOrigin } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-node'
@@ -29,47 +29,46 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
 
     Platform.canvasType = canvasType
 
-    if (!Platform.origin) {
-        if (canvasType === 'skia') {
+    if (canvasType === 'skia') {
 
-            const { Canvas, loadImage } = power
-            Platform.origin = {
-                createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
-                canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL ? canvas.toDataURL(FileHelper.mimeType(type), quality) : (canvas.toDataURLSync || canvas.toURLSync)(type, { quality }),
-                canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
-                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => (canvas.toFile || canvas.saveAs).call(canvas, filename, { quality }),
-                download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
-                loadContent
-            }
+        const { Canvas, loadImage } = power
+        Object.assign(Platform.origin, {
+            createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
+            canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL ? canvas.toDataURL(FileHelper.mimeType(type), quality) : (canvas.toDataURLSync || canvas.toURLSync)(type, { quality }),
+            canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
+            canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => (canvas.toFile || canvas.saveAs).call(canvas, filename, { quality }),
+            download(_url: string, _filename: string): Promise<void> { return undefined },
+            loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
+            loadContent
+        } as IPlatformOrigin)
 
-            Platform.roundRectPatch = true
+        Platform.roundRectPatch = true
 
-        } else if (canvasType === 'napi') {
+    } else if (canvasType === 'napi') {
 
-            const { Canvas, createCanvas, loadImage } = power
-            Platform.origin = {
-                createCanvas: (width: number, height: number, format?: string) => Canvas ? new Canvas(width, height, format) : createCanvas(width, height),
-                canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(FileHelper.mimeType(type), quality),
-                canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(FileHelper.mimeType(type), quality),
-                canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(FileHelper.mimeType(FileHelper.fileType(filename)), quality)),
-                download(_url: string, _filename: string): Promise<void> { return undefined },
-                loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
-                loadContent
-            }
+        const { Canvas, createCanvas, loadImage } = power
+        Object.assign(Platform.origin, {
+            createCanvas: (width: number, height: number, format?: string) => Canvas ? new Canvas(width, height, format) : createCanvas(width, height),
+            canvasToDataURL: (canvas: ISkiaNAPICanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL(FileHelper.mimeType(type), quality),
+            canvasToBolb: async (canvas: ISkiaNAPICanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(FileHelper.mimeType(type), quality),
+            canvasSaveAs: async (canvas: ISkiaNAPICanvas, filename: string, quality?: number) => writeFileSync(filename, canvas.toBuffer(FileHelper.mimeType(FileHelper.fileType(filename)), quality)),
+            download(_url: string, _filename: string): Promise<void> { return undefined },
+            loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
+            loadContent
+        } as IPlatformOrigin)
 
-        }
-
-        Platform.ellipseToCurve = true
-
-        Platform.event = {
-            stopDefault(_origin: IObject): void { },
-            stopNow(_origin: IObject): void { },
-            stop(_origin: IObject): void { }
-        }
-
-        Platform.canvas = Creator.canvas()
     }
+
+    Platform.ellipseToCurve = true
+
+    Platform.event = {
+        stopDefault(_origin: IObject): void { },
+        stopNow(_origin: IObject): void { },
+        stop(_origin: IObject): void { }
+    }
+
+    Platform.canvas = Creator.canvas()
+
 }
 
 Platform.name = 'node'

@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-worker'
 export * from '@leafer/image-worker'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage, IPlatformOrigin } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-worker'
@@ -17,7 +17,7 @@ Object.assign(Creator, {
 
 
 export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
-    Platform.origin = {
+    Object.assign(Platform.origin, {
         createCanvas: (width: number, height: number): OffscreenCanvas => new OffscreenCanvas(width, height),
         canvasToDataURL: (canvas: OffscreenCanvas, type?: IExportImageType, quality?: number) => {
             return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
             if (!response.ok) throw new Error(`${response.status}`)
             return await response[responseType]()
         },
-    }
+    } as IPlatformOrigin)
 
     Platform.canvas = Creator.canvas()
     Platform.conicGradientSupport = !!Platform.canvas.context.createConicGradient

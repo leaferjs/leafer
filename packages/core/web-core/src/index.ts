@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-web'
 export * from '@leafer/image-web'
 
-import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICreator, IFunction, IExportImageType, IExportFileType, IResponseType, IObject, ICanvasType, IImageCrossOrigin, ILeaferImage, IPlatformOrigin } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-web'
@@ -17,7 +17,7 @@ Object.assign(Creator, {
 
 
 export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
-    Platform.origin = {
+    Object.assign(Platform.origin, {
         createCanvas(width: number, height: number): HTMLCanvasElement {
             const canvas = document.createElement('canvas')
             canvas.width = width
@@ -61,7 +61,7 @@ export function useCanvas(_canvasType: ICanvasType, _power?: IObject): void {
         Image,
         PointerEvent,
         DragEvent
-    }
+    } as IPlatformOrigin)
 
     Platform.event = {
         stopDefault(origin: Event): void { origin.preventDefault() },

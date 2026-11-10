@@ -40,22 +40,7 @@ export interface IPlatform {
     layout?(target: ILeaf): void
     render?(target: ILeaf, canvas: ILeaferCanvas, options: IRenderOptions): void // 渲染元素，可处理内部产生的置顶渲染
 
-    origin?: {
-        createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
-        createOffscreenCanvas?(width: number, height: number, format?: 'svg' | 'pdf'): any
-        canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>
-        canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
-        canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
-        download(url: string, filename: string): Promise<void>
-        loadImage(url: string, crossOrigin?: IImageCrossOrigin, leaferImage?: ILeaferImage): Promise<any>
-        loadFilm?(url: string, crossOrigin?: IImageCrossOrigin, leaferFilm?: ILeaferFilm): Promise<any>
-        loadVideo?(url: string, crossOrigin?: IImageCrossOrigin, leaferVideo?: ILeaferVideo): Promise<any>
-        loadContent(url: string, responseType: IResponseType): Promise<any>
-        noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
-        Image?: any
-        PointerEvent?: any
-        DragEvent?: any
-    },
+    origin?: IPlatformOrigin,
 
     roundRectPatch?: boolean //  fix: skia-canvas roundRect
     ellipseToCurve?: boolean, // fix: skia 绘制圆环和椭圆弧
@@ -87,6 +72,23 @@ export interface IPlatform {
 
     canCreateImageBitmap?: boolean // 是否能使用 createImageBitmap
     canClipImageBitmap?: boolean // 是否能使用 createImageBitmap 裁剪图片
+}
+
+export interface IPlatformOrigin {
+    createCanvas(width: number, height: number, format?: 'svg' | 'pdf'): any
+    createOffscreenCanvas?(width: number, height: number, format?: 'svg' | 'pdf'): any
+    canvasToDataURL(canvas: any, type?: IExportImageType, quality?: number): string | Promise<string>
+    canvasToBolb(canvas: any, type?: IExportFileType, quality?: number): Promise<any>
+    canvasSaveAs(canvas: any, filename: string, quality?: number): Promise<void>
+    download(url: string, filename: string): Promise<void>
+    loadImage(url: string, crossOrigin?: IImageCrossOrigin, leaferImage?: ILeaferImage): Promise<any>
+    loadFilm?(url: string, crossOrigin?: IImageCrossOrigin, leaferFilm?: ILeaferFilm): Promise<any>
+    loadVideo?(url: string, crossOrigin?: IImageCrossOrigin, leaferVideo?: ILeaferVideo): Promise<any>
+    loadContent(url: string, responseType: IResponseType): Promise<any>
+    noRepeat?: string  // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
+    Image?: any
+    PointerEvent?: any
+    DragEvent?: any
 }
 
 export type IImageCrossOrigin = 'anonymous' | 'use-credentials' // 图片跨域设置

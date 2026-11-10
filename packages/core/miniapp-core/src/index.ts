@@ -3,7 +3,7 @@ export * from '@leafer/core'
 export * from '@leafer/canvas-miniapp'
 export * from '@leafer/image-miniapp'
 
-import { ICanvasType, ICreator, IExportFileType, ILeaferCanvas, IExportImageType, IResponseType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage } from '@leafer/interface'
+import { ICanvasType, ICreator, IExportFileType, ILeaferCanvas, IExportImageType, IResponseType, IFunction, IObject, IMiniappSelect, IMiniappSizeView, IBoundsData, IImageCrossOrigin, ILeaferImage, IPlatformOrigin } from '@leafer/interface'
 import { Platform, Creator, FileHelper, defineKey } from '@leafer/core'
 
 import { LeaferCanvas } from '@leafer/canvas-miniapp'
@@ -17,7 +17,7 @@ Object.assign(Creator, {
 
 
 export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
-    Platform.origin = {
+    Object.assign(Platform.origin, {
         createCanvas: (width: number, height: number, _format?: string) => {
             const data = { type: '2d', width, height }
             return app.createOffscreenCanvas ? app.createOffscreenCanvas(data) : app.createOffScreenCanvas(data) // fix: 微信小游戏居然使用的是Screen大写的 wx.createOffScreenCanvas() [踩坑]
@@ -77,7 +77,7 @@ export function useCanvas(_canvasType: ICanvasType, app?: IObject): void {
             )
         },
         noRepeat: 'repeat-x' // fix: 微信小程序 createPattern 直接使用 no-repeat 有bug，导致无法显示
-    }
+    } as IPlatformOrigin)
 
     Platform.miniapp = {
         select(name: string): IMiniappSelect {
