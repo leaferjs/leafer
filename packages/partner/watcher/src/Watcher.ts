@@ -65,6 +65,7 @@ export class Watcher implements IWatcher {
     }
 
     public add(leaf: ILeaf): void {
+        if (!this.target) return
         if (this.config.usePartLayout) this.__updatedList.add(leaf)
         this.update()
     }
