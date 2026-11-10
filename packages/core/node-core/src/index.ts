@@ -37,7 +37,7 @@ export function useCanvas(canvasType: ICanvasType, power: IObject): void {
                 createCanvas: (width: number, height: number, format?: string) => new Canvas(width, height, format),
                 canvasToDataURL: (canvas: ISkiaCanvas, type?: IExportImageType, quality?: number) => canvas.toDataURL ? canvas.toDataURL(FileHelper.mimeType(type), quality) : (canvas.toDataURLSync || canvas.toURLSync)(type, { quality }),
                 canvasToBolb: (canvas: ISkiaCanvas, type?: IExportFileType, quality?: number) => canvas.toBuffer(type, { quality }),
-                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => canvas.saveAs(filename, { quality }),
+                canvasSaveAs: (canvas: ISkiaCanvas, filename: string, quality?: number) => (canvas.toFile || canvas.saveAs).call(canvas, filename, { quality }),
                 download(_url: string, _filename: string): Promise<void> { return undefined },
                 loadImage(src: any, _crossOrigin?: IImageCrossOrigin, _leaferImage?: ILeaferImage) { return loadImage(Platform.image.getRealURL(src)) },
                 loadContent

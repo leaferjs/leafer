@@ -13,6 +13,7 @@ export interface ISkiaCanvas {
     toDataURLSync(format: IExportImageType, config: ISkiaCanvasExportConfig): string
     toURLSync(format: IExportImageType, config: ISkiaCanvasExportConfig): string
 
+    toFile(filename: string, config: ISkiaCanvasExportConfig): Promise<void>
     saveAs(filename: string, config: ISkiaCanvasExportConfig): Promise<void>
     saveAsSync(filename: string, config: ISkiaCanvasExportConfig): void
 }
