@@ -19,6 +19,7 @@ export interface ILeaferCanvasConfig extends IAutoBoundsData {
     hittable?: boolean
     webgl?: boolean
     contextSettings?: ICanvasContext2DSettings
+    userSelectHTML?: boolean
 }
 
 export type IHitCanvasConfig = ILeaferCanvasConfig
@@ -180,6 +181,7 @@ export interface ILeaferCanvas extends ICanvasAttr, ICanvasMethod, IPathDrawer {
 
     view: ILeaferCanvasView
     parentView: any
+    overlayView?: any // 覆盖层
 
     unreal?: boolean
 

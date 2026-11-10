@@ -44,7 +44,7 @@ export class LeaferCanvas extends LeaferCanvasBase {
 
         if (this.parentView) {
             const pStyle = this.parentView.style
-            pStyle.webkitUserSelect = pStyle.userSelect = 'none' // fix safari: use webkitUserSelect
+            if (!config.userSelectHTML) pStyle.webkitUserSelect = pStyle.userSelect = 'none' // fix safari: use webkitUserSelect
             this.view.classList.add('leafer-canvas-view')
         }
 
