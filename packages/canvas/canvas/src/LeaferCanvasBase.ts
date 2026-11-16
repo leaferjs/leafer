@@ -159,15 +159,15 @@ export class LeaferCanvasBase extends Canvas implements ILeaferCanvas {
     }
 
     public setStrokeOptions(options: ICanvasStrokeOptions, childOptions?: ICanvasStrokeOptions): void {
-        let { strokeCap, strokeJoin, dashPattern, dashOffset, miterLimit } = options
+        let { strokeCap, __ignoreStrokeCap, strokeJoin, dashPattern, dashOffset, miterLimit } = options
         if (childOptions) {
-            if (childOptions.strokeCap) strokeCap = childOptions.strokeCap
+            if (childOptions.strokeCap) strokeCap = __ignoreStrokeCap ? 'none' : childOptions.strokeCap
             if (childOptions.strokeJoin) strokeJoin = childOptions.strokeJoin
             if (!isUndefined(childOptions.dashPattern)) dashPattern = childOptions.dashPattern
             if (!isUndefined(childOptions.dashOffset)) dashOffset = childOptions.dashOffset
             if (childOptions.miterLimit) miterLimit = childOptions.miterLimit
         }
-        this.strokeCap = strokeCap
+        this.strokeCap = __ignoreStrokeCap ? 'none' : strokeCap
         this.strokeJoin = strokeJoin
         this.dashPattern = dashPattern
         this.dashOffset = dashOffset

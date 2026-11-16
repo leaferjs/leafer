@@ -33,6 +33,8 @@ export interface ICanvasStrokeOptions {
     dashPattern?: number[] // lineDash
     dashOffset?: number // lineDashOffset
     miterLimit?: number
+
+    __ignoreStrokeCap?: boolean
 }
 
 export interface ICanvasCacheOptions extends ICanvasStrokeOptions {
